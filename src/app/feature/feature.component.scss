@@ -1,0 +1,46 @@
+div.general-layout {
+  height: 100vh;
+  width: 100%;
+
+  header {
+    height: 130px;
+    margin-bottom: 15px;
+  }
+
+  .content-layout {
+    transition: all 0.8s ease-out;
+
+    main .information {
+      padding: 0 74px 0 74px;
+    }
+
+    // Firefox
+    overflow-y: auto;
+    scrollbar-width: none;
+    // Chrome
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      background: transparent;
+    }
+
+    height: calc(100vh - 130px) !important;
+    overflow-y: auto;
+  }
+}
+
+.scroll {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.scroll::-webkit-scrollbar {
+  background: #E6EFFD;
+  width: 0.7em;
+  padding: 5px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #004884 !important;
+}
+

@@ -1,0 +1,11 @@
+<div class="row text3-tipografia-govco">
+  <nav aria-label="Miga de pan predeterminada de dos niveles" style="margin: 0 0 1% 74px">
+    <ul class="breadcrumb-govco">
+      <li class="breadcrumb-item-govco"
+          *ngFor="let breadcrumb of mapRoutes; let s = index; let last = last"
+          [ngClass]="{'active': lastSection && last && isInboxPath(breadcrumb)}">
+        <a [routerLink]="breadcrumb?.url">{{ breadcrumb?.label || lastSection }}</a>
+      </li>
+    </ul>
+  </nav>
+</div>
