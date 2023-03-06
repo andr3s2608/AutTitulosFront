@@ -1,1 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "./assets/styles/popup.scss";
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.title-1, h2, h3, .title-2 {
+  color: #004884!important;
+}
+
+label {
+  color: #4b4b4b;
+  font-weight: 600!important;
+}
+
+textarea {
+  margin-bottom: 0.5rem;
+  border: 0.094rem solid #737373!important;
+}
+
+textarea.error {
+  border: 0.094rem solid #A80521 !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.required {
+  color: #A80521;
+}
+
+select {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem!important;
+  font-size: 16px!important;
+  border: 0.094rem solid #737373!important;
+  color: #4B4B4B;
+}
+
+select.error {
+  border: 0.094rem solid #A80521 !important;
+}
+
+.input-file-custom {
+  border: 0.094rem solid #737373;
+  font-family: WorkSans-Regular;
+}
+
+.alert-danger {
+  font-family: WorkSans-Regular;
+}
+
+table {
+  font-family: WorkSans-Regular;
+}
+
+.input-file-custom.error {
+  border: 0.094rem solid #A80521;
+}
+
+.body-cs .bdc-custom * {
+  background: black;
+  color: #ddfb00!important;
+}
+
+.body-cs .bdc-custom select {
+  color: #ddfb00!important;
+  background: black!important;
+}
+
+.body-cs .bdc-custom textarea {
+  color: #ddfb00!important;
+  background: black!important;
+}
+
+.body-cs .bdc-custom input {
+  color: #ddfb00!important;
+  background: black!important;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
