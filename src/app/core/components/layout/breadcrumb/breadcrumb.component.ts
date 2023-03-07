@@ -24,13 +24,13 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit() {
     this.breadcrumbService.getView$.subscribe(last => {
       this.lastSection = last
-      console.log(last);
+      //console.log(last);
     });
     this.breadcrumbs$.subscribe(r => {
       try {
         const [ label, url ] = r.filter(this.getLast);
         this.mapRoutes = label?.label;
-        console.log(this.mapRoutes);
+        //console.log(this.mapRoutes);
       } catch (e) {
         throw e;
       }

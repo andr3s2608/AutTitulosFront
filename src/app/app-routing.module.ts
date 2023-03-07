@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {BrowserUtils} from "@azure/msal-browser";
+import {ROUTES} from "./core/enums";
 
 const routes: Routes = [
   {
-    path: '',
+    path: ROUTES.AUT_TITULOS,
     canActivate: [/*MsalGuard */],
     loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule)
   }, {
     path: '**',
-    redirectTo: ''
+    redirectTo: ROUTES.AUT_TITULOS
   }
 ];
 

@@ -1,10 +1,12 @@
 export enum ROUTES {
 
-  AUT_TITULOS = 'sst',
+  AUT_TITULOS = 'aut-titulos',
 
   //REGISTRO / LOGIN
-  RegistrationNatural = 'registro/natural',
-  RegistrationLegal = 'registro/juridica',
+
+  REGISTER = 'registro',
+  RegistrationNatural = 'persona-natural',
+  RegistrationLegal = 'persona-juridica',
 
   ACEPTAR_POLITICA_DATOS = 'registro/aceptarPoliticaDatos',
 
