@@ -1,3 +1,6 @@
+/**
+ * Enumeracion con las rutas de la aplicación
+ */
 export enum ROUTES {
 
   AUT_TITULOS = 'aut-titulos',

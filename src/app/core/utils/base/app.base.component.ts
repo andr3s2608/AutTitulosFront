@@ -1,5 +1,8 @@
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
 
+/**
+ * Componente padre
+ */
 export class AppBaseComponent {
   clearField = (form: FormGroup, field: string): void => {
     form.get(field).reset()
@@ -86,7 +89,7 @@ export class AppBaseComponent {
     return (date instanceof Date) ? null : { isNotDateValid: true };
   }
 
-  keyPressNumbers = (event): boolean => {
+  keyPressNumbers = (event:any): boolean => {
     const charCode = (event.which) ? event.which : event.keyCode;
     // Only Numbers 0-9
     if ((charCode < 48 || charCode > 57)) {
@@ -96,7 +99,7 @@ export class AppBaseComponent {
     return true;
   }
 
-  keyPressLetters = (event): boolean => {
+  keyPressLetters = (event:any): boolean => {
     const inp = String.fromCharCode(event.keyCode);
     if (/[a-zA-ZÑÁÉÍÓÚÜáéíóúüñ ]/.test(inp)) {
       return true;
@@ -106,7 +109,7 @@ export class AppBaseComponent {
     }
   }
 
-  keyPressAlphanumeric = (event): boolean => {
+  keyPressAlphanumeric = (event:any): boolean => {
     const inp = String.fromCharCode(event.keyCode);
     if (/[a-zA-ZÑÁÉÍÓÚÜáéíóúüñ0-9 #$@!%&*?¡"+,.:;='^|~_()¿{}-]/.test(inp)) {
       return true;
@@ -116,7 +119,7 @@ export class AppBaseComponent {
     }
   }
 
-  keyPressTelephone = (event): boolean => {
+  keyPressTelephone = (event:any): boolean => {
     const inp = String.fromCharCode(event.keyCode);
     if (/[\d #$@!%&*?¡"+,.:;='^|~_()¿{}-]/.test(inp)) {
       return true;
@@ -126,7 +129,7 @@ export class AppBaseComponent {
     }
   }
 
-  keyPressPhone = (event): boolean => {
+  keyPressPhone = (event:any): boolean => {
     const inp = String.fromCharCode(event.keyCode);
     if (/[a-zA-Z0-9-_]/.test(inp)) {
       return true;
@@ -151,13 +154,13 @@ export class AppBaseComponent {
     }
   }
 
-  removeEndLine = (text) => (text.replace(/[^\n]/, '')).trim();
+  removeEndLine = (text:any) => (text.replace(/[^\n]/, '')).trim();
 
   /**
    * Valida si la fecha ingresada es superior a la fecha actual
    * @param control
    */
-  dateValidator(control: FormControl): { [s: string]: boolean } {
+  dateValidator(control: FormControl): { [p: string]: boolean } | null {
     if (control.value) {
       const date = new Date(control.value);
       const today = new Date(Date.now());
