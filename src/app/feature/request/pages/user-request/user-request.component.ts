@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import Swal from "sweetalert2";
 import {ArchiveService} from "../../../../core/services/archive.service";
+import {PopUpService} from "../../../../core/services/popUp.service";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -22,13 +23,14 @@ export class UserRequestComponent implements OnInit {
    */
   private readonly rutaPdfListadoInstituciones: string;
 
-  constructor(private archiveService: ArchiveService) {
+  constructor(private archiveService: ArchiveService, private popUpService: PopUpService) {
     this.rutaImagenPopUpInicial = './assets/images/infografia-popup-inicial.jpg'
     this.rutaPdfListadoInstituciones = './assets/binaries/listado.pdf'
   }
 
 
   ngOnInit(): void {
+    //this.popUpService.errorAlert("prueba", 4000);
     this.popUpInicial();
   }
 

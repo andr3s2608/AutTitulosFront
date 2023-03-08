@@ -6,8 +6,7 @@ import { GoUpComponent } from './components/layout/go-up/go-up.component';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { BreadcrumbComponent } from './components/layout/breadcrumb/breadcrumb.component';
 import {RouterLink} from "@angular/router";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {BrowserModule} from "@angular/platform-browser";
+import {DemoNgZorroAntdModule} from "./modules/ng-antd.module";
 
 
 
@@ -29,6 +28,7 @@ import {BrowserModule} from "@angular/platform-browser";
   imports: [
     CommonModule,
     RouterLink,
+    DemoNgZorroAntdModule,
   ]
 })
 export class CoreModule { }
