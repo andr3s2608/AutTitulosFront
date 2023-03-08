@@ -101,8 +101,8 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
       telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
       nacionalidad: [ '' , [ Validators.required ]],
-      departamento: [''],
-      ciudadNacimiento: [''],
+      departamento: ['', [ Validators.required ]],
+      ciudadNacimiento: ['', [ Validators.required ]],
       ciudadNacimientoOtro: [''],
       departamentoResidencia: [ '' , [ Validators.required ]],
       ciudadResidencia: [ '' , [ Validators.required ]],
@@ -121,8 +121,27 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
   public ngOnInit(): void {
     this.cityService.getCountries().subscribe(paises => this.countries = paises.data);
-    this.cityService.getDepartaments().subscribe(departamentos => this.departaments = departamentos.data)
+    this.cityService.getDepartaments().subscribe(
+      departamentos => this.departaments = departamentos.data)
+    console.log(this.naturalForm.get('departamentoResidencia').value+"  acaaaa ")
 
+
+
+    this.cityService.getSex().subscribe(resp=>this.sexes = resp.data);
+    this.cityService.getGender().subscribe(resp=>this.gender = resp.data);
+    this.cityService.getSexualOrientation().subscribe(resp=>this.sexualOrientation = resp.data);
+    this.cityService.getEthnicity().subscribe(resp=>this.ethnicity = resp.data);
+    //this.cityService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
+    this.cityService.getEducationLevel().subscribe(resp=>this.educationLevel = resp.data);
+    this.cityService.getIdentificationType().subscribe(resp => {
+      this.identificationType = resp.data
+      console.log(resp)
+    });
+    if(this.naturalForm.get('departamentoResidencia').value != null && this.naturalForm.get('departamentoResidencia').value !="") {
+      this.cityService.getMunByDepaId(this.naturalForm.get('departamentoResidencia').value).subscribe(resp => {
+        this.municipalities = resp.data
+      });
+    }
   }
 
   public verificarFecha(): void {

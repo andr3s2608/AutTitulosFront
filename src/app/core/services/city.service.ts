@@ -39,4 +39,50 @@ export class CityService {
   getMunByDepaId(depaId: number): Observable<any> {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Municipio/GetMunicipioByIdDepartamento/${ depaId }`);
   }
+
+  /**
+   * Obtener Sexo
+   */
+  getSex(): Observable<any> {
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetSexo`);
+  }
+
+  /**
+   * Obtener Genero
+   */
+  getGender(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetGenero`);
+  }
+
+  /**
+   *Obtener Orientacion Sexual
+   */
+  getSexualOrientation(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetOrientacion`);
+  }
+
+  /**
+   * Obtener Etnia
+   */
+  getEthnicity(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Etnia/GetEtnia`);
+  }
+
+
+
+  /**
+   *Obtener Nivel Educativo
+   */
+  getEducationLevel(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/NivelEducativo/GetNivelEducativo`);
+  }
+
+  /**
+   * Obtener Tipo de Identificacion
+   */
+  getIdentificationType(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`);
+  }
+
+
 }

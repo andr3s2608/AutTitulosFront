@@ -25,7 +25,7 @@
              aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-            <div class="col-sm-12 col-md-3">
+            <div class="col-sm-12 col-md-5">
               <div class="entradas-de-texto-govco">
                 <label for="primer-nombre">Primer Nombre<span class="required">(*)</span></label>
                 <input type="text" id="primer-nombre" placeholder="Primer Nombre" formControlName="primerNombre"
@@ -38,14 +38,14 @@
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-3">
+            <div class="col-sm-12 col-md-5">
               <div class="entradas-de-texto-govco">
                 <label for="segundo-nombre">Segundo Nombre</label>
                 <input type="text" id="segundo-nombre" placeholder="Segundo Nombre" formControlName="segundoNombre"/>
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-3">
+            <div class="col-sm-12 col-md-5">
               <div class="entradas-de-texto-govco">
                 <label for="primer-apellido">Primer Apellido<span class="required">(*)</span></label>
                 <input type="text" id="primer-apellido" placeholder="Primer Apellido" formControlName="primerApellido"
@@ -58,10 +58,94 @@
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-3">
+            <div class="col-sm-12 col-md-5">
               <div class="entradas-de-texto-govco">
                 <label for="segundo-apellido">Segundo Apellido</label>
-                <input type="text" id="segundo-apellido" placeholder="Segundo Apellido" formControlName="segundoApellido"/>
+                <input type="text" id="segundo-apellido" placeholder="Segundo Apellido"
+                       formControlName="segundoApellido"/>
+              </div>
+            </div>
+
+            <div class="col-sm-5 col-md-5">
+              <div class="entradas-de-texto-govco">
+                <label for="tipoIdendificacionId">Tipo identificación<span class="required">(*)</span></label>
+                <select class="form-select" id="tipoIdendificacionId" aria-label="Default select example"
+                        formControlName="tipoDocumento" [ngClass]="{'error': isTouchedField(naturalForm, 'tipoDocumento')}"
+                >
+                  <option value="" selected disabled>Seleccione</option>
+                  <option *ngFor="let item of identificationType" [value]="item.idTipoIdentificacion">{{item.descripcion}}</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="tipoIdendificacionId-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('tipoDocumento') }}
+          </span>
+              </div>
+            </div>
+
+            <div class="col-sm-5 col-md-5">
+              <div class="entradas-de-texto-govco">
+                <label for="N. Documento Identidad">N. Documento Identidad<span class="required">(*)</span></label>
+                <input type="text" id="N. Documento Identidad" placeholder="Número Documento Identidad"
+                       formControlName="numeroIdentificacion"
+                       [ngClass]="{'error': isTouchedField(naturalForm, 'numeroIdentificacion')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="N. Documento Identidad-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('numeroIdentificacion') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-5 col-md-5">
+              <div class="entradas-de-texto-govco">
+                <label for="Teléfono fijo">Teléfono fijo</label>
+                <input type="text" id="Teléfono fijo" placeholder="Teléfono fijo"
+                       formControlName="telefonoFijo"
+                       [ngClass]="{'error': isTouchedField(naturalForm, 'telefonoFijo')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono fijo-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('telefonoFijo') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-5 col-md-5">
+              <div class="entradas-de-texto-govco">
+                <label for="Teléfono celular">Teléfono celular<span class="required">(*)</span></label>
+                <input type="text" id="Teléfono celular" placeholder="Teléfono celular" formControlName="telefonoCelular"
+                       [ngClass]="{'error': isTouchedField(naturalForm, 'telefonoCelular')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono celular-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('telefonoCelular') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-5 col-md-5">
+              <div class="entradas-de-texto-govco">
+                <label for="Correo electrónico">Correo electrónico<span class="required">(*)</span></label>
+                <input type="text" id="Correo electrónico" placeholder="Correo electrónico" formControlName="email"
+                       [ngClass]="{'error': isTouchedField(naturalForm, 'email')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="email-note" role="alert" aria-live="assertive">
+            {{ getErrorMessage('email') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-5 col-md-5">
+              <div class="entradas-de-texto-govco">
+                <label for="Confirmar Correo electrónico">Confirmar Correo electrónico<span class="required">(*)</span></label>
+                <input type="text" id="Confirmar Correo electrónico" placeholder="Confirmar Correo electrónico"
+                       formControlName="confirmarEmail" [ngClass]="{'error': isTouchedField(naturalForm, 'confirmarEmail')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="Confirmar Correo electrónico-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('confirmarEmail') }}
+        </span>
               </div>
             </div>
 
@@ -78,7 +162,7 @@
                   data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTwo"
                   aria-expanded="false" aria-controls="accordionIconoPanels-collapseTwo">
                   <span class="text-button-accordion-govco">
-                    <h4 class="h4-tipografia-govco title-1">Representante Legal</h4>
+                    <h4 class="h4-tipografia-govco title-1">Datos Geográficos</h4>
                   </span>
           </button>
         </h2>
@@ -86,10 +170,462 @@
              aria-labelledby="accordionIconoPanels-childTwo" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
+            <div class="row">
+              <div class="col-sm-5 col-md-5">
+                <div class="entradas-de-texto-govco">
+                  <label for="Nacionalidad">Nacionalidad<span class="required">(*)</span></label>
+                  <select class="form-select" id="Nacionalidad" aria-label="Default select example"
+                          formControlName="nacionalidad"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'nacionalidad')}">
+                    <option *ngFor="let nacionalidad of countries" [value]="nacionalidad.idPais">{{nacionalidad.nombre}}</option>
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="nacionalidad-note" role="alert"
+                    aria-live="assertive">
+            {{ getErrorMessage('nacionalidad') }}
+        </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-5 col-md-5">
+                <div class="entradas-de-texto-govco">
+                  <label for="Departamento de Nacimiento">Departamento de Nacimiento<span
+                    class="required">(*)</span></label>
+                  <select class="form-select" id="Departamento de Nacimiento" aria-label="Default select example"
+                          formControlName="departamentoNacimiento"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'departamentoNacimiento')}"
+                  >
+                    <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoNacimiento-note"
+                    role="alert"
+                    aria-live="assertive">
+                      {{ getErrorMessage('departamentoResidencia') }}
+                 </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-5 col-md-5">
+                <div class="entradas-de-texto-govco">
+                  <label for="Ciudad de Nacimiento">Ciudad de Nacimiento<span class="required">(*)</span></label>
+                  <select class="form-select" id="Ciudad de Nacimiento" aria-label="Default select example"
+                          formControlName="ciudadNacimiento"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'ciudadNacimiento')}">
+                    <option value="" disabled selected>Seleccione</option>
+                    <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+                  </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadNacimiento-note" role="alert"
+                    aria-live="assertive">
+                     {{ getErrorMessage('ciudadResidencia') }}
+                   </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 col-md-5">
+                <div class="entradas-de-texto-govco">
+                  <label for="Departamento de residencia">Departamento de residencia<span
+                    class="required">(*)</span></label>
+                  <select class="form-select" id="Departamento de residencia" aria-label="Default select example"
+                          formControlName="departamentoResidencia"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'departamentoResidencia')}"
+                  >
+                    <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoResidencia-note"
+                    role="alert"
+                    aria-live="assertive">
+                      {{ getErrorMessage('departamentoResidencia') }}
+                 </span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-sm-5 col-md-5">
+                <div class="entradas-de-texto-govco">
+                  <label for="Ciudad de residencia">Ciudad de residencia<span class="required">(*)</span></label>
+                  <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
+                          formControlName="ciudadResidencia"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'ciudadResidencia')}">
+                    <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+                    <option value="" disabled selected>Seleccione</option>
+
+                  </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadResidencia-note" role="alert"
+                    aria-live="assertive">
+                     {{ getErrorMessage('ciudadResidencia') }}
+                   </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert ant-alert-info">
+              <b>Información!</b>
+              Por favor registre su dirección de residencia tal como aparece en el recibo público, en las
+              casillas indicadas para esto. Una vez completado los datos, favor dar clic sobre el botón
+              verde Confirmar Dirección. Esta funcionalidad permitirá autocompletar datos de UPZ, Localidad
+              y Barrio para las direcciones de Bogotá D.C. y estandarizar la dirección para el resto de ciudades.
+            </div>
+
+            <div class="row mt-3">
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Vía Ppal<span class="required">(*)</span></label>
+                  <select class="form-select" id="Vía Ppal" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                    <option value="">AK - Avenida Carrera</option>
+                    <option value="">AC - Avenida Calle</option>
+                    <option value="">CL - Calle</option>
+                    <option value="">DG - Diagonal</option>
+                    <option value="">KR - Carrera</option>
+                    <option value="">TV - Transversal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="group col-md-2 col-lg-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Num">Num<span class="required">(*)</span></label>
+                  <input type="text" id="Num" placeholder="Num"/>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Letra">Letra</label>
+                  <select class="form-select" id="Letra" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                    <option value="">A</option>
+                    <option value="">B</option>
+                    <option value="">C</option>
+                    <option value="">D</option>
+                    <option value="">E</option>
+                    <option value="">F</option>
+                    <option value="">G</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="BIS">BIS</label>
+                  <select class="form-select" id="BIS" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                    <option value="">BIS</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Card">Card</label>
+                  <select class="form-select" id="Card" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                    <option value="">ESTE</option>
+                    <option value="">SUR</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mt-3">
+
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Complemento</label>
+                  <select class="form-select" id="Complemento" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Num">Num<span class="required">(*)</span></label>
+                  <input type="text" id="Num2" placeholder="Num"/>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Letra">Letra</label>
+                  <select class="form-select" id="Letra2" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                    <option value="">A</option>
+                    <option value="">B</option>
+                    <option value="">C</option>
+                    <option value="">D</option>
+                    <option value="">E</option>
+                    <option value="">F</option>
+                    <option value="">G</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Placa">Placa<span class="required">(*)</span></label>
+                  <input type="text" id="Placa" placeholder="Num"/>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Card">Card</label>
+                  <select class="form-select" id="Card2" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                    <option value="">ESTE</option>
+                    <option value="">SUR</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3 ">
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Adicional</label>
+                  <select class="form-select" id="Adicional" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-2">
+                <div class="entradas-de-texto-govco">
+                  <label for="Placa">Detalle</label>
+                  <input type="text" id="Detalle" placeholder="Num"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3 ">
+              <div class="col-sm-12 col-md-9">
+                <div class="entradas-de-texto-govco">
+                  <label for="Dirección">Dirección<span class="required">(*)</span></label>
+                  <input type="text" id="Dirección" formControlName="direccionResidencia"
+                         [ngClass]="{'error': isTouchedField(naturalForm, 'direccionResidencia')}" [disabled]="true"/>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="direccionResidencia-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('direccionResidencia') }}
+                      </span>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="button" class="btn-govco fill-btn-govco">Confirmar Dirección</button>
+              </div>
+            </div>
+
+
+            <div class="row mt-3 ">
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Zona</label>
+                  <select class="form-select" id="Zona" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                </div>
+              </div>
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Localidad</label>
+                  <select class="form-select" id="Localidad" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 ">
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Upz</label>
+                  <select class="form-select" id="Upz" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+
+                  </select>
+                </div>
+              </div>
+              <div class=" col-md-5 col-lg-3 ">
+                <div class="entradas-de-texto-govco">
+                  <label for="Vía Ppal">Barrio</label>
+                  <select class="form-select" id="Barrio" aria-label="Default select example">
+                    <option value="" selected disabled>Seleccione</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
 
           </div>
         </div>
       </div>
+
+
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-chilTree">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTree"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseTree">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Datos Demográficos</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseTree" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+            <div class="col-sm-12 col-md-3">
+              <div class="entradas-de-texto-govco">
+                <label for="fecha-de-nacimiento">Fecha de nacimiento<span class="required">(*)</span></label>
+                <input type="date" id="fecha-de-nacimiento"
+                       placeholder="Fecha de nacimiento" formControlName="fechaNacimiento"
+                       (click)="verificarFecha()"
+                       [ngClass]="{'error': isTouchedField(naturalForm, 'fechaNacimiento')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="fechaNacimiento-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('fechaNacimiento') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-3">
+              <div class="entradas-de-texto-govco">
+                <label for="Sexo">Sexo<span class="required">(*)</span></label>
+                <select class="form-select" id="Sexo" aria-label="Default select example" formControlName="sexo"
+                        [ngClass]="{'error': isTouchedField(naturalForm, 'sexo')}">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option *ngFor="let sexo of sexes" [value]="sexo.idSexo">{{sexo.descripcionSexo}}</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="sexo-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('sexo') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-3">
+              <div class="entradas-de-texto-govco">
+                <label for="Género">Género<span class="required">(*)</span></label>
+                <select class="form-select" id="Género" aria-label="Default select example" formControlName="genero"
+                        [ngClass]="{'error': isTouchedField(naturalForm, 'genero')}">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option *ngFor="let genero of gender" [value]="genero.orden">{{genero.descripcion}}</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="genero-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('genero') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-3">
+              <div class="entradas-de-texto-govco">
+                <label for="Orientación sexual">Orientación sexual<span class="required">(*)</span></label>
+                <select class="form-select" id="Orientación sexual" aria-label="Default select example"
+                        formControlName="orientacionSexual"
+                        [ngClass]="{'error': isTouchedField(naturalForm, 'orientacionSexual')}">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option *ngFor="let orientacion of sexualOrientation"
+                          [value]="orientacion.orden">{{orientacion.descripcion}}</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="orientacionSexual-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('orientacionSexual') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <div class="entradas-de-texto-govco">
+                <label for="Etnia">Etnia<span class="required">(*)</span></label>
+                <select class="form-select" id="Etnia" aria-label="Default select example" formControlName="etnia"
+                        [ngClass]="{'error': isTouchedField(naturalForm, 'etnia')}">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option *ngFor="let etnia of ethnicity" [value]="etnia.idEtnia">{{etnia.nombre}}</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="etnia-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('etnia') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <div class="entradas-de-texto-govco">
+                <label for="Estado Civil">Estado Civil<span class="required">(*)</span></label>
+                <select class="form-select" id="Estado Civil" aria-label="Default select example"
+                        formControlName="estadoCivil" [ngClass]="{'error': isTouchedField(naturalForm, 'estadoCivil')}">
+                  <option value="" disable selected>Seleccione</option>
+                  <!--<option *ngFor="let EstadoCivil of estadoCivill" [value]="EstadoCivil.id">{{EstadoCivil.nombre}}</option>-->
+                  <option *ngFor="let maritalStat of maritalStatus"
+                          [value]="maritalStat.key">{{maritalStat.name}}</option>
+
+
+                  <option value="1">SOLTERO(A)</option>
+                  <option value="2">CASADO(A)</option>
+                  <option value="3">UNIÓN LIBRE</option>
+                  <option value="4">VIUDO(A)</option>
+                  <option value="5">DIVORCIADO(A)/SEPARADO(A)</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="estadoCivil-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('estadoCivil') }}
+        </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <div class="entradas-de-texto-govco">
+                <label for="Nivel Educativo">Nivel Educativo<span class="required">(*)</span></label>
+                <select class="form-select" id="Nivel Educativo" aria-label="Default select example"
+                        formControlName="nivelEducativo"
+                        [ngClass]="{'error': isTouchedField(naturalForm, 'nivelEducativo')}">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option *ngFor="let niveleducativo of educationLevel"
+                          [value]="niveleducativo.idNivelEducativo">{{niveleducativo.nombre}}</option>
+                </select>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="nivelEducativo-note" role="alert"
+                  aria-live="assertive">
+            {{ getErrorMessage('nivelEducativo') }}
+        </span>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </div>
