@@ -39,8 +39,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AppRoutingModule,
     FeatureModule,
     CoreModule,
-    FormsModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
   ],
