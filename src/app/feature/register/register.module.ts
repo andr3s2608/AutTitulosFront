@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { LegalPersonComponent } from './pages/legal-person/legal-person.component';
 import { NaturalPersonComponent } from './pages/natural-person/natural-person.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { RegistrationWindowComponent } from './pages/registration-window/registration-window.component';
+import { ScreenRegisterComponent } from './pages/screen-register/screen-register.component';
+import { LegalRepresentantComponent } from './pages/legal-representant/legal-representant.component';
 
 
 
@@ -11,7 +12,8 @@ import { RegistrationWindowComponent } from './pages/registration-window/registr
   declarations: [
     LegalPersonComponent,
     NaturalPersonComponent,
-    RegistrationWindowComponent
+    ScreenRegisterComponent,
+    LegalRepresentantComponent
   ],
   imports: [
     CommonModule,
