@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
+/**
+ * Componente encargado del formulario de registro de persona juridica
+ */
 @Component({
   selector: 'app-legal-person',
   templateUrl: './legal-person.component.html',
@@ -7,14 +10,17 @@ import { Component } from '@angular/core';
 })
 export class LegalPersonComponent {
 
-    public cadenaRegistro: string;
+  /**
+   * Cadena con mensaje inicial del formulario
+   */
+  public cadenaInicioRegistro: string;
 
-    constructor() {
+  constructor() {
 
-      this.cadenaRegistro = "<b>¡Importante!</b><br>Por favor registre los datos exactamente como aparecen en la Registro de Cámara de Comercio, estos\n" +
-        "        datos serán usados para la generación de los Documentos asociados al trámite solicitado y su\n" +
-        "        posterior reporte a entidades de vigilancia y control.";
+    this.cadenaInicioRegistro = "<b>¡Importante!</b><br>Por favor registre los datos exactamente como aparecen en la Registro de Cámara de Comercio, estos\n" +
+      "        datos serán usados para la generación de los Documentos asociados al trámite solicitado y su\n" +
+      "        posterior reporte a entidades de vigilancia y control.";
 
-    }
+  }
 
 }

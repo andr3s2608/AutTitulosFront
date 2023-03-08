@@ -1,12 +1,80 @@
 <form role="form">
   <div class="row">
     <legend>
-      <h3>Registro Persona Jurídica.</h3>
-      <h3>Datos Básicos.</h3>
+      <h3>Registro Persona Jurídica</h3>
     </legend>
 
     <div class="alert alert alert-danger" role="alert">
-      <p [innerHTML]="cadenaRegistro"></p>
+      <p [innerHTML]="cadenaInicioRegistro"></p>
+    </div>
+
+    <div class="accordion-govco" id="accordionParent">
+
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childOne">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseOne"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseOne">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Datos básicos</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseOne" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+            <div class="col-sm-12 col-md-9">
+              <div class="entradas-de-texto-govco">
+                <label for="razon-social">Razón Social <span class="required">(*)</span></label>
+                <input type="text" id="razon-social" placeholder="RAZÓN SOCIAL"
+                       aria-describedby="input-razon-social"/>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-9">
+              <div class="entradas-de-texto-govco">
+                <label for="tipoIdedentificacion">Tipo de Identificación <span class="required">(*)</span></label>
+                <select class="form-select" id="tipoIdedentificacion" aria-label="Default select example">
+                  <option value="" selected>NIT</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-9">
+              <div class="entradas-de-texto-govco">
+                <label for="nit">NIT <span class="required">(*)</span></label>
+                <input type="text" id="nit" placeholder="NÚMERO DE NIT"
+                       aria-describedby="input-numero-nit"/>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childTwo">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTwo"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseTwo">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Representante Legal</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseTwo" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childTwo" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </form>

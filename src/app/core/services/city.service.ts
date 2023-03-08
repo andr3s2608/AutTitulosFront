@@ -19,6 +19,13 @@ export class CityService {
   constructor(private http: HttpClient) { }
 
   /**
+   * Obtiene listado de paises
+   */
+  getCountries(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Pais/GetPais`);
+  }
+
+  /**
    * Obtiene listado de departamentos
    */
   getDepartaments(): Observable<any> {
