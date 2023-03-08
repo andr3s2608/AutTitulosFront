@@ -102,6 +102,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
       nacionalidad: [ '' , [ Validators.required ]],
       departamento: ['', [ Validators.required ]],
+      departamentoNacimiento: [ '' , [ Validators.required ]],
       ciudadNacimiento: ['', [ Validators.required ]],
       ciudadNacimientoOtro: [''],
       departamentoResidencia: [ '' , [ Validators.required ]],
@@ -135,7 +136,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.cityService.getEducationLevel().subscribe(resp=>this.educationLevel = resp.data);
     this.cityService.getIdentificationType().subscribe(resp => {
       this.identificationType = resp.data
-      console.log(resp)
+
     });
     if(this.naturalForm.get('departamentoResidencia').value != null && this.naturalForm.get('departamentoResidencia').value !="") {
       this.cityService.getMunByDepaId(this.naturalForm.get('departamentoResidencia').value).subscribe(resp => {

@@ -25,129 +25,8 @@
              aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-            <div class="col-sm-12 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="primer-nombre">Primer Nombre<span class="required">(*)</span></label>
-                <input type="text" id="primer-nombre" placeholder="Primer Nombre" formControlName="primerNombre"
-                       [ngClass]="{'error': isTouchedField(naturalForm, 'primerNombre')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="primer-nombre-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('primerNombre') }}
-        </span>
-              </div>
-            </div>
 
-            <div class="col-sm-12 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="segundo-nombre">Segundo Nombre</label>
-                <input type="text" id="segundo-nombre" placeholder="Segundo Nombre" formControlName="segundoNombre"/>
-              </div>
-            </div>
-
-            <div class="col-sm-12 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="primer-apellido">Primer Apellido<span class="required">(*)</span></label>
-                <input type="text" id="primer-apellido" placeholder="Primer Apellido" formControlName="primerApellido"
-                       [ngClass]="{'error': isTouchedField(naturalForm, 'primerApellido')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="primer-apellido-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('primerApellido') }}
-        </span>
-              </div>
-            </div>
-
-            <div class="col-sm-12 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="segundo-apellido">Segundo Apellido</label>
-                <input type="text" id="segundo-apellido" placeholder="Segundo Apellido"
-                       formControlName="segundoApellido"/>
-              </div>
-            </div>
-
-            <div class="col-sm-5 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="tipoIdendificacionId">Tipo identificación<span class="required">(*)</span></label>
-                <select class="form-select" id="tipoIdendificacionId" aria-label="Default select example"
-                        formControlName="tipoDocumento" [ngClass]="{'error': isTouchedField(naturalForm, 'tipoDocumento')}"
-                >
-                  <option value="" selected disabled>Seleccione</option>
-                  <option *ngFor="let item of identificationType" [value]="item.idTipoIdentificacion">{{item.descripcion}}</option>
-                </select>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="tipoIdendificacionId-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('tipoDocumento') }}
-          </span>
-              </div>
-            </div>
-
-            <div class="col-sm-5 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="N. Documento Identidad">N. Documento Identidad<span class="required">(*)</span></label>
-                <input type="text" id="N. Documento Identidad" placeholder="Número Documento Identidad"
-                       formControlName="numeroIdentificacion"
-                       [ngClass]="{'error': isTouchedField(naturalForm, 'numeroIdentificacion')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="N. Documento Identidad-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('numeroIdentificacion') }}
-        </span>
-              </div>
-            </div>
-
-            <div class="col-sm-5 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="Teléfono fijo">Teléfono fijo</label>
-                <input type="text" id="Teléfono fijo" placeholder="Teléfono fijo"
-                       formControlName="telefonoFijo"
-                       [ngClass]="{'error': isTouchedField(naturalForm, 'telefonoFijo')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono fijo-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('telefonoFijo') }}
-        </span>
-              </div>
-            </div>
-
-            <div class="col-sm-5 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="Teléfono celular">Teléfono celular<span class="required">(*)</span></label>
-                <input type="text" id="Teléfono celular" placeholder="Teléfono celular" formControlName="telefonoCelular"
-                       [ngClass]="{'error': isTouchedField(naturalForm, 'telefonoCelular')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono celular-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('telefonoCelular') }}
-        </span>
-              </div>
-            </div>
-
-            <div class="col-sm-5 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="Correo electrónico">Correo electrónico<span class="required">(*)</span></label>
-                <input type="text" id="Correo electrónico" placeholder="Correo electrónico" formControlName="email"
-                       [ngClass]="{'error': isTouchedField(naturalForm, 'email')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="email-note" role="alert" aria-live="assertive">
-            {{ getErrorMessage('email') }}
-        </span>
-              </div>
-            </div>
-
-            <div class="col-sm-5 col-md-5">
-              <div class="entradas-de-texto-govco">
-                <label for="Confirmar Correo electrónico">Confirmar Correo electrónico<span class="required">(*)</span></label>
-                <input type="text" id="Confirmar Correo electrónico" placeholder="Confirmar Correo electrónico"
-                       formControlName="confirmarEmail" [ngClass]="{'error': isTouchedField(naturalForm, 'confirmarEmail')}"/>
-                <span
-                  class="error-texto-govco alert-entradas-de-texto-govco" id="Confirmar Correo electrónico-note" role="alert"
-                  aria-live="assertive">
-            {{ getErrorMessage('confirmarEmail') }}
-        </span>
-              </div>
-            </div>
+            <app-legal-representant ></app-legal-representant>
 
 
           </div>
@@ -621,12 +500,28 @@
               </div>
             </div>
 
+            <div id="div_enviar" class="col-12 col-md-12 pl-4 mt-4">
+              <div class="col-sm-12">
+                <input type="checkbox" name="acepta_terminos" id="acepta_terminos" formControlName="checkBoxDatosPersonales"
+                       [ngClass]="{'error': isTouchedField(naturalForm, 'checkBoxDatosPersonales')}">
+                He leído y acepto la politica de protección y tratamiento de datos personales
+                <span class="required">(*)</span>
+
+              </div>
+              <span
+                class="error-texto-govco alert-entradas-de-texto-govco" id="checkBoxDatosPersonales-note" role="alert"
+                aria-live="assertive">
+            {{ getErrorMessage('checkBoxDatosPersonales') }}
+        </span>
+            </div>
+
 
           </div>
         </div>
       </div>
 
 
+
     </div>
   </div>
-
+</form>

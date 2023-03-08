@@ -5,8 +5,8 @@ import {LegalPersonComponent} from "./register/pages/legal-person/legal-person.c
 import {NaturalPersonComponent} from "./register/pages/natural-person/natural-person.component";
 import {ROUTES} from "../core/enums";
 import {UserDeclarationComponent} from "./request/pages/user-declaration/user-declaration.component";
-import {RegistrationWindowComponent} from "./register/pages/registration-window/registration-window.component";
 import {UserRequestComponent} from "./request/pages/user-request/user-request.component";
+import {ScreenRegisterComponent} from "./register/pages/screen-register/screen-register.component";
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
     children: [
       {
         path: ROUTES.REGISTER,
-        component: RegistrationWindowComponent,
+        component: ScreenRegisterComponent,
         data: {
           breadcrumb: [
             {
