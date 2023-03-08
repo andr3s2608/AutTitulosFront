@@ -38,7 +38,7 @@ const routes: Routes = [
         },
       },
       {
-        path: ROUTES.RegistrationNatural,
+        path: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_NATURAL,
         component: NaturalPersonComponent,
         data: {
           breadcrumb: [
@@ -52,13 +52,13 @@ const routes: Routes = [
             },
             {
               label: 'Persona natural',
-              url: ROUTES.RegistrationNatural
+              url: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_NATURAL
             }
           ]
         },
       },
       {
-        path: ROUTES.RegistrationLegal,
+        path: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_LEGAL,
         component: LegalPersonComponent,
         data: {
           breadcrumb: [
@@ -72,7 +72,7 @@ const routes: Routes = [
             },
             {
               label: 'Persona jurídica',
-              url: ROUTES.RegistrationLegal
+              url: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_LEGAL,
             }
           ]
         },
@@ -94,7 +94,7 @@ const routes: Routes = [
         }
       },
       {
-        path: ROUTES.CREATE_REQUEST,
+        path: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST,
         component: UserRequestComponent,
         data: {
           breadcrumb: [
@@ -108,7 +108,7 @@ const routes: Routes = [
             },
             {
               label: 'Crear solicitud',
-              url: ROUTES.CREATE_REQUEST
+              url: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST
             }
           ]
         },

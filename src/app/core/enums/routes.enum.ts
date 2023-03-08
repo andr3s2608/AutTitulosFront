@@ -8,10 +8,10 @@ export enum ROUTES {
   //REGISTRO / LOGIN
 
   REGISTER = 'registro',
-  RegistrationNatural = 'registro/persona-natural',
-  RegistrationLegal = 'registro/persona-juridica',
+  REGISTRATION_NATURAL = 'persona-natural',
+  REGISTRATION_LEGAL = 'persona-juridica',
 
-  ACEPTAR_POLITICA_DATOS = 'registro/aceptarPoliticaDatos',
+  ACEPTAR_POLITICA_DATOS = 'aceptar-politica-datos',
 
   //RecoverPassword = 'recover/password',
 
@@ -19,8 +19,8 @@ export enum ROUTES {
   //CIUDADANO
 
   CITIZEN = 'ciudadano',
-  CREATE_REQUEST = 'ciudadano/crear-solicitud',
-  PERSON_DASHBOARD = 'ciudadano/listado-solicitudes',
+  CREATE_REQUEST = 'crear-solicitud',
+  PERSON_DASHBOARD = 'listado-solicitudes',
 
   //FUNCIONARIOS
   ValidatorDashboard = 'validador/bandeja',
