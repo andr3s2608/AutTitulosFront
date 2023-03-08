@@ -1,1 +1,11 @@
-<p>user-declaration works!</p>
+<legend>
+  <h2>Registro y autorización de títulos en el área de la salud.</h2>
+  <h3>Declaración Juramentada</h3>
+</legend>
+
+<p [innerHTML]="cadenaDeclaracion" style="text-align: justify"></p>
+
+<div class="col-12" style="margin: 3% 0 5% 0; text-align: center">
+  <button type="button" class="btn-govco fill-btn-govco" style="margin-right: 1%;" (click)="accept()">Aceptar</button>
+  <button type="button" class="btn-govco fill-btn-govco" (click)="notAccept()">No Aceptar</button>
+</div>
