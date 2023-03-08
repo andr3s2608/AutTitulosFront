@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LegalPersonComponent } from './pages/legal-person/legal-person.component';
 import { NaturalPersonComponent } from './pages/natural-person/natural-person.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule
   ]
 })
