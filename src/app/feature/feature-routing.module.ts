@@ -4,6 +4,9 @@ import {FeatureComponent} from "./feature.component";
 import {LegalPersonComponent} from "./register/pages/legal-person/legal-person.component";
 import {NaturalPersonComponent} from "./register/pages/natural-person/natural-person.component";
 import {ROUTES} from "../core/enums";
+import {UserDeclarationComponent} from "./request/pages/user-declaration/user-declaration.component";
+import {RegistrationWindowComponent} from "./register/pages/registration-window/registration-window.component";
+import {UserRequestComponent} from "./request/pages/user-request/user-request.component";
 
 const routes: Routes = [
   {
@@ -15,26 +18,27 @@ const routes: Routes = [
           label: 'Inicio',
           url: ''
         }
-      ]
-    },
-  }, {
-    path: ROUTES.REGISTER,
-    component: FeatureComponent,
-    data: {
-      breadcrumb: [
-        {
-          label: 'Inicio',
-          url: ''
-        },
-        {
-          label: 'Registro',
-          url: "/"+ROUTES.AUT_TITULOS+"/"+ROUTES.REGISTER
-        }
-      ]
+      ],
     },
     children: [
       {
-        path: ROUTES.RegistrationNatural,
+        path: ROUTES.REGISTER,
+        component: RegistrationWindowComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Registro',
+              url: ROUTES.REGISTER
+            }
+          ]
+        },
+      },
+      {
+        path: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_NATURAL,
         component: NaturalPersonComponent,
         data: {
           breadcrumb: [
@@ -44,17 +48,17 @@ const routes: Routes = [
             },
             {
               label: 'Registro',
-              url: "/"+ROUTES.AUT_TITULOS+"/"+ROUTES.REGISTER
+              url: ROUTES.REGISTER
             },
             {
               label: 'Persona natural',
-              url: ROUTES.RegistrationNatural
+              url: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_NATURAL
             }
           ]
         },
       },
       {
-        path: ROUTES.RegistrationLegal,
+        path: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_LEGAL,
         component: LegalPersonComponent,
         data: {
           breadcrumb: [
@@ -64,11 +68,47 @@ const routes: Routes = [
             },
             {
               label: 'Registro',
-              url: "/"+ROUTES.AUT_TITULOS+"/"+ROUTES.REGISTER
+              url: ROUTES.REGISTER
             },
             {
               label: 'Persona jurídica',
-              url: ROUTES.RegistrationLegal
+              url: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_LEGAL,
+            }
+          ]
+        },
+      },
+      {
+        path: ROUTES.CITIZEN,
+        component: UserDeclarationComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Solicitar autorización títulos área de la salud',
+              url: ROUTES.CITIZEN
+            }
+          ]
+        }
+      },
+      {
+        path: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST,
+        component: UserRequestComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Solicitar autorización títulos área de la salud',
+              url: ROUTES.CITIZEN
+            },
+            {
+              label: 'Crear solicitud',
+              url: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST
             }
           ]
         },

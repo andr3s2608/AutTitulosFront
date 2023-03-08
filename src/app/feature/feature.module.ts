@@ -5,6 +5,7 @@ import { FeatureRoutingModule } from './feature-routing.module';
 import {CoreModule} from "../core/core.module";
 import { FeatureComponent } from './feature.component';
 import {RegisterModule} from "./register/register.module";
+import {RequestModule} from "./request/request.module";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {RegisterModule} from "./register/register.module";
     CommonModule,
     FeatureRoutingModule,
     CoreModule,
-    RegisterModule
+    RegisterModule,
+    RequestModule
   ]
 })
 export class FeatureModule { }
