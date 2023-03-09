@@ -26,7 +26,7 @@
           <div class="body-accordion-govco">
 
 
-            <app-legal-representant ></app-legal-representant>
+            <app-basic-data-citizen ></app-basic-data-citizen>
 
 
           </div>
@@ -49,110 +49,10 @@
              aria-labelledby="accordionIconoPanels-childTwo" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-            <div class="row">
-              <div class="col-sm-5 col-md-5">
-                <div class="entradas-de-texto-govco">
-                  <label for="Nacionalidad">Nacionalidad<span class="required">(*)</span></label>
-                  <select class="form-select" id="Nacionalidad" aria-label="Default select example"
-                          formControlName="nacionalidad"
-                          [ngClass]="{'error': isTouchedField(naturalForm, 'nacionalidad')}">
-                    <option *ngFor="let nacionalidad of countries" [value]="nacionalidad.idPais">{{nacionalidad.nombre}}</option>
-                    <option value="" selected disabled>Seleccione</option>
 
-                  </select>
-                  <span
-                    class="error-texto-govco alert-entradas-de-texto-govco" id="nacionalidad-note" role="alert"
-                    aria-live="assertive">
-            {{ getErrorMessage('nacionalidad') }}
-        </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-5 col-md-5">
-                <div class="entradas-de-texto-govco">
-                  <label for="Departamento de Nacimiento">Departamento de Nacimiento<span
-                    class="required">(*)</span></label>
-                  <select class="form-select" id="Departamento de Nacimiento" aria-label="Default select example"
-                          formControlName="departamentoNacimiento"
-                          [ngClass]="{'error': isTouchedField(naturalForm, 'departamentoNacimiento')}"
-                  >
-                    <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
-                    <option value="" selected disabled>Seleccione</option>
-
-                  </select>
-                  <span
-                    class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoNacimiento-note"
-                    role="alert"
-                    aria-live="assertive">
-                      {{ getErrorMessage('departamentoResidencia') }}
-                 </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-5 col-md-5">
-                <div class="entradas-de-texto-govco">
-                  <label for="Ciudad de Nacimiento">Ciudad de Nacimiento<span class="required">(*)</span></label>
-                  <select class="form-select" id="Ciudad de Nacimiento" aria-label="Default select example"
-                          formControlName="ciudadNacimiento"
-                          [ngClass]="{'error': isTouchedField(naturalForm, 'ciudadNacimiento')}">
-                    <option value="" disabled selected>Seleccione</option>
-                    <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
-                  </select>
-                  <span
-                    class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadNacimiento-note" role="alert"
-                    aria-live="assertive">
-                     {{ getErrorMessage('ciudadResidencia') }}
-                   </span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-5 col-md-5">
-                <div class="entradas-de-texto-govco">
-                  <label for="Departamento de residencia">Departamento de residencia<span
-                    class="required">(*)</span></label>
-                  <select class="form-select" id="Departamento de residencia" aria-label="Default select example"
-                          formControlName="departamentoResidencia"
-                          [ngClass]="{'error': isTouchedField(naturalForm, 'departamentoResidencia')}"
-                  >
-                    <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
-                    <option value="" selected disabled>Seleccione</option>
-
-                  </select>
-                  <span
-                    class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoResidencia-note"
-                    role="alert"
-                    aria-live="assertive">
-                      {{ getErrorMessage('departamentoResidencia') }}
-                 </span>
-                </div>
-              </div>
-            </div>
+            <app-geographic-data></app-geographic-data>
 
 
-            <div class="row">
-              <div class="col-sm-5 col-md-5">
-                <div class="entradas-de-texto-govco">
-                  <label for="Ciudad de residencia">Ciudad de residencia<span class="required">(*)</span></label>
-                  <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
-                          formControlName="ciudadResidencia"
-                          [ngClass]="{'error': isTouchedField(naturalForm, 'ciudadResidencia')}">
-                    <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
-                    <option value="" disabled selected>Seleccione</option>
-
-                  </select>
-                  <span
-                    class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadResidencia-note" role="alert"
-                    aria-live="assertive">
-                     {{ getErrorMessage('ciudadResidencia') }}
-                   </span>
-                </div>
-              </div>
-            </div>
 
             <div class="alert ant-alert-info">
               <b>Información!</b>
@@ -523,6 +423,14 @@
 
 
     </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-sm-12 col-md-9 col-lg-3">
+      <button  (click)="cancelar()" type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Cancelar</button>
+    </div>
+  <div class="col-sm-12 col-md-9 col-lg-3">
+    <button  (click)="guardar()" type="button" style="margin-left: 1rem;" class="btn-govco fill-btn-govco">Guardar</button>
+  </div>
   </div>
 
 </form>

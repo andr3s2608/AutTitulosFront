@@ -6,6 +6,8 @@ import {CoreModule} from "../core/core.module";
 import { FeatureComponent } from './feature.component';
 import {RegisterModule} from "./register/register.module";
 import {RequestModule} from "./request/request.module";
+import {TrackingModule} from "./tracking/tracking.module";
+
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import {RequestModule} from "./request/request.module";
     FeatureRoutingModule,
     CoreModule,
     RegisterModule,
-    RequestModule
+    RequestModule,
+    TrackingModule
   ]
 })
 export class FeatureModule { }

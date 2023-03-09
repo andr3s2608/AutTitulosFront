@@ -1,10 +1,10 @@
-<form role="form" [formGroup]="naturalForm">
+<form role="form" [formGroup]="basicDataForm">
 
   <div class="col-sm-12 col-md-5">
     <div class="entradas-de-texto-govco">
       <label for="primer-nombre">Primer Nombre<span class="required">(*)</span></label>
       <input type="text" id="primer-nombre" placeholder="Primer Nombre" formControlName="primerNombre"
-             [ngClass]="{'error': isTouchedField(naturalForm, 'primerNombre')}"/>
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'primerNombre')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="primer-nombre-note" role="alert"
         aria-live="assertive">
@@ -24,7 +24,7 @@
     <div class="entradas-de-texto-govco">
       <label for="primer-apellido">Primer Apellido<span class="required">(*)</span></label>
       <input type="text" id="primer-apellido" placeholder="Primer Apellido" formControlName="primerApellido"
-             [ngClass]="{'error': isTouchedField(naturalForm, 'primerApellido')}"/>
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'primerApellido')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="primer-apellido-note" role="alert"
         aria-live="assertive">
@@ -45,7 +45,7 @@
     <div class="entradas-de-texto-govco">
       <label for="tipoIdendificacionId">Tipo identificación<span class="required">(*)</span></label>
       <select class="form-select" id="tipoIdendificacionId" aria-label="Default select example"
-              formControlName="tipoDocumento" [ngClass]="{'error': isTouchedField(naturalForm, 'tipoDocumento')}"
+              formControlName="tipoDocumento" [ngClass]="{'error': isTouchedField(basicDataForm, 'tipoDocumento')}"
       >
         <option value="" selected disabled>Seleccione</option>
         <option *ngFor="let item of identificationType"
@@ -64,7 +64,7 @@
       <label for="N. Documento Identidad">N. Documento Identidad<span class="required">(*)</span></label>
       <input type="text" id="N. Documento Identidad" placeholder="Número Documento Identidad"
              formControlName="numeroIdentificacion"
-             [ngClass]="{'error': isTouchedField(naturalForm, 'numeroIdentificacion')}"/>
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'numeroIdentificacion')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="N. Documento Identidad-note" role="alert"
         aria-live="assertive">
@@ -78,7 +78,7 @@
       <label for="Teléfono fijo">Teléfono fijo</label>
       <input type="text" id="Teléfono fijo" placeholder="Teléfono fijo"
              formControlName="telefonoFijo"
-             [ngClass]="{'error': isTouchedField(naturalForm, 'telefonoFijo')}"/>
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'telefonoFijo')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono fijo-note" role="alert"
         aria-live="assertive">
@@ -91,7 +91,7 @@
     <div class="entradas-de-texto-govco">
       <label for="Teléfono celular">Teléfono celular<span class="required">(*)</span></label>
       <input type="text" id="Teléfono celular" placeholder="Teléfono celular" formControlName="telefonoCelular"
-             [ngClass]="{'error': isTouchedField(naturalForm, 'telefonoCelular')}"/>
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'telefonoCelular')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono celular-note" role="alert"
         aria-live="assertive">
@@ -104,7 +104,7 @@
     <div class="entradas-de-texto-govco">
       <label for="Correo electrónico">Correo electrónico<span class="required">(*)</span></label>
       <input type="text" id="Correo electrónico" placeholder="Correo electrónico" formControlName="email"
-             [ngClass]="{'error': isTouchedField(naturalForm, 'email')}"/>
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'email')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="email-note" role="alert" aria-live="assertive">
             {{ getErrorMessage('email') }}
@@ -116,7 +116,7 @@
     <div class="entradas-de-texto-govco">
       <label for="Confirmar Correo electrónico">Confirmar Correo electrónico<span class="required">(*)</span></label>
       <input type="text" id="Confirmar Correo electrónico" placeholder="Confirmar Correo electrónico"
-             formControlName="confirmarEmail" [ngClass]="{'error': isTouchedField(naturalForm, 'confirmarEmail')}"/>
+             formControlName="confirmarEmail" [ngClass]="{'error': isTouchedField(basicDataForm, 'confirmarEmail')}"/>
       <span
         class="error-texto-govco alert-entradas-de-texto-govco" id="Confirmar Correo electrónico-note" role="alert"
         aria-live="assertive">

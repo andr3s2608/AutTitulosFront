@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 import {CityService} from "../../../../core/services";
+import {ROUTES} from "../../../../core/enums";
+import Swal from "sweetalert2";
+import {Router} from "@angular/router";
 
 /**
  * Componente encargado del formulario de registro de persona natural
@@ -79,7 +82,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   public identificationType: any[];
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService) {
+              public cityService: CityService, private router: Router) {
 
     super();
 
@@ -90,23 +93,29 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.sending = false;
 
     this.naturalForm = this.fb.group({
-      tipoDocumento: [ '' , [ Validators.required ]],
-      numeroIdentificacion: [ '' , [ Validators.required ]],
-      primerNombre: [ '' , [ Validators.required ]],
-      segundoNombre: [ '' ],
-      primerApellido: [ '' , [ Validators.required ]],
-      segundoApellido: [ '' ],
-      email: [ '' , [ Validators.required, Validators.email ]],
-      confirmarEmail: [ '' , [ Validators.required, Validators.email ]],
-      telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
-      telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
-      nacionalidad: [ '' , [ Validators.required ]],
-      departamento: ['', [ Validators.required ]],
-      departamentoNacimiento: [ '' , [ Validators.required ]],
-      ciudadNacimiento: ['', [ Validators.required ]],
-      ciudadNacimientoOtro: [''],
-      departamentoResidencia: [ '' , [ Validators.required ]],
-      ciudadResidencia: [ '' , [ Validators.required ]],
+      basicDataForm: this.fb.group(
+        {
+          tipoDocumento: [ '' , [ Validators.required ]],
+          numeroIdentificacion: [ '' , [ Validators.required ]],
+          primerNombre: [ '' , [ Validators.required ]],
+          segundoNombre: [ '' ],
+          primerApellido: [ '' , [ Validators.required ]],
+          segundoApellido: [ '' ],
+          email: [ '' , [ Validators.required, Validators.email ]],
+          confirmarEmail: [ '' , [ Validators.required, Validators.email ]],
+          telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
+          telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]]
+        }
+      ),
+      geographicDataForm: this.fb.group(
+        {
+          nacionalidad: [ '' , [ Validators.required ]],
+          departamentoNacimiento: [ '' , [ Validators.required ]],
+          ciudadNacimiento: ['', [ Validators.required ]],
+          departamentoResidencia: [ '' , [ Validators.required ]],
+          ciudadResidencia: [ '' , [ Validators.required ]]
+        }
+      ),
       direccionResidencia: [ '' , [ Validators.required ]],
       fechaNacimiento: [ '' , [ Validators.required, super.dateValidator ]],
       sexo: [ '' , [ Validators.required ]],
@@ -124,7 +133,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.cityService.getCountries().subscribe(paises => this.countries = paises.data);
     this.cityService.getDepartaments().subscribe(
       departamentos => this.departaments = departamentos.data)
-    console.log(this.naturalForm.get('departamentoResidencia').value+"  acaaaa ")
+
 
 
 
@@ -138,11 +147,14 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       this.identificationType = resp.data
 
     });
+    /*
     if(this.naturalForm.get('departamentoResidencia').value != null && this.naturalForm.get('departamentoResidencia').value !="") {
       this.cityService.getMunByDepaId(this.naturalForm.get('departamentoResidencia').value).subscribe(resp => {
         this.municipalities = resp.data
       });
     }
+    */
+
   }
 
   public verificarFecha(): void {
@@ -158,6 +170,45 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     datepicker.setAttribute('max', `${year}-${month}-${date}`);
 
   }
+
+  public cancelar()
+  {
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ ROUTES.REGISTER);
+  }
+
+   public  async guardar(): Promise<void>
+  {
+    if(!this.naturalForm.valid)
+    {
+      if(this.naturalForm.get('basicDataForm.email').value != this.naturalForm.get('basicDataForm.confirmarEmail').value) {
+        console.log("el correo debe ser giual");
+        /*
+        this.popupAlert.errorAlert(
+          `Por favor, revise el formulario de la solicitud, los emails ingresados no son iguales.`,
+          4000
+        );
+        */
+
+        return;
+      }
+      console.log("FORMULARIO PROCESADO");
+      console.log(this.naturalForm.value);
+      console.log("ERRORES FORMULARIO");
+      console.log(super.getAllErrors(this.naturalForm));
+      this.naturalForm.markAllAsTouched();
+
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Datos Incompletos',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        confirmButtonText: 'OK',
+        text: 'Será redigirido a la página principal y deberá iniciar sesión nuevamente para acceder a los servicios.',
+      })
+    }
+  }
+
 
   getErrorMessage(field: string): string {
     let message;

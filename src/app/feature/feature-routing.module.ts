@@ -7,6 +7,9 @@ import {ROUTES} from "../core/enums";
 import {UserDeclarationComponent} from "./request/pages/user-declaration/user-declaration.component";
 import {UserRequestComponent} from "./request/pages/user-request/user-request.component";
 import {ScreenRegisterComponent} from "./register/pages/screen-register/screen-register.component";
+import {DocumentsValidationComponent} from "./register/pages/documents-validation/documents-validation.component";
+import {ValidatorsDashboardComponent} from "./tracking/validators-dashboard/validators-dashboard.component";
+
 
 const routes: Routes = [
   {
@@ -78,6 +81,18 @@ const routes: Routes = [
         },
       },
       {
+        path: ROUTES.DOCUMENTS_VALID,
+        component: DocumentsValidationComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            }
+          ]
+        },
+      },
+      {
         path: ROUTES.CITIZEN,
         component: UserDeclarationComponent,
         data: {
@@ -112,6 +127,30 @@ const routes: Routes = [
             }
           ]
         },
+      },
+      {
+        path: ROUTES.ValidatorDashboard,
+        component: ValidatorsDashboardComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Validar Tramite',
+              url: ROUTES.ValidatorDashboard
+            },
+            {
+              label: 'Menú Reportes',
+              url: ''
+            },
+            {
+              label: 'Cerrar Sesión',
+              url: ''
+            }
+          ]
+        }
       }
     ]
   }

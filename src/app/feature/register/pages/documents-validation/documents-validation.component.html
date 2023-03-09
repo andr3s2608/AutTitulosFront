@@ -1,0 +1,88 @@
+
+
+<div class="row text-center" *ngIf="variable" >
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xxl-12">
+    <h4 >!Bienvenido a la Ventanilla Única de Trámites y
+      Servicios- Producción!</h4>
+    <p>Secretaría Distrital de Salud</p>
+  </div>
+</div >
+  <div class="row w-50 justify-content-center align-items-center mx-auto border " *ngIf="variable" >
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xxl-8  " >
+      <br><br>
+      <h2 class="text-center" >Validación de Documentos</h2>
+      <br><br>
+      <span >En esta sección puede validar la autenticidad
+        del documento emitido por esta entidad.
+        Por favor digite el código de veiricación que viene anexo en el documento</span>
+      <br><br>
+
+      <form role="form" [formGroup]="form">
+      <div  style="width: 400px">
+        <input type="text" id="codigo" formControlName="codigo" placeholder="Ingrese Código de Verificación"/>
+      </div>
+        </form>
+      <br><br>
+      <div class="col-sm-1 col-md-1 mx-auto">
+        <button (click)="Consultar()" type="button"  class="btn-govco fill-btn-govco">Consultar</button>
+      </div>
+      <br><br>
+    </div>
+
+  </div>
+
+<div class="row text-center" *ngIf="!variable" >
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xxl-12">
+    <h2 >Resultado de la Validación</h2>
+  </div>
+</div >
+
+<div class="row w-50 justify-content-center align-items-center mx-auto border " *ngIf="!variable" >
+  <div class="col-lg-10 col-md-8 col-sm-8 col-xs-8 col-xxl-8  " >
+
+    <br> <br>
+    <div role="article">
+      <h5>El documento con código de verificación , se encuentra asociado a la siguiente información:</h5>
+    </div>
+    <br>
+    <div >
+      <span>ID Trámite:  {{idTramit}}</span>
+    </div>
+    <div >
+      <span>Nombre Trámite:  {{tramitName}}</span>
+    </div>
+    <div >
+      <span>Número de Documento Id:  {{idNumber}}</span>
+    </div>
+
+    <div >
+      <span>Fecha de Resolución:  {{dateResolution}}</span>
+    </div>
+
+    <div >
+      <span>Número de Resolución: {{numberResolution}}</span>
+    </div>
+    <div >
+      <span>Estado del Tramite:  {{tramitStatus}}</span>
+    </div>
+
+    <div >
+      <span>Información Adicional:  {{aditionalInfo}}</span>
+    </div>
+    <br> <br>
+  </div>
+
+</div>
+<br>
+
+<div class="row text-center" *ngIf="!variable" >
+
+  <div class="col-sm-5 col-md-5 mx-auto">
+    <button (click)="volver()" type="button"  class="btn-govco fill-btn-govco">Volver</button>
+  </div>
+</div>
+
+
+
+
+

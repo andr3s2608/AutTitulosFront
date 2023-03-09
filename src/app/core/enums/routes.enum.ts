@@ -5,6 +5,8 @@ export enum ROUTES {
 
   AUT_TITULOS = 'aut-titulos',
 
+  DOCUMENTS_VALID = 'doc-valid',
+
   //REGISTRO / LOGIN
 
   REGISTER = 'registro',
