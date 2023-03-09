@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
+import {ROUTES} from "../../../../core/enums";
 
 @Component({
   selector: 'app-user-declaration',
@@ -12,7 +14,7 @@ export class UserDeclarationComponent {
    */
   public cadenaDeclaracion: string;
 
-  constructor() {
+  constructor(private router: Router) {
     this.cadenaDeclaracion = "<br><b>Señor Ciudadano(a):</b><br><br>" +
       "El siguiente Trámite se denomina 'Registro y Autorización de Títulos en el Área de la Salud, para las" +
       " tecnologías, ocupaciones u oficios en el área salud y para las profesiones de Psicología y Gerontología'.<br>" +
@@ -37,6 +39,7 @@ export class UserDeclarationComponent {
 
   public accept(): void {
     //Guardar en localStorage que aceptó declaración
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.CITIZEN + "/" + ROUTES.CREATE_REQUEST);
   }
 
   public notAccept(): void {
