@@ -1,0 +1,156 @@
+<form role="form" [formGroup]="requestDataForm">
+
+  <div class="row">
+
+    <div class="col-sm-12 col-md-7">
+      <div class="entradas-de-texto-govco">
+        <label for="tipoTituloId">Tipo de título obtenido <span class="required">*</span></label>
+        <select class="form-select" id="tipoTituloId" aria-label="Default select example"
+                formControlName="titleTypeId" aria-describedby="titleTypeId-note"
+                [ngClass]="{'error': isTouchedField(requestDataForm, 'titleTypeId')}"
+        >
+          <option value="" selected disabled>Seleccione</option>
+          <option value="1">NACIONAL</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('titleTypeId') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="institucionId">Institución educativa <span class="required"> *</span></label>
+        <select class="form-select" id="institucionId" aria-label="Default select example"
+                formControlName="instituteId" aria-describedby="titleTypeId-note"
+                [ngClass]="{'error': isTouchedField(requestDataForm, 'instituteId')}"
+        >
+          <option value="" selected disabled>Seleccione</option>
+          <option value="1">UNIVERSIDAD 1</option>
+          <option value="2">UNIVERSIDAD 2</option>
+          <option value="3">UNIVERSIDAD 3</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('instituteId') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="profesionId">Profesión <span class="required"> *</span></label>
+        <select class="form-select" id="profesionId" aria-label="Default select example"
+                formControlName="professionId" aria-describedby="titleTypeId-note"
+                [ngClass]="{'error': isTouchedField(requestDataForm, 'professionId')}"
+        >
+          <option value="" selected disabled>Seleccione</option>
+          <option value="1">TECNICO 1</option>
+          <option value="2">TECNOLOGO 2</option>
+          <option value="3">PROFESIONAL 3</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('professionId') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="diplomaNumero">Diploma No.</label>
+        <input type="text" id="diplomaNumero" placeholder="Diploma No."
+               formControlName="diplomaNumber" aria-describedby="diplomaNumber-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'diplomaNumber')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('diplomaNumber') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="actaGrado">Acta de grado</label>
+        <input type="text" id="actaGrado" placeholder="Acta de grado"
+               formControlName="graduationCertificate" aria-describedby="graduationCertificate-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'graduationCertificate')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('graduationCertificate') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="fecha-terminacion">Fecha terminación <span class="required">*</span> </label>
+        <input type="date" id="fecha-terminacion"
+               formControlName="endDate"
+               (click)="blockCalendarFutureDate('fecha-terminacion')"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'endDate') }"
+        />
+        <span *ngIf="!isValidField(requestDataForm, 'endDate')"
+              class="error-texto-govco alert-entradas-de-texto-govco"  role="alert"
+              aria-live="assertive">
+          {{ getErrorMessage('endDate') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="libro">Libro</label>
+        <input type="text" id="libro" placeholder="Libro"
+               formControlName="book" aria-describedby="book-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'book')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('book') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="Folio">Folio</label>
+        <input type="text" id="Folio" placeholder="Folio"
+               formControlName="folio" aria-describedby="folio-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'folio')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('folio') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="anio-titulo">Año Título <span class="required"> *</span></label>
+        <input type="text" id="anio-titulo" placeholder="Año"
+               formControlName="yearTitle" aria-describedby="yearTitle-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'yearTitle')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('yearTitle') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="tarjeta-profesional">Tarjeta Profesional <span class="required"> *</span></label>
+        <input type="text" id="tarjeta-profesional" placeholder="Tarjeta Profesional"
+               formControlName="professionalCard" aria-describedby="professionalCard-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'professionalCard')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('professionalCard') }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+</form>

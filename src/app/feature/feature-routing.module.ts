@@ -9,6 +9,8 @@ import {UserRequestComponent} from "./request/pages/user-request/user-request.co
 import {ScreenRegisterComponent} from "./register/pages/screen-register/screen-register.component";
 import {DocumentsValidationComponent} from "./register/pages/documents-validation/documents-validation.component";
 import {ValidatorsDashboardComponent} from "./tracking/validators-dashboard/validators-dashboard.component";
+import {PendingChangesGuard} from "../core/guards/pending-changes.guard";
+import {UserDashboardComponent} from "./request/pages/user-dashboard/user-dashboard.component";
 
 
 const routes: Routes = [
@@ -111,6 +113,7 @@ const routes: Routes = [
       {
         path: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST,
         component: UserRequestComponent,
+        canDeactivate: [],
         data: {
           breadcrumb: [
             {
@@ -124,6 +127,26 @@ const routes: Routes = [
             {
               label: 'Crear solicitud',
               url: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST
+            }
+          ]
+        },
+      },
+      {
+        path: ROUTES.CITIZEN + "/" + ROUTES.PERSON_DASHBOARD,
+        component: UserDashboardComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Solicitar autorización títulos área de la salud',
+              url: ROUTES.CITIZEN
+            },
+            {
+              label: 'Bandeja de entrada y gestión',
+              url: ROUTES.CITIZEN + "/" +ROUTES.PERSON_DASHBOARD
             }
           ]
         },

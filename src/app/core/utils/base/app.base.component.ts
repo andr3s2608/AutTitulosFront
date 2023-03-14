@@ -30,6 +30,14 @@ export class AppBaseComponent {
     );
   }
 
+  /**
+   * Valida si a un input file se le ha cargado un archivo
+   * @param field
+   */
+  isValidInputFile(field: string): boolean {
+    return (<HTMLInputElement>document.getElementById(field)).value == '';
+  }
+
   isCorrectField = (form: FormGroup, field: string): boolean => {
     return (
       form?.get(field).valid
@@ -169,6 +177,22 @@ export class AppBaseComponent {
       }
     }
     return null;
+  }
+
+  /**
+   * Bloquea fechas futuras de un calendario
+   * @param idInputDate Id del input tipo date a bloquear
+   */
+  blockCalendarFutureDate(idInputDate: string): void {
+    const datepicker = document.getElementById(idInputDate);
+    const today = new Date();
+    let date = today.getDate() > 9 ? today.getDate() :
+      `0${today.getDate()}`;
+    let month = today.getMonth() > 9 ? today.getMonth() + 1 :
+      `0${today.getMonth() + 1}`;
+    let year = today.getFullYear();
+
+    datepicker.setAttribute('max', `${year}-${month}-${date}`);
   }
 
   /**

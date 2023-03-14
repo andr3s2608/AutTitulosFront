@@ -1,0 +1,96 @@
+<form role="form" [formGroup]="clarificationForm">
+  <br>
+  <h4 class="h4-tipografia-govco title-1">Datos de la aclaración</h4>
+  <br>
+
+  <div class="row">
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="numero-radicado">Número de radicado<span class="required"> *</span></label>
+        <input type="text" id="numero-radicado"
+               formControlName="filedNumber" aria-describedby="filedNumber-note"
+               [ngClass]="{'error': isTouchedField(clarificationForm, 'filedNumber')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('filedNumber') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="tipo-tramite">Tipo de trámite<span class="required"> *</span></label>
+        <input type="text" id="tipo-tramite"
+               formControlName="titleTypeId" aria-describedby="titleTypeId-note"
+               [ngClass]="{'error': isTouchedField(clarificationForm, 'titleTypeId')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('titleTypeId') }}
+        </span>
+      </div>
+    </div>
+
+
+    <div class="col-sm-12 col-md-7">
+      <div class="entradas-de-texto-govco">
+        <label for="motivoId">Motivo<span class="required"> *</span></label>
+        <select class="form-select" id="motivoId" aria-label="Default select example"
+                formControlName="reasonTypeId" aria-describedby="reasonTypeId-note"
+                [ngClass]="{'error': isTouchedField(clarificationForm, 'reasonTypeId')}"
+        >
+          <option value="" selected disabled>Seleccione</option>
+          <option value="1">RAZON 1</option>
+          <option value="2">RAZON 2</option>
+          <option value="3">RAZON 3</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('reasonTypeId') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-6" style="padding-top: 2%">
+      <label for="inputSupportClarification" class="label-carga-de-archivo-govco">Soporte de recurso de reposición ó solicitar aclaración<span class="required"> *</span></label>
+      <div class="input-group mt-2 mb-1 ">
+        <input type="file" class="form-control input-file-custom" id="inputSupportClarification"
+               aria-describedby="inputFile_Aria" aria-label="Upload"
+               [ngClass]="{'error': isValidInputFile('inputSupportClarification')}"
+               accept="application/pdf" (change)="addSelectedFile($event)">
+        <button class="btn btn-outline-secondary" type="button" id="inputDocAddDescri_Clarification"
+                *ngIf="hasDocument()"
+                (click)="removeFileAdded()">
+          <span class="govco-trash-alt"></span>
+        </button>
+      </div>
+      <span class="text-validation-carga-de-archivo-govco"><small>Únicamente archivo en formato .pdf.</small></span>
+      <br>
+      <span *ngIf="isValidInputFile('inputSupportClarification')"
+            class="error-texto-govco alert-entradas-de-texto-govco" id="titleTypeId-note" role="alert" aria-live="assertive" style="color: #962423">
+          Es requerido
+        <br>
+        <br>
+      </span>
+    </div>
+
+    <div class="col-sm-12 col-md-9">
+      <div class="entradas-de-texto-govco">
+        <label for="Observaciones" class="form-label">Observaciones del recurso de reposición ó solicitar aclaración <span class="required">*</span></label>
+        <div class="container-input-texto-govco">
+                      <textarea class="form-control" rows="3" id="Observaciones" aria-invalid="true"
+                                aria-describedby="Observaciones-note"
+                                formControlName="observation"
+                                [ngClass]="{'error': isTouchedField(clarificationForm, 'observation')}"
+                                placeholder="Observaciones"> </textarea>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="observations-note" role="alert" aria-live="assertive">
+                      {{ getErrorMessage('observation') }}
+                    </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</form>
