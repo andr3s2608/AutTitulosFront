@@ -90,7 +90,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    * @param event Evento del input tipo file
    * @param docTypeId TypeId con el que va a quedar el archivo
    */
-  public addSelectedFile(event: any, docTypeId: number): void {
+  public addSelectedFile(event: any, docTypeId: number, docDescription: string): void {
 
     let archivos = event.target.files;
 
@@ -132,7 +132,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
       }
     }
 
-    this.popupAlert.successAlert('El archivo fue cargado correctamente', 2000);
+    this.popupAlert.successAlert(`El archivo ${docDescription} fue cargado correctamente`, 2000);
 
   }
 
