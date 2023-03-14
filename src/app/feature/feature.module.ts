@@ -11,6 +11,7 @@ import {SharedModule} from "../shared/shared.module";
 
 
 
+
 @NgModule({
   declarations: [
     FeatureComponent
@@ -23,6 +24,7 @@ import {SharedModule} from "../shared/shared.module";
     RegisterModule,
     RequestModule,
     TrackingModule
+
   ]
 })
 export class FeatureModule { }

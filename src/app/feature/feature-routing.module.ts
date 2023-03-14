@@ -8,9 +8,10 @@ import {UserDeclarationComponent} from "./request/pages/user-declaration/user-de
 import {UserRequestComponent} from "./request/pages/user-request/user-request.component";
 import {ScreenRegisterComponent} from "./register/pages/screen-register/screen-register.component";
 import {DocumentsValidationComponent} from "./register/pages/documents-validation/documents-validation.component";
-import {ValidatorsDashboardComponent} from "./tracking/validators-dashboard/validators-dashboard.component";
 import {PendingChangesGuard} from "../core/guards/pending-changes.guard";
 import {UserDashboardComponent} from "./request/pages/user-dashboard/user-dashboard.component";
+import {ValidatorsDashboardComponent} from "./tracking/components/validators-dashboard/validators-dashboard.component";
+import {ValidationScreenComponent} from "./tracking/pages/validation-screen/validation-screen.component";
 
 
 const routes: Routes = [
@@ -147,6 +148,18 @@ const routes: Routes = [
             {
               label: 'Bandeja de entrada y gestión',
               url: ROUTES.CITIZEN + "/" +ROUTES.PERSON_DASHBOARD
+            }
+          ]
+        },
+      },
+      {
+        path: ROUTES.Validation,
+        component: ValidationScreenComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Hola?',
+              url: ''
             }
           ]
         },

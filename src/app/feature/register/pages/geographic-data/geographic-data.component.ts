@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder} from "@angular/forms";
 import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
@@ -10,6 +10,7 @@ import {AppBaseComponent} from "../../../../core/utils";
 })
 export class GeographicDataComponent extends AppBaseComponent implements  OnInit{
 
+  @Input() source: String;
 
   public geographicDataForm:any;
 
@@ -37,6 +38,7 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
   }
 
   ngOnInit(): void {
+
     this.geographicDataForm = this.controlContainer.control;
     this.geographicDataForm = this.geographicDataForm.controls['geographicDataForm'];
     this.cityService.getCountries().subscribe(paises => this.countries = paises.data);
@@ -48,6 +50,9 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
       });
     }
   }
+
+
+
 
   getErrorMessage(field: string): string {
     let message;
