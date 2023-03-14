@@ -157,20 +157,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
   }
 
-  public verificarFecha(): void {
-    //Bloquea del calendario desplegable
-    const datepicker = document.getElementById('fecha-de-nacimiento');
-    const today = new Date();
-    let date = today.getDate() > 9 ? today.getDate() :
-      `0${today.getDate()}`;
-    let month = today.getMonth() > 9 ? today.getMonth() + 1 :
-      `0${today.getMonth() + 1}`;
-    let year = today.getFullYear();
-
-    datepicker.setAttribute('max', `${year}-${month}-${date}`);
-
-  }
-
   public cancelar()
   {
     this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ ROUTES.REGISTER);
