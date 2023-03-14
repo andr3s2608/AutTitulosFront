@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ValidatorsDashboardComponent} from "./components/validators-dashboard/validators-dashboard.component";
+import {ValidatorsDashboardComponent} from "./pages/validators-dashboard/validators-dashboard.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';

@@ -4,8 +4,8 @@ import { LegalPersonComponent } from './pages/legal-person/legal-person.componen
 import { NaturalPersonComponent } from './pages/natural-person/natural-person.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ScreenRegisterComponent } from './pages/screen-register/screen-register.component';
-import { BasicDataCitizenComponent } from './pages/basic-data-citizen/basic-data-citizen.component';
-import {GeographicDataComponent} from "./pages/geographic-data/geographic-data.component";
+import { BasicDataCitizenComponent } from './components/basic-data-citizen/basic-data-citizen.component';
+import {GeographicDataComponent} from "./components/geographic-data/geographic-data.component";
 import { DocumentsValidationComponent } from './pages/documents-validation/documents-validation.component';
 
 

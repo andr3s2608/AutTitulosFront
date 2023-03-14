@@ -10,7 +10,7 @@ import {ScreenRegisterComponent} from "./register/pages/screen-register/screen-r
 import {DocumentsValidationComponent} from "./register/pages/documents-validation/documents-validation.component";
 import {PendingChangesGuard} from "../core/guards/pending-changes.guard";
 import {UserDashboardComponent} from "./request/pages/user-dashboard/user-dashboard.component";
-import {ValidatorsDashboardComponent} from "./tracking/components/validators-dashboard/validators-dashboard.component";
+import {ValidatorsDashboardComponent} from "./tracking/pages/validators-dashboard/validators-dashboard.component";
 import {ValidationScreenComponent} from "./tracking/pages/validation-screen/validation-screen.component";
 
 

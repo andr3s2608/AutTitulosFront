@@ -14,11 +14,15 @@ import {ROUTES} from "../core/enums";
   styleUrls: ['./feature.component.scss']
 })
 export class FeatureComponent extends AppBaseComponent implements OnInit {
+
+  public isIframe = false;
+
+  public ocultarRegistroValidacion = false;
   constructor( private router: Router)
   {
     super();
   }
-  public isIframe = false;
+
 
   ngOnInit(): void {
     this.isIframe = window !== window.parent && !window.opener;
