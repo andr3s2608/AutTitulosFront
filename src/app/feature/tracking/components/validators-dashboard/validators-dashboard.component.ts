@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {CityService} from "../../../../app/core/services";
+import {CityService} from "../../../../core/services";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {ROUTES} from "../../../../core/enums";
 
 @Component({
   selector: 'app-validators-dashboard',
@@ -14,7 +15,7 @@ export class ValidatorsDashboardComponent implements OnInit{
 
   lengthpages:number=0;
   constructor(
-    public cityService: CityService,public fb: FormBuilder
+    public cityService: CityService,public fb: FormBuilder, private router: Router
 
   )
   {
@@ -44,7 +45,9 @@ export class ValidatorsDashboardComponent implements OnInit{
 
   public validar(id:any): void
   {
-    console.log("valido fila:"+id)
+
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
+
   }
 
 

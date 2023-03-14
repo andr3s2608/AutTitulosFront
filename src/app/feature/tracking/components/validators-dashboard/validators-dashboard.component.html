@@ -1,0 +1,103 @@
+<form [formGroup]="validatorForm" class="mt-3">
+
+
+  <div class="row  justify-content-center align-items-center mx-auto " style="width: 1300px">
+    <ul class="nav nav-tabs ">
+      <li class="nav-item">
+        <a class="nav-link active">Por Asignar</a>
+      </li>
+    </ul>
+    <div class="border">
+
+      <br> <br>
+      <p>filtrar por:</p>
+      <div class="row">
+
+        <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+          <select class="form-select" id="selector" aria-label="Default select example">
+            <option value="" selected disabled>Seleccione</option>
+            <option value="">Id Solicitud</option>
+            <option value="">No Doc de Identidad</option>
+            <option value="">Tipo de Título</option>
+            <option value="">Fecha de Registro Solicitud</option>
+            <option value="">Estado de la Solicitud</option>
+            <option value="">Tiempo de Atención Restante</option>
+          </select>
+        </div>
+        <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+          <div style="width: 400px">
+            <input type="text" id="textfilter" formControlName="textfilter" style="border-radius: inherit"
+                   placeholder="Ingrese Su Busqueda"/>
+          </div>
+        </div>
+
+      </div>
+
+
+      <br><br>
+      <div class="table__main">
+        <table s>
+          <tr>
+            <th>
+              <div class='header-text'>Id Solicitud</div>
+            </th>
+            <th>
+              <div class='header-text'>No Doc de Identidad</div>
+            </th>
+            <th>
+              <div class='filter-container header-container'>
+                <div class='header-text'>Nombre Solicitante</div>
+              </div>
+            </th>
+            <th>
+              <div class='filter-container header-container'>
+                <div class='header-text'>Tipo de Título</div>
+              </div>
+            </th>
+            <th>
+              <div class='filter-container header-container'>
+                <div class='header-text'>Fecha de Registro Solicitud</div>
+              </div>
+            </th>
+            <th>
+              <div class='filter-container header-container'>
+                <div class='header-text'>Estado de la Solicitud</div>
+              </div>
+            </th>
+            <th>
+              <div class='filter-container header-container'>
+                <div class='header-text'>Acciones Permitidas</div>
+              </div>
+            </th>
+            <th>
+              <div class='filter-container header-container'>
+                <div class='header-text'>Tiempo de Atención Restante</div>
+              </div>
+            </th>
+
+          </tr>
+          <tr *ngFor="let item of tableFilter; let i= index">
+            <td>{{item.idsolicitud}}</td>
+            <td> {{item.ndoc}}  </td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.tipo}}</td>
+            <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
+            <td *ngIf="item.estado != null">{{item.estado}}</td>
+
+            <td>{{item.tiempo}}</td>
+            <td class="text-justify">
+              <a (click)="validar(item.idsolicitud)"> <u class="govco-edit-1">Validar</u> </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="colum_paginator">
+        <mat-paginator class="paginator" [hidePageSize]="true" [length]="lengthpages"
+                       [pageSize]="validatorForm.get('pageSize').value"></mat-paginator>
+      </div>
+
+    </div>
+  </div>
+
+
+</form>

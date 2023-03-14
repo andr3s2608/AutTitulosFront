@@ -1,0 +1,277 @@
+<form role="form" [formGroup]="basicDataForm">
+
+
+  <div class="row">
+
+    <div class="row mt-3  align-content-center ">
+        <div class="col-sm-3 col-md-3">
+          <div class="entradas-de-texto-govco">
+            <label for="tipoIdendificacionId">Tipo identificación</label>
+            <select class="form-select" id="tipoIdendificacionId" aria-label="Default select example"
+                    formControlName="tipoDocumento" [ngClass]="{'error': isTouchedField(basicDataForm, 'tipoDocumento')}"
+            >
+              <option value="" selected disabled>Seleccione</option>
+              <option *ngFor="let item of identificationType"
+                      [value]="item.idTipoIdentificacion">{{item.descripcion}}</option>
+            </select>
+            <span
+              class="error-texto-govco alert-entradas-de-texto-govco" id="tipoIdendificacionId-note" role="alert"
+              aria-live="assertive">
+            {{ getErrorMessage('tipoDocumento') }}
+          </span>
+          </div>
+        </div>
+      <br>
+
+
+        <div class="col-sm-3 col-md-3 align-content-md-end">
+          <div class="entradas-de-texto-govco">
+            <label for="N. Documento Identidad">N. Documento Identidad</label>
+            <input type="text" id="N. Documento Identidad" placeholder="Número Documento Identidad"
+                   formControlName="numeroIdentificacion"
+                   [ngClass]="{'error': isTouchedField(basicDataForm, 'numeroIdentificacion')}"/>
+            <span
+              class="error-texto-govco alert-entradas-de-texto-govco" id="N. Documento Identidad-note" role="alert"
+              aria-live="assertive">
+            {{ getErrorMessage('numeroIdentificacion') }}
+        </span>
+          </div>
+        </div>
+
+      </div>
+    <div>
+
+      <div class="row mt-3 ">
+        <div class="col-sm-3 col-md-3">
+          <div class="entradas-de-texto-govco">
+            <label for="primer-nombre">Primer Nombre</label>
+            <input type="text" id="primer-nombre" placeholder="Primer Nombre" formControlName="primerNombre"
+                   [ngClass]="{'error': isTouchedField(basicDataForm, 'primerNombre')}"/>
+            <span
+              class="error-texto-govco alert-entradas-de-texto-govco" id="primer-nombre-note" role="alert"
+              aria-live="assertive">
+            {{ getErrorMessage('primerNombre') }}
+               </span>
+          </div>
+        </div>
+
+        <div class="col-sm-3 col-md-3">
+          <div class="entradas-de-texto-govco">
+            <label for="segundo-nombre">Segundo Nombre</label>
+            <input type="text" id="segundo-nombre" placeholder="Segundo Nombre" formControlName="segundoNombre"/>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="primer-apellido">Primer Apellido</label>
+          <input type="text" id="primer-apellido" placeholder="Primer Apellido" formControlName="primerApellido"
+                 [ngClass]="{'error': isTouchedField(basicDataForm, 'primerApellido')}"/>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="primer-apellido-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('primerApellido') }}
+        </span>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="segundo-apellido">Segundo Apellido</label>
+          <input type="text" id="segundo-apellido" placeholder="Segundo Apellido"
+                 formControlName="segundoApellido"/>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="row mt-3 ">
+        <div class="col-sm-3 col-md-3">
+          <div class="entradas-de-texto-govco">
+            <label for="Teléfono celular">Teléfono celular</label>
+            <input type="text" id="Teléfono celular" placeholder="Teléfono celular" formControlName="telefonoCelular"
+                   [ngClass]="{'error': isTouchedField(basicDataForm, 'telefonoCelular')}"/>
+            <span
+              class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono celular-note" role="alert"
+              aria-live="assertive">
+            {{ getErrorMessage('telefonoCelular') }}
+        </span>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+          <div class="entradas-de-texto-govco">
+            <label for="Teléfono fijo"  >Teléfono fijo</label>
+            <input type="text" id="Teléfono fijo" placeholder="Teléfono fijo"
+                   formControlName="telefonoFijo"
+                   [ngClass]="{'error': isTouchedField(basicDataForm, 'telefonoFijo')}" />
+            <span
+              class="error-texto-govco alert-entradas-de-texto-govco" id="Teléfono fijo-note" role="alert"
+              aria-live="assertive">
+            {{ getErrorMessage('telefonoFijo') }}
+        </span>
+          </div>
+        </div>
+
+
+      </div>
+
+    <div class="row mt3">
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Correo electrónico">Correo electrónico</label>
+          <input type="text" id="Correo electrónico" placeholder="Correo electrónico" formControlName="email"
+                 [ngClass]="{'error': isTouchedField(basicDataForm, 'email')}"/>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="email-note" role="alert" aria-live="assertive">
+            {{ getErrorMessage('email') }}
+        </span>
+        </div>
+      </div>
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="fecha-de-nacimiento">Fecha de nacimiento</label>
+          <input type="date" id="fecha-de-nacimiento"
+                 placeholder="Fecha de nacimiento" formControlName="fechaNacimiento"
+                 (click)="verificarFecha()"
+                 [ngClass]="{'error': isTouchedField(basicDataForm, 'fechaNacimiento')}"/>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="fechaNacimiento-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('fechaNacimiento') }}
+        </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Sexo">Sexo</label>
+          <select class="form-select" id="Sexo" aria-label="Default select example" formControlName="sexo"
+                  [ngClass]="{'error': isTouchedField(basicDataForm, 'sexo')}">
+            <option value="" disabled selected>Seleccione</option>
+            <option *ngFor="let sexo of sexes" [value]="sexo.idSexo">{{sexo.descripcionSexo}}</option>
+          </select>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="sexo-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('sexo') }}
+        </span>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Género">Género</label>
+          <select class="form-select" id="Género" aria-label="Default select example" formControlName="genero"
+                  [ngClass]="{'error': isTouchedField(basicDataForm, 'genero')}">
+            <option value="" disabled selected>Seleccione</option>
+            <option *ngFor="let genero of gender" [value]="genero.orden">{{genero.descripcion}}</option>
+          </select>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="genero-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('genero') }}
+        </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Orientación sexual">Orientación sexual</label>
+          <select class="form-select" id="Orientación sexual" aria-label="Default select example"
+                  formControlName="orientacionSexual"
+                  [ngClass]="{'error': isTouchedField(basicDataForm, 'orientacionSexual')}">
+            <option value="" disabled selected>Seleccione</option>
+            <option *ngFor="let orientacion of sexualOrientation"
+                    [value]="orientacion.orden">{{orientacion.descripcion}}</option>
+          </select>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="orientacionSexual-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('orientacionSexual') }}
+        </span>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Etnia">Etnia</label>
+          <select class="form-select" id="Etnia" aria-label="Default select example"  formControlName="etnia"
+                  [ngClass]="{'error': isTouchedField(basicDataForm, 'etnia')}">
+            <option value="" disabled selected>Seleccione</option>
+            <option *ngFor="let etnia of ethnicity" [value]="etnia.idEtnia">{{etnia.nombre}}</option>
+          </select>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="etnia-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('etnia') }}
+        </span>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row mt-3">
+
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Estado Civil">Estado Civil</label>
+          <select class="form-select" id="Estado Civil" aria-label="Default select example"
+                  formControlName="estadoCivil" [ngClass]="{'error': isTouchedField(basicDataForm, 'estadoCivil')}">
+            <option value="" disable selected>Seleccione</option>
+            <!--<option *ngFor="let EstadoCivil of estadoCivill" [value]="EstadoCivil.id">{{EstadoCivil.nombre}}</option>-->
+            <option *ngFor="let maritalStat of maritalStatus"
+                    [value]="maritalStat.key">{{maritalStat.name}}</option>
+
+
+            <option value="1">SOLTERO(A)</option>
+            <option value="2">CASADO(A)</option>
+            <option value="3">UNIÓN LIBRE</option>
+            <option value="4">VIUDO(A)</option>
+            <option value="5">DIVORCIADO(A)/SEPARADO(A)</option>
+          </select>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="estadoCivil-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('estadoCivil') }}
+        </span>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-md-3">
+        <div class="entradas-de-texto-govco">
+          <label for="Nivel Educativo">Nivel Educativo</label>
+          <select class="form-select" id="Nivel Educativo" aria-label="Default select example"
+                  formControlName="nivelEducativo"
+                  [ngClass]="{'error': isTouchedField(basicDataForm, 'nivelEducativo')}">
+            <option value="" disabled selected>Seleccione</option>
+            <option *ngFor="let niveleducativo of educationLevel"
+                    [value]="niveleducativo.idNivelEducativo">{{niveleducativo.nombre}}</option>
+          </select>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="nivelEducativo-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('nivelEducativo') }}
+        </span>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  </form>

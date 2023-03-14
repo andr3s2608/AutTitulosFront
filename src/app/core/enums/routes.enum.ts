@@ -27,6 +27,10 @@ export enum ROUTES {
   //FUNCIONARIOS
   ValidatorDashboard = 'validador/bandeja',
 
+  Prueba = 'prueba',
+
+  Validation = 'validation',
+
   CoordinatorDashboard = 'coordinador/bandeja',
 
   DirectorDashboard = 'director/bandeja',

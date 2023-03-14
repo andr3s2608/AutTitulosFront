@@ -10,6 +10,7 @@ import {TrackingModule} from "./tracking/tracking.module";
 
 
 
+
 @NgModule({
   declarations: [
     FeatureComponent
@@ -21,6 +22,7 @@ import {TrackingModule} from "./tracking/tracking.module";
     RegisterModule,
     RequestModule,
     TrackingModule
+
   ]
 })
 export class FeatureModule { }

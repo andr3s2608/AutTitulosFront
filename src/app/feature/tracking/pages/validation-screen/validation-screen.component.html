@@ -1,0 +1,141 @@
+<form role="form" [formGroup]="validationform">
+  <div class="row w-75 justify-content-center mx-auto ">
+    <div class="row mt-3  align-content-center mx-auto">
+      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <h2>Trámite ID: {{tramitNumber}}</h2>
+      </div>
+    </div>
+    <div class="row mt-3 justify-content-center align-content-center mx-auto">
+      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <p>Estado Actual: {{statustext}}</p>
+      </div>
+      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <p>Fecha Trámite: {{tramitdate}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row w-75 justify-content-center mx-auto border">
+
+    <div class="accordion-govco" id="accordionParent">
+
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childOne">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseOne"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseOne">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Datos Personales</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseOne" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+
+            <app-personal-data></app-personal-data>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childTwo">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTwo"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseTwo">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Datos Geográficos</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseTwo" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+
+            <app-geographic-data [source]="'validation'"></app-geographic-data>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childTree">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTree"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseTree">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Información del Titulo</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseTree" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+
+          </div>
+        </div>
+      </div>
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childFour">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseFour"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseFour">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Visualizador Archivos Adjuntos</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseFour" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childFive">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseFive"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseFive">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Resultado de la Validación</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseFive" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+
+            <app-validation-states></app-validation-states>
+
+
+          </div>
+        </div>
+      </div>
+      <br>
+
+    </div>
+    <div class="row mt-3 justify-content-center mx-auto">
+      <div class="col-sm-12 col-md-9 col-lg-3">
+        <button   type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Preliminar</button>
+        <br><br>
+      </div>
+      <div class="col-sm-12 col-md-9 col-lg-3">
+        <button  type="button" style="margin-left: 1rem;" class="btn-govco fill-btn-govco">Guardar</button>
+      </div>
+
+    </div>
+
+  </div>
+</form>

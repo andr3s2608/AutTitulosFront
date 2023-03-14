@@ -11,20 +11,25 @@ import { DocumentsValidationComponent } from './pages/documents-validation/docum
 
 
 @NgModule({
-  declarations: [
-    LegalPersonComponent,
-    NaturalPersonComponent,
-    ScreenRegisterComponent,
+    declarations: [
+        LegalPersonComponent,
+        NaturalPersonComponent,
+        ScreenRegisterComponent,
+        BasicDataCitizenComponent,
+        GeographicDataComponent,
+        DocumentsValidationComponent
+
+
+    ],
+  exports: [
     BasicDataCitizenComponent,
     GeographicDataComponent,
-    DocumentsValidationComponent
-
-
+    GeographicDataComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule
+    ]
 })
 export class RegisterModule { }
