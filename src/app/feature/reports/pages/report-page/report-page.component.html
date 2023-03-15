@@ -1,0 +1,144 @@
+<form [formGroup]="reportsform" class="mt-3">
+
+
+
+  <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    <h2>Filtro Consulta y Descarga Excel Trámite Aprobados</h2>
+  </div>
+  <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    <h3>Autorizacion de Titulos en Área de la Salud</h3>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-sm-12 col-md-3">
+      <div class="entradas-de-texto-govco">
+        <label for="begindate">Fecha Inicial</label>
+        <input type="date" id="begindate"
+               placeholder="Fecha Seguimiento Inicial" formControlName="begindate"
+               />
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+      <div class="entradas-de-texto-govco">
+        <label for="enddate">Fecha Final</label>
+        <input type="date" id="enddate"
+               placeholder="Fecha Seguimiento Final" formControlName="enddate"
+             />
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm-5 col-md-6 col-lg-3">
+      <button   type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Consultar</button>
+    </div>
+    <div class="col-sm-5 col-md-7 col-lg-7">
+      <button   type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
+    </div>
+
+  </div>
+  <br><br>
+
+  <div class="col-7">
+    <div  style="background-color: cornflowerblue" role="alert">
+      <br>
+      <h1>!Apreciado Usuario!</h1>
+      <p>La consulta y el reporte de trámites en estado de Aprobación, es po rango de fecha de acuerdo
+      de la resolución generada por el sistema.
+      </p>
+      <p>Los trámites visualizados correspondne a los últimos 30 dias desde la fecha actual.</p>
+      <br>
+    </div>
+  </div>
+
+    <div class="row mt-3 col-lg-5 col-md-5 " >
+      <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">  <p>Buscar:</p> </div>
+
+      <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+
+          <input type="text" id="textfilter" formControlName="textfilter"/>
+
+      </div>
+    </div>
+
+    <div class="row">
+
+
+      <div class="row mx-auto border" >
+        <div class="table__main">
+          <table s>
+            <tr>
+              <th>
+                <div class='header-text'>Id Solicitud</div>
+              </th>
+              <th>
+                <div class='header-text'>No Doc de Identidad</div>
+              </th>
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>Tipo de Documento</div>
+                </div>
+              </th>
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>Nombres y Apellidos</div>
+                </div>
+              </th>
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>Tipo de Título</div>
+                </div>
+              </th>
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>Fecha de Registro Solicitud</div>
+                </div>
+              </th>
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>Acciones Permitidas</div>
+                </div>
+              </th>
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>Estado de la Solicitud</div>
+                </div>
+              </th>
+
+              <th>
+                <div class='filter-container header-container'>
+                  <div class='header-text'>PDF</div>
+                </div>
+              </th>
+
+            </tr>
+            <tr *ngFor="let item of tableFilter; let i= index">
+              <td>{{item.idsolicitud}}</td>
+              <td> {{item.ndoc}}  </td>
+              <td>{{item.tipodoc}}</td>
+              <td>{{item.nombre}}</td>
+              <td>{{item.tipo}}</td>
+              <td>{{item.fecha}}</td>
+              <td class="text-justify">
+                <a (click)="validar(item.idsolicitud)"> <u class="govco-edit-1">Validar</u> </a>
+              </td>
+              <td *ngIf="item.estado != null">{{item.estado}}</td>
+
+              <td><a><span class="govco-file-pdf" style="font-size: 15px">Ver documento</span></a></td>
+
+            </tr>
+          </table>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+</form>
+
+

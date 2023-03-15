@@ -22,6 +22,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     super();
     this.validationform=this.fb.group({
 
+      textfilter: [ '' ],
+
       basicDataForm:this.fb.group({
 
         tipoDocumento: [ '' , [ Validators.required ]],
@@ -73,6 +75,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         aclarationparagrapharticle: [ '' ] ,
         internalobservations: [ '' ],
       }),
+
 
 
 
