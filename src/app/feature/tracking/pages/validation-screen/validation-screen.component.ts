@@ -16,10 +16,22 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   public tramitdate:any;
 
   public validationform:any;
+
+  /**
+   * Modela el numero a pintar en la linea de avance
+   */
+  public stepAdvanceLine: number;
+
+  /**
+   * Modela la barra de progreso a pintar en la linea de avance
+   */
+  public currentProgressAdvanceLine: number;
   constructor(public fb: FormBuilder,
               public cityService: CityService)
   {
     super();
+    this.currentProgressAdvanceLine=50;
+    this.stepAdvanceLine=2;
     this.validationform=this.fb.group({
 
       textfilter: [ '' ],

@@ -14,11 +14,24 @@ export class ValidatorsDashboardComponent implements OnInit{
   tableFilter: any[] = [];
 
   lengthpages:number=0;
+
+
+  /**
+   * Modela el numero a pintar en la linea de avance
+   */
+  public stepAdvanceLine: number;
+
+  /**
+   * Modela la barra de progreso a pintar en la linea de avance
+   */
+  public currentProgressAdvanceLine: number;
   constructor(
     public cityService: CityService,public fb: FormBuilder, private router: Router
 
   )
   {
+    this.currentProgressAdvanceLine=50;
+    this.stepAdvanceLine=2;
     this.validatorForm = this.fb.group({
       textToSearch: [''],
       pageSize: [10],

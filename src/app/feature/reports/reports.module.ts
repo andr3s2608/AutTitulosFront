@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportPageComponent } from './pages/report-page/report-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
 
   ]
 })

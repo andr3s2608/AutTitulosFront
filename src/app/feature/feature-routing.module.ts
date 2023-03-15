@@ -159,7 +159,15 @@ const routes: Routes = [
         data: {
           breadcrumb: [
             {
-              label: 'Hola?',
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Solicitar autorización area de la salud',
+              url: ''
+            },
+            {
+              label: 'Validar documentos',
               url: ''
             }
           ]
@@ -175,15 +183,11 @@ const routes: Routes = [
               url: ''
             },
             {
-              label: 'Validar Tramite',
-              url: ROUTES.ValidatorDashboard
-            },
-            {
-              label: 'Menú Reportes',
+              label: 'Solicitar autorización area de la salud',
               url: ''
             },
             {
-              label: 'Cerrar Sesión',
+              label: 'Bandeja de Entrada',
               url: ''
             }
           ]
