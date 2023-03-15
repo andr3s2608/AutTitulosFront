@@ -44,6 +44,23 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
 
       }),
+      requestDataForm: this.fb.group({
+        titleTypeId: [ '', [ Validators.required ] ],
+        instituteId: [ '', [ Validators.required ] ],
+        professionId: [ '', [ Validators.required ] ],
+        diplomaNumber: [ '', [ Validators.pattern("^[0-9]*$") ] ],
+        graduationCertificate: [ '', [ ] ],
+        endDate: [ '', [ Validators.required, super.dateValidator ] ],
+        book: [ '', [ ] ],
+        folio: [ '', [ ] ],
+        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$") ] ],
+        professionalCard: [],
+        nameInternationalUniversity: [],
+        countryId: [],
+        numberResolutionConvalidation: [],
+        dateResolutionConvalidation: [],
+        entityId: []
+      }),
       geographicDataForm: this.fb.group(
         {
           nacionalidad: [ '' , [ Validators.required ]],

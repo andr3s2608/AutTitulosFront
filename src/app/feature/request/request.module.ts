@@ -18,15 +18,18 @@ import { RequestClarificationComponent } from './components/request-clarificatio
 
 
 @NgModule({
-  declarations: [
-    UserRequestComponent,
-    UserDeclarationComponent,
-    RequestDataComponent,
-    AttachmentsComponent,
-    ResumeRequestSavedComponent,
-    UserDashboardComponent,
-    RequestClarificationComponent
-  ],
+    declarations: [
+        UserRequestComponent,
+        UserDeclarationComponent,
+        RequestDataComponent,
+        AttachmentsComponent,
+        ResumeRequestSavedComponent,
+        UserDashboardComponent,
+        RequestClarificationComponent
+    ],
+    exports: [
+        RequestDataComponent
+    ],
     imports: [
         CommonModule,
         DemoNgZorroAntdModule,
