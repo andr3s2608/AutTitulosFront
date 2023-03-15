@@ -7,6 +7,8 @@ import { PersonalDataComponent } from './components/personal-data/personal-data.
 import { ValidationStatesComponent } from './components/validation-states/validation-states.component';
 import { ValidationScreenComponent } from './pages/validation-screen/validation-screen.component';
 import {RegisterModule} from "../register/register.module";
+import {RequestModule} from "../request/request.module";
+import { AttachmentViewerComponent } from './components/attachment-viewer/attachment-viewer.component';
 
 
 
@@ -15,16 +17,18 @@ import {RegisterModule} from "../register/register.module";
     ValidatorsDashboardComponent,
     PersonalDataComponent,
     ValidationStatesComponent,
-    ValidationScreenComponent
+    ValidationScreenComponent,
+    AttachmentViewerComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
-    RegisterModule,
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        RegisterModule,
+        RequestModule,
 
-  ]
+    ]
 })
 
 export class TrackingModule { }

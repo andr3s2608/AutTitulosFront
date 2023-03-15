@@ -134,6 +134,13 @@
 
       <form [formGroup]="requestClarificationForm" *ngIf="showDisclaimerForm==true && showDashboard==false">
         <app-request-clarification></app-request-clarification>
+        <div class="col-12" style="margin: 5% 0 5% 0; text-align: center">
+          <button type="button" class="btn-govco fill-btn-govco"
+                  (click)="showDashboard=true;showDisclaimerForm=false"
+                  style="margin-right: 1%;">Volver</button>
+          <button type="button" class="btn-govco fill-btn-govco"
+                  >Guardar</button>
+        </div>
       </form>
 
 
