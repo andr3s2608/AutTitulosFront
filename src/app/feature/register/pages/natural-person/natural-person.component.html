@@ -66,7 +66,8 @@
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
                   <label for="Vía Ppal">Vía Ppal<span class="required">(*)</span></label>
-                  <select class="form-select" id="Vía Ppal" aria-label="Default select example">
+                  <select class="form-select" id="Vía Ppal" aria-label="Default select example" formControlName="viaprincipal"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'viaprincipal')}">
                     <option value="" selected disabled>Seleccione</option>
                     <option value="">AK - Avenida Carrera</option>
                     <option value="">AC - Avenida Calle</option>
@@ -75,13 +76,24 @@
                     <option value="">KR - Carrera</option>
                     <option value="">TV - Transversal</option>
                   </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="viaprincipal-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('viaprincipal') }}
+                      </span>
                 </div>
               </div>
 
               <div class="group col-md-2 col-lg-2">
                 <div class="entradas-de-texto-govco">
                   <label for="Num">Num<span class="required">(*)</span></label>
-                  <input type="text" id="Num" placeholder="Num"/>
+                  <input type="text" id="Num" placeholder="Num" formControlName="num1"
+                         [ngClass]="{'error': isTouchedField(naturalForm, 'num1')}"/>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="num1-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('num1') }}
+                      </span>
                 </div>
               </div>
 
@@ -128,7 +140,7 @@
 
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Complemento</label>
+                  <label for="complemento">Complemento</label>
                   <select class="form-select" id="Complemento" aria-label="Default select example">
                     <option value="" selected disabled>Seleccione</option>
 
@@ -140,7 +152,13 @@
               <div class="col-sm-12 col-md-2">
                 <div class="entradas-de-texto-govco">
                   <label for="Num">Num<span class="required">(*)</span></label>
-                  <input type="text" id="Num2" placeholder="Num"/>
+                  <input type="text" id="Num2" placeholder="Num" formControlName="num2"
+                         [ngClass]="{'error': isTouchedField(naturalForm, 'num2')}"/>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="num2-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('num2') }}
+                      </span>
                 </div>
               </div>
 
@@ -163,7 +181,13 @@
               <div class="col-sm-12 col-md-2">
                 <div class="entradas-de-texto-govco">
                   <label for="Placa">Placa<span class="required">(*)</span></label>
-                  <input type="text" id="Placa" placeholder="Num"/>
+                  <input type="text" id="Placa" placeholder="placa" formControlName="placa"
+                         [ngClass]="{'error': isTouchedField(naturalForm, 'placa')}"/>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="placa-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('placa') }}
+                      </span>
                 </div>
               </div>
 
@@ -182,7 +206,7 @@
             <div class="row mt-3 ">
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Adicional</label>
+                  <label for="adicional">Adicional</label>
                   <select class="form-select" id="Adicional" aria-label="Default select example">
                     <option value="" selected disabled>Seleccione</option>
 
@@ -219,38 +243,66 @@
             <div class="row mt-3 ">
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Zona</label>
-                  <select class="form-select" id="Zona" aria-label="Default select example">
+                  <label for="zona">Zona</label>
+                  <select class="form-select" id="Zona" aria-label="Default select example" formControlName="zona"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'zona')}">
                     <option value="" selected disabled>Seleccione</option>
+                    <option *ngFor="let zona of zoneslist" [value]="zona.idSubRed">{{zona.nombre}}</option>
 
                   </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="zona-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('zona') }}
+                      </span>
                 </div>
               </div>
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Localidad</label>
-                  <select class="form-select" id="Localidad" aria-label="Default select example">
+                  <label for="localidad">Localidad</label>
+                  <select class="form-select" id="Localidad" aria-label="Default select example" formControlName="localidad"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'localidad')}">
                     <option value="" selected disabled>Seleccione</option>
+                    <option *ngFor="let localidad of localitieslist" [value]="localidad.idLocalidad">{{localidad.nombre}}</option>
                   </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="localidad-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('localidad') }}
+                      </span>
                 </div>
               </div>
             </div>
             <div class="row mt-3 ">
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Upz</label>
-                  <select class="form-select" id="Upz" aria-label="Default select example">
+                  <label for="upz">Upz</label>
+                  <select class="form-select" id="Upz" aria-label="Default select example" formControlName="upz"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'upz')}">
                     <option value="" selected disabled>Seleccione</option>
+                    <option *ngFor="let upz of upzlist" [value]="upz.id_upz">{{upz.nom_upz}}</option>
 
                   </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="upz-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('upz') }}
+                      </span>
                 </div>
               </div>
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Barrio</label>
-                  <select class="form-select" id="Barrio" aria-label="Default select example">
+                  <label for="barrio">Barrio</label>
+                  <select class="form-select" id="Barrio" aria-label="Default select example" formControlName="barrio"
+                          [ngClass]="{'error': isTouchedField(naturalForm, 'barrio')}">
                     <option value="" selected disabled>Seleccione</option>
+                    <option *ngFor="let barrio of barriolist" [value]="barrio.id_barrio">{{barrio.nombre_barrio}}</option>
                   </select>
+                  <span
+                    class="error-texto-govco alert-entradas-de-texto-govco" id="barrio-note" role="alert"
+                    aria-live="assertive">
+                        {{ getErrorMessage('barrio') }}
+                      </span>
                 </div>
               </div>
             </div>

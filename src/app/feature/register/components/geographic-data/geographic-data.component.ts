@@ -27,7 +27,8 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
   /**
    * Lista de municipios
    */
-  public municipalities: any[];
+  public municipalitiesbirth: any[];
+  public municipalitiesresidence: any[];
   constructor(public fb: FormBuilder,
               public cityService: CityService, private controlContainer: ControlContainer)
   {
@@ -46,11 +47,33 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
       departamentos => this.departaments = departamentos.data)
     if(this.geographicDataForm.get('departamentoResidencia').value != null && this.geographicDataForm.get('departamentoResidencia').value !="") {
       this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoResidencia').value).subscribe(resp => {
-        this.municipalities = resp.data
+        this.municipalitiesresidence = resp.data
+      });
+    }
+    if(this.geographicDataForm.get('departamentoNacimiento').value != null && this.geographicDataForm.get('departamentoNacimiento').value !="") {
+      this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoNacimiento').value).subscribe(resp => {
+        this.municipalitiesbirth = resp.data
       });
     }
   }
 
+
+  public birthcity()
+  {
+    console.log(this.geographicDataForm.get('departamentoNacimiento').value);
+    this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoNacimiento').value).subscribe(resp => {
+      console.log(resp.data);
+      this.municipalitiesbirth = resp.data
+    });
+  }
+  public residencecity()
+  {
+    console.log(this.geographicDataForm.get('departamentoResidencia').value);
+    this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoResidencia').value).subscribe(resp => {
+      console.log(resp.data);
+      this.municipalitiesresidence = resp.data
+    });
+  }
 
 
 

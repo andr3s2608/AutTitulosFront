@@ -45,6 +45,7 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
   getErrorMessage(field: string): string {
     let message;
     switch (field) {
+
       case 'primerNombre':
         if (
           this.basicDataForm?.get(field).hasError('required') &&
@@ -52,6 +53,7 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         ) {
           message = 'Es requerido';
         }
+
         break;
       case 'primerApellido':
         if (
@@ -81,7 +83,7 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
           message = `Debe tener al menos 7 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 10 caracteres`;
+          message = `Permite hasta 12 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
           message = `Solo se admiten numeros`;
         }
@@ -90,9 +92,9 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         if (this.basicDataForm?.get(field).hasError('required') && this.isTouchedField(this.basicDataForm, field)) {
           message = 'Es requerido';
         } else if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Debe tener al menos 10 caracteres`;
+          message = `Debe tener al menos 7 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 10 caracteres`;
+          message = `Permite hasta 12 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
           message = `Solo se admiten numeros`;
         }

@@ -83,6 +83,31 @@ export class CityService {
   getIdentificationType(): Observable<any>{
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`);
   }
+  /**
+   * Obtener lista Upz
+   */
+  getUpz(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Upz/GetUpz`);
+  }
+  /**
+   * Obtener lista Barrios
+   */
+  getBarrios(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Barrio/GetBarrios`);
+  }
+  /**
+   * Obtener lista Localidades
+   */
+  getLocalities(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Localidad/GetAllLocalidad`);
+  }
+  /**
+   * Obtener lista Zonas
+   */
+  getZones(): Observable<any>{
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/SubRed/GetSubRed`);
+  }
+
 
 
 }

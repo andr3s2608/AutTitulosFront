@@ -80,6 +80,22 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
    * Lista de tipos de identificación
    */
   public identificationType: any[];
+  /**
+   * Lista de Upz
+   */
+  public upzlist: any[];
+  /**
+   * Lista de Barrios
+   */
+  public barriolist: any[];
+  /**
+   * Lista de Localidades
+   */
+  public localitieslist: any[];
+  /**
+   * Lista de Zonas
+   */
+  public zoneslist: any[];
 
   constructor(public fb: FormBuilder,
               public cityService: CityService, private router: Router) {
@@ -97,14 +113,14 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
         {
           tipoDocumento: [ '' , [ Validators.required ]],
           numeroIdentificacion: [ '' , [ Validators.required ]],
-          primerNombre: [ '' , [ Validators.required ]],
+          primerNombre: [ '' , [ Validators.required ], Validators.maxLength(50),Validators.pattern("^[a-zA-Z \-\']{1,50}$")],
           segundoNombre: [ '' ],
-          primerApellido: [ '' , [ Validators.required ]],
+          primerApellido: [ '' , [ Validators.required ], Validators.maxLength(50)],
           segundoApellido: [ '' ],
-          email: [ '' , [ Validators.required, Validators.email ]],
-          confirmarEmail: [ '' , [ Validators.required, Validators.email ]],
-          telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
-          telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]]
+          email: [ '' , [ Validators.required, Validators.email ], Validators.maxLength(50)],
+          confirmarEmail: [ '' , [ Validators.required, Validators.email ], Validators.maxLength(50)],
+          telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
+          telefonoCelular: [ '' , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]]
         }
       ),
       geographicDataForm: this.fb.group(
@@ -116,6 +132,15 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
           ciudadResidencia: [ '' , [ Validators.required ]]
         }
       ),
+
+      viaprincipal: [ '' , [ Validators.required ]],
+      num1: [ '' , [ Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(1), Validators.maxLength(3) ] ],
+      num2: [ '' , [ Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(1), Validators.maxLength(3) ] ],
+      placa: [ '' , [ Validators.required ],Validators.pattern("^[0-9]*$"),Validators.minLength(1), Validators.maxLength(2) ],
+      upz: [ '' , [ Validators.required ]],
+      localidad: [ '' , [ Validators.required ]],
+      barrio: [ '' , [ Validators.required ]],
+      zona: [ '' , [ Validators.required ]],
       direccionResidencia: [ '' , [ Validators.required ]],
       fechaNacimiento: [ '' , [ Validators.required, super.dateValidator ]],
       sexo: [ '' , [ Validators.required ]],
@@ -143,6 +168,12 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.cityService.getEthnicity().subscribe(resp=>this.ethnicity = resp.data);
     //this.cityService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
     this.cityService.getEducationLevel().subscribe(resp=>this.educationLevel = resp.data);
+
+    this.cityService.getUpz().subscribe(resp=>this.upzlist = resp.data);
+    this.cityService.getBarrios().subscribe(resp=>this.barriolist = resp.data);
+    this.cityService.getLocalities().subscribe(resp=>this.localitieslist = resp.data);
+    this.cityService.getZones().subscribe(resp=>this.zoneslist = resp.data);
+
     this.cityService.getIdentificationType().subscribe(resp => {
       this.identificationType = resp.data
 
@@ -167,7 +198,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     if(!this.naturalForm.valid)
     {
       if(this.naturalForm.get('basicDataForm.email').value != this.naturalForm.get('basicDataForm.confirmarEmail').value) {
-        console.log("el correo debe ser giual");
+        console.log("el correo debe ser igual");
         /*
         this.popupAlert.errorAlert(
           `Por favor, revise el formulario de la solicitud, los emails ingresados no son iguales.`,
@@ -197,6 +228,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
 
   getErrorMessage(field: string): string {
+
     let message;
     switch (field) {
       case 'primerNombre':
@@ -287,6 +319,67 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
           message = 'Es requerido';
         }
         break;
+      case 'num1':
+
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Debe tener al menos 1 caracter`;
+        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Permite hasta 3 caracteres`;
+        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Solo se admiten numeros`;
+        }
+        break;
+      case 'num2':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Debe tener al menos 1 caracter`;
+        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Permite hasta 3 caracteres`;
+        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Solo se admiten numeros`;
+        }
+        break;
+      case 'placa':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Debe tener al menos 1 caracter`;
+        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Permite hasta 2 caracteres`;
+        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
+          message = `Solo se admiten numeros`;
+        }
+        break;
+      case 'viaprincipal':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
+      case 'zona':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
+      case 'upz':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
+      case 'barrio':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
+      case 'localidad':
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
+
+
       case 'fechaNacimiento':
         if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Es requerido';

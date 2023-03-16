@@ -31,6 +31,7 @@
             <select class="form-select" id="Departamento de Nacimiento" aria-label="Default select example"
                     formControlName="departamentoNacimiento"
                     [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoNacimiento')}"
+                    (change)="birthcity()"
             >
               <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
               <option value="" selected disabled>Seleccione</option>
@@ -54,7 +55,7 @@
                     formControlName="ciudadNacimiento"
                     [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadNacimiento')}">
               <option value="" disabled selected>Seleccione</option>
-              <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+              <option *ngFor="let municipio of municipalitiesbirth" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
             </select>
             <span
               class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadNacimiento-note" role="alert"
@@ -72,6 +73,7 @@
             <select class="form-select" id="Departamento de residencia" aria-label="Default select example"
                     formControlName="departamentoResidencia"
                     [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoResidencia')}"
+                    (change)="residencecity()"
             >
               <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
               <option value="" selected disabled>Seleccione</option>
@@ -95,7 +97,7 @@
             <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
                     formControlName="ciudadResidencia"
                     [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadResidencia')}">
-              <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+              <option *ngFor="let municipio of municipalitiesresidence" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
               <option value="" disabled selected>Seleccione</option>
 
             </select>
@@ -136,6 +138,7 @@
         <select class="form-select" id="Departamento de Nacimiento" aria-label="Default select example"
                 formControlName="departamentoNacimiento"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoNacimiento')}"
+                (change)="birthcity()"
         >
           <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
           <option value="" selected disabled>Seleccione</option>
@@ -160,7 +163,7 @@
                 formControlName="ciudadNacimiento"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadNacimiento')}">
           <option value="" disabled selected>Seleccione</option>
-          <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+          <option *ngFor="let municipio of municipalitiesbirth" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadNacimiento-note" role="alert"
@@ -175,6 +178,7 @@
         <select class="form-select" id="Departamento de residencia" aria-label="Default select example"
                 formControlName="departamentoResidencia"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoResidencia')}"
+                (change)="residencecity()"
         >
           <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
           <option value="" selected disabled>Seleccione</option>
@@ -197,7 +201,7 @@
       <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
               formControlName="ciudadResidencia"
               [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadResidencia')}">
-        <option *ngFor="let municipio of municipalities" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+        <option *ngFor="let municipio of municipalitiesresidence" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
         <option value="" disabled selected>Seleccione</option>
 
       </select>
