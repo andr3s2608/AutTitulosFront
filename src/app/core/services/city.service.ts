@@ -21,14 +21,14 @@ export class CityService {
   /**
    * Obtiene listado de paises
    */
-  getCountries(): Observable<any>{
+  public getCountries(): Observable<any>{
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Pais/GetPais`);
   }
 
   /**
    * Obtiene listado de departamentos
    */
-  getDepartaments(): Observable<any> {
+  public getDepartaments(): Observable<any> {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Departamento/GetDepartamento`);
   }
 
@@ -36,53 +36,8 @@ export class CityService {
    * Obtiene municipios por un departamento dado
    * @param depaId ID del departamento para obtener los municipios
    */
-  getMunByDepaId(depaId: number): Observable<any> {
+  public getMunByDepaId(depaId: number): Observable<any> {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Municipio/GetMunicipioByIdDepartamento/${ depaId }`);
   }
-
-  /**
-   * Obtener Sexo
-   */
-  getSex(): Observable<any> {
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetSexo`);
-  }
-
-  /**
-   * Obtener Genero
-   */
-  getGender(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetGenero`);
-  }
-
-  /**
-   *Obtener Orientacion Sexual
-   */
-  getSexualOrientation(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetOrientacion`);
-  }
-
-  /**
-   * Obtener Etnia
-   */
-  getEthnicity(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Etnia/GetEtnia`);
-  }
-
-
-
-  /**
-   *Obtener Nivel Educativo
-   */
-  getEducationLevel(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/NivelEducativo/GetNivelEducativo`);
-  }
-
-  /**
-   * Obtener Tipo de Identificacion
-   */
-  getIdentificationType(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`);
-  }
-
 
 }

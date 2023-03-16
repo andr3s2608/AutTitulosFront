@@ -5,6 +5,7 @@ import {CityService} from "../../../../core/services";
 import {ROUTES} from "../../../../core/enums";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
+import {RegisterService} from "../../../../core/services/register.service";
 
 /**
  * Componente encargado del formulario de registro de persona natural
@@ -82,7 +83,9 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   public identificationType: any[];
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService, private router: Router) {
+              public cityService: CityService,
+              private router: Router,
+              private registerService: RegisterService) {
 
     super();
 
@@ -110,10 +113,10 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       geographicDataForm: this.fb.group(
         {
           nacionalidad: [ '' , [ Validators.required ]],
+          departamentoResidencia: [ '' , [ Validators.required ]],
+          ciudadResidencia: [ '' , [ Validators.required ]],
           departamentoNacimiento: [ '' , [ Validators.required ]],
           ciudadNacimiento: ['', [ Validators.required ]],
-          departamentoResidencia: [ '' , [ Validators.required ]],
-          ciudadResidencia: [ '' , [ Validators.required ]]
         }
       ),
       direccionResidencia: [ '' , [ Validators.required ]],
@@ -131,22 +134,15 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
   public ngOnInit(): void {
     this.cityService.getCountries().subscribe(paises => this.countries = paises.data);
-    this.cityService.getDepartaments().subscribe(
-      departamentos => this.departaments = departamentos.data)
+    this.cityService.getDepartaments().subscribe(departamentos => this.departaments = departamentos.data)
 
-
-
-
-    this.cityService.getSex().subscribe(resp=>this.sexes = resp.data);
-    this.cityService.getGender().subscribe(resp=>this.gender = resp.data);
-    this.cityService.getSexualOrientation().subscribe(resp=>this.sexualOrientation = resp.data);
-    this.cityService.getEthnicity().subscribe(resp=>this.ethnicity = resp.data);
-    //this.cityService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
-    this.cityService.getEducationLevel().subscribe(resp=>this.educationLevel = resp.data);
-    this.cityService.getIdentificationType().subscribe(resp => {
-      this.identificationType = resp.data
-
-    });
+    this.registerService.getSex().subscribe(resp => this.sexes = resp.data);
+    this.registerService.getGender().subscribe(resp => this.gender = resp.data);
+    this.registerService.getSexualOrientation().subscribe(resp => this.sexualOrientation = resp.data);
+    this.registerService.getEthnicity().subscribe(resp => this.ethnicity = resp.data);
+    //this.registerService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
+    this.registerService.getEducationLevel().subscribe(resp => this.educationLevel = resp.data);
+    this.registerService.getIdentificationType().subscribe(resp => this.identificationType = resp.data);
     /*
     if(this.naturalForm.get('departamentoResidencia').value != null && this.naturalForm.get('departamentoResidencia').value !="") {
       this.cityService.getMunByDepaId(this.naturalForm.get('departamentoResidencia').value).subscribe(resp => {

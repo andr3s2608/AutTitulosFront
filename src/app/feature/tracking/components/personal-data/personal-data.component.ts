@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
+import {RegisterService} from "../../../../core/services/register.service";
 
 @Component({
   selector: 'app-personal-data',
@@ -52,7 +53,9 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit{
    */
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService, private controlContainer: ControlContainer)
+              public cityService: CityService,
+              private controlContainer: ControlContainer,
+              private registerService: RegisterService)
   {
     super();
 
@@ -84,31 +87,27 @@ this.basicDataForm=this.fb.group({
  */
 
 
-
-
-
   }
+
+
   ngOnInit(): void {
     this.basicDataForm = this.controlContainer.control;
     this.basicDataForm = this.basicDataForm.controls['basicDataForm'];
 
-    this.cityService.getIdentificationType().subscribe(resp => {
-      this.identificationType = resp.data
-    });
-
-    this.cityService.getSex().subscribe(resp=>this.sexes = resp.data);
-    this.cityService.getGender().subscribe(resp=>this.gender = resp.data);
-    this.cityService.getSexualOrientation().subscribe(resp=>this.sexualOrientation = resp.data);
-    this.cityService.getEthnicity().subscribe(resp=>this.ethnicity = resp.data);
-    this.cityService.getEducationLevel().subscribe(resp=>this.educationLevel = resp.data);
-
-
-
-
+    this.registerService.getIdentificationType().subscribe(resp => this.identificationType = resp.data);
+    this.registerService.getSex().subscribe(resp => this.sexes = resp.data);
+    this.registerService.getGender().subscribe(resp => this.gender = resp.data);
+    this.registerService.getSexualOrientation().subscribe(resp => this.sexualOrientation = resp.data);
+    this.registerService.getEthnicity().subscribe(resp => this.ethnicity = resp.data);
+    this.registerService.getEducationLevel().subscribe(resp => this.educationLevel = resp.data);
 
   }
 
 
+  /**
+   * Retorna el mensaje de error del campo del formulario recibido
+   * @param field Campo a validar
+   */
   getErrorMessage(field: string): string {
     let message;
     switch (field) {

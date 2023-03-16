@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 import {CityService} from "../../../../core/services";
+import {RegisterService} from "../../../../core/services/register.service";
 
 
 @Component({
@@ -9,12 +10,13 @@ import {CityService} from "../../../../core/services";
   templateUrl: './basic-data-citizen.component.html',
   styleUrls: ['./basic-data-citizen.component.scss']
 })
-export class BasicDataCitizenComponent extends AppBaseComponent implements OnInit{
+export class BasicDataCitizenComponent extends AppBaseComponent implements OnInit {
 
   /**
    * Formulario reactivo de los Datos basicos
    */
   public basicDataForm:any;
+
   /**
    * Lista de tipos de identificación
    */
@@ -22,26 +24,23 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
 
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService, private controlContainer: ControlContainer)
+              public cityService: CityService,
+              private controlContainer: ControlContainer,
+              private registerService: RegisterService)
   {
     super();
-
-
-
   }
-
-
-
-
 
   ngOnInit(): void {
     this.basicDataForm = this.controlContainer.control;
     this.basicDataForm = this.basicDataForm.controls['basicDataForm'];
-    this.cityService.getIdentificationType().subscribe(resp => {
-      this.identificationType = resp.data
-    });
-
+    this.registerService.getIdentificationType().subscribe(resp => this.identificationType = resp.data);
   }
+
+  /**
+   * Retorna el mensaje de error del campo del formulario recibido
+   * @param field Campo a validar
+   */
   getErrorMessage(field: string): string {
     let message;
     switch (field) {
@@ -120,5 +119,5 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
 
 
 
-  }
+}
 

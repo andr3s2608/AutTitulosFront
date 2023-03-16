@@ -1,16 +1,16 @@
-<form role="form" [formGroup]="validationform">
+<form role="form" [formGroup]="validationForm">
   <div class="row w-75 justify-content-center mx-auto ">
     <div class="row mt-3  align-content-center mx-auto">
       <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <h2>Trámite ID: {{tramitNumber}}</h2>
+        <h2>Trámite ID: {{tramiteActual.filedNumber}}</h2>
       </div>
     </div>
     <div class="row mt-3 justify-content-center align-content-center mx-auto">
       <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <p>Estado Actual: {{statustext}}</p>
+        <p>Estado Actual: {{tramiteActual.status}}</p>
       </div>
       <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <p>Fecha Trámite: {{tramitdate}}</p>
+        <p>Fecha Trámite: {{tramiteActual.dateRequest}}</p>
       </div>
     </div>
   </div>

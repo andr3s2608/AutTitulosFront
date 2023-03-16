@@ -15,7 +15,10 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   public tramitNumber:any=1520;
   public status:any;
 
-  public validationstateform:any;
+  /**
+   * Formulario hijo con los estados de la validacion
+   */
+  public validationStateForm:any;
 
 
   public solicitudstates: any[] = [];
@@ -55,17 +58,17 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
     this.solicitudstates.push({idestado:5,nombre:"Resuelve recurso de aclaración validación"})
   }
   ngOnInit(): void {
-    this.validationstateform = this.controlContainer.control;
-    this.validationstateform = this.validationstateform.controls['validationstateform'];
+    this.validationStateForm = this.controlContainer.control;
+    this.validationStateForm = this.validationStateForm.controls['validationstateform'];
   }
 
   public statechange():void
   {
 
     console.log('holaaaa')
-    console.log(this.validationstateform.get('selectedstatus').value)
+    console.log(this.validationStateForm.get('selectedstatus').value)
 
-    this.status=this.solicitudstates[this.validationstateform.get('selectedstatus').value].nombre;
+    this.status=this.solicitudstates[this.validationStateForm.get('selectedstatus').value].nombre;
 
 
   }
@@ -75,7 +78,7 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
     switch (field) {
 
       case 'selectedstatus':
-        if ( this.validationstateform?.get(field).hasError('required') && this.isTouchedField(this.validationstateform, field)) {
+        if ( this.validationStateForm?.get(field).hasError('required') && this.isTouchedField(this.validationStateForm, field)) {
           message = 'Es requerido';
         }
         break;
