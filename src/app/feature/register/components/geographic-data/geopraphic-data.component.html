@@ -1,129 +1,15 @@
 <form role="form" [formGroup]="geographicDataForm">
 
+  <div class="row">
 
-    <div *ngIf="source =='register'">
-
-      <div class="row" >
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="Nacionalidad">Nacionalidad<span class="required">(*)</span></label>
-            <select class="form-select" id="Nacionalidad" aria-label="Default select example"
-                    formControlName="nacionalidad"
-                    [ngClass]="{'error': isTouchedField(geographicDataForm, 'nacionalidad')}">
-              <option *ngFor="let nacionalidad of countries" [value]="nacionalidad.idPais">{{nacionalidad.nombre}}</option>
-              <option value="" selected disabled>Seleccione</option>
-
-            </select>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="nacionalidad-note" role="alert"
-              aria-live="assertive">
-            {{ getErrorMessage('nacionalidad') }}
-        </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row" >
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="Departamento de Nacimiento">Departamento de Nacimiento<span
-              class="required">(*)</span></label>
-            <select class="form-select" id="Departamento de Nacimiento" aria-label="Default select example"
-                    formControlName="departamentoNacimiento"
-                    [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoNacimiento')}"
-                    (change)="birthcity()"
-            >
-              <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
-              <option value="" selected disabled>Seleccione</option>
-
-            </select>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoNacimiento-note"
-              role="alert"
-              aria-live="assertive">
-                      {{ getErrorMessage('departamentoResidencia') }}
-                 </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="Ciudad de Nacimiento">Ciudad de Nacimiento<span class="required">(*)</span></label>
-            <select class="form-select" id="Ciudad de Nacimiento" aria-label="Default select example"
-                    formControlName="ciudadNacimiento"
-                    [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadNacimiento')}">
-              <option value="" disabled selected>Seleccione</option>
-              <option *ngFor="let municipio of municipalitiesbirth" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
-            </select>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadNacimiento-note" role="alert"
-              aria-live="assertive">
-                     {{ getErrorMessage('ciudadResidencia') }}
-                   </span>
-          </div>
-        </div>
-      </div>
-      <div class="row" >
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="Departamento de residencia">Departamento de residencia<span
-              class="required">(*)</span></label>
-            <select class="form-select" id="Departamento de residencia" aria-label="Default select example"
-                    formControlName="departamentoResidencia"
-                    [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoResidencia')}"
-                    (change)="residencecity()"
-            >
-              <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
-              <option value="" selected disabled>Seleccione</option>
-
-            </select>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoResidencia-note"
-              role="alert"
-              aria-live="assertive">
-                      {{ getErrorMessage('departamentoResidencia') }}
-                 </span>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row" >
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="Ciudad de residencia">Ciudad de residencia<span class="required">(*)</span></label>
-            <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
-                    formControlName="ciudadResidencia"
-                    [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadResidencia')}">
-              <option *ngFor="let municipio of municipalitiesresidence" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
-              <option value="" disabled selected>Seleccione</option>
-
-            </select>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadResidencia-note" role="alert"
-              aria-live="assertive">
-                     {{ getErrorMessage('ciudadResidencia') }}
-                   </span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-<div *ngIf="source =='validation'">
-
-  <div class="row mt-3" >
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-5 col-md-5">
       <div class="entradas-de-texto-govco">
-        <label for="Nacionalidad">Nacionalidad</label>
+        <label for="Nacionalidad">Nacionalidad<span class="required">(*)</span></label>
         <select class="form-select" id="Nacionalidad" aria-label="Default select example"
                 formControlName="nacionalidad"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'nacionalidad')}">
-          <option *ngFor="let nacionalidad of countries" [value]="nacionalidad.idPais">{{nacionalidad.nombre}}</option>
           <option value="" selected disabled>Seleccione</option>
-
+          <option *ngFor="let nacionalidad of countries" [value]="nacionalidad.idPais">{{nacionalidad.nombre}}</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" id="nacionalidad-note" role="alert"
@@ -132,57 +18,64 @@
         </span>
       </div>
     </div>
-    <div class="col-sm-4 col-md-4">
+
+
+    <div class="col-sm-5 col-md-5">
       <div class="entradas-de-texto-govco">
-        <label for="Departamento de Nacimiento">Departamento de Nacimiento</label>
+        <label for="Departamento de Nacimiento">Departamento de Nacimiento<span
+          class="required">(*)</span></label>
         <select class="form-select" id="Departamento de Nacimiento" aria-label="Default select example"
                 formControlName="departamentoNacimiento"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoNacimiento')}"
-                (change)="birthcity()"
+                (change)="getMunicipiosNacimiento(this.geographicDataForm.controls['departamentoNacimiento'].value)"
         >
-          <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
           <option value="" selected disabled>Seleccione</option>
+          <option *ngFor="let departamento of departaments"
+                  [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
 
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoNacimiento-note"
           role="alert"
           aria-live="assertive">
-                      {{ getErrorMessage('departamentoResidencia') }}
+                      {{ getErrorMessage('departamentoNacimiento') }}
                  </span>
       </div>
+
     </div>
 
-  </div>
 
-  <div class="row mt-3">
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-5 col-md-5">
       <div class="entradas-de-texto-govco">
-        <label for="Ciudad de Nacimiento">Ciudad de Nacimiento</label>
+        <label for="Ciudad de Nacimiento">Ciudad de Nacimiento<span class="required">(*)</span></label>
         <select class="form-select" id="Ciudad de Nacimiento" aria-label="Default select example"
                 formControlName="ciudadNacimiento"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadNacimiento')}">
           <option value="" disabled selected>Seleccione</option>
-          <option *ngFor="let municipio of municipalitiesbirth" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+          <option *ngFor="let municipio of municipalitiesNacimiento"
+                  [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadNacimiento-note" role="alert"
           aria-live="assertive">
-                     {{ getErrorMessage('ciudadResidencia') }}
+                     {{ getErrorMessage('ciudadNacimiento') }}
                    </span>
       </div>
     </div>
-    <div class="col-sm-4 col-md-4">
+
+
+    <div class="col-sm-5 col-md-5">
       <div class="entradas-de-texto-govco">
-        <label for="Departamento de residencia">Departamento de residencia</label>
+        <label for="Departamento de residencia">Departamento de residencia<span
+          class="required">(*)</span></label>
         <select class="form-select" id="Departamento de residencia" aria-label="Default select example"
                 formControlName="departamentoResidencia"
                 [ngClass]="{'error': isTouchedField(geographicDataForm, 'departamentoResidencia')}"
-                (change)="residencecity()"
+                (change)="getMunicipiosResidencia(this.geographicDataForm.controls['departamentoResidencia'].value)"
         >
-          <option *ngFor="let departamento of departaments" [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
           <option value="" selected disabled>Seleccione</option>
-
+          <option *ngFor="let departamento of departaments"
+                  [value]="departamento.idDepartamento">{{departamento.descripcion}}</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" id="departamentoResidencia-note"
@@ -194,28 +87,24 @@
     </div>
 
 
-  </div>
-  <div class="col-sm-4 col-md-4">
-    <div class="entradas-de-texto-govco">
-      <label for="Ciudad de residencia">Ciudad de residencia</label>
-      <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
-              formControlName="ciudadResidencia"
-              [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadResidencia')}">
-        <option *ngFor="let municipio of municipalitiesresidence" [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
-        <option value="" disabled selected>Seleccione</option>
-
-      </select>
-      <span
-        class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadResidencia-note" role="alert"
-        aria-live="assertive">
+    <div class="col-sm-5 col-md-5">
+      <div class="entradas-de-texto-govco">
+        <label for="Ciudad de residencia">Ciudad de residencia<span class="required">(*)</span></label>
+        <select class="form-select" id="Ciudad de residencia" aria-label="Default select example"
+                formControlName="ciudadResidencia"
+                [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadResidencia')}">
+          <option value="" disabled selected>Seleccione</option>
+          <option *ngFor="let municipio of municipalitiesResidencia"
+                  [value]="municipio.idMunicipio">{{municipio.descripcion}}</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" id="ciudadResidencia-note" role="alert"
+          aria-live="assertive">
                      {{ getErrorMessage('ciudadResidencia') }}
                    </span>
+      </div>
     </div>
+
   </div>
-
-
-</div>
-
-
 
 </form>

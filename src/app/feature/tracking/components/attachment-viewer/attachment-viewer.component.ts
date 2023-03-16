@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ArchiveService, PopUpService} from "../../../../core/services";
 
+/**
+ * Component que permite visualizar documentos cargados en el trámite
+ */
 @Component({
   selector: 'app-attachment-viewer',
   templateUrl: './attachment-viewer.component.html',
@@ -17,33 +20,31 @@ export class AttachmentViewerComponent implements OnInit {
   /**
    * Icono de previsualizacion en la misma pantalla
    */
-  public urlIconActualWindow: string;
+  public readonly urlIconActualWindow: string = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
 
   /**
    * Icono de previsualizacion en otra pestaña
    */
-  public urlIconExternalWindow: string;
+  public readonly urlIconExternalWindow: string = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
 
   constructor(private popupAlert: PopUpService,
               private archiveService: ArchiveService) {
-    this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
-    this.urlIconExternalWindow = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
     this.documentSupports = [
       {
         nameDocument: 'Documento identidad',
-        path: 'ruta'
+        path: './assets/binaries/listado.pdf'
       },
       {
         nameDocument: 'Titulo',
-        path: 'ruta'
+        path: './assets/binaries/listado.pdf'
       },
       {
         nameDocument: 'Acta de grado',
-        path: 'ruta'
+        path: './assets/binaries/listado.pdf'
       },
       {
         nameDocument: 'Tarjeta profesional asdadsdsaasdad saa dsasd',
-        path: 'ruta'
+        path: './assets/binaries/listado.pdf'
       }
     ];
   }
@@ -57,7 +58,7 @@ export class AttachmentViewerComponent implements OnInit {
    * @param pathDocument
    */
   public visorWindowActualPdf(pathDocument: string): void {
-    this.archiveService.viewArchiveActualWindow('./assets/binaries/listado.pdf');
+    this.archiveService.viewArchiveActualWindow(pathDocument);
   }
 
   /**
@@ -65,7 +66,7 @@ export class AttachmentViewerComponent implements OnInit {
    * @param pathDocument
    */
   public visorWindowExternalPdf(pathDocument: string): void {
-    this.archiveService.viewArchiveExternalWindow('./assets/binaries/listado.pdf');
+    this.archiveService.viewArchiveExternalWindow(pathDocument);
   }
 
 }

@@ -12,6 +12,9 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
 
   @Input() source: String;
 
+  /**
+   * Formulario hijo para los datos geograficos
+   */
   public geographicDataForm:any;
 
   /**
@@ -25,17 +28,20 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
   public departaments: any[];
 
   /**
-   * Lista de municipios
+   * Lista de municipios de nacimiento
    */
-  public municipalitiesbirth: any[];
-  public municipalitiesresidence: any[];
+  public municipalitiesNacimiento: any[];
+
+  /**
+   * Lista de municipios de residencia
+   */
+  public municipalitiesResidencia: any[];
+
+
   constructor(public fb: FormBuilder,
               public cityService: CityService, private controlContainer: ControlContainer)
   {
     super();
-
-
-
   }
 
   ngOnInit(): void {
@@ -47,51 +53,46 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
       departamentos => this.departaments = departamentos.data)
     if(this.geographicDataForm.get('departamentoResidencia').value != null && this.geographicDataForm.get('departamentoResidencia').value !="") {
       this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoResidencia').value).subscribe(resp => {
-        this.municipalitiesresidence = resp.data
+        this.municipalitiesResidencia = resp.data;
       });
     }
     if(this.geographicDataForm.get('departamentoNacimiento').value != null && this.geographicDataForm.get('departamentoNacimiento').value !="") {
       this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoNacimiento').value).subscribe(resp => {
-        this.municipalitiesbirth = resp.data
+        this.municipalitiesNacimiento = resp.data;
       });
     }
   }
 
-
-  public birthcity()
-  {
-    console.log(this.geographicDataForm.get('departamentoNacimiento').value);
-    this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoNacimiento').value).subscribe(resp => {
-      console.log(resp.data);
-      this.municipalitiesbirth = resp.data
-    });
-  }
-  public residencecity()
-  {
-    console.log(this.geographicDataForm.get('departamentoResidencia').value);
-    this.cityService.getMunByDepaId(this.geographicDataForm.get('departamentoResidencia').value).subscribe(resp => {
-      console.log(resp.data);
-      this.municipalitiesresidence = resp.data
-    });
+  /**
+   * Actualiza la lista de municipios de residencia dependiendo del departamento
+   * @param idDep Id del departamento
+   */
+  public getMunicipiosNacimiento(idDep: number): void {
+    this.cityService
+      .getMunByDepaId(idDep)
+      .subscribe((resp) => (this.municipalitiesNacimiento = resp.data));
   }
 
+  /**
+   * Actualiza la lista de municipios de residencia dependiendo del departamento
+   * @param idDep Id del departamento
+   */
+  public getMunicipiosResidencia(idDep: number): void {
+    this.cityService
+      .getMunByDepaId(idDep)
+      .subscribe((resp) => (this.municipalitiesResidencia = resp.data));
+  }
 
-
-  getErrorMessage(field: string): string {
+  /**
+   * Devuelve un mensaje de validacion de un campo del formulario
+   * @param field Campo a validar
+   * @returns Mensaje de error del campo
+   */
+  public getErrorMessage(field: string): string {
     let message;
     switch (field) {
 
       case 'nacionalidad':
-        if ( this.geographicDataForm?.get(field).hasError('required') && this.isTouchedField(this.geographicDataForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'departamentoNacimiento':
-        if ( this.geographicDataForm?.get(field).hasError('required') && this.isTouchedField(this.geographicDataForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'ciudadNacimiento':
         if ( this.geographicDataForm?.get(field).hasError('required') && this.isTouchedField(this.geographicDataForm, field)) {
           message = 'Es requerido';
         }
@@ -106,7 +107,16 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
           message = 'Es requerido';
         }
         break;
-
+      case 'departamentoNacimiento':
+        if ( this.geographicDataForm?.get(field).hasError('required') && this.isTouchedField(this.geographicDataForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
+      case 'ciudadNacimiento':
+        if ( this.geographicDataForm?.get(field).hasError('required') && this.isTouchedField(this.geographicDataForm, field)) {
+          message = 'Es requerido';
+        }
+        break;
 
     }
     return message;
