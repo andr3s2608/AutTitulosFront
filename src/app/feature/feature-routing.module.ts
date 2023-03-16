@@ -12,6 +12,7 @@ import {PendingChangesGuard} from "../core/guards/pending-changes.guard";
 import {UserDashboardComponent} from "./request/pages/user-dashboard/user-dashboard.component";
 import {ValidatorsDashboardComponent} from "./tracking/pages/validators-dashboard/validators-dashboard.component";
 import {ValidationScreenComponent} from "./tracking/pages/validation-screen/validation-screen.component";
+import {ReportPageComponent} from "./reports/pages/report-page/report-page.component";
 
 
 const routes: Routes = [
@@ -158,7 +159,15 @@ const routes: Routes = [
         data: {
           breadcrumb: [
             {
-              label: 'Hola?',
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Solicitar autorización area de la salud',
+              url: ''
+            },
+            {
+              label: 'Validar documentos',
               url: ''
             }
           ]
@@ -174,15 +183,31 @@ const routes: Routes = [
               url: ''
             },
             {
-              label: 'Validar Tramite',
-              url: ROUTES.ValidatorDashboard
-            },
-            {
-              label: 'Menú Reportes',
+              label: 'Solicitar autorización area de la salud',
               url: ''
             },
             {
-              label: 'Cerrar Sesión',
+              label: 'Bandeja de Entrada',
+              url: ''
+            }
+          ]
+        }
+      },
+      {
+        path: ROUTES.ReportsDashboard,
+        component: ReportPageComponent,
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Solicitar autorización area de la salud',
+              url: ''
+            },
+            {
+              label: 'Menú Reportes',
               url: ''
             }
           ]

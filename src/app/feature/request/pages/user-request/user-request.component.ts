@@ -106,11 +106,11 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
   ngOnInit(): void {
 
     //Mensaje de confirmacion al intentar recargar o salir de la página si se está guardadnop la solicitud
-    /*window.addEventListener('beforeunload', (event) => {
+    window.addEventListener('beforeunload', (event) => {
       if(this.sending){
         event.returnValue = '¿Estás seguro de que deseas salir de esta página?';
       }
-    });*/
+    });
 
     this.popUpInicial();
   }

@@ -9,6 +9,7 @@ import { ValidationScreenComponent } from './pages/validation-screen/validation-
 import {RegisterModule} from "../register/register.module";
 import {RequestModule} from "../request/request.module";
 import { AttachmentViewerComponent } from './components/attachment-viewer/attachment-viewer.component';
+import {SharedModule} from "../../shared/shared.module";
 
 
 
@@ -20,15 +21,16 @@ import { AttachmentViewerComponent } from './components/attachment-viewer/attach
     ValidationScreenComponent,
     AttachmentViewerComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatPaginatorModule,
-        ReactiveFormsModule,
-        RegisterModule,
-        RequestModule,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    RegisterModule,
+    RequestModule,
+    SharedModule,
 
-    ]
+  ]
 })
 
 export class TrackingModule { }

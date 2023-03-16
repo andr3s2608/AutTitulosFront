@@ -26,11 +26,23 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
    */
   public validationForm: FormGroup;
 
+
+  /**
+   * Modela el numero a pintar en la linea de avance
+   */
+  public stepAdvanceLine: number;
+
+  /**
+   * Modela la barra de progreso a pintar en la linea de avance
+   */
+  public currentProgressAdvanceLine: number;
+
   constructor(public fb: FormBuilder,
               public cityService: CityService)
   {
     super();
-
+    this.currentProgressAdvanceLine=50;
+    this.stepAdvanceLine=2;
   }
 
   ngOnInit(): void {
@@ -84,6 +96,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
   private loadInfoTramiteActual(): void {
     this.validationForm = this.fb.group({
+
+      textfilter: [ '' ],
+
 
       basicDataForm:this.fb.group({
         tipoDocumento: [ this.tramiteActual.user.tipoDocumento , [ Validators.required ]],
@@ -151,7 +166,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
 
   }
-
 
 
 }
