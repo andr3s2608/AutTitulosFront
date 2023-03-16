@@ -15,8 +15,14 @@
 
   <div class="col-sm-12 col-md-5">
     <div class="entradas-de-texto-govco">
-      <label for="segundo-nombre">Segundo Nombre</label>
-      <input type="text" id="segundo-nombre" placeholder="Segundo Nombre" formControlName="segundoNombre"/>
+      <label for="segundoNombre">Segundo Nombre</label>
+      <input type="text" id="segundoNombre" placeholder="Segundo Nombre" formControlName="segundoNombre"
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'segundoNombre')}"/>
+      <span
+        class="error-texto-govco alert-entradas-de-texto-govco" id="segundoNombre-note" role="alert"
+        aria-live="assertive">
+            {{ getErrorMessage('segundoNombre') }}
+        </span>
     </div>
   </div>
 
@@ -37,7 +43,13 @@
     <div class="entradas-de-texto-govco">
       <label for="segundo-apellido">Segundo Apellido</label>
       <input type="text" id="segundo-apellido" placeholder="Segundo Apellido"
-             formControlName="segundoApellido"/>
+             formControlName="segundoApellido"
+             [ngClass]="{'error': isTouchedField(basicDataForm, 'segundoApellido')}"/>
+      <span
+        class="error-texto-govco alert-entradas-de-texto-govco" id="segundo-apellido-note" role="alert"
+        aria-live="assertive">
+            {{ getErrorMessage('segundoApellido') }}
+        </span>
     </div>
   </div>
 
@@ -46,6 +58,7 @@
       <label for="tipoIdendificacionId">Tipo identificación<span class="required">(*)</span></label>
       <select class="form-select" id="tipoIdendificacionId" aria-label="Default select example"
               formControlName="tipoDocumento" [ngClass]="{'error': isTouchedField(basicDataForm, 'tipoDocumento')}"
+              (change)="validationtype()"
       >
         <option value="" selected disabled>Seleccione</option>
         <option *ngFor="let item of identificationType"

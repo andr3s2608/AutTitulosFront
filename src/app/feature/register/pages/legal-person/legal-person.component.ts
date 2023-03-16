@@ -31,21 +31,21 @@ export class LegalPersonComponent  extends  AppBaseComponent{
 
     this.legalForm = this.fb.group({
       tipoIdedentificacion: [ '' , [ Validators.required ]],
-      nit: [ '' , [ Validators.required ], Validators.pattern("^[0-9-]*$") ],
+      nit: [ '' , [ Validators.required, Validators.pattern("^[0-9-]*$") ] ],
       razonsocial: [ '' , [ Validators.required ]],
 
       basicDataForm: this.fb.group(
         {
           tipoDocumento: [ '' , [ Validators.required ]],
           numeroIdentificacion: [ '' , [ Validators.required ]],
-          primerNombre: [ '' , [ Validators.required ]],
-          segundoNombre: [ '' ],
-          primerApellido: [ '' , [ Validators.required ]],
-          segundoApellido: [ '' ],
-          email: [ '' , [ Validators.required, Validators.email ]],
-          confirmarEmail: [ '' , [ Validators.required, Validators.email ]],
-          telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
-          telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]]
+          primerNombre: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
+          segundoNombre: [ '', [Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
+          primerApellido: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
+          segundoApellido: [ '',[Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")] ],
+          email: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
+          confirmarEmail: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
+          telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
+          telefonoCelular: [ '' , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]]
         }
       ), checkBoxDatosPersonales: [ '' , [ Validators.required, Validators.requiredTrue]]
 
@@ -100,7 +100,10 @@ export class LegalPersonComponent  extends  AppBaseComponent{
           this.isTouchedField(this.legalForm, field)
         ) {
           message = 'Es requerido';
+        }else if (this.legalForm?.get(field).hasError('pattern') && this.isTouchedField(this.legalForm, field)) {
+          message = 'Formato Incorrecto';
         }
+
         break;
       case 'checkBoxDatosPersonales':
         if ( this.legalForm?.get(field).hasError('required') && this.isTouchedField(this.legalForm, field)) {

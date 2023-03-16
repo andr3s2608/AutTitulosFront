@@ -65,8 +65,6 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   public statechange():void
   {
 
-    console.log('holaaaa')
-    console.log(this.validationStateForm.get('selectedstatus').value)
 
     this.status=this.solicitudstates[this.validationStateForm.get('selectedstatus').value].nombre;
 

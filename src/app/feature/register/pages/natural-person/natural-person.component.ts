@@ -78,10 +78,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   public educationLevel: any[];
 
   /**
-   * Lista de tipos de identificación
-   */
-  public identificationType: any[];
-  /**
    * Lista de Upz
    */
   public upzlist: any[];
@@ -116,12 +112,12 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
         {
           tipoDocumento: [ '' , [ Validators.required ]],
           numeroIdentificacion: [ '' , [ Validators.required ]],
-          primerNombre: [ '' , [ Validators.required ], Validators.maxLength(50),Validators.pattern("^[a-zA-Z \-\']{1,50}$")],
-          segundoNombre: [ '' ],
-          primerApellido: [ '' , [ Validators.required ], Validators.maxLength(50)],
-          segundoApellido: [ '' ],
-          email: [ '' , [ Validators.required, Validators.email ], Validators.maxLength(50)],
-          confirmarEmail: [ '' , [ Validators.required, Validators.email ], Validators.maxLength(50)],
+          primerNombre: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          segundoNombre: [ '', [Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          primerApellido: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          segundoApellido: [ '',[Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")] ],
+          email: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
+          confirmarEmail: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
           telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
           telefonoCelular: [ '' , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]]
         }
@@ -167,7 +163,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.registerService.getEthnicity().subscribe(resp => this.ethnicity = resp.data);
     //this.registerService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
     this.registerService.getEducationLevel().subscribe(resp => this.educationLevel = resp.data);
-    this.registerService.getIdentificationType().subscribe(resp => this.identificationType = resp.data);
     this.cityService.getUpz().subscribe(resp=>this.upzlist = resp.data);
     this.cityService.getBarrios().subscribe(resp=>this.barriolist = resp.data);
     this.cityService.getLocalities().subscribe(resp=>this.localitieslist = resp.data);
@@ -216,74 +211,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   getErrorMessage(field: string): string {
     let message;
     switch (field) {
-      case 'primerNombre':
-        if (
-          this.naturalForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.naturalForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'primerApellido':
-        if (
-          this.naturalForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.naturalForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'tipoDocumento':
-        if (
-          this.naturalForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.naturalForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'numeroIdentificacion':
-        if (
-          this.naturalForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.naturalForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'telefonoFijo':
-        if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Debe tener al menos 7 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Permite hasta 10 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Solo se admiten numeros`;
-        }
-        break;
-      case 'telefonoCelular':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Debe tener al menos 10 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Permite hasta 10 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Solo se admiten numeros`;
-        }
-        break;
-      case 'email':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('email') &&
-          this.isTouchedField(this.naturalForm, field)) {
-          message = 'No tiene el formato de un email';
-        }
-        break;
-      case 'confirmarEmail':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('email') &&
-          this.isTouchedField(this.naturalForm, field)) {
-          message = 'No tiene el formato de un email';
-        }
-        break;
+
       case 'nacionalidad':
         if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Es requerido';

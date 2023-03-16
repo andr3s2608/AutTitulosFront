@@ -49,8 +49,18 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit{
   public educationLevel: any[];
 
   /**
-   * Lista de tipos de identificación
+   * Tipo de caracteres permitidos por tipo de documento
    */
+  public charactertype: any;
+  /**
+   * Minimo de caracteres permitidos por tipo de documento
+   */
+  public minlengtype: any;
+  /**
+   * Maximo de caracteres permitidos por tipo de documento
+   */
+  public maxlengtype: any;
+
 
   constructor(public fb: FormBuilder,
               public cityService: CityService,
@@ -59,34 +69,6 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit{
   {
     super();
 
-/*
-
-this.basicDataForm=this.fb.group({
-
-  tipoDocumento: [ '' , [ Validators.required ]],
-  numeroIdentificacion: [ '' , [ Validators.required ]],
-  primerNombre: [ '' , [ Validators.required ]],
-  segundoNombre: [ '' ],
-  primerApellido: [ '' , [ Validators.required ]],
-  segundoApellido: [ '' ],
-  email: [ '' , [ Validators.required, Validators.email ]],
-  confirmarEmail: [ '' , [ Validators.required, Validators.email ]],
-  telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]],
-  telefonoCelular: [ '' , [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[0-9]*$") ]], fechaNacimiento: [ '' , [ Validators.required, super.dateValidator ]],
-  sexo: [ '' , [ Validators.required ]],
-  genero: [ '' , [ Validators.required ]],
-  orientacionSexual: [ '' , [ Validators.required ]],
-  etnia: [ '' , [ Validators.required ]],
-  estadoCivil: [ '' , [ Validators.required ]],
-  nivelEducativo: [ '' , [ Validators.required ]],
-
-
-
-})
-   this.basicDataForm.get('telefonoFijo').setValue("hola?");
- */
-
-
   }
 
 
@@ -94,12 +76,63 @@ this.basicDataForm=this.fb.group({
     this.basicDataForm = this.controlContainer.control;
     this.basicDataForm = this.basicDataForm.controls['basicDataForm'];
 
-    this.registerService.getIdentificationType().subscribe(resp => this.identificationType = resp.data);
+    this.registerService.getIdentificationType().subscribe(resp => {
+
+      let filtro=resp.data.filter((i: { idTipoIdentificacion: string }) =>{ return(
+        i.idTipoIdentificacion != "4" &&
+        i.idTipoIdentificacion != "5" &&
+        i.idTipoIdentificacion != "6")} );
+      filtro.push({codigo:"PPT",descripcion:"Permiso Protección Temporal",idTipoIdentificacion:4})
+      this.identificationType = filtro;
+    });
     this.registerService.getSex().subscribe(resp => this.sexes = resp.data);
     this.registerService.getGender().subscribe(resp => this.gender = resp.data);
     this.registerService.getSexualOrientation().subscribe(resp => this.sexualOrientation = resp.data);
     this.registerService.getEthnicity().subscribe(resp => this.ethnicity = resp.data);
     this.registerService.getEducationLevel().subscribe(resp => this.educationLevel = resp.data);
+
+  }
+  /**
+   * validacion de caracteres permitidos por tipo de documento
+   */
+  public validationtype()
+  {
+    console.log(this.basicDataForm.get('tipoDocumento').value)
+    if(this.basicDataForm.get('tipoDocumento').value==1)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(4), Validators.maxLength(10),Validators.pattern("^[0-9]*$")]);
+      this.charactertype='Numerico';
+      this.minlengtype='4';
+      this.maxlengtype='10';
+    }
+    if(this.basicDataForm.get('tipoDocumento').value==2)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(4), Validators.maxLength(16),Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype='Alfanumerico';
+      this.minlengtype='4';
+      this.maxlengtype='16';
+    }
+    if(this.basicDataForm.get('tipoDocumento').value==3)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(10), Validators.maxLength(11),Validators.pattern("^[0-9]*$")]);
+      this.charactertype='Numerico';
+      this.minlengtype='10';
+      this.maxlengtype='11';
+    }
+    if(this.basicDataForm.get('tipoDocumento').value==4)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(4), Validators.maxLength(18),Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype='Alfanumerico';
+      this.minlengtype='4';
+      this.maxlengtype='18';
+    }
+    this.basicDataForm.get('numeroIdentificacion').setValue('');
+
+    //
 
   }
 
@@ -118,6 +151,16 @@ this.basicDataForm=this.fb.group({
         ) {
           message = 'Es requerido';
         }
+        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+
+          message = `Solo se admiten Letras`;
+        }
+
+        break;
+      case 'segundoNombre':
+        if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten Letras`;
+        }
         break;
       case 'primerApellido':
         if (
@@ -125,6 +168,14 @@ this.basicDataForm=this.fb.group({
           this.isTouchedField(this.basicDataForm, field)
         ) {
           message = 'Es requerido';
+        }
+        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten Letras`;
+        }
+        break;
+      case 'segundoApellido':
+        if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten Letras`;
         }
         break;
       case 'tipoDocumento':
@@ -136,18 +187,28 @@ this.basicDataForm=this.fb.group({
         }
         break;
       case 'numeroIdentificacion':
+
         if (
           this.basicDataForm?.get(field).hasError('required') &&
           this.isTouchedField(this.basicDataForm, field)
         ) {
           message = 'Es requerido';
         }
+        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten caracteres del tipo `+this.charactertype;
+        }
+        else if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Debe tener una longitud minima de `+this.minlengtype;
+        }
+        else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Debe tener una longitud maxima de `+this.maxlengtype;
+        }
         break;
       case 'telefonoFijo':
         if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
           message = `Debe tener al menos 7 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 10 caracteres`;
+          message = `Permite hasta 12 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
           message = `Solo se admiten numeros`;
         }
@@ -156,9 +217,9 @@ this.basicDataForm=this.fb.group({
         if (this.basicDataForm?.get(field).hasError('required') && this.isTouchedField(this.basicDataForm, field)) {
           message = 'Es requerido';
         } else if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Debe tener al menos 10 caracteres`;
+          message = `Debe tener al menos 7 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 10 caracteres`;
+          message = `Permite hasta 12 caracteres`;
         } else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
           message = `Solo se admiten numeros`;
         }
@@ -169,6 +230,8 @@ this.basicDataForm=this.fb.group({
         } else if (this.basicDataForm?.get(field).hasError('email') &&
           this.isTouchedField(this.basicDataForm, field)) {
           message = 'No tiene el formato de un email';
+        }else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Permite hasta 50 caracteres`;
         }
         break;
       case 'confirmarEmail':

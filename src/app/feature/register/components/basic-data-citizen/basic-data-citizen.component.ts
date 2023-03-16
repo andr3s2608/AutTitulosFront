@@ -22,6 +22,19 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
    */
   public identificationType: any[];
 
+  /**
+   * Tipo de caracteres permitidos por tipo de documento
+   */
+  public charactertype: any;
+  /**
+   * Minimo de caracteres permitidos por tipo de documento
+   */
+  public minlengtype: any;
+  /**
+   * Maximo de caracteres permitidos por tipo de documento
+   */
+  public maxlengtype: any;
+
 
   constructor(public fb: FormBuilder,
               public cityService: CityService,
@@ -34,8 +47,63 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
   ngOnInit(): void {
     this.basicDataForm = this.controlContainer.control;
     this.basicDataForm = this.basicDataForm.controls['basicDataForm'];
-    this.registerService.getIdentificationType().subscribe(resp => this.identificationType = resp.data);
+    this.registerService.getIdentificationType().subscribe(resp => {
+
+      let filtro=resp.data.filter((i: { idTipoIdentificacion: string }) =>{ return(
+        i.idTipoIdentificacion != "4" &&
+        i.idTipoIdentificacion != "5" &&
+        i.idTipoIdentificacion != "6")} );
+      console.log(resp.data);
+      filtro.push({codigo:"PPT",descripcion:"Permiso Protección Temporal",idTipoIdentificacion:4})
+      this.identificationType = filtro;
+      }
+    );
   }
+
+  /**
+   * validacion de caracteres permitidos por tipo de documento
+   */
+public validationtype()
+  {
+    console.log(this.basicDataForm.get('tipoDocumento').value)
+    if(this.basicDataForm.get('tipoDocumento').value==1)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(4), Validators.maxLength(10),Validators.pattern("^[0-9]*$")]);
+      this.charactertype='Numerico';
+      this.minlengtype='4';
+      this.maxlengtype='10';
+    }
+    if(this.basicDataForm.get('tipoDocumento').value==2)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(4), Validators.maxLength(16),Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype='Alfanumerico';
+      this.minlengtype='4';
+      this.maxlengtype='16';
+    }
+    if(this.basicDataForm.get('tipoDocumento').value==3)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(10), Validators.maxLength(11),Validators.pattern("^[0-9]*$")]);
+      this.charactertype='Numerico';
+      this.minlengtype='10';
+      this.maxlengtype='11';
+    }
+    if(this.basicDataForm.get('tipoDocumento').value==4)
+    {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [ Validators.required ,Validators.minLength(4), Validators.maxLength(18),Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype='Alfanumerico';
+      this.minlengtype='4';
+      this.maxlengtype='18';
+    }
+    this.basicDataForm.get('numeroIdentificacion').setValue('');
+
+    //
+
+  }
+
 
   /**
    * Retorna el mensaje de error del campo del formulario recibido
@@ -52,7 +120,16 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         ) {
           message = 'Es requerido';
         }
+        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
 
+          message = `Solo se admiten Letras`;
+        }
+
+        break;
+      case 'segundoNombre':
+        if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten Letras`;
+        }
         break;
       case 'primerApellido':
         if (
@@ -61,7 +138,16 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         ) {
           message = 'Es requerido';
         }
+        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten Letras`;
+        }
         break;
+      case 'segundoApellido':
+        if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten Letras`;
+        }
+        break;
+
       case 'tipoDocumento':
         if (
           this.basicDataForm?.get(field).hasError('required') &&
@@ -71,11 +157,21 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         }
         break;
       case 'numeroIdentificacion':
+
         if (
           this.basicDataForm?.get(field).hasError('required') &&
           this.isTouchedField(this.basicDataForm, field)
         ) {
           message = 'Es requerido';
+        }
+        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Solo se admiten caracteres del tipo `+this.charactertype;
+        }
+        else if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Debe tener una longitud minima de `+this.minlengtype;
+        }
+        else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Debe tener una longitud maxima de `+this.maxlengtype;
         }
         break;
       case 'telefonoFijo':
@@ -104,6 +200,8 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         } else if (this.basicDataForm?.get(field).hasError('email') &&
           this.isTouchedField(this.basicDataForm, field)) {
           message = 'No tiene el formato de un email';
+        }else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Permite hasta 50 caracteres`;
         }
         break;
       case 'confirmarEmail':
@@ -112,6 +210,8 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
         } else if (this.basicDataForm?.get(field).hasError('email') &&
           this.isTouchedField(this.basicDataForm, field)) {
           message = 'No tiene el formato de un email';
+        }else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
+          message = `Permite hasta 50 caracteres`;
         }
         break;
 
