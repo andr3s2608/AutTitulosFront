@@ -10,6 +10,7 @@ import {RegisterModule} from "../register/register.module";
 import {RequestModule} from "../request/request.module";
 import { AttachmentViewerComponent } from './components/attachment-viewer/attachment-viewer.component';
 import {SharedModule} from "../../shared/shared.module";
+import {MatRadioModule} from "@angular/material/radio";
 
 
 
@@ -21,16 +22,17 @@ import {SharedModule} from "../../shared/shared.module";
     ValidationScreenComponent,
     AttachmentViewerComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
-    RegisterModule,
-    RequestModule,
-    SharedModule,
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        RegisterModule,
+        RequestModule,
+        SharedModule,
+        MatRadioModule,
 
-  ]
+    ]
 })
 
 export class TrackingModule { }

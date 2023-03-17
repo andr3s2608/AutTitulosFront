@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
-import {CityService} from "../../../../core/services";
+import {CityService, PopUpService} from "../../../../core/services";
 import {ROUTES} from "../../../../core/enums";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
@@ -97,7 +97,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   constructor(public fb: FormBuilder,
               public cityService: CityService,
               private router: Router,
-              private registerService: RegisterService) {
+              private registerService: RegisterService, private popupAlert: PopUpService) {
 
     super();
 
@@ -110,45 +110,45 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.naturalForm = this.fb.group({
       basicDataForm: this.fb.group(
         {
-          tipoDocumento: [ '' , [ Validators.required ]],
-          numeroIdentificacion: [ '' , [ Validators.required ]],
-          primerNombre: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
-          segundoNombre: [ '', [Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
-          primerApellido: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
-          segundoApellido: [ '',[Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")] ],
-          email: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
-          confirmarEmail: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
-          telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
-          telefonoCelular: [ '' , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]]
+          tipoDocumento: ['', [Validators.required]],
+          numeroIdentificacion: ['', [Validators.required]],
+          primerNombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          segundoNombre: ['', [Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          primerApellido: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          segundoApellido: ['', [Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+          email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+          confirmarEmail: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+          telefonoFijo: ['', [Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$")]],
+          telefonoCelular: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$")]]
         }
       ),
       geographicDataForm: this.fb.group(
         {
-          nacionalidad: [ '' , [ Validators.required ]],
-          departamentoResidencia: [ '' , [ Validators.required ]],
-          ciudadResidencia: [ '' , [ Validators.required ]],
-          departamentoNacimiento: [ '' , [ Validators.required ]],
-          ciudadNacimiento: ['', [ Validators.required ]],
+          nacionalidad: ['', [Validators.required]],
+          departamentoResidencia: ['', [Validators.required]],
+          ciudadResidencia: ['', [Validators.required]],
+          departamentoNacimiento: ['', [Validators.required]],
+          ciudadNacimiento: ['', [Validators.required]],
         }
       ),
 
-      viaprincipal: [ '' , [ Validators.required ]],
-      num1: [ '' , [ Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(1), Validators.maxLength(3) ] ],
-      num2: [ '' , [ Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(1), Validators.maxLength(3) ] ],
-      placa: [ '' , [ Validators.required ],Validators.pattern("^[0-9]*$"),Validators.minLength(1), Validators.maxLength(2) ],
-      upz: [ '' , [ Validators.required ]],
-      localidad: [ '' , [ Validators.required ]],
-      barrio: [ '' , [ Validators.required ]],
-      zona: [ '' , [ Validators.required ]],
-      direccionResidencia: [ '' , [ Validators.required ]],
-      fechaNacimiento: [ '' , [ Validators.required, super.dateValidator ]],
-      sexo: [ '' , [ Validators.required ]],
-      genero: [ '' , [ Validators.required ]],
-      orientacionSexual: [ '' , [ Validators.required ]],
-      etnia: [ '' , [ Validators.required ]],
-      estadoCivil: [ '' , [ Validators.required ]],
-      nivelEducativo: [ '' , [ Validators.required ]],
-      checkBoxDatosPersonales: [ '' , [ Validators.required, Validators.requiredTrue]]
+      viaprincipal: ['', [Validators.required]],
+      num1: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3)]],
+      num2: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3)]],
+      placa: ['', [Validators.required], Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(2)],
+      upz: ['', [Validators.required]],
+      localidad: ['', [Validators.required]],
+      barrio: ['', [Validators.required]],
+      zona: ['', [Validators.required]],
+      direccionResidencia: ['', [Validators.required]],
+      fechaNacimiento: ['', [Validators.required, super.dateValidator]],
+      sexo: ['', [Validators.required]],
+      genero: ['', [Validators.required]],
+      orientacionSexual: ['', [Validators.required]],
+      etnia: ['', [Validators.required]],
+      estadoCivil: ['', [Validators.required]],
+      nivelEducativo: ['', [Validators.required]],
+      checkBoxDatosPersonales: ['', [Validators.required, Validators.requiredTrue]]
     })
 
   }
@@ -163,47 +163,51 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.registerService.getEthnicity().subscribe(resp => this.ethnicity = resp.data);
     //this.registerService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
     this.registerService.getEducationLevel().subscribe(resp => this.educationLevel = resp.data);
-    this.cityService.getUpz().subscribe(resp=>this.upzlist = resp.data);
-    this.cityService.getBarrios().subscribe(resp=>this.barriolist = resp.data);
-    this.cityService.getLocalities().subscribe(resp=>this.localitieslist = resp.data);
-    this.cityService.getZones().subscribe(resp=>this.zoneslist = resp.data);
+    this.cityService.getUpz().subscribe(resp => this.upzlist = resp.data);
+    this.cityService.getBarrios().subscribe(resp => this.barriolist = resp.data);
+    this.cityService.getLocalities().subscribe(resp => this.localitieslist = resp.data);
+    this.cityService.getZones().subscribe(resp => this.zoneslist = resp.data);
   }
 
-  public cancelar()
-  {
-    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ ROUTES.REGISTER);
+  public cancelar() {
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.REGISTER);
   }
 
-   public  async guardar(): Promise<void>
-  {
-    if(!this.naturalForm.valid)
-    {
-      if(this.naturalForm.get('basicDataForm.email').value != this.naturalForm.get('basicDataForm.confirmarEmail').value) {
-        console.log("el correo debe ser igual");
-        /*
+  public async guardar(): Promise<void> {
+    if (!this.naturalForm.valid) {
+
         this.popupAlert.errorAlert(
-          `Por favor, revise el formulario de la solicitud, los emails ingresados no son iguales.`,
-          4000
-        );
-        */
+          'Debe llenar todos los campos',
+          4000);
 
-        return;
-      }
       console.log("FORMULARIO PROCESADO");
       console.log(this.naturalForm.value);
       console.log("ERRORES FORMULARIO");
       console.log(super.getAllErrors(this.naturalForm));
       this.naturalForm.markAllAsTouched();
 
+      /*
+        Swal.fire({
+              icon: 'error',
+              title: 'Datos Incompletos',
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              confirmButtonText: 'OK',
+              text: 'Será redigirido a la página principal y deberá iniciar sesión nuevamente para acceder a los servicios.',
+            })
+       */
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Datos Incompletos',
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        confirmButtonText: 'OK',
-        text: 'Será redigirido a la página principal y deberá iniciar sesión nuevamente para acceder a los servicios.',
-      })
+    }
+    else {
+      if (this.naturalForm.get('basicDataForm.email').value != this.naturalForm.get('basicDataForm.confirmarEmail').value) {
+        console.log("el correo debe ser igual");
+
+        this.popupAlert.errorAlert(
+          `Por favor, revise el formulario de la solicitud, los emails ingresados no son iguales.`,
+          4000
+        );
+        return;
+      }
     }
   }
 
@@ -213,22 +217,22 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     switch (field) {
 
       case 'nacionalidad':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Es requerido';
         }
         break;
       case 'departamentoResidencia':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Es requerido';
         }
         break;
       case 'ciudadResidencia':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Es requerido';
         }
         break;
       case 'direccionResidencia':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Es requerido';
         }
         break;
@@ -343,7 +347,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
         }
         break;
       case 'checkBoxDatosPersonales':
-        if ( this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
+        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Debe marcar la casilla';
         } else if (this.naturalForm?.get(field).hasError('requiredTrue') && this.isTouchedField(this.naturalForm, field)) {
           message = 'Debe marcar la casilla';

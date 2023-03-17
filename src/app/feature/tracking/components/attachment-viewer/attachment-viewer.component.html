@@ -6,6 +6,7 @@
         <tr>
           <th scope="col">Descripción</th>
           <th scope="col">Documento</th>
+          <th scope="col">Cumple?</th>
         </tr>
         </thead>
         <tbody>
@@ -14,6 +15,17 @@
           <td class="d-flex mx-auto">
             <img (click)="visorWindowExternalPdf(document.path)" [src]="urlIconExternalWindow" class="img-fluid icon">
             <img (click)="visorWindowActualPdf(document.path)" [src]="urlIconActualWindow" class="img-fluid icon">
+          </td>
+          <td>
+            <mat-radio-group name="opciones_{{document.id}}" aria-label="Select an option"  >
+              <mat-radio-button value="1" checked="true"  style="margin: 10px">
+                SI
+              </mat-radio-button>
+              <mat-radio-button  value="2"   style="margin: 10px">
+                NO
+              </mat-radio-button>
+            </mat-radio-group>
+
           </td>
         </tr>
         </tbody>

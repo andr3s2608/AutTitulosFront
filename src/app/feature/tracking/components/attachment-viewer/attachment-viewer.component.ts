@@ -18,6 +18,11 @@ export class AttachmentViewerComponent implements OnInit {
   public documentSupports: any[];
 
   /**
+   * Cumple o no Cumple el documento
+   */
+  public isCorrect: boolean=true;
+
+  /**
    * Icono de previsualizacion en la misma pantalla
    */
   public readonly urlIconActualWindow: string = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
@@ -31,18 +36,19 @@ export class AttachmentViewerComponent implements OnInit {
               private archiveService: ArchiveService) {
     this.documentSupports = [
       {
+        id:0,
         nameDocument: 'Documento identidad',
         path: './assets/binaries/listado.pdf'
       },
-      {
+      { id:1,
         nameDocument: 'Titulo',
         path: './assets/binaries/listado.pdf'
       },
-      {
+      { id:2,
         nameDocument: 'Acta de grado',
         path: './assets/binaries/listado.pdf'
       },
-      {
+      { id:3,
         nameDocument: 'Tarjeta profesional asdadsdsaasdad saa dsasd',
         path: './assets/binaries/listado.pdf'
       }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CityService} from "../../../../core/services";
+import {CityService, PopUpService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
 import {RegisterService} from "../../../../core/services/register.service";
 
@@ -65,7 +65,7 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit{
   constructor(public fb: FormBuilder,
               public cityService: CityService,
               private controlContainer: ControlContainer,
-              private registerService: RegisterService)
+              private registerService: RegisterService,private popupAlert: PopUpService)
   {
     super();
 
@@ -130,7 +130,15 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit{
       this.minlengtype='4';
       this.maxlengtype='18';
     }
-    this.basicDataForm.get('numeroIdentificacion').setValue('');
+    this.basicDataForm.get('numeroIdentificacion').setValue( this.basicDataForm.get('numeroIdentificacion').value)
+    this.basicDataForm.get('numeroIdentificacion').markAsTouched();
+    if(!this.basicDataForm.get('numeroIdentificacion').valid)
+    {
+      this.popupAlert.errorAlert(
+        'por favor verifique el numero de documento',
+        4000);
+    }
+    //this.basicDataForm.get('numeroIdentificacion').setValue('');
 
     //
 

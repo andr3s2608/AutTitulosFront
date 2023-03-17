@@ -50,8 +50,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     objetoPrueba = {
       id: 999,
       user: {
-        tipoDocumento: 1,
-        numeroIdentificacion: 12345,
+        tipoDocumento: 2,
+        numeroIdentificacion: '12345a',
         primerNombre: 'Nombre',
         segundoNombre: 'pruebaNombre',
         primerApellido: 'Apellido',
@@ -101,16 +101,16 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
 
       basicDataForm:this.fb.group({
-        tipoDocumento: [ '' , [ Validators.required ]],
-        numeroIdentificacion: [ '' , [ Validators.required ]],
-        primerNombre: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
-        segundoNombre: [ '', [Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
-        primerApellido: [ '' , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
-        segundoApellido: [ '',[Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")] ],
-        email: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
-        confirmarEmail: [ '' , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
-        telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
-        telefonoCelular: [ '' , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
+        tipoDocumento: [ this.tramiteActual.user.tipoDocumento , [ Validators.required ]],
+        numeroIdentificacion: [ this.tramiteActual.user.numeroIdentificacion , [ Validators.required ]],
+        primerNombre: [ this.tramiteActual.user.primerNombre , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
+        segundoNombre: [ this.tramiteActual.user.segundoNombre, [Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
+        primerApellido: [ this.tramiteActual.user.primerApellido , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
+        segundoApellido: [ this.tramiteActual.user.segundoApellido,[Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")] ],
+        email: [this.tramiteActual.user.email , [ Validators.required, Validators.email, Validators.maxLength(50) ]],
+
+        telefonoFijo: [ this.tramiteActual.user.telefonoFijo , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
+        telefonoCelular: [this.tramiteActual.user.telefonoCelular , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
         fechaNacimiento: [ formatDate(new Date(this.tramiteActual.user.fechaNacimiento), 'yyyy-MM-dd', 'en') , [ Validators.required, super.dateValidator ]],
         sexo: [ this.tramiteActual.user.sexo , [ Validators.required ]],
         genero: [ this.tramiteActual.user.genero , [ Validators.required ]],
