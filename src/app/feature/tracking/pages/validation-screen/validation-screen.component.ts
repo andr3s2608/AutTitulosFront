@@ -97,10 +97,15 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   private loadInfoTramiteActual(): void {
     this.validationForm = this.fb.group({
 
-      textfilter: [ '' ],
+      informationRequestValidatorForm: this.fb.group({
+        filedNumber: [ this.tramiteActual.filedNumber , [ Validators.required ]],
+        titleType: [ 'NACIONAL' , [ Validators.required ]],
+        status: [ this.tramiteActual.status , [ Validators.required ]],
+        assignedUser: [ 'NombreFuncionario' , [ Validators.required ]],
+        dateRequest: [ formatDate(new Date(this.tramiteActual.dateRequest), 'yyyy-MM-dd', 'en') , [ Validators.required ]]
+      }),
 
-
-      basicDataForm:this.fb.group({
+      basicDataForm: this.fb.group({
         tipoDocumento: [ this.tramiteActual.user.tipoDocumento , [ Validators.required ]],
         numeroIdentificacion: [ this.tramiteActual.user.numeroIdentificacion , [ Validators.required ]],
         primerNombre: [ this.tramiteActual.user.primerNombre , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[a-zA-ZñÑ \-\']$")]],
@@ -164,6 +169,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         internalobservations: [ '' ],
       }),
     })
+
+    this.validationForm.get('informationRequestValidatorForm').disable();
 
 
   }

@@ -1,0 +1,47 @@
+<form role="form" [formGroup]="informationRequestValidatorForm">
+
+  <div class="row">
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="numero-radicado" style="color: black">Número de radicado</label>
+        <input type="text" id="numero-radicado"
+               formControlName="filedNumber" aria-describedby="filedNumber-note"/>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="tipo-tramite">Tipo de trámite</label>
+        <input type="text" id="tipo-tramite"
+               formControlName="titleType" aria-describedby="status"/>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="estado">Estado</label>
+        <input type="text" id="estado"
+               formControlName="status" aria-describedby="status"/>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="usuario-asignado">Usuario asignado</label>
+        <input type="text" id="usuario-asignado"
+               formControlName="assignedUser" aria-describedby="status"/>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <div class="entradas-de-texto-govco">
+        <label for="fecha-tramite">Fecha Trámite</label>
+        <input type="text" id="fecha-tramite"
+               formControlName="dateRequest" aria-describedby="status"/>
+      </div>
+    </div>
+
+  </div>
+
+</form>
