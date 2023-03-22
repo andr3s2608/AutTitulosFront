@@ -4,7 +4,7 @@
 export interface UserValidation {
 
   tipoDocumento: number,
-  numeroIdentificacion: number,
+  numeroIdentificacion: string,
   primerNombre: string,
   segundoNombre: string,
   primerApellido: string,
