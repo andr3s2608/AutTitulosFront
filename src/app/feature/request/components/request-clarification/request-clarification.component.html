@@ -57,10 +57,10 @@
         <input type="file" class="form-control input-file-custom" id="inputSupportClarification"
                aria-describedby="inputFile_Aria" aria-label="Upload"
                [ngClass]="{'error': isValidInputFile('inputSupportClarification')}"
-               accept="application/pdf" (change)="addSelectedFile($event)">
+               accept="application/pdf" (change)="addSelectedFile($event, 'inputSupportClarification')">
         <button class="btn btn-outline-secondary" type="button" id="inputDocAddDescri_Clarification"
                 *ngIf="hasDocument()"
-                (click)="removeFileAdded()">
+                (click)="removeFileAdded('inputSupportClarification')">
           <span class="govco-trash-alt"></span>
         </button>
       </div>

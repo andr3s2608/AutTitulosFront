@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {PopUpService} from "../../../../core/services";
+import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
 @Component({
   selector: 'app-request-clarification',
@@ -31,80 +32,63 @@ export class RequestClarificationComponent extends AppBaseComponent {
    * @returns True si el archivo ya se ha cargado, false de lo contrario
    */
   public hasDocument() {
-    return this.clarificationForm.get('fileSupport').value == '';
+    return this.clarificationForm.get('fileSupport').value != null;
   }
 
   /**
    * Elimina un archivo añadido
    */
-  public removeFileAdded(): void {
-    (<HTMLInputElement>document.getElementById(`inputSupportClarification`)).value = '';
-    this.clarificationForm.get('fileSupport').value = '';
+  public removeFileAdded(elementId: string): void {
+    (<HTMLInputElement>document.getElementById(elementId)).value = '';
+    this.clarificationForm.get('fileSupport').value = null;
   }
 
   /**
    * Añade o reemplaza el archivo
    * @param event Evento del input tipo file
    */
-  public addSelectedFile(event: any): void {
+  public addSelectedFile(event: any, elementId: string): void {
 
     let archivos = event.target.files;
-
-    if (archivos.length > 1) {
-      this.popupAlert.errorAlert('Solo puedes agregar un archivo.', 3000);
-      (<HTMLInputElement>document.getElementById(`inputSupportClarification`)).value = '';
-      return;
-    }
-
     const fileSelected = archivos[0];
 
-    if (fileSelected && fileSelected.type != "application/pdf") {
-      (<HTMLInputElement>document.getElementById(`inputSupportClarification`)).value = '';
-      this.popupAlert.errorAlert('Formato no válido. Solo se admiten documentos en formato PDF.', 3000);
+    if (archivos.length > 1) {
+      (<HTMLInputElement>document.getElementById(elementId)).value = '';
+      this.popupAlert.errorAlert(ErrorMessage.ONLY_ONE_DOCUMENT, 3000);
+      return;
+    }
+    else if (fileSelected && fileSelected.type != "application/pdf") {
+      (<HTMLInputElement>document.getElementById(elementId)).value = '';
+      this.popupAlert.errorAlert(ErrorMessage.ONLY_PDF_DOCUMENT, 3000);
+      return;
+    }
+    else if (fileSelected && fileSelected.size > 3000000) {
+      (<HTMLInputElement>document.getElementById(elementId)).value = '';
+      this.popupAlert.errorAlert(ErrorMessage.MAX_3MB_DOCUMENT, 3000);
       return;
     }
 
-    if (fileSelected && fileSelected.size > 3000000) {
-      (<HTMLInputElement>document.getElementById(`inputSupportClarification`)).value = '';
-      this.popupAlert.errorAlert('El archivo escogido pesa más de 3Mb.', 3000);
-      return;
-    }
-
-
-    const fileSoporte = event.target.files[0] || null;
+    const fileSoporte = fileSelected || null;
     this.clarificationForm.patchValue({
       fileSupport: fileSoporte
     });
     this.popupAlert.successAlert('El archivo fue cargado correctamente', 2000);
-
   }
 
+  /**
+   * Devuelve un mensaje de validación de un campo del formulario
+   * @param field Campo a validar
+   * @returns Mensaje de error del campo
+   */
   public getErrorMessage(field: string): string {
-    let esRequerido = "Es requerido";
-
     let message;
-    switch (field) {
-      case 'filedNumber':
-        if (this.clarificationForm?.get(field).hasError('required') && this.isTouchedField(this.clarificationForm, field)) {
-          message = esRequerido;
-        }
-        break;
-      case 'titleTypeId':
-        if (this.clarificationForm?.get(field).hasError('required') && this.isTouchedField(this.clarificationForm, field)) {
-          message = esRequerido;
-        }
-        break;
-      case 'reasonTypeId':
-        if (this.clarificationForm?.get(field).hasError('required') && this.isTouchedField(this.clarificationForm, field)) {
-          message = esRequerido;
-        }
-        break;
-      case 'observation':
-        if (this.clarificationForm?.get(field).hasError('required') && this.isTouchedField(this.clarificationForm, field)) {
-          message = esRequerido;
-        }
-        break;
+    const required: Array<string> = ['filedNumber', 'titleTypeId', 'reasonTypeId', 'observation'];
+
+    if (required.includes(field) && this.isTouchedField(this.clarificationForm, field)
+      && this.clarificationForm?.get(field).hasError('required')) {
+        message = ErrorMessage.IS_REQUIRED;
     }
+
     return message;
   }
 

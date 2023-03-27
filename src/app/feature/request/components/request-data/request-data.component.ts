@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
+import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
 @Component({
   selector: 'app-request-data',
@@ -25,57 +26,38 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
 
   /**
-   * Devuelve un mensaje de validacion de un campo del formulario
+   * Devuelve un mensaje de validación de un campo del formulario
    * @param field Campo a validar
    * @returns Mensaje de error del campo
    */
   public getErrorMessage(field: string): string {
-    let esRequerido = "Es requerido";
-    let soloNumeros = "Solo se admiten numeros";
-    let fechaErronea = "La fecha no puede ser una fecha futura o superior a la de hoy";
-
     let message;
-    switch (field) {
-      case 'titleTypeId':
-        if (this.requestDataForm?.get(field).hasError('required') && this.isTouchedField(this.requestDataForm, field)) {
-          message = esRequerido;
-        }
-        break;
-      case 'instituteId':
-        if (this.requestDataForm?.get(field).hasError('required') && this.isTouchedField(this.requestDataForm, field)) {
-          message = esRequerido;
-        }
-        break;
-      case 'professionId':
-        if (this.requestDataForm?.get(field).hasError('required') && this.isTouchedField(this.requestDataForm, field)) {
-          message = esRequerido;
-        }
-        break;
-      case 'diplomaNumber':
-        if (this.requestDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.requestDataForm, field)) {
-          message = soloNumeros;
-        }
-        break;
-      case 'endDate':
-        if (this.requestDataForm?.get(field).hasError('required') && this.isTouchedField(this.requestDataForm, field)) {
-          message = esRequerido;
-        } else if (this.requestDataForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.requestDataForm, field)) {
-          message = fechaErronea;
-        }
-        break;
-      case 'yearTitle':
-        if (this.requestDataForm?.get(field).hasError('required') && this.isTouchedField(this.requestDataForm, field)) {
-          message = esRequerido;
-        } else if (this.requestDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.requestDataForm, field)) {
-          message = soloNumeros;
-        } else if (this.requestDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.requestDataForm, field)) {
+    const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle'];
+    const onlyNumber: Array<string> = ['diplomaNumber', 'yearTitle'];
+    const dateError: Array<string> = ['endDate'];
+
+    if (this.isTouchedField(this.requestDataForm, field)) {
+
+      if (required.includes(field) && this.requestDataForm?.get(field).hasError('required') ) {
+        message = ErrorMessage.IS_REQUIRED;
+      }
+      else if (onlyNumber.includes(field) && this.requestDataForm?.get(field).hasError('pattern') ) {
+        message = ErrorMessage.ONLY_NUMBERS;
+      }
+      else if (dateError.includes(field) && this.requestDataForm?.get(field).hasError('invalidDate') ) {
+        message = ErrorMessage.NO_FUTURE_DATE;
+      }
+      else if (field == 'yearTitle') {
+        if (this.requestDataForm?.get(field).hasError('minlength') ) {
           message = "Debe tener mínimo 4 caracteres";
-        } else if (this.requestDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.requestDataForm, field)) {
+        } else if (this.requestDataForm?.get(field).hasError('maxlength')) {
           message = "Debe tener máximo 4 caracteres";
         }
-        break;
+      }
 
     }
+
     return message;
   }
+
 }

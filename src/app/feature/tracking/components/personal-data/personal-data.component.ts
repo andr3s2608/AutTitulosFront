@@ -146,8 +146,9 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit{
 
 
   /**
-   * Retorna el mensaje de error del campo del formulario recibido
+   * Devuelve un mensaje de validación de un campo del formulario
    * @param field Campo a validar
+   * @returns Mensaje de error del campo
    */
   getErrorMessage(field: string): string {
     let message;
