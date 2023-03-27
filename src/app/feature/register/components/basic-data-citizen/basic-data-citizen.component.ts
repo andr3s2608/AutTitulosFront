@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ControlContainer, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ControlContainer, FormBuilder, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 import {CityService} from "../../../../core/services";
 import {RegisterService} from "../../../../core/services/register.service";
+import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
 
 @Component({
@@ -106,116 +107,51 @@ public validationtype()
 
 
   /**
-   * Retorna el mensaje de error del campo del formulario recibido
+   * Devuelve un mensaje de validación de un campo del formulario
    * @param field Campo a validar
+   * @returns Mensaje de error del campo
    */
-  getErrorMessage(field: string): string {
+  public getErrorMessage(field: string): string {
     let message;
-    switch (field) {
+    const required: Array<string> = ['primerNombre', 'primerApellido', 'tipoDocumento', 'numeroIdentificacion', 'telefonoCelular', 'email', 'confirmarEmail'];
+    const onlyLetters: Array<string> = ['primerNombre', 'segundoNombre', 'primerApellido', 'segundoApellido'];
+    const onlyNumbers: Array<string> = ['telefonoFijo', 'telefonoCelular'];
+    const formatEmail: Array<string> = ['email', 'confirmarEmail'];
 
-      case 'primerNombre':
-        if (
-          this.basicDataForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.basicDataForm, field)
-        ) {
-          message = 'Es requerido';
+    if (this.isTouchedField(this.basicDataForm, field)) {
+      if (required.includes(field) && this.basicDataForm?.get(field).hasError('required') ) {
+        message = ErrorMessage.IS_REQUIRED;
+      }
+      else if (onlyLetters.includes(field) && this.basicDataForm?.get(field).hasError('pattern') ) {
+        message = ErrorMessage.ONLY_LETTERS;
+      }
+      else if (onlyNumbers.includes(field) && this.basicDataForm?.get(field).hasError('pattern') ) {
+        message = ErrorMessage.ONLY_NUMBERS;
+      }
+      else if (formatEmail.includes(field) && this.basicDataForm?.get(field).hasError('email')) {
+        message = ErrorMessage.FORMAT_EMAIL;
+      }
+      else if (field == 'numeroIdentificacion') {
+        if (this.basicDataForm?.get(field).hasError('pattern')) {
+          message = `Solo se admiten caracteres del tipo `+ this.charactertype;
+        } else if (this.basicDataForm?.get(field).hasError('minlength')) {
+          message = `Debe tener una longitud mínima de `+ this.minlengtype;
+        } else if (this.basicDataForm?.get(field).hasError('maxlength')) {
+          message = `Debe tener una longitud máxima de `+ this.maxlengtype;
         }
-        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-
-          message = `Solo se admiten Letras`;
-        }
-
-        break;
-      case 'segundoNombre':
-        if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Solo se admiten Letras`;
-        }
-        break;
-      case 'primerApellido':
-        if (
-          this.basicDataForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.basicDataForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Solo se admiten Letras`;
-        }
-        break;
-      case 'segundoApellido':
-        if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Solo se admiten Letras`;
-        }
-        break;
-
-      case 'tipoDocumento':
-        if (
-          this.basicDataForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.basicDataForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'numeroIdentificacion':
-
-        if (
-          this.basicDataForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.basicDataForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Solo se admiten caracteres del tipo `+this.charactertype;
-        }
-        else if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Debe tener una longitud minima de `+this.minlengtype;
-        }
-        else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Debe tener una longitud maxima de `+this.maxlengtype;
-        }
-        break;
-      case 'telefonoFijo':
-        if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
+      }
+      else if (field == 'telefonoFijo' || 'telefonoCelular'){
+        if (this.basicDataForm?.get(field).hasError('minlength')) {
           message = `Debe tener al menos 7 caracteres`;
-        } else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
+        } else if (this.basicDataForm?.get(field).hasError('maxlength')) {
           message = `Permite hasta 12 caracteres`;
-        } else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Solo se admiten numeros`;
         }
-        break;
-      case 'telefonoCelular':
-        if (this.basicDataForm?.get(field).hasError('required') && this.isTouchedField(this.basicDataForm, field)) {
-          message = 'Es requerido';
-        } else if (this.basicDataForm?.get(field).hasError('minlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Debe tener al menos 7 caracteres`;
-        } else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 12 caracteres`;
-        } else if (this.basicDataForm?.get(field).hasError('pattern') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Solo se admiten numeros`;
-        }
-        break;
-      case 'email':
-        if ( this.basicDataForm?.get(field).hasError('required') && this.isTouchedField(this.basicDataForm, field)) {
-          message = 'Es requerido';
-        } else if (this.basicDataForm?.get(field).hasError('email') &&
-          this.isTouchedField(this.basicDataForm, field)) {
-          message = 'No tiene el formato de un email';
-        }else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 50 caracteres`;
-        }
-        break;
-      case 'confirmarEmail':
-        if ( this.basicDataForm?.get(field).hasError('required') && this.isTouchedField(this.basicDataForm, field)) {
-          message = 'Es requerido';
-        } else if (this.basicDataForm?.get(field).hasError('email') &&
-          this.isTouchedField(this.basicDataForm, field)) {
-          message = 'No tiene el formato de un email';
-        }else if (this.basicDataForm?.get(field).hasError('maxlength') && this.isTouchedField(this.basicDataForm, field)) {
-          message = `Permite hasta 50 caracteres`;
-        }
-        break;
-
+      }
+      else if ((field == 'email' || field == 'confirmarEmail') && this.basicDataForm?.get(field).hasError('maxlength')) {
+        message = `Permite hasta 50 caracteres`;
+      }
     }
+
     return message;
   }
 

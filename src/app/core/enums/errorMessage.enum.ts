@@ -6,6 +6,8 @@ export enum ErrorMessage {
   IS_REQUIRED = 'Es requerido',
 
   ONLY_NUMBERS = 'Solo se admiten números',
+  ONLY_LETTERS = 'Solo se admiten letras',
+  FORMAT_EMAIL = 'No tiene el formato de un email',
 
   NO_FUTURE_DATE = 'La fecha no puede ser superior a la de hoy',
 
