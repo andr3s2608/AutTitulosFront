@@ -90,7 +90,7 @@
 
       <div class="row mx-auto " >
         <div class="table">
-          <table class="table table-striped table-responsive">
+          <table class="table table-striped table-responsive" aria-describedby="tabla-reportes">
             <tr>
               <th>
                 <div class='header-text'>Id Solicitud</div>
@@ -150,8 +150,8 @@
               <td *ngIf="item.estado != null">{{item.estado}}</td>
 
               <td >
-                <img  [src]="urlIconExternalWindow" class="img-fluid icon">
-                <img  [src]="urlIconActualWindow" class="img-fluid icon">
+                <img alt="icono-pdf-external" [src]="urlIconExternalWindow" class="img-fluid icon">
+                <img alt="icono-pdf-actual" [src]="urlIconActualWindow" class="img-fluid icon">
 
               </td>
 
