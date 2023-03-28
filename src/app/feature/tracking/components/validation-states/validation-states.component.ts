@@ -56,6 +56,8 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
     this.solicitudstates.push({idestado:3,nombre:"Solicitar Información"})
     this.solicitudstates.push({idestado:4,nombre:"Tramite-duplicado Anular"})
     this.solicitudstates.push({idestado:5,nombre:"Resuelve recurso de aclaración validación"})
+    this.solicitudstates.push({idestado:6,nombre:"Firmar Documento"})
+    this.solicitudstates.push({idestado:7,nombre:"Devolver validación Coordinador"})
   }
   ngOnInit(): void {
     this.validationStateForm = this.controlContainer.control;
