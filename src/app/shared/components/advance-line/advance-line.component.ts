@@ -12,13 +12,11 @@ import {ROUTES} from "../../../core/enums";
 })
 export class AdvanceLineComponent {
 
-
-
-
   /**
    * Modela el numero a pintar
    */
   @Input() step: number;
+
   /**
    * Detecta la fuente
    */

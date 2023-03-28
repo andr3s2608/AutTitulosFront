@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {PopUpService} from "../../../../core/services";
+import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
 /**
  * Componente encargado de los documentos de la solicitud
@@ -93,24 +94,21 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
   public addSelectedFile(event: any, docTypeId: number, docDescription: string): void {
 
     let archivos = event.target.files;
-
-    if (archivos.length > 1) {
-      this.popupAlert.errorAlert('Solo puedes agregar un archivo.', 3000);
-      (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
-      return;
-    }
-
     const fileSelected = archivos[0];
 
-    if (fileSelected && fileSelected.type != "application/pdf") {
+    if (archivos.length > 1) {
+      this.popupAlert.errorAlert(ErrorMessage.ONLY_ONE_DOCUMENT, 3000);
       (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
-      this.popupAlert.errorAlert('Formato no válido. Solo se admiten documentos en formato PDF.', 3000);
       return;
     }
-
-    if (fileSelected && fileSelected.size > 3000000) {
+    else if (fileSelected && fileSelected.type != "application/pdf") {
       (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
-      this.popupAlert.errorAlert('El archivo escogido pesa más de 3Mb.', 3000);
+      this.popupAlert.errorAlert(ErrorMessage.ONLY_PDF_DOCUMENT, 3000);
+      return;
+    }
+    else if (fileSelected && fileSelected.size > 3000000) {
+      (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
+      this.popupAlert.errorAlert(ErrorMessage.MAX_3MB_DOCUMENT, 3000);
       return;
     }
 

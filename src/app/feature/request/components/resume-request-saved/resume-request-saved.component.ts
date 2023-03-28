@@ -21,7 +21,7 @@ export class ResumeRequestSavedComponent {
    * Redirige a la bandeja del ciudadano
    */
   public exit(): void {
-    this.router.navigateByUrl(ROUTES.PERSON_DASHBOARD);
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.CITIZEN + "/" + ROUTES.PERSON_DASHBOARD);
   }
 
 }

@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AppBaseComponent} from "../core/utils";
-import {FormBuilder} from "@angular/forms";
-import {CityService} from "../core/services";
 import {Router} from "@angular/router";
 import {ROUTES} from "../core/enums";
 

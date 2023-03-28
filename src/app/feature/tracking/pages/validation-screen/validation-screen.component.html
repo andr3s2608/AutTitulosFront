@@ -1,24 +1,32 @@
 <form role="form" [formGroup]="validationForm">
   <app-advance-line [step]="stepAdvanceLine" [currentProgress]="currentProgressAdvanceLine" [source]="'validador'"></app-advance-line>
 
-  <div class="row w-75 justify-content-center mx-auto ">
-    <div class="row mt-3  align-content-center mx-auto">
-      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <h2>Trámite ID: {{tramiteActual.filedNumber}}</h2>
-      </div>
-    </div>
-    <div class="row mt-3 justify-content-center align-content-center mx-auto">
-      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <p>Estado Actual: {{tramiteActual.status}}</p>
-      </div>
-      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <p>Fecha Trámite: {{tramiteActual.dateRequest | date: 'dd/MM/yyyy'}}</p>
-      </div>
-    </div>
-  </div>
+  <br>
+
   <div class="row w-75 justify-content-center mx-auto border">
 
     <div class="accordion-govco" id="accordionParent">
+
+      <div class="item-accordion-govco">
+        <h2 class="accordion-header" id="accordionIconoPanels-childSix">
+          <button class="button-accordion-govco collapsed"
+                  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseSix"
+                  aria-expanded="false" aria-controls="accordionIconoPanels-collapseSix">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Información de la solicitud</h4>
+                  </span>
+          </button>
+        </h2>
+        <div id="accordionIconoPanels-collapseSix" class="accordion-collapse collapse"
+             aria-labelledby="accordionIconoPanels-childSix" data-bs-parent="#accordionParent">
+          <div class="body-accordion-govco">
+
+            <app-information-request-validator></app-information-request-validator>
+
+          </div>
+        </div>
+      </div>
 
       <div class="item-accordion-govco">
         <h2 class="accordion-header" id="accordionIconoPanels-childOne">
@@ -35,13 +43,12 @@
              aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-
             <app-personal-data></app-personal-data>
-
 
           </div>
         </div>
       </div>
+
       <div class="item-accordion-govco">
         <h2 class="accordion-header" id="accordionIconoPanels-childTwo">
           <button class="button-accordion-govco collapsed"
@@ -57,13 +64,12 @@
              aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-
             <app-geographic-data [source]="'validation'"></app-geographic-data>
-
 
           </div>
         </div>
       </div>
+
       <div class="item-accordion-govco">
         <h2 class="accordion-header" id="accordionIconoPanels-childTree">
           <button class="button-accordion-govco collapsed"
@@ -71,7 +77,7 @@
                   data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTree"
                   aria-expanded="false" aria-controls="accordionIconoPanels-collapseTree">
                   <span class="text-button-accordion-govco">
-                    <h4 class="h4-tipografia-govco title-1">Información del Titulo</h4>
+                    <h4 class="h4-tipografia-govco title-1">Información del Título</h4>
                   </span>
           </button>
         </h2>
@@ -84,6 +90,7 @@
           </div>
         </div>
       </div>
+
       <div class="item-accordion-govco">
         <h2 class="accordion-header" id="accordionIconoPanels-childFour">
           <button class="button-accordion-govco collapsed"
@@ -100,7 +107,6 @@
           <div class="body-accordion-govco">
 
             <app-attachment-viewer></app-attachment-viewer>
-
 
           </div>
         </div>
@@ -121,13 +127,12 @@
              aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-
             <app-validation-states></app-validation-states>
-
 
           </div>
         </div>
       </div>
+
       <br>
 
     </div>

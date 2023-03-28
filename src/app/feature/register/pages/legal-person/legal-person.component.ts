@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ROUTES} from "../../../../core/enums";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
+import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
 /**
  * Componente encargado del formulario de registro de persona juridica
@@ -33,6 +34,7 @@ export class LegalPersonComponent  extends  AppBaseComponent{
       tipoIdedentificacion: [ '' , [ Validators.required ]],
       nit: [ '' , [ Validators.required, Validators.pattern("^[0-9-]*$") ] ],
       razonsocial: [ '' , [ Validators.required ]],
+      checkBoxDatosPersonales: [ '' , [ Validators.required, Validators.requiredTrue ]],
 
       basicDataForm: this.fb.group(
         {
@@ -47,10 +49,7 @@ export class LegalPersonComponent  extends  AppBaseComponent{
           telefonoFijo: [ '' , [ Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]],
           telefonoCelular: [ '' , [ Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$") ]]
         }
-      ), checkBoxDatosPersonales: [ '' , [ Validators.required, Validators.requiredTrue]]
-
-
-
+      )
     })
 
   }
@@ -85,34 +84,16 @@ export class LegalPersonComponent  extends  AppBaseComponent{
 
   getErrorMessage(field: string): string {
     let message;
-    switch (field) {
-      case 'razonsocial':
-        if (
-          this.legalForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.legalForm, field)
-        ) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'nit':
-        if (
-          this.legalForm?.get(field).hasError('required') &&
-          this.isTouchedField(this.legalForm, field)
-        ) {
-          message = 'Es requerido';
-        }else if (this.legalForm?.get(field).hasError('pattern') && this.isTouchedField(this.legalForm, field)) {
-          message = 'Formato Incorrecto';
-        }
+    const required: Array<string> = ['razonsocial', 'nit', 'checkBoxDatosPersonales'];
+    const formatCorrect: Array<string> = ['nit'];
 
-        break;
-      case 'checkBoxDatosPersonales':
-        if ( this.legalForm?.get(field).hasError('required') && this.isTouchedField(this.legalForm, field)) {
-          message = 'Debe marcar la casilla';
-        } else if (this.legalForm?.get(field).hasError('requiredTrue') && this.isTouchedField(this.legalForm, field)) {
-          message = 'Debe marcar la casilla';
-        }
-        break;
-
+    if (this.isTouchedField(this.legalForm, field)) {
+      if (required.includes(field) && this.legalForm?.get(field).hasError('required') ) {
+        message = ErrorMessage.IS_REQUIRED;
+      }
+      else if (formatCorrect.includes(field) && this.legalForm?.get(field).hasError('pattern') ) {
+        message = 'Formato Incorrecto';
+      }
     }
     return message;
   }

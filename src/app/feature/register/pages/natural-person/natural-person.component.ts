@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ControlContainer, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 import {CityService, PopUpService} from "../../../../core/services";
 import {ROUTES} from "../../../../core/enums";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
 import {RegisterService} from "../../../../core/services/register.service";
+import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
 /**
  * Componente encargado del formulario de registro de persona natural
@@ -212,148 +213,47 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   }
 
 
-  getErrorMessage(field: string): string {
+  /**
+   * Devuelve un mensaje de validación de un campo del formulario
+   * @param field Campo a validar
+   * @returns Mensaje de error del campo
+   */
+  public getErrorMessage(field: string): string {
     let message;
-    switch (field) {
+    const required: Array<string> = ['nacionalidad', 'departamentoResidencia', 'ciudadResidencia', 'direccionResidencia', 'num1', 'num2', 'placa', 'viaprincipal', 'zona', 'upz', 'barrio', 'localidad', 'fechaNacimiento', 'sexo', 'genero', 'orientacionSexual', 'etnia', 'estadoCivil', 'nivelEducativo', 'checkBoxDatosPersonales'];
+    const onlyNumbers: Array<string> = ['num1', 'num2', 'placa'];
+    const dateError: Array<string> = ['fechaNacimiento'];
 
-      case 'nacionalidad':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'departamentoResidencia':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'ciudadResidencia':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'direccionResidencia':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'num1':
+    if (this.isTouchedField(this.naturalForm, field)) {
+      if (required.includes(field) && this.naturalForm?.get(field).hasError('required')) {
+        message = ErrorMessage.IS_REQUIRED;
+      }
+      else if (onlyNumbers.includes(field) && this.naturalForm?.get(field).hasError('pattern') ) {
+        message = ErrorMessage.ONLY_NUMBERS;
+      }
+      else if (dateError.includes(field) && this.naturalForm?.get(field).hasError('invalidDate') ) {
+        message = ErrorMessage.NO_FUTURE_DATE;
+      }
 
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Debe tener al menos 1 caracter`;
-        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Permite hasta 3 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Solo se admiten numeros`;
-        }
-        break;
-      case 'num2':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Debe tener al menos 1 caracter`;
-        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Permite hasta 3 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Solo se admiten numeros`;
-        }
-        break;
-      case 'placa':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('minlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Debe tener al menos 1 caracter`;
-        } else if (this.naturalForm?.get(field).hasError('maxlength') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Permite hasta 2 caracteres`;
-        } else if (this.naturalForm?.get(field).hasError('pattern') && this.isTouchedField(this.naturalForm, field)) {
-          message = `Solo se admiten numeros`;
-        }
-        break;
-      case 'viaprincipal':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'zona':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'upz':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'barrio':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-      case 'localidad':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        }
-        break;
-
-
-      case 'fechaNacimiento':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'sexo':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'genero':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'orientacionSexual':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'etnia':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'estadoCivil':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'nivelEducativo':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Es requerido';
-        } else if (this.naturalForm?.get(field).hasError('invalidDate') && this.isTouchedField(this.naturalForm, field)) {
-          message = "La fecha no puede ser una fecha futura o superior a la de hoy";
-        }
-        break;
-      case 'checkBoxDatosPersonales':
-        if (this.naturalForm?.get(field).hasError('required') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Debe marcar la casilla';
-        } else if (this.naturalForm?.get(field).hasError('requiredTrue') && this.isTouchedField(this.naturalForm, field)) {
-          message = 'Debe marcar la casilla';
-        }
-        break;
+      switch (field) {
+        case 'num1':
+        case 'num2':
+          if (this.naturalForm?.get(field).hasError('minlength') ) {
+            message = `Debe tener al menos 1 caracter`;
+          } else if (this.naturalForm?.get(field).hasError('maxlength') ) {
+            message = `Permite hasta 3 caracteres`;
+          }
+          break;
+        case 'placa':
+          if (this.naturalForm?.get(field).hasError('minlength') ) {
+            message = `Debe tener al menos 1 caracter`;
+          } else if (this.naturalForm?.get(field).hasError('maxlength') ) {
+            message = `Permite hasta 2 caracteres`;
+          }
+          break;
+      }
     }
+
     return message;
   }
 
