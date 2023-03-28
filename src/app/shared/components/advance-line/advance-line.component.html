@@ -10,8 +10,8 @@
         <span class="title-linea-avance-govco">Inicio</span>
       </div>
       <div class="header-linea-avance-govco choice-option" [ngClass]="{'active-linea-avance-govco': step === 2}"
-      > <!-- (click)="showRegisterRequestSection()" -->
-        <div class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance12">2</div>
+      >
+        <div (click)="redirect('ciudadano/crear-solicitud')" class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance12">2</div>
         <span (click)="redirect('ciudadano/crear-solicitud')" class="title-linea-avance-govco">Hago mi solicitud</span>
       </div>
       <div class="header-linea-avance-govco" [ngClass]="{'active-linea-avance-govco': step === 3}">
@@ -19,8 +19,8 @@
         <span class="title-linea-avance-govco">Procesan mi solicitud</span>
       </div>
       <div class="header-linea-avance-govco choice-option" [ngClass]="{'active-linea-avance-govco': step === 4}"
-      > <!-- (click)="showResponseSection()" -->
-        <div class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance14">4</div>
+      >
+        <div (click)="redirect('ciudadano/listado-solicitudes')" class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance14">4</div>
         <span (click)="redirect('ciudadano/listado-solicitudes')" class="title-linea-avance-govco">Respuesta</span>
       </div>
     </div>
@@ -39,16 +39,16 @@
         <span class="title-linea-avance-govco">Inicio</span>
       </div>
       <div class="header-linea-avance-govco choice-option" [ngClass]="{'active-linea-avance-govco': step === 2}"
-      > <!-- (click)="showRegisterRequestSection()" -->
-        <div class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance22">2</div>
+      >
+        <div (click)="redirect('validador/bandeja')"class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance22">2</div>
         <span (click)="redirect('validador/bandeja')" class="title-linea-avance-govco">Validar Trámite</span>
       </div>
       <div class="header-linea-avance-govco choice-option" [ngClass]="{'active-linea-avance-govco': step === 3}">
-        <div class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance23">3</div>
+        <div (click)="redirect('reportes/dashboard')"class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance23">3</div>
         <span (click)="redirect('reportes/dashboard')" class="title-linea-avance-govco">Menú Reportes</span>
       </div>
       <div class="header-linea-avance-govco choice-option" [ngClass]="{'active-linea-avance-govco': step === 4}"
-      > <!-- (click)="showResponseSection()" -->
+      >
         <div class="indicator-linea-avance-govco" data-la-target="#itemLineaAvance24">4</div>
         <span class="title-linea-avance-govco">Cerrar Sesión</span>
       </div>

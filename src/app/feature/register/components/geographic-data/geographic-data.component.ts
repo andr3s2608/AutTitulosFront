@@ -10,7 +10,7 @@ import {AppBaseComponent} from "../../../../core/utils";
 })
 export class GeographicDataComponent extends AppBaseComponent implements  OnInit{
 
-  @Input() source: String;
+  @Input() source: string;
 
   /**
    * Formulario hijo para los datos geograficos
@@ -88,6 +88,22 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
    * @param field Campo a validar
    * @returns Mensaje de error del campo
    */
+
+
+
+  public getErrorMessage(field: string): string {
+
+    if ( this.geographicDataForm?.get(field).hasError('required') && this.isTouchedField(this.geographicDataForm, field)) {
+      return 'Es requerido';
+    }
+    else {
+      return '';
+    }
+
+
+  }
+
+  /*
   public getErrorMessage(field: string): string {
     let message;
     switch (field) {
@@ -120,7 +136,7 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
 
     }
     return message;
-  }
+  }*/
 
 
 }

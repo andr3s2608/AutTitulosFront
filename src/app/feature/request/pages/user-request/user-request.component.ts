@@ -4,7 +4,7 @@ import {ArchiveService, PopUpService} from "../../../../core/services";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {Router, UrlTree} from "@angular/router";
 import {OnExit} from "../../../../core/guards/pending-changes.guard";
 import {ROUTES} from "../../../../core/enums";
@@ -180,7 +180,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
   }
 
   private finishProcedure(numberFiled: string): void {
-    //this.sendEmail(numberFiled);
+
     this.showRequestForm = false;
     this.showResumeRequestSaved = true;
     this.stepAdvanceLine = 3;
@@ -193,7 +193,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
   onExit(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     console.log("estoy aqui")
 
-    //let exit: boolean = false;
+
 
 
     const rta = confirm('Are you sure?');

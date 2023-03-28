@@ -2,7 +2,7 @@
   <app-advance-line [step]="stepAdvanceLine" [currentProgress]="currentProgressAdvanceLine"
                     [source]="'validador'"></app-advance-line>
 
-  <div class="row  justify-content-center align-items-center mx-auto " style="width: 1300px">
+  <div class="row   align-items-center mx-auto mt-5" >
     <ul class="nav nav-tabs ">
       <li class="nav-item">
         <a class="nav-link active">Por Asignar</a>
@@ -37,9 +37,14 @@
 
 
       <br><br>
-      <div>
-        <table class="table table-striped table-responsive" aria-describedby="tabla-funcionarios">
-          <thead></thead>
+      <div class="row">
+
+
+        <div class="row mx-auto ">
+      <div class="table ">
+        <div class="table-responsive">
+          <table class="table table-striped " aria-describedby="tabla-funcionarios">
+
           <tr>
             <th>Id Solicitud</th>
             <th>No Doc de Identidad</th>
@@ -67,14 +72,19 @@
           </tr>
           </tbody>
         </table>
+        </div>
       </div>
+        </div>
+      </div>
+
       <div class="colum_paginator">
         <mat-paginator class="paginator" [hidePageSize]="true" [length]="lengthpages"
                        [pageSize]="validatorForm.get('pageSize').value"></mat-paginator>
       </div>
-
     </div>
   </div>
+
+
 
 
 </form>

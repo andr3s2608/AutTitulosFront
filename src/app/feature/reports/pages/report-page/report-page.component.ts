@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CityService} from "../../../../core/services";
-import {ROUTES} from "../../../../core/enums";
 import {Router} from "@angular/router";
 
 @Component({
@@ -36,12 +35,10 @@ export class ReportPageComponent implements OnInit {
   public currentProgressAdvanceLine: number;
 
 
-
   constructor(public fb: FormBuilder,
-              public cityService: CityService, private router: Router)
-  {
-    this.stepAdvanceLine=3;
-    this.currentProgressAdvanceLine=75;
+              public cityService: CityService, private router: Router) {
+    this.stepAdvanceLine = 3;
+    this.currentProgressAdvanceLine = 75;
     this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
     this.urlIconExternalWindow = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
     this.reportsform = this.fb.group({
@@ -55,19 +52,20 @@ export class ReportPageComponent implements OnInit {
   ngOnInit(): void {
     for (let i = 0; i < 8; i++) {
       this.tableFilter.push(
-        {idsolicitud:i,ndoc:(120*i),nombre:"pepito"+i,
-          tipo:"titulox",
-          fecha:new Date("0"+(i+1)+"/02/2022"),
-          estado:"en curso",tiempo:i+" dias restantes"
+        {
+          idsolicitud: i, ndoc: (120 * i), nombre: "pepito" + i,
+          tipo: "titulox",
+          fecha: new Date("0" + (i + 1) + "/02/2022"),
+          estado: "en curso", tiempo: i + " dias restantes"
         }
       )
     }
 
   }
-  public validar(id:any): void
-  {
 
-   // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
+  public validar(id: any): void {
+
+    // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
 
   }
 
