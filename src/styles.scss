@@ -6,6 +6,7 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: visible;
+  height: 100%;
 }
 
 .title-1, h2, h3, .title-2 {
@@ -26,7 +27,6 @@ textarea.error {
   border: 0.094rem solid #A80521 !important;
 }
 
-html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .required {
@@ -47,15 +47,15 @@ select.error {
 
 .input-file-custom {
   border: 0.094rem solid #737373;
-  font-family: WorkSans-Regular;
+  font-family: WorkSans-Regular, sans-serif;
 }
 
 .alert-danger {
-  font-family: WorkSans-Regular;
+  font-family: WorkSans-Regular, sans-serif;
 }
 
 table {
-  font-family: WorkSans-Regular;
+  font-family: WorkSans-Regular, sans-serif;
 }
 
 .input-file-custom.error {
