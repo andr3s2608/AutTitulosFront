@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ArchiveService, PopUpService} from "../../../../core/services";
+import {RegisterService} from "../../../../core/services/register.service";
+import {ControlContainer, FormGroup} from "@angular/forms";
 
 /**
  * Component que permite visualizar documentos cargados en el trámite
@@ -18,9 +20,9 @@ export class AttachmentViewerComponent implements OnInit {
   public documentSupports: any[];
 
   /**
-   * Cumple o no Cumple el documento
+   * Formulario padre para controlar el estado de los documentos
    */
-  public isCorrect: boolean=true;
+  public attachmentform: any;
 
   /**
    * Icono de previsualizacion en la misma pantalla
@@ -33,29 +35,34 @@ export class AttachmentViewerComponent implements OnInit {
   public readonly urlIconExternalWindow: string = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
 
   constructor(private popupAlert: PopUpService,
-              private archiveService: ArchiveService) {
-    this.documentSupports = [
-      {
-        id:0,
-        nameDocument: 'Documento identidad',
-        path: './assets/binaries/listado.pdf'
-      },
-      { id:1,
-        nameDocument: 'Titulo',
-        path: './assets/binaries/listado.pdf'
-      },
-      { id:2,
-        nameDocument: 'Acta de grado',
-        path: './assets/binaries/listado.pdf'
-      },
-      { id:3,
-        nameDocument: 'Tarjeta profesional asdadsdsaasdad saa dsasd',
-        path: './assets/binaries/listado.pdf'
-      }
-    ];
+              private archiveService: ArchiveService,
+              private registerService: RegisterService, private controlContainer: ControlContainer) {
+
+    this.registerService.getDocumentsbyid("1").subscribe(resp => {
+
+      this.documentSupports = resp.result.data;
+  this.attachmentform.get('documentstate').setValue(this.documentSupports );
+      let documents:any[];
+
+
+    });
+
   }
 
   ngOnInit(): void {
+    this.attachmentform = this.controlContainer.control;
+    this.attachmentform = this.attachmentform.controls['attachmentform'];
+  }
+
+  public statechange(id: number): void {
+
+    for (const element of this.documentSupports) {
+      if (element.idDocumentTypeProcedureRequest == id) {
+        element.is_valid = !element.is_valid;
+        this.attachmentform.get('documentstate').setValue(this.documentSupports );
+        break;
+      }
+    }
   }
 
 

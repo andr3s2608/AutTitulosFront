@@ -23,6 +23,9 @@ export interface UserValidation {
   departamentoNacimiento: number,
   ciudadNacimiento: number,
   departamentoResidencia: number,
-  ciudadResidencia: number
+  ciudadResidencia: number,
+
+  idUser : string,
+  idUserVentanilla:number,
 
 }

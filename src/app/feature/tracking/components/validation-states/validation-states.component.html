@@ -19,7 +19,7 @@
               (change)="statechange()"
               [ngClass]="{'error': isTouchedField(validationStateForm, 'selectedstatus')}"><span class="required">(*)</span>
         <option value="" selected disabled>Seleccione</option>
-        <option *ngFor="let estados of solicitudstates" [value]="estados.idestado">{{estados.nombre}}</option>
+        <option *ngFor="let estados of solicitudstates" [value]="estados.idStatusType">{{estados.description}}</option>
 
 
       </select>
@@ -43,7 +43,7 @@
 
         <div class="row mt-3" >
           <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <p>Número de identificación: {{tramitNumber}}</p>
+            <p>Número de identificación: {{idnumber}}</p>
           </div>
           <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <p>Nombre y Apellidos: {{status}}</p>

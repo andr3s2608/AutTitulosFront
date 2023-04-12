@@ -1,3 +1,5 @@
+<form role="form" [formGroup]="attachmentform">
+
 <div class="row mt-4">
   <div class="col-xs-4 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
     <div class="colum_first">
@@ -11,17 +13,18 @@
         </thead>
         <tbody>
         <tr *ngFor="let document of documentSupports">
-          <td>{{document.nameDocument}}</td>
+          <td>{{document.idDocumentProcNavigation.description}}</td>
           <td class="d-flex mx-auto">
             <img (click)="visorWindowExternalPdf(document.path)" [src]="urlIconExternalWindow" class="img-fluid icon" alt="imagen-pdf-external">
             <img (click)="visorWindowActualPdf(document.path)" [src]="urlIconActualWindow" class="img-fluid icon" alt="imagen-pdf-actual">
           </td>
           <td>
-            <mat-radio-group name="opciones_{{document.id}}" aria-label="Select an option"  >
-              <mat-radio-button value="1" checked="true"  style="margin: 10px">
+            <mat-radio-group name="opciones_{{document.idDocumentTypeProcedureRequest}}" aria-label="Select an option"
+                             (change)="statechange(document.idDocumentTypeProcedureRequest)"  >
+              <mat-radio-button value="1" checked="{{document.is_valid}}"  style="margin: 10px">
                 SI
               </mat-radio-button>
-              <mat-radio-button  value="2"   style="margin: 10px">
+              <mat-radio-button  value="2"  checked="{{!document.is_valid}}" style="margin: 10px">
                 NO
               </mat-radio-button>
             </mat-radio-group>
@@ -40,3 +43,4 @@
     </div>
   </div>
 </div>
+</form>

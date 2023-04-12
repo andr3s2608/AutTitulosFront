@@ -55,7 +55,7 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
             i.idTipoIdentificacion != "5" &&
             i.idTipoIdentificacion != "6")
         });
-        console.log(resp.data);
+
         filtro.push({codigo: "PPT", descripcion: "Permiso Protección Temporal", idTipoIdentificacion: 4})
         this.identificationType = filtro;
       }
@@ -66,7 +66,6 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
    * validacion de caracteres permitidos por tipo de documento
    */
   public validationtype() {
-    console.log(this.basicDataForm.get('tipoDocumento').value)
     if (this.basicDataForm.get('tipoDocumento').value == 1) {
       this.basicDataForm.controls["numeroIdentificacion"].setValidators(
         [Validators.required, Validators.minLength(4), Validators.maxLength(10), Validators.pattern("^[0-9]*$")]);

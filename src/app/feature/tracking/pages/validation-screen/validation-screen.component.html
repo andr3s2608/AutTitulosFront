@@ -1,4 +1,7 @@
+<div class="row"*ngIf="show==true" >
 <form role="form" [formGroup]="validationForm">
+
+
   <app-advance-line [step]="stepAdvanceLine" [currentProgress]="currentProgressAdvanceLine" [source]="'validador'"></app-advance-line>
 
   <br>
@@ -127,7 +130,8 @@
              aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
           <div class="body-accordion-govco">
 
-            <app-validation-states></app-validation-states>
+            <app-validation-states [tramitNumber]="this.tramiteActual.filedNumber"
+                                   [idnumber]="this.tramiteActual.user.numeroIdentificacion"></app-validation-states>
 
           </div>
         </div>
@@ -142,10 +146,12 @@
         <br><br>
       </div>
       <div class="col-sm-12 col-md-9 col-lg-3">
-        <button  type="button" style="margin-left: 1rem;" class="btn-govco fill-btn-govco">Guardar</button>
+        <button  type="button" style="margin-left: 1rem;" (click)="saveRequest()" class="btn-govco fill-btn-govco">Guardar</button>
       </div>
 
     </div>
 
   </div>
+
 </form>
+</div>

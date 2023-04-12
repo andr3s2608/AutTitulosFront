@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder} from "@angular/forms";
 import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
+import {RegisterService} from "../../../../core/services/register.service";
 
 
 @Component({
@@ -11,7 +12,10 @@ import {AppBaseComponent} from "../../../../core/utils";
 })
 export class ValidationStatesComponent extends AppBaseComponent implements OnInit {
 
-  public tramitNumber: any = 1520;
+  @Input() tramitNumber: string;
+
+  @Input() idnumber: string;
+
   public status: any;
 
   /**
@@ -23,17 +27,13 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   public solicitudstates: any[] = [];
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService, private controlContainer: ControlContainer) {
+              public registerService: RegisterService, private controlContainer: ControlContainer) {
     super();
+    this.registerService.getStatusTypes("Funcionario").subscribe(resp => {
 
-    this.solicitudstates.push({idestado: 0, nombre: "Aprobado por parte del validador de documentos"})
-    this.solicitudstates.push({idestado: 1, nombre: "Negado por parte del validador de documentos"})
-    this.solicitudstates.push({idestado: 2, nombre: "Resuelve recurso de reposición de validación"})
-    this.solicitudstates.push({idestado: 3, nombre: "Solicitar Información"})
-    this.solicitudstates.push({idestado: 4, nombre: "Tramite-duplicado Anular"})
-    this.solicitudstates.push({idestado: 5, nombre: "Resuelve recurso de aclaración validación"})
-    this.solicitudstates.push({idestado: 6, nombre: "Firmar Documento"})
-    this.solicitudstates.push({idestado: 7, nombre: "Devolver validación Coordinador"})
+      this.solicitudstates = resp.result.data;
+      this.status=this.solicitudstates[0].description;
+    });
   }
 
   ngOnInit(): void {
@@ -42,11 +42,13 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   }
 
   public statechange(): void {
-
-
-    this.status = this.solicitudstates[this.validationStateForm.get('selectedstatus').value].nombre;
-
-
+    for (let i = 0; i < this.solicitudstates.length; i++) {
+      if((this.solicitudstates[i].idStatusType +"") === this.validationStateForm.get('selectedstatus').value)
+      {
+        this.status=this.solicitudstates[i].description;
+        break;
+      }
+    }
   }
 
   getErrorMessage(field: string): string {

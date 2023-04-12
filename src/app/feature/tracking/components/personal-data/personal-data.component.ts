@@ -128,6 +128,7 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
       this.minlengtype = '4';
       this.maxlengtype = '18';
     }
+    console.log(this.basicDataForm.get('numeroIdentificacion').value);
     this.basicDataForm.get('numeroIdentificacion').setValue(this.basicDataForm.get('numeroIdentificacion').value)
     this.basicDataForm.get('numeroIdentificacion').markAsTouched();
     if (!this.basicDataForm.get('numeroIdentificacion').valid) {
