@@ -7,7 +7,9 @@
         <label for="Nacionalidad">Nacionalidad<span class="required">(*)</span></label>
         <select class="form-select" id="Nacionalidad" aria-label="Default select example"
                 formControlName="nacionalidad"
-                [ngClass]="{'error': isTouchedField(geographicDataForm, 'nacionalidad')}">
+                [ngClass]="{'error': isTouchedField(geographicDataForm, 'nacionalidad')}"
+                (change)="changepais(this.geographicDataForm.controls['nacionalidad'].value)">
+
           <option value="" selected disabled>Seleccione</option>
           <option *ngFor="let nacionalidad of countries" [value]="nacionalidad.idPais">{{nacionalidad.nombre}}</option>
         </select>
@@ -19,8 +21,22 @@
       </div>
     </div>
 
+    <div class="col-sm-5 col-md-5" *ngIf="foreign==true">
+      <div class="entradas-de-texto-govco">
+        <label for="Ciudad de Nacimiento">Ciudad de Nacimiento<span class="required">(*)</span></label>
+        <input type="text" id="ciudadnacimientootro" placeholder="Ciudad de Nacimiento"
+               formControlName="ciudadnacimientootro"
+               [ngClass]="{'error': isTouchedField(geographicDataForm, 'ciudadnacimientootro')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" id="N. Documento Identidad-note" role="alert"
+          aria-live="assertive">
+            {{ getErrorMessage('ciudadnacimientootro') }}
+        </span>
+      </div>
+    </div>
 
-    <div class="col-sm-5 col-md-5">
+
+    <div class="col-sm-5 col-md-5" *ngIf="foreign==false">
       <div class="entradas-de-texto-govco">
         <label for="Departamento de Nacimiento">Departamento de Nacimiento<span
           class="required">(*)</span></label>
@@ -45,7 +61,7 @@
     </div>
 
 
-    <div class="col-sm-5 col-md-5">
+    <div class="col-sm-5 col-md-5" *ngIf="foreign==false">
       <div class="entradas-de-texto-govco">
         <label for="Ciudad de Nacimiento">Ciudad de Nacimiento<span class="required">(*)</span></label>
         <select class="form-select" id="Ciudad de Nacimiento" aria-label="Default select example"

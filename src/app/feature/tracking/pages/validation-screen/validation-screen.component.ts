@@ -5,6 +5,12 @@ import {AppBaseComponent} from "../../../../core/utils";
 import {ProcedureValidation, UserValidation} from "../../../../core/models";
 import {formatDate} from "@angular/common";
 import {RegisterService} from "../../../../core/services/register.service";
+import {TrackingService} from "../../../../core/services/tracking.service";
+import {DocumentsService} from "../../../../core/services/documents.service";
+import {RequestService} from "../../../../core/services/request.service";
+import {ResolutionService} from "../../../../core/services/resolution.service";
+import {ROUTES} from "../../../../core/enums";
+import {Router} from "@angular/router";
 
 /**
  * Component que permite validar la información de un trámite
@@ -20,7 +26,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
    * Representa el tramite actual a validar
    */
   public tramiteActual: ProcedureValidation;
-  public prueba: any;
+
+  /**
+   * lista de seguimiento
+   */
+  public tracking: any[]=[];
   /**
    * Representa el usuario tramite actual a validar
    */
@@ -49,14 +59,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   public currentProgressAdvanceLine: number;
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService,public registerService: RegisterService,
-              private popupAlert: PopUpService)
+              public cityService: CityService,
+              public registerService: RegisterService,
+              public trackingService: TrackingService,
+              public documentsService: DocumentsService,
+              public requestService: RequestService,
+              public resolutiontService: ResolutionService,
+              private popupAlert: PopUpService,private router: Router)
   {
     super();
-    this.registerService.getRequestbyid("1").subscribe(resp => {
+    this.requestService.getRequestbyid("1").subscribe(resp => {
       let datatramite= resp.result.data;
 
-      this.registerService.getInfoUserByIdCodeVentanilla("1922").subscribe(resp2 => {
+      this.registerService.getInfoUserByIdCodeVentanilla(datatramite.user_code_ventanilla).subscribe(resp2 => {
 
         let data= resp2.data;
         this.user={
@@ -110,11 +125,18 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           professionalCard: datatramite.professional_card
         }
 
+        this.trackingService.getTrackingbyid(datatramite.idProcedureRequest).subscribe(resp3 => {
+          this.tracking=resp3.result.data;
+        });
+
         this.loadInfoTramiteActual();
         this.show=true;
 
       });
     });
+
+
+
 
 
 
@@ -238,7 +260,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       const json:any ={
         IdProcedureRequest:this.tramiteActual.id,
         IdTitleTypes:this.validationForm.get('requestDataForm.titleTypeId').value,
-       IdStatus_types:this.validationForm.get('validationstateform.selectedstatus').value,
+        IdStatus_types:this.validationForm.get('validationstateform.selectedstatus').value,
         IdInstitute:this.validationForm.get('requestDataForm.instituteId').value,
         IdProfessionInstitute:this.validationForm.get('requestDataForm.professionId').value,
         IdUser:this.tramiteActual.user.idUser,
@@ -260,7 +282,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         name_institute_international:"",
       }
 
-      this.registerService.updateRequest(json).subscribe(resp => {
+      this.requestService.updateRequest(json).subscribe(resp => {
       });
 
       //actualizacion de documentos
@@ -277,8 +299,27 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           registration_date: element.registration_date,
         })
       }
-      this.registerService.updateDocumentsbyid(documentstoupdate).subscribe(resp => {
+      this.documentsService.updateDocumentsbyid(documentstoupdate).subscribe(resp => {
       });
+
+      //guardado resolution bd
+      if(this.validationForm.get('validationstateform.selectedstatus').value===11 && this.tramiteActual.statusId===4)
+      {
+        const resolution:any =
+          {
+            idResolution: 0,
+            idProcedureRequest: this.tramiteActual.id,
+            number: "prueba",
+            date: new Date(Date.now()),
+            path: "prueba"
+          }
+
+        this.resolutiontService.addResolution(resolution).subscribe(resp => {
+        });
+      }
+
+
+
 
       //guardado de seguimiento
       let motivosaclaracion:string=this.validationForm.get('validationstateform.checkBoxnameserror').value+'/'+
@@ -305,12 +346,18 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           paragraph_MA: this.validationForm.get('validationstateform.aclarationparagraph').value,
           paragraph_JMA1: this.validationForm.get('validationstateform.justificationparagraph1').value,
           paragraph_JMA2:this.validationForm.get('validationstateform.justificationparagraph2').value,
-          paragraph_AMA: this.validationForm.get('validationstateform.aclarationparagrapharticle').value
+          paragraph_AMA: this.validationForm.get('validationstateform.aclarationparagrapharticle').value,
+          dateTracking:new Date(Date.now())
         }
 
-      this.registerService.addTracking(tracking).subscribe(resp => {
+      this.trackingService.addTracking(tracking).subscribe(resp => {
       });
 
+      this.popupAlert.successAlert(
+        `Solicitad Validada Exitosamente`,
+        4000
+      );
+      this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)
 
 
     }

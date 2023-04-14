@@ -3,6 +3,7 @@ import {ControlContainer, FormBuilder} from "@angular/forms";
 import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
 import {RegisterService} from "../../../../core/services/register.service";
+import {StatusService} from "../../../../core/services/status.service";
 
 
 @Component({
@@ -27,9 +28,9 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   public solicitudstates: any[] = [];
 
   constructor(public fb: FormBuilder,
-              public registerService: RegisterService, private controlContainer: ControlContainer) {
+              public statusService: StatusService, private controlContainer: ControlContainer) {
     super();
-    this.registerService.getStatusTypes("Funcionario").subscribe(resp => {
+    this.statusService.getStatusTypes("Funcionario").subscribe(resp => {
 
       this.solicitudstates = resp.result.data;
       this.status=this.solicitudstates[0].description;

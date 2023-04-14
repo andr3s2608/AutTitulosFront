@@ -65,16 +65,16 @@
             <div class="row mt-3">
               <div class=" col-md-5 col-lg-3 ">
                 <div class="entradas-de-texto-govco">
-                  <label for="Vía Ppal">Vía Ppal<span class="required">(*)</span></label>
-                  <select class="form-select" id="Vía Ppal" aria-label="Default select example" formControlName="viaprincipal"
+                  <label for="viaprincipal">Vía Ppal<span class="required">(*)</span></label>
+                  <select class="form-select" id="viaprincipal" aria-label="Default select example" formControlName="viaprincipal"
                           [ngClass]="{'error': isTouchedField(naturalForm, 'viaprincipal')}">
                     <option value="" selected disabled>Seleccione</option>
-                    <option value="">AK - Avenida Carrera</option>
-                    <option value="">AC - Avenida Calle</option>
-                    <option value="">CL - Calle</option>
-                    <option value="">DG - Diagonal</option>
-                    <option value="">KR - Carrera</option>
-                    <option value="">TV - Transversal</option>
+                    <option value="AK">AK - Avenida Carrera</option>
+                    <option value="AC">AC - Avenida Calle</option>
+                    <option value="CL">CL - Calle</option>
+                    <option value="DG">DG - Diagonal</option>
+                    <option value="KR">KR - Carrera</option>
+                    <option value="TV">TV - Transversal</option>
                   </select>
                   <span
                     class="error-texto-govco alert-entradas-de-texto-govco" id="viaprincipal-note" role="alert"
@@ -178,10 +178,11 @@
                 </div>
               </div>
 
+
               <div class="col-sm-12 col-md-2">
                 <div class="entradas-de-texto-govco">
-                  <label for="Placa">Placa<span class="required">(*)</span></label>
-                  <input type="text" id="Placa" placeholder="placa" formControlName="placa"
+                  <label for="placa">Placa<span class="required">(*)</span></label>
+                  <input type="text" id="placa" placeholder="placa" formControlName="placa"
                          [ngClass]="{'error': isTouchedField(naturalForm, 'placa')}"/>
                   <span
                     class="error-texto-govco alert-entradas-de-texto-govco" id="placa-note" role="alert"
@@ -215,7 +216,7 @@
               </div>
               <div class="col-sm-12 col-md-2">
                 <div class="entradas-de-texto-govco">
-                  <label for="Placa">Detalle</label>
+                  <label for="Detalle">Detalle</label>
                   <input type="text" id="Detalle" placeholder="Num"/>
                 </div>
               </div>
@@ -238,6 +239,7 @@
                 <button type="button" class="btn-govco fill-btn-govco">Confirmar Dirección</button>
               </div>
             </div>
+
 
 
             <div class="row mt-3 ">

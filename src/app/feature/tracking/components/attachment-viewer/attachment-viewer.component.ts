@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ArchiveService, PopUpService} from "../../../../core/services";
 import {RegisterService} from "../../../../core/services/register.service";
 import {ControlContainer, FormGroup} from "@angular/forms";
+import {DocumentsService} from "../../../../core/services/documents.service";
 
 /**
  * Component que permite visualizar documentos cargados en el trámite
@@ -36,9 +37,9 @@ export class AttachmentViewerComponent implements OnInit {
 
   constructor(private popupAlert: PopUpService,
               private archiveService: ArchiveService,
-              private registerService: RegisterService, private controlContainer: ControlContainer) {
+              private documentService: DocumentsService, private controlContainer: ControlContainer) {
 
-    this.registerService.getDocumentsbyid("1").subscribe(resp => {
+    this.documentService.getDocumentsbyid("1").subscribe(resp => {
 
       this.documentSupports = resp.result.data;
   this.attachmentform.get('documentstate').setValue(this.documentSupports );

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ControlContainer, FormBuilder} from "@angular/forms";
+import {ControlContainer, FormBuilder, Validators} from "@angular/forms";
 import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
 
@@ -37,6 +37,11 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
    */
   public municipalitiesResidencia: any[];
 
+  /**
+   * Lista de municipios de residencia
+   */
+  public foreign:boolean=false;
+
 
   constructor(public fb: FormBuilder,
               public cityService: CityService, private controlContainer: ControlContainer)
@@ -61,6 +66,37 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
         this.municipalitiesNacimiento = resp.data;
       });
     }
+  }
+
+  /**
+   * cambia nacionalidad
+   * @param idpais Id del pais
+   */
+  public changepais(idpais:any): void {
+      if(idpais==170)
+      {
+        console.log(false)
+        this.geographicDataForm.controls["departamentoNacimiento"].setValidators(
+          [Validators.required]);
+        this.geographicDataForm.controls["departamentoNacimiento"].updateValueAndValidity();
+        this.geographicDataForm.controls["ciudadNacimiento"].setValidators(
+          [Validators.required]);
+        this.geographicDataForm.controls["ciudadNacimiento"].updateValueAndValidity();
+        this.geographicDataForm.controls["ciudadnacimientootro"].setValidators([]);
+        this.geographicDataForm.controls["ciudadnacimientootro"].updateValueAndValidity();
+        this.foreign=false;
+      }
+      else {
+        console.log(true)
+        this.geographicDataForm.controls["departamentoNacimiento"].setValidators([]);
+        this.geographicDataForm.controls["departamentoNacimiento"].updateValueAndValidity();
+        this.geographicDataForm.controls["ciudadNacimiento"].setValidators([]);
+        this.geographicDataForm.controls["ciudadNacimiento"].updateValueAndValidity();
+        this.geographicDataForm.controls["ciudadnacimientootro"].setValidators(
+          [Validators.required]);
+        this.geographicDataForm.controls["ciudadnacimientootro"].updateValueAndValidity();
+        this.foreign=true;
+      }
   }
 
   /**

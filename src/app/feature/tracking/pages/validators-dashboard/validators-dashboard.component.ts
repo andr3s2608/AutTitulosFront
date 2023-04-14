@@ -63,5 +63,13 @@ export class ValidatorsDashboardComponent implements OnInit{
 
   }
 
+  public getdashboard(): void
+  {
+
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
+
+  }
+
+
 
 }
