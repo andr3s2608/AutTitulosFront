@@ -115,14 +115,15 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           dateTracking:  new Date(Date.now()),
           titleTypeId: datatramite.idTitleTypes,
           instituteId: datatramite.idInstitute,
-          professionId: datatramite.idProfessionInstitute,
           diplomaNumber: datatramite.idProcedureRequest,
           graduationCertificate: datatramite.idProfessionInstitute,
           endDate: datatramite.end_date,
           book: datatramite.book ? datatramite.book :'',
           folio:datatramite.folio? datatramite.folio :'',
           yearTitle: datatramite.year_title,
-          professionalCard: datatramite.professional_card
+          professionalCard: datatramite.professional_card,
+          filed_date:datatramite.filed_date,
+          name_institute:datatramite.name_institute,
         }
 
         this.trackingService.getTrackingbyid(datatramite.idProcedureRequest).subscribe(resp3 => {
@@ -198,7 +199,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       requestDataForm: this.fb.group({
         titleTypeId: [ this.tramiteActual.titleTypeId, [ Validators.required ] ],
         instituteId: [ this.tramiteActual.instituteId, [ Validators.required ] ],
-        professionId: [ this.tramiteActual.professionId, [ Validators.required ] ],
+        professionId: [ "", [ Validators.required ] ],
         diplomaNumber: [ this.tramiteActual.diplomaNumber, [ Validators.pattern("^[0-9]*$") ] ],
         graduationCertificate: [ this.tramiteActual.graduationCertificate, [ ] ],
         endDate: [ formatDate(new Date(this.tramiteActual.endDate), 'yyyy-MM-dd', 'en'), [ Validators.required, super.dateValidator ] ],
@@ -257,6 +258,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     else {
 
 
+      const aplicantname=this.validationForm.get('basicDataForm.primerNombre').value+
+        (this.validationForm.get('basicDataForm.segundoNombre').value!=null ?this.validationForm.get('basicDataForm.segundoNombre').value : "" )+
+        this.validationForm.get('basicDataForm.primerApellido').value+
+        (this.validationForm.get('basicDataForm.segundoApellido').value!=null ?this.validationForm.get('basicDataForm.segundoApellido').value : "" );
       const json:any ={
         IdProcedureRequest:this.tramiteActual.id,
         IdTitleTypes:this.validationForm.get('requestDataForm.titleTypeId').value,
@@ -266,7 +271,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         IdUser:this.tramiteActual.user.idUser,
         user_code_ventanilla:this.tramiteActual.user.idUserVentanilla,
         filed_number:this.tramiteActual.filedNumber,
-        IdProfession:this.validationForm.get('requestDataForm.professionId').value,
+        //IdProfession:this.validationForm.get('requestDataForm.professionId').value,
         diploma_number:this.validationForm.get('requestDataForm.diplomaNumber').value,
         graduation_certificate:this.validationForm.get('requestDataForm.graduationCertificate').value,
         end_date:this.validationForm.get('requestDataForm.endDate').value,
@@ -274,12 +279,17 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         folio:this.validationForm.get('requestDataForm.folio').value,
         year_title:this.validationForm.get('requestDataForm.yearTitle').value,
         professional_card:this.validationForm.get('requestDataForm.professionalCard').value,
-        name_international_university:"",
         IdCountry:1,
         number_resolution_convalidation:"",
         date_resolution_convalidation:new Date(Date.now()),
         IdEntity:1,
-        name_institute_international:"",
+        name_institute:"",
+        last_status_date:new Date(Date.now()),
+        filed_date:new Date(this.tramiteActual.filed_date),
+        last_status_date:new Date(Date.now()),
+        IdNumber:this.validationForm.get('basicDataForm.numeroIdentificacion').value,
+        AplicantName:aplicantname,
+        name_profession:"",
       }
 
       this.requestService.updateRequest(json).subscribe(resp => {

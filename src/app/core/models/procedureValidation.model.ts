@@ -14,13 +14,14 @@ export interface ProcedureValidation {
   "dateTracking": Date,
   "titleTypeId": number,
   "instituteId": number,
-  "professionId": number,
   "diplomaNumber": number,
+  "filed_date": Date,
   "graduationCertificate": string,
   "endDate": Date,
   "book": string,
   "folio": string,
   "yearTitle": number,
-  "professionalCard": string
+  "professionalCard": string,
+  "name_institute": string,
 
 }
