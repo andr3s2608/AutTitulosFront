@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CityService} from "../../../../core/services";
 import {Router} from "@angular/router";
+import {ReportsService} from "../../../../core/services/reports.service";
 
 @Component({
   selector: 'app-report-page',
@@ -36,7 +37,7 @@ export class ReportPageComponent implements OnInit {
 
 
   constructor(public fb: FormBuilder,
-              public cityService: CityService, private router: Router) {
+              public reportsService: ReportsService, private router: Router) {
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 75;
     this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
@@ -44,30 +45,125 @@ export class ReportPageComponent implements OnInit {
     this.reportsform = this.fb.group({
       begindate: [''],
       enddate: [''],
+      selector: [''],
+      textfilter: [''],
 
 
     });
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < 8; i++) {
-      this.tableFilter.push(
-        {
-          idsolicitud: i, ndoc: (120 * i), nombre: "pepito" + i,
-          tipo: "titulox",
-          fecha: new Date("0" + (i + 1) + "/02/2022"),
-          estado: "en curso", tiempo: i + " dias restantes"
-        }
-      )
-    }
 
+    let datefinal = new Date(Date.now());
+
+    // Get year, month, and day part from the date
+    let yearfinal = datefinal.toLocaleString("default", {year: "numeric"});
+    let monthfinal = datefinal.toLocaleString("default", {month: "2-digit"});
+    let dayfinal = datefinal.toLocaleString("default", {day: "2-digit"});
+    // Generate yyyy-mm-dd date string
+    let formattedDatefinal = yearfinal + "-" + monthfinal + "-" + dayfinal;
+
+
+    //se toman los 30 dias iniciales
+    let dateinitial = new Date(Date.now());
+    dateinitial.setDate(dateinitial.getDate() - 30);
+
+    // Get year, month, and day part from the date
+    let yearinitial = dateinitial.toLocaleString("default", {year: "numeric"});
+    let monthinitial = dateinitial.toLocaleString("default", {month: "2-digit"});
+    let dayinitial = dateinitial.toLocaleString("default", {day: "2-digit"});
+    // Generate yyyy-mm-dd date string
+    let formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
+
+
+    this.reportsService.getReportsDashboard(
+      formattedDateinitial + "",
+      formattedDatefinal + "",
+      "" + " ",
+      "" + " ",
+      "" + " ",
+      "1",
+      "15").subscribe(resp => {
+      this.tableFilter = resp.result.data;
+
+    });
   }
 
-  public validar(id: any): void {
+  public getDashboard(type: string): void {
+    let dateinitial;
+    let datefinal;
+    if (this.reportsform.get('begindate').value != null && this.reportsform.get('begindate').value != "") {
+      dateinitial = this.reportsform.get('begindate').value;
+
+    } else {
+      dateinitial = new Date(Date.now());
+      //se toman los 30 dias iniciales
+      dateinitial.setDate(dateinitial.getDate() - 30);
+    }
+    if (this.reportsform.get('enddate').value != null && this.reportsform.get('enddate').value != "") {
+      datefinal = this.reportsform.get('enddate').value;
+
+    } else {
+    datefinal = new Date(Date.now());
+    }
+
+
+    // Get year, month, and day part from the date
+    let yearfinal = datefinal.toLocaleString("default", {year: "numeric"});
+    let monthfinal = datefinal.toLocaleString("default", {month: "2-digit"});
+    let dayfinal = datefinal.toLocaleString("default", {day: "2-digit"});
+    // Generate yyyy-mm-dd date string
+    let formattedDatefinal = yearfinal + "-" + monthfinal + "-" + dayfinal;
+
+
+
+
+
+    // Get year, month, and day part from the date
+    let yearinitial = dateinitial.toLocaleString("default", {year: "numeric"});
+    let monthinitial = dateinitial.toLocaleString("default", {month: "2-digit"});
+    let dayinitial = dateinitial.toLocaleString("default", {day: "2-digit"});
+    // Generate yyyy-mm-dd date string
+    let formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
+
+
+    if (type === 'filtro') {
+      this.reportsService.getReportsDashboard(
+        formattedDateinitial + "",
+        formattedDatefinal + "",
+        "" + " ",
+        this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" " ,
+        "" + " ",
+        "1",
+        "15").subscribe(resp => {
+        this.tableFilter = resp.result.data;
+
+      });
+
+    }
+    else {
+      this.reportsService.getReportsDashboard(
+        formattedDateinitial + "",
+        formattedDatefinal + "",
+        this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
+        " " ,
+        "" + " ",
+        "1",
+        "15").subscribe(resp => {
+        this.tableFilter = resp.result.data;
+
+      });
+    }
 
     // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
 
   }
 
+  public validar(id: any): void {
+
+
+    // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
+
+  }
 
 }

@@ -99,7 +99,10 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
    * validacion de caracteres permitidos por tipo de documento
    */
   public validationtype() {
-    console.log(this.basicDataForm.get('tipoDocumento').value)
+
+
+    this.basicDataForm.get('documentodescripcion').setValue(this.identificationType[this.basicDataForm.get('tipoDocumento').value-1].descripcion);
+
     if (this.basicDataForm.get('tipoDocumento').value == 1) {
       this.basicDataForm.controls["numeroIdentificacion"].setValidators(
         [Validators.required, Validators.minLength(4), Validators.maxLength(10), Validators.pattern("^[0-9]*$")]);

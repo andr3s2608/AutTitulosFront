@@ -24,6 +24,13 @@ export class RequestService {
   getRequestbyid(id: string) : Observable<any> {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetRequestByid/${id}`);
   }
+  /**
+   * Obtiene la bandeja del validador
+   * @param id
+   */
+  getDashboardValidation(finaldate: string,texttosearch:string,selectedfilter:string,pagenumber:string,pagination:string) : Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetDashboard/${finaldate}/${texttosearch}/${selectedfilter}/${pagenumber}/${pagination}`);
+  }
 
   /**
    * Obtiene los datos de la solicitud

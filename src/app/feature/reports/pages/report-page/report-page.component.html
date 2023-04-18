@@ -33,16 +33,18 @@
     <div class="col-sm-12 col-md-6">
       <div class="entradas-de-texto-govco">
         <label>Tipo reporte</label>
-        <select class="form-select" id="selector" aria-label="Default select example">
+        <select class="form-select" id="selector" aria-label="Default select example"
+                formControlName="selector"
+        >
           <option value="" selected disabled>Seleccione</option>
           <option value="">Consultar trámites por N° de Identificación</option>
-          <option value="">Consultar trámites Aprobados</option>
-          <option value="">Consultar trámites Aclarados</option>
-          <option value="">Consultar trámites Rechazados</option>
-          <option value="">Consultar trámites en Recurso Reposición o Aclaración</option>
-          <option value="">Consultar trámites Negaos</option>
-          <option value="">Consultar trámites Anulados</option>
-          <option value="">Consultar trámites Soicitados</option>
+          <option value="aprobado">Consultar trámites Aprobados</option>
+          <option value="aclaraci">Consultar trámites Aclarados</option>
+          <option value="negado">Consultar trámites Rechazados</option>
+          <option value="aclaraci">Consultar trámites en Recurso Reposición o Aclaración</option>
+          <option value="negado">Consultar trámites Negados</option>
+          <option value="anular">Consultar trámites Anulados</option>
+          <option value="registro">Consultar trámites Solicitados</option>
           <option value="">Resolucion 3030 de 2014 Aprobados</option>
           <option value="">Resolucion 3030 de 2014 Aclarados</option>
         </select>
@@ -53,7 +55,7 @@
 
   <div class="row mt-3 justify-content-center" style="text-align: center">
     <div class="col-sm-5 col-md-6 col-lg-3">
-      <button type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Consultar</button>
+      <button (click)="getDashboard('filtro')"     type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Consultar</button>
     </div>
     <div class="col-sm-5 col-md-7 col-lg-7">
       <button type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
@@ -78,10 +80,10 @@
       <p>Buscar:</p>
     </div>
     <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
-      <input type="text" id="textfilter" formControlName="textfilter"/>
+      <input type="text" id="textfilter" formControlName="textfilter" />
     </div>
     <div class="col-xxl-2 col-md-2 col-lg-2 col-sm-2 col-xs-2">
-      <button type="button" class="btn-govco fill-btn-govco">Filtrar</button>
+      <button (click)="getDashboard('text')" type="button" class="btn-govco fill-btn-govco">Filtrar</button>
     </div>
   </div>
   <br>
@@ -106,18 +108,18 @@
             </tr>
             <tbody>
             <tr *ngFor="let item of tableFilter; let i= index">
-              <td>{{item.idsolicitud}}</td>
-              <td> {{item.ndoc}}  </td>
-              <td>{{item.tipodoc}}</td>
-              <td>{{item.nombre}}</td>
-              <td>{{item.tipo}}</td>
-              <td>{{item.fecha| date: 'dd/MM/yyyy'}}</td>
+              <td>{{item.idfiled}}</td>
+              <td> {{item.idnumber}}  </td>
+              <td>{{item.iddoctype}}</td>
+              <td>{{item.aplicantname}}</td>
+              <td>{{item.titletype}}</td>
+              <td>{{item.fileddate| date: 'dd-MM-yyyy'}}</td>
               <td class="text-justify">
                 <a (click)="validar(item.idsolicitud)"> <u class="govco-edit-1">Validar</u> </a>
               </td>
-              <td *ngIf="item.estado != null">{{item.estado}}</td>
-
-              <td>
+              <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
+              <td *ngIf="item.resolutionpath == ''"></td>
+              <td *ngIf="item.resolutionpath != ''">
                 <img alt="icono-pdf-external" [src]="urlIconExternalWindow" class="img-fluid icon">
                 <img alt="icono-pdf-actual" [src]="urlIconActualWindow" class="img-fluid icon">
 

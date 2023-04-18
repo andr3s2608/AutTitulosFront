@@ -68,7 +68,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
               private popupAlert: PopUpService,private router: Router)
   {
     super();
-    this.requestService.getRequestbyid("1").subscribe(resp => {
+    let procedure=localStorage.getItem("procedure");
+    this.requestService.getRequestbyid(procedure).subscribe(resp => {
       let datatramite= resp.result.data;
 
       this.registerService.getInfoUserByIdCodeVentanilla(datatramite.user_code_ventanilla).subscribe(resp2 => {
@@ -162,6 +163,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       }),
 
       basicDataForm: this.fb.group({
+        documentodescripcion: [ ''],
         tipoDocumento: [ this.tramiteActual.user.tipoDocumento , [ Validators.required ]],
         numeroIdentificacion: [ this.tramiteActual.user.numeroIdentificacion+"" , [ Validators.required ]],
         primerNombre: [ this.tramiteActual.user.primerNombre , [ Validators.required ,Validators.minLength(1), Validators.maxLength(50),Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
@@ -258,10 +260,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     else {
 
 
-      const aplicantname=this.validationForm.get('basicDataForm.primerNombre').value+
-        (this.validationForm.get('basicDataForm.segundoNombre').value!=null ?this.validationForm.get('basicDataForm.segundoNombre').value : "" )+
-        this.validationForm.get('basicDataForm.primerApellido').value+
-        (this.validationForm.get('basicDataForm.segundoApellido').value!=null ?this.validationForm.get('basicDataForm.segundoApellido').value : "" );
+      const aplicantname=this.validationForm.get('basicDataForm.primerNombre').value.toString().toUpperCase()+" "+
+        (this.validationForm.get('basicDataForm.segundoNombre').value!=null ?this.validationForm.get('basicDataForm.segundoNombre').value.toString().toUpperCase() : "" )+" "+
+        this.validationForm.get('basicDataForm.primerApellido').value.toString().toUpperCase()+" "+
+        (this.validationForm.get('basicDataForm.segundoApellido').value!=null ?this.validationForm.get('basicDataForm.segundoApellido').value.toString().toUpperCase() : "" )+" ";
       const json:any ={
         IdProcedureRequest:this.tramiteActual.id,
         IdTitleTypes:this.validationForm.get('requestDataForm.titleTypeId').value,
@@ -286,10 +288,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         name_institute:"",
         last_status_date:new Date(Date.now()),
         filed_date:new Date(this.tramiteActual.filed_date),
-        last_status_date:new Date(Date.now()),
         IdNumber:this.validationForm.get('basicDataForm.numeroIdentificacion').value,
         AplicantName:aplicantname,
         name_profession:"",
+        IdDocument_type:this.validationForm.get('basicDataForm.documentodescripcion').value,
       }
 
       this.requestService.updateRequest(json).subscribe(resp => {

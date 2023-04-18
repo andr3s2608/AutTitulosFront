@@ -15,20 +15,21 @@
       <div class="row entradas-de-texto-govco">
 
         <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
-          <select class="form-select" id="selector" aria-label="Default select example">
+          <select class="form-select" id="selector" aria-label="Default select example"
+                  formControlName="selector">
             <option value="" selected disabled>Seleccione</option>
-            <option value="">Id Solicitud</option>
-            <option value="">No Doc de Identidad</option>
-            <option value="">Nombre Solicitante</option>
-            <option value="">Tipo de Título</option>
-            <option value="">Fecha de Registro Solicitud</option>
-            <option value="">Estado de la Solicitud</option>
-            <option value="">Tiempo de Atención Restante</option>
+            <option value="filed_number">Id Solicitud</option>
+            <option value="IdNumber">No Doc de Identidad</option>
+            <option value="AplicantName">Nombre Solicitante</option>
+            <option value="TitleType">Tipo de Título</option>
+            <option value="filed_date">Fecha de Registro Solicitud</option>
+            <option value="status">Estado de la Solicitud</option>
+            <option value="tiempo">Tiempo de Atención Restante</option>
           </select>
         </div>
         <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
           <div>
-            <input type="text" id="textfilter" placeholder="Ingrese Su Busqueda"/>
+            <input type="text" id="textfilter" formControlName="textfilter" placeholder="Ingrese Su Busqueda"/>
           </div>
         </div>
         <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
@@ -59,22 +60,21 @@
             <th>Tipo de Título</th>
             <th>Fecha de Registro Solicitud</th>
             <th>Estado de la Solicitud</th>
-            <th>Acciones Permitidas</th>
             <th> Tiempo de Atención Restante</th>
+            <th>Acciones Permitidas</th>
 
           </tr>
           <tbody>
           <tr *ngFor="let item of tableFilter; let i= index">
-            <td>{{item.idsolicitud}}</td>
-            <td> {{item.ndoc}}  </td>
-            <td>{{item.nombre}}</td>
-            <td>{{item.tipo}}</td>
-            <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
-            <td *ngIf="item.estado != null">{{item.estado}}</td>
-
-            <td>{{item.tiempo}}</td>
+            <td>{{item.idfiled}}</td>
+            <td> {{item.idnumber}}  </td>
+            <td>{{item.aplicantname}}</td>
+            <td>{{item.titletype}}</td>
+            <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
+            <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
+            <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
             <td class="text-justify">
-              <a (click)="validar(item.idsolicitud)"> <u class="govco-edit-1">Validar</u> </a>
+              <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
             </td>
           </tr>
           </tbody>

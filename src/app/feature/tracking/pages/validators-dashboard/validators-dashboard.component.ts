@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {CityService} from "../../../../core/services";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ROUTES} from "../../../../core/enums";
+import {RequestService} from "../../../../core/services/request.service";
 
 @Component({
   selector: 'app-validators-dashboard',
@@ -26,14 +27,15 @@ export class ValidatorsDashboardComponent implements OnInit{
    */
   public currentProgressAdvanceLine: number;
   constructor(
-    public cityService: CityService,public fb: FormBuilder, private router: Router
+    public requestService: RequestService,public fb: FormBuilder, private router: Router
 
   )
   {
     this.currentProgressAdvanceLine=50;
     this.stepAdvanceLine=2;
     this.validatorForm = this.fb.group({
-      textToSearch: [''],
+      selector: [''],
+      textfilter: [''],
       pageSize: [10],
       pageNumber: [1],
     });
@@ -43,30 +45,58 @@ export class ValidatorsDashboardComponent implements OnInit{
 
   ngOnInit(): void {
 
-    for (let i = 0; i < 8; i++) {
-      this.tableFilter.push(
-        {idsolicitud:i,ndoc:(120*i),nombre:"pepito"+i,
-          tipo:"titulox",
-          fecha:new Date("0"+(i+1)+"/02/2022"),
-          estado:"en curso",tiempo:i+" dias restantes"
-        }
-      )
-    }
+    let date = new Date(Date.now());
 
+// Get year, month, and day part from the date
+    let year = date.toLocaleString("default", { year: "numeric" });
+    let month = date.toLocaleString("default", { month: "2-digit" });
+    let day = date.toLocaleString("default", { day: "2-digit" });
+
+// Generate yyyy-mm-dd date string
+    let formattedDate = year + "-" + month + "-" + day;
+    this.requestService.getDashboardValidation(
+      formattedDate+"",
+      ""+" ",
+      ""+" ",
+      "1",
+      "15").subscribe(resp => {
+        this.tableFilter=resp.result.data;
+
+    });
 
   }
 
   public validar(id:any): void
   {
-
+    localStorage.setItem("procedure",id+"");
     this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
 
   }
 
   public getdashboard(): void
   {
+      let selector=  this.validatorForm.get('selector').value;
+      let text=  this.validatorForm.get('textfilter').value;
 
-    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
+
+    let date = new Date(Date.now());
+
+// Get year, month, and day part from the date
+    let year = date.toLocaleString("default", { year: "numeric" });
+    let month = date.toLocaleString("default", { month: "2-digit" });
+    let day = date.toLocaleString("default", { day: "2-digit" });
+
+// Generate yyyy-mm-dd date string
+    let formattedDate = year + "-" + month + "-" + day;
+    this.requestService.getDashboardValidation(
+      formattedDate+"",
+      (text==null || text=="") ? " ":text,
+      (selector==null || selector=="") ? " ":selector,
+      "1",
+      "15").subscribe(resp => {
+      this.tableFilter=resp.result.data;
+      console.log(resp.result.data)
+    });
 
   }
 
