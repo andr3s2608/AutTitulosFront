@@ -14,6 +14,14 @@ export class ValidatorsDashboardComponent implements OnInit{
   public validatorForm: FormGroup;
   tableFilter: any[] = [];
 
+  public lastfilters:any = {
+    finaldate:"",
+    texttosearch:" ",
+    selectedfilter:" ",
+    pagenumber:"1",
+    pagination:"15"
+  }
+
   lengthpages:number=0;
 
 
@@ -63,7 +71,13 @@ export class ValidatorsDashboardComponent implements OnInit{
         this.tableFilter=resp.result.data;
 
     });
-
+    this.lastfilters= {
+      finaldate:formattedDate+"",
+      texttosearch:""+" ",
+      selectedfilter:""+" ",
+      pagenumber:"1",
+      pagination:"15"
+    }
   }
 
   public validar(id:any): void
@@ -95,8 +109,15 @@ export class ValidatorsDashboardComponent implements OnInit{
       "1",
       "15").subscribe(resp => {
       this.tableFilter=resp.result.data;
-      console.log(resp.result.data)
+
     });
+  this.lastfilters= {
+    finaldate:formattedDate+"",
+    texttosearch:(text==null || text=="") ? " ":text,
+    selectedfilter:(selector==null || selector=="") ? " ":selector,
+    pagenumber:"1",
+    pagination:"15"
+  }
 
   }
 

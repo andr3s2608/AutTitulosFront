@@ -4,6 +4,7 @@ import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
 import {RegisterService} from "../../../../core/services/register.service";
 import {StatusService} from "../../../../core/services/status.service";
+import {TrackingService} from "../../../../core/services/tracking.service";
 
 
 @Component({
@@ -17,6 +18,16 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
 
   @Input() idnumber: string;
 
+  @Input() apliccantname: string;
+
+  /**
+   * estado seleccionado a mostrar
+   */
+  public showduplicated: boolean=false;
+
+  /**
+   * estado seleccionado a mostrar
+   */
   public status: any;
 
   /**
@@ -24,22 +35,40 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
    */
   public validationStateForm: any;
 
-
+  /**
+   * lista de los estados de validacion
+   */
   public solicitudstates: any[] = [];
 
-  constructor(public fb: FormBuilder,
-              public statusService: StatusService, private controlContainer: ControlContainer) {
-    super();
-    this.statusService.getStatusTypes("Funcionario").subscribe(resp => {
+  /**
+   * lista de los tramites con el mismo n° de identificacion
+   */
+  public duplicatedid: any[] = [];
 
-      this.solicitudstates = resp.result.data;
-      this.status=this.solicitudstates[0].description;
-    });
+  constructor(public fb: FormBuilder,
+              public statusService: StatusService,public trackingService: TrackingService, private controlContainer: ControlContainer) {
+    super();
+
   }
 
   ngOnInit(): void {
     this.validationStateForm = this.controlContainer.control;
     this.validationStateForm = this.validationStateForm.controls['validationstateform'];
+
+    this.statusService.getStatusTypes("Funcionario").subscribe(resp => {
+
+      this.solicitudstates = resp.result.data;
+      this.status=this.solicitudstates[0].description;
+    });
+
+    this.trackingService.getDuplicatedbyid(this.idnumber).subscribe(resp => {
+
+      this.duplicatedid = resp.result.data;
+      if(resp.result.count>1)
+      {
+        this.showduplicated=true;
+      }
+    });
   }
 
   public statechange(): void {

@@ -125,6 +125,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           professionalCard: datatramite.professional_card,
           filed_date:datatramite.filed_date,
           name_institute:datatramite.name_institute,
+          idnumber:datatramite.idNumber,
+          aplicantnanme:datatramite.aplicantName
         }
 
         this.trackingService.getTrackingbyid(datatramite.idProcedureRequest).subscribe(resp3 => {

@@ -23,5 +23,8 @@ export interface ProcedureValidation {
   "yearTitle": number,
   "professionalCard": string,
   "name_institute": string,
+  "idnumber": string,
+  "aplicantnanme": string,
+
 
 }

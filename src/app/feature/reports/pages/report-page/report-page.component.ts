@@ -34,6 +34,18 @@ export class ReportPageComponent implements OnInit {
    * Modela la barra de progreso a pintar en la linea de avance
    */
   public currentProgressAdvanceLine: number;
+  /**
+   * guarda el ultimo filtro seleccionado por parte del usuario
+   */
+  public lastfilters:any = {
+    initialdate:" ",
+    finaldate:"",
+    texttosearch:" ",
+    selectedfilter:" ",
+    iduser:" ",
+    pagenumber:"1",
+    pagination:"15"
+  }
 
 
   constructor(public fb: FormBuilder,
@@ -87,6 +99,15 @@ export class ReportPageComponent implements OnInit {
       this.tableFilter = resp.result.data;
 
     });
+    this.lastfilters = {
+      initialdate:formattedDateinitial + "",
+      finaldate:formattedDatefinal + "",
+      texttosearch:" ",
+      selectedfilter:" " ,
+      iduser:" ",
+      pagenumber:"1",
+      pagination:"15"
+    }
   }
 
   public getDashboard(type: string): void {
@@ -127,6 +148,8 @@ export class ReportPageComponent implements OnInit {
     let formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
 
 
+
+
     if (type === 'filtro') {
       this.reportsService.getReportsDashboard(
         formattedDateinitial + "",
@@ -137,23 +160,42 @@ export class ReportPageComponent implements OnInit {
         "1",
         "15").subscribe(resp => {
         this.tableFilter = resp.result.data;
-
       });
-
+      this.lastfilters = {
+        initialdate:formattedDateinitial + "",
+        finaldate:formattedDatefinal + "",
+        texttosearch:" ",
+        selectedfilter:this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" " ,
+        iduser:" ",
+        pagenumber:"1",
+        pagination:"15"
+      }
+      this.reportsform.get('textfilter').setValue("");
     }
     else {
       this.reportsService.getReportsDashboard(
         formattedDateinitial + "",
         formattedDatefinal + "",
         this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
-        " " ,
+        this.lastfilters.texttosearch+"",
         "" + " ",
         "1",
         "15").subscribe(resp => {
         this.tableFilter = resp.result.data;
 
       });
+      this.lastfilters = {
+        initialdate:formattedDateinitial + "",
+        finaldate:formattedDatefinal + "",
+        tttosearch:+"",
+        iduser:" ",exttosearch:this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
+        selectedfilter:this.lastfilters.tex,
+        pagenumber:"1",
+        pagination:"15"
+      }
     }
+
+
 
     // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
 
