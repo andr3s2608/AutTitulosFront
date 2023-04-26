@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {DocumentSupportDto} from "../models/documentSupportDto.model";
 const { PROCEDURE_SHARED_URI } = environment;
 const { PROCEDURE_SECURITY_URI } = environment;
 const { PROCEDURE_NOTIFICATIONS_URI } = environment;
@@ -23,15 +24,23 @@ export class DocumentsService {
    * Obtiene los documentos de la solicitud
    * @param id
    */
-  getDocumentsbyid(id: string) : Observable<any> {
+  getDocumentsByIdRequest(id: string) : Observable<any> {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/Document/GetDocumentsByid/${id}`);
+  }
+
+  /**
+   * Agrega los documentos a una solicitud
+   * @param documents Documentos a guardar
+   */
+  public addDocumentsToRequest(documents: DocumentSupportDto[]): Observable<any> {
+    return this.http.post(`${PROCEDURE_LOCAL_URI}/Document/AddDocuments`, documents);
   }
 
   /**
    * actualiza los documentos de la solicitud
    * @param rol
    */
-  updateDocumentsbyid(documents: any) : Observable<any> {
+  updateDocumentsByIdRequest(documents: any) : Observable<any> {
     return this.http.put(`${PROCEDURE_LOCAL_URI}/Document/UpdateDocuments`,documents);
   }
 

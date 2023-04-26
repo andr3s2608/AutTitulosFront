@@ -4,10 +4,16 @@ import {ArchiveService, PopUpService} from "../../../../core/services";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {Router, UrlTree} from "@angular/router";
 import {OnExit} from "../../../../core/guards/pending-changes.guard";
 import {ROUTES} from "../../../../core/enums";
+import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
+import {RequestService} from "../../../../core/services/request.service";
+import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.model";
+import {DocumentsService} from "../../../../core/services/documents.service";
+import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
+import {TrackingService} from "../../../../core/services/tracking.service";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -66,6 +72,9 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
   constructor(private archiveService: ArchiveService,
               private popupAlert: PopUpService,
+              private requestService: RequestService,
+              private documentsService: DocumentsService,
+              private trackingService: TrackingService,
               private fb: FormBuilder,
               private route: Router) {
     super();
@@ -172,9 +181,106 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       return;
     }
 
+    //obtiene la info del instituto seleccionado
+    let infoInstitute = requestDataForm.instituteId;
+    infoInstitute = infoInstitute.split(",")
+
+    //obtiene la info de la profesion seleccionada
+    let infoProfession = requestDataForm.professionId;
+    infoProfession = infoProfession.split(",")
+
+    //Valida si el countryId tiene un valor, por defecto coloca el de colombia
+    if (!requestDataForm.countryId) {
+      requestDataForm.countryId = 170;
+    }
+
+    let dtoProcedure: ProcedureRequestBackDto;
+
+    dtoProcedure = {
+      IdTitleTypes: requestDataForm.titleTypeId,
+      IdStatus_types: 13,
+      IdInstitute: infoInstitute[0],
+      name_institute: infoInstitute[1],
+      IdProfessionInstitute: infoProfession[0],
+      name_profession: infoProfession[1],
+      last_status_date: new Date(Date.now()),
+      IdUser: 'idUserQuemado',
+      user_code_ventanilla: 10000,
+      AplicantName: "Nombre quemado",
+      IdDocument_type: "Cedula de ciudadania",
+      IdNumber: "123456789",
+      diploma_number: requestDataForm.diplomaNumber,
+      graduation_certificate: requestDataForm.graduationCertificate,
+      end_date: requestDataForm.endDate,
+      book: requestDataForm.book,
+      folio: requestDataForm.folio,
+      year_title: requestDataForm.yearTitle,
+      professional_card: requestDataForm.professionalCard,
+      IdCountry: requestDataForm.countryId,
+      number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
+      date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
+      IdEntity: requestDataForm.entityId,
+      filed_date: new Date(Date.now())
+    }
+
+    console.log("dto a enviar", dtoProcedure);
+
+    let idProcedureRequest: number;
+
+    await lastValueFrom(this.requestService.saveRequest(dtoProcedure)).then(requestResponse => {
+      console.log("esto me devolvió", requestResponse)
+      this.numberFiled = requestResponse.filedNumber;
+      idProcedureRequest = requestResponse.idProcedureRequest;
+    });
+
+    console.log("idProcedure recibido", idProcedureRequest);
+
+    //guardar documentos
+
+    let documentsSave: DocumentSupportDto[] = [];
+
+    console.log("documentos capturados", attachmentForm.documentSupports)
+
+    for(const newFile of attachmentForm.documentSupports) {
+      //TODO completar funcionalidad  cuando haya blobstorage
+      /*
+       const fmData = new FormData();
+       fmData.append('File', newFile.content);
+       await this.documentService.saveBlobStorage(fmData)
+       */
+      documentsSave.push({
+        IdDocumentType: newFile.docTypeId,
+        IdProcedureRequest: idProcedureRequest,
+        path: "pathQuemado",
+        is_valid: true,
+        registration_date: new Date(Date.now()),
+        modification_date: new Date(Date.now())
+      })
+
+    }
+
+    console.log("documentos a enviar", documentsSave);
+    await lastValueFrom(this.documentsService.addDocumentsToRequest(documentsSave));
+    console.log("se guardaron documentos");
+
+    //guardar tracking
+    let tracking: TrackingRequestDto;
+
+    tracking = {
+      IdStatusTypes: 5,
+      IdProcedureRequest: idProcedureRequest,
+      IdUser: "idUserQuemado",
+      dateTracking: new Date(Date.now()),
+      observations: "Registro por usuario externo"
+    }
+
+    console.log("tracking a enviar", tracking);
+
+    await lastValueFrom(this.trackingService.addTracking(tracking));
+
 
     this.sending = true;
-    this.numberFiled = "AUT2022REQUEST01"
+    //this.numberFiled = "AUT2022REQUEST01"
     this.finishProcedure(this.numberFiled);
 
   }

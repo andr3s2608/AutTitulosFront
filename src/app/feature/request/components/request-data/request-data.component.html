@@ -27,9 +27,7 @@
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'instituteId')}"
         >
           <option value="" selected disabled>Seleccione</option>
-          <option value="1">UNIVERSIDAD 1</option>
-          <option value="2">UNIVERSIDAD 2</option>
-          <option value="3">UNIVERSIDAD 3</option>
+          <option *ngFor="let institute of listInstitutes" [value]="[institute.id,institute.nombre]">{{institute.nombre}}</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
@@ -46,9 +44,7 @@
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'professionId')}"
         >
           <option value="" selected disabled>Seleccione</option>
-          <option value="1">TECNICO 1</option>
-          <option value="2">TECNOLOGO 2</option>
-          <option value="3">PROFESIONAL 3</option>
+          <option *ngFor="let profession of listProfessions" [value]="[profession.id,profession.nombre]">{{profession.nombre}}</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">

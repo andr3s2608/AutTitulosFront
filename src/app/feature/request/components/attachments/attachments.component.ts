@@ -3,6 +3,7 @@ import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {PopUpService} from "../../../../core/services";
 import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
+import {DocumentsService} from "../../../../core/services/documents.service";
 
 /**
  * Componente encargado de los documentos de la solicitud
@@ -31,23 +32,24 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
   public listDocumentSupports: any[];
 
   constructor(private controlContainer: ControlContainer,
-              private popupAlert: PopUpService) {
+              private popupAlert: PopUpService,
+              private documentService: DocumentsService) {
     super();
     this.listDocumentsToSaved = [
       {
-        id: 1,
+        IdDocumentType: 1,
         description: 'Documento de identificación'
       },
       {
-        id: 2,
+        IdDocumentType: 2,
         description: 'Título (Diploma de grado)'
       },
       {
-        id: 3,
+        IdDocumentType: 3,
         description: 'Acta de grado'
       },
       {
-        id: 4,
+        IdDocumentType: 4,
         description: 'Tarjeta Profesional'
       }
     ];
