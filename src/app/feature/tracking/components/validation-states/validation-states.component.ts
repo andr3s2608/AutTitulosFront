@@ -72,11 +72,10 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   }
 
   public statechange(): void {
-    for (let i = 0; i < this.solicitudstates.length; i++) {
-      if((this.solicitudstates[i].idStatusType +"") === this.validationStateForm.get('selectedstatus').value)
-      {
-        this.status=this.solicitudstates[i].description;
-        this.validationStateForm.get('status').setValue(this.solicitudstates[i].description);
+    for (const element of this.solicitudstates) {
+      if ((element.idStatusType + "") === this.validationStateForm.get('selectedstatus').value) {
+        this.status = element.description;
+        this.validationStateForm.get('status').setValue(element.description);
         break;
       }
     }

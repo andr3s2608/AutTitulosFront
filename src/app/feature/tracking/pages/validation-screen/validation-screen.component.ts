@@ -11,6 +11,7 @@ import {RequestService} from "../../../../core/services/request.service";
 import {ResolutionService} from "../../../../core/services/resolution.service";
 import {ROUTES} from "../../../../core/enums";
 import {Router} from "@angular/router";
+import {toBoolean} from "ng-zorro-antd/core/util";
 
 /**
  * Component que permite validar la información de un trámite
@@ -27,6 +28,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
    */
   public tramiteActual: ProcedureValidation;
 
+  /**
+   * ultimo seguimiento
+   */
+  public lasttracking: any;
   /**
    * lista de seguimiento
    */
@@ -133,10 +138,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
         this.trackingService.getTrackingbyid(datatramite.idProcedureRequest).subscribe(resp3 => {
           this.tracking=resp3.result.data;
+
+          if(resp3.result.count> 2)
+          {
+
+            this.lasttracking= this.tracking[this.tracking.length-1];
+          }
+          this.loadInfoTramiteActual();
+          this.show=true;
+
+
         });
 
-        this.loadInfoTramiteActual();
-        this.show=true;
+
 
       });
     });
@@ -156,6 +170,15 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   ngOnInit(): void {}
 
   private loadInfoTramiteActual(): void {
+
+    let checkbox:any;
+    console.log(this.lasttracking+ "holaaa")
+    if(this.lasttracking!=null)
+    {
+      console.log('entro2?')
+      checkbox=this.lasttracking.clarification_types_motives.split('/')
+    }
+
     this.validationForm = this.fb.group({
 
       informationRequestValidatorForm: this.fb.group({
@@ -219,22 +242,22 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         selectedstatus: [1],
         status: [ 'Aprobacion' ],
         internalobservations: [ '' ],
-        negationcauses: [ '' ],
-        othernegationcauses: [ '' ],
-        recurrentargument: [ '' ],
-        considerations: [ '' ],
-        merits: [ '' ],
-        articles: [ 'Articulo Primero: /n Articulo Segundo:' ],
-        aditionalinfo: [ '' ],
-        checkBoxnameserror: [ false ],
-        checkBoxprofessionerror: [ false ],
-        checkBoxinstitutionerror: [false],
-        checkBoxdocumenterror: [ false ],
-        checkBoxdateerror: [false ],
-        aclarationparagraph: [ '' ],
-        justificationparagraph1: [ '' ],
-        justificationparagraph2: [ '' ],
-        aclarationparagrapharticle: [ '' ] ,
+        negationcauses: [ this.lasttracking!=null ? this.lasttracking.negation_causes : '' ],
+        othernegationcauses: [ this.lasttracking!=null ? this.lasttracking.other_negation_causes : '' ],
+        recurrentargument: [ this.lasttracking!=null ? this.lasttracking.recurrent_argument : '' ],
+        considerations: [ this.lasttracking!=null ? this.lasttracking.consideration : '' ],
+        merits: [ this.lasttracking!=null ? this.lasttracking.exposed_merits : '' ],
+        articles: [ this.lasttracking!=null ? this.lasttracking.articles : 'Articulo Primero: /n Articulo Segundo:' ],
+        aditionalinfo: [ this.lasttracking!=null ? this.lasttracking.additional_information : '' ],
+        checkBoxnameserror: [ this.lasttracking!=null ? toBoolean(checkbox[0]) : false ],
+        checkBoxprofessionerror: [this.lasttracking!=null ? toBoolean(checkbox[1]) : false ],
+        checkBoxinstitutionerror: [this.lasttracking!=null ? toBoolean(checkbox[2]) :false],
+        checkBoxdocumenterror: [this.lasttracking!=null ? toBoolean(checkbox[3]) : false ],
+        checkBoxdateerror: [this.lasttracking!=null ? toBoolean(checkbox[4]) :false ],
+        aclarationparagraph: [ this.lasttracking!=null ? this.lasttracking.paragraph_MA : '' ],
+        justificationparagraph1: [ this.lasttracking!=null ? this.lasttracking.paragraph_JMA1 : '' ],
+        justificationparagraph2: [ this.lasttracking!=null ? this.lasttracking.paragraph_JMA2 : '' ],
+        aclarationparagrapharticle: [ this.lasttracking!=null ? this.lasttracking.paragraph_AMA : '' ] ,
 
       }),
     })
@@ -246,9 +269,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   public async preliminar(): Promise<void>{
 
     const status= this.validationForm.get('validationstateform.status').value;
+    let preliminarresolution=true;
+
 
     let statustogenerate="";
-    const estados: Array<string> = ['Aprobacion', 'Negacion', 'Aclaracion', 'Reposicion'];
+    const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
     for (const element of estados) {
       if(status.includes(element))
@@ -259,6 +284,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     if(status.includes("Firmar"))
     {
       let laststatus=this.tramiteActual.statusId+"";
+      preliminarresolution=false;
       for (let i = 0; i < ultimosestados.length  ; i++) {
         if(laststatus.includes(ultimosestados[i]))
         {
@@ -277,15 +303,17 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     {
       this.popupAlert.infoAlert(
         `Por favor espere mientras se genera el documento`,
-        5000
+        10000
       );
+
       this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
       statustogenerate,
       "Funcionario",
-      " este es un texto este es un texto este es un texto este es un texto este es un texto este es un texto este es un texto este es un texto este es un textoeste es un textoeste es un textoeste es un textoeste es un texto",
-      "este es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un texto ",
-      " este es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un texto",
-      true
+        this.validationForm.get('validationstateform.aclarationparagraph').value+" ",
+        this.validationForm.get('validationstateform.justificationparagraph1').value+
+              this.validationForm.get('validationstateform.justificationparagraph2').value+" ",
+        this.validationForm.get('validationstateform.aclarationparagrapharticle').value+" ",
+        preliminarresolution
     ).subscribe(resp => {
 
       let fileObtenido=resp.result.data;
@@ -438,7 +466,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       });
 
       this.popupAlert.successAlert(
-        `Solicitad Validada Exitosamente`,
+        `Solicitud Validada Exitosamente`,
         4000
       );
       this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)

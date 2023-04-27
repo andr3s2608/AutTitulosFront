@@ -73,9 +73,10 @@
             <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
             <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
             <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
-            <td class="text-justify">
+            <td *ngIf="item.validation" class="text-justify">
               <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
             </td>
+            <td *ngIf="!item.validation"></td>
           </tr>
           </tbody>
         </table>

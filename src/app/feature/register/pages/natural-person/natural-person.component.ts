@@ -95,6 +95,11 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
    */
   public zoneslist: any[];
 
+  /**
+   * Array de Direccion completa
+   */
+  public Direcction =["","","","","","","","","","","",""];
+
   constructor(public fb: FormBuilder,
               public cityService: CityService,
               private router: Router,
@@ -183,6 +188,17 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.REGISTER);
   }
 
+  public direccion(position:number,text:string) {
+    console.log(position,text);
+    this.Direcction[position]=text;
+    let directionarmed="";
+    for (let i = 0; i < this.Direcction.length; i++) {
+      directionarmed=directionarmed+this.Direcction[i]+" ";
+    }
+    this.naturalForm.get('direccionResidencia').setValue(directionarmed);
+
+  }
+
   public async guardar(): Promise<void> {
     if (!this.naturalForm.valid) {
 
@@ -211,18 +227,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       }
       else
       {
-        let direccion=this.naturalForm.get('viaprincipal').value + ' ' +
-          this.naturalForm.get('num1').value + ' ' +
-          (this.naturalForm.get('Letra').value != null ? this.naturalForm.get('Letra').value : '')+ ' ' +
-          (this.naturalForm.get('BIS').value != null ? this.naturalForm.get('BIS').value : '') + ' ' +
-          (this.naturalForm.get('Card').value != null ? this.naturalForm.get('Card').value : '') + ' ' +
-          (this.naturalForm.get('Complemento').value != null ? this.naturalForm.get('Complemento').value : '') + ' ' +
-          this.naturalForm.get('num2').value + ' ' +
-          (this.naturalForm.get('Letra2').value != null ? this.naturalForm.get('Letra2').value : '')+ ' ' +
-          this.naturalForm.get('placa').value + ' ' +
-          (this.naturalForm.get('Card2').value != null ? this.naturalForm.get('Letra2').value : '')+ ' ' +
-          (this.naturalForm.get('Adicional').value != null ? this.naturalForm.get('Adicional').value : '')+ ' ' +
-          (this.naturalForm.get('Detalle').value != null ? this.naturalForm.get('Detalle').value : '');
 
 
 
@@ -247,7 +251,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
             this.naturalForm.get('geographicDataForm.ciudadNacimiento').value  : 1, //listado municipios
           departamentoResidencia: this.naturalForm.get('geographicDataForm.departamentoResidencia').value, //listado departamentos
           ciudadResidencia: this.naturalForm.get('geographicDataForm.ciudadResidencia').value, //listado municipios
-          direccionResidencia: direccion,
+          direccionResidencia: this.naturalForm.get('direccionResidencia').value,
           fechaNacimiento: this.naturalForm.get('fechaNacimiento').value,
           sexo: this.naturalForm.get('sexo').value, //listado sexo
           genero: this.naturalForm.get('genero').value, //lista quemada
@@ -263,7 +267,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
           Localidad:this.naturalForm.get('localidad').value
         };
 
-        console.log(data)
 
 
           this.registerService.saveNaturalPerson(data).subscribe(resp => {

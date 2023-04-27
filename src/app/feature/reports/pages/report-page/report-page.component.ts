@@ -1,19 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,Injectable} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {CityService} from "../../../../core/services";
+import {CityService, PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
 import {ReportsService} from "../../../../core/services/reports.service";
+import * as XLSX from 'xlsx';
+
+
+@Injectable({ providedIn: 'root' })
 
 @Component({
   selector: 'app-report-page',
   templateUrl: './report-page.component.html',
   styleUrls: ['./report-page.component.scss']
 })
+
+
+
+
 export class ReportPageComponent implements OnInit {
 
   public reportsform: FormGroup;
 
   tableFilter: any[] = [];
+
+  public EXCEL_EXTENSION = '.xlsx'; // excel file extension
 
   /**
    * Icono de previsualizacion en la misma pantalla
@@ -49,7 +59,7 @@ export class ReportPageComponent implements OnInit {
 
 
   constructor(public fb: FormBuilder,
-              public reportsService: ReportsService, private router: Router) {
+              public reportsService: ReportsService, private router: Router,private popupAlert: PopUpService) {
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 75;
     this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
@@ -151,6 +161,37 @@ export class ReportPageComponent implements OnInit {
 
 
     if (type === 'filtro') {
+
+      this.popupAlert.infoAlert(
+        'Generando documento,por favor espere',
+        7000);
+
+      this.reportsService.getReportsDashboard(
+        formattedDateinitial + "",
+        formattedDatefinal + "",
+        " ",
+        this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" ",
+        "" + " ",
+        "1",
+        "10000000").subscribe(resp => {
+          const data = resp.result.data;
+        const fileToExport = data.map((items:any) => {
+          return {
+
+            "Id Solicitud": items?.idfiled,
+            "No Doc de Identidad": items?.idnumber,
+            "Tipo de Documento": items?.iddoctype,
+            "Nombres y Apellidos": items?.aplicantname,
+            "Tipo de Título": items?.titletype,
+            "Fecha de Registro Solicitud": items?.fileddate,
+            "Estado de la Solicitud": items?.statusstring
+          }
+        });
+
+        this.download(fileToExport,this.reportsform.get('selector').value+"");
+
+
+      });
     }
     else {
       this.reportsService.getReportsDashboard(
@@ -184,10 +225,16 @@ export class ReportPageComponent implements OnInit {
 
   }
 
-  public validar(id: any): void {
+  public download(element: any, fileName: string): void {
 
+    console.log(element)
+    // generate workbook and add the worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
 
-    // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
+    // save to file
+    XLSX.utils.book_append_sheet(workbook, ws, 'Sheet1');
+    XLSX.writeFile(workbook, fileName+this.EXCEL_EXTENSION);
 
   }
 

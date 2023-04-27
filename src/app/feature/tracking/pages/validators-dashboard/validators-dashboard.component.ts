@@ -67,7 +67,7 @@ export class ValidatorsDashboardComponent implements OnInit{
       ""+" ",
       ""+" ",
       "1",
-      "15").subscribe(resp => {
+        "15","Funcionario").subscribe(resp => {
         this.tableFilter=resp.result.data;
 
     });
@@ -107,7 +107,7 @@ export class ValidatorsDashboardComponent implements OnInit{
       (text==null || text=="") ? " ":text,
       (selector==null || selector=="") ? " ":selector,
       "1",
-      "15").subscribe(resp => {
+      "15","Funcionario").subscribe(resp => {
       this.tableFilter=resp.result.data;
 
     });
