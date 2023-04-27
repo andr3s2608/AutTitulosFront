@@ -72,7 +72,7 @@ export class ArchiveService {
    * Permite visualizar un archivo en una pestaña nueva
    * @param routeArchive Ruta del archivo
    */
-  public viewArchiveExternalWindow(routeArchive: string): void {
+  public viewArchiveExternalWindow(routeArchive: any): void {
     try
     {
       this.popupAlert.infoAlert(

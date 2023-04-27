@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CityService, PopUpService} from "../../../../core/services";
+import {ArchiveService, CityService, PopUpService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
 import {ProcedureValidation, UserValidation} from "../../../../core/models";
 import {formatDate} from "@angular/common";
@@ -65,12 +65,14 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
               public documentsService: DocumentsService,
               public requestService: RequestService,
               public resolutiontService: ResolutionService,
+
+              public archive :ArchiveService,
               private popupAlert: PopUpService,private router: Router)
   {
     super();
     let procedure=localStorage.getItem("procedure");
     this.requestService.getRequestbyid(procedure).subscribe(resp => {
-      let datatramite= resp.result.data;
+      let datatramite= resp;
 
       this.registerService.getInfoUserByIdCodeVentanilla(datatramite.user_code_ventanilla).subscribe(resp2 => {
 
@@ -110,7 +112,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           id:datatramite.idProcedureRequest,
           user:this.user,
           statusId: datatramite.idStatus_types,
-          status: datatramite.idStatusTypeprocNavigation.description,
+          status: datatramite.status,
           filedNumber: datatramite.filed_number,
           dateRequest: new Date(Date.now()),
           dateTracking:  new Date(Date.now()),
@@ -272,14 +274,26 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       );
     }
     else
-    {  this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
+    {
+      this.popupAlert.infoAlert(
+        `Por favor espere mientras se genera el documento`,
+        5000
+      );
+      this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
       statustogenerate,
       "Funcionario",
-      "",
-      "",
-      "",
+      " este es un texto este es un texto este es un texto este es un texto este es un texto este es un texto este es un texto este es un texto este es un textoeste es un textoeste es un textoeste es un textoeste es un texto",
+      "este es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un texto ",
+      " este es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un textoeste es un texto",
       true
     ).subscribe(resp => {
+
+      let fileObtenido=resp.result.data;
+      const byteArray = new Uint8Array(atob(fileObtenido).split('').map((char) => char.charCodeAt(0)));
+      const file = new Blob([byteArray], {type: 'application/pdf'});
+      let datalocalURL = URL.createObjectURL(file);
+      window.open(datalocalURL, '_blank');
+
     });
 
     }
