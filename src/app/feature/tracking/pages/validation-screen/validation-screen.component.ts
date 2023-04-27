@@ -215,6 +215,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
       validationstateform: this.fb.group({
         selectedstatus: [1],
+        status: [ 'Aprobacion' ],
         internalobservations: [ '' ],
         negationcauses: [ '' ],
         othernegationcauses: [ '' ],
@@ -240,11 +241,56 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
 
   }
+  public async preliminar(): Promise<void>{
 
+    const status= this.validationForm.get('validationstateform.status').value;
+
+    let statustogenerate="";
+    const estados: Array<string> = ['Aprobacion', 'Negacion', 'Aclaracion', 'Reposicion'];
+    const ultimosestados: Array<string> = ['4', '5', '10', '6'];
+    for (const element of estados) {
+      if(status.includes(element))
+      {
+        statustogenerate=element;
+      }
+    }
+    if(status.includes("Firmar"))
+    {
+      let laststatus=this.tramiteActual.statusId+"";
+      for (let i = 0; i < ultimosestados.length  ; i++) {
+        if(laststatus.includes(ultimosestados[i]))
+        {
+          statustogenerate=estados[i];
+        }
+      }
+    }
+    if(statustogenerate==="")
+    {
+      this.popupAlert.infoAlert(
+        `Por favor, revise el estado que desea previzualizar.`,
+        4000
+      );
+    }
+    else
+    {  this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
+      statustogenerate,
+      "Funcionario",
+      "",
+      "",
+      "",
+      true
+    ).subscribe(resp => {
+    });
+
+    }
+
+
+
+  }
 
   public async saveRequest(): Promise<void> {
 
-    const formData = this.validationForm.value;
+
 
 
     if (!this.validationForm.valid) {
@@ -317,19 +363,29 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       });
 
       //guardado resolution bd
-      if(this.validationForm.get('validationstateform.selectedstatus').value===11 && this.tramiteActual.statusId===4)
+      if(this.validationForm.get('validationstateform.selectedstatus').value===11 && (this.tramiteActual.statusId===4
+        || this.tramiteActual.statusId===5 ))
       {
         const resolution:any =
           {
-            idResolution: 0,
             idProcedureRequest: this.tramiteActual.id,
-            number: "prueba",
             date: new Date(Date.now()),
             path: "prueba"
           }
 
         this.resolutiontService.addResolution(resolution).subscribe(resp => {
         });
+
+        this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
+          this.tramiteActual.statusId===4 ? "Aprobacion": "Negacion",
+          "Funcionario",
+          "",
+          "",
+          "",
+          false
+        ).subscribe(resp => {
+        });
+
       }
 
 

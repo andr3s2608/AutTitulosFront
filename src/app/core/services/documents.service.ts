@@ -35,6 +35,20 @@ export class DocumentsService {
     return this.http.put(`${PROCEDURE_LOCAL_URI}/Document/UpdateDocuments`,documents);
   }
 
+  /**
+   * Obtiene el pdf de la resolucion (preliminar o definitiva)
+   * @param rol
+   */
+  getResolutionPdf(idrequest:string,
+                   status:string,
+                   rol:string,
+                   ma:string,
+                   maj:string,
+                   maa:string,
+                   preliminar:boolean
+  ) : Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Document/GetGeneratedPDF/${idrequest}/${status}/${rol}/${ma}/${maj}/${maa}/${preliminar}`);
+  }
 
 
 }

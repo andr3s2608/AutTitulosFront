@@ -27,11 +27,12 @@ export class ResolutionService {
 
   /**
    * Obtiene el estados por rol
-   * @param rol
+   * @param resolution
    */
   addResolution(resolution: any) : Observable<any> {
     return this.http.post(`${PROCEDURE_LOCAL_URI}/Resolutions/AddResolution`,resolution);
   }
+
 
 
 }

@@ -151,48 +151,30 @@ export class ReportPageComponent implements OnInit {
 
 
     if (type === 'filtro') {
-      this.reportsService.getReportsDashboard(
-        formattedDateinitial + "",
-        formattedDatefinal + "",
-        "" + " ",
-        this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" " ,
-        "" + " ",
-        "1",
-        "15").subscribe(resp => {
-        this.tableFilter = resp.result.data;
-      });
-      this.lastfilters = {
-        initialdate:formattedDateinitial + "",
-        finaldate:formattedDatefinal + "",
-        texttosearch:" ",
-        selectedfilter:this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" " ,
-        iduser:" ",
-        pagenumber:"1",
-        pagination:"15"
-      }
-      this.reportsform.get('textfilter').setValue("");
     }
     else {
       this.reportsService.getReportsDashboard(
         formattedDateinitial + "",
         formattedDatefinal + "",
         this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
-        this.lastfilters.texttosearch+"",
+        " ",
         "" + " ",
         "1",
         "15").subscribe(resp => {
         this.tableFilter = resp.result.data;
 
       });
+
       this.lastfilters = {
         initialdate:formattedDateinitial + "",
         finaldate:formattedDatefinal + "",
-        tttosearch:+"",
-        iduser:" ",exttosearch:this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
-        selectedfilter:this.lastfilters.tex,
+        texttosearch:this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
+        selectedfilter:" ",
+        iduser:" ",
         pagenumber:"1",
         pagination:"15"
       }
+
       //prueba subida archivo
     }
 

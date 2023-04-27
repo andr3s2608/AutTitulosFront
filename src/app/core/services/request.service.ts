@@ -22,7 +22,7 @@ export class RequestService {
    * @param id
    */
   getRequestbyid(id: string) : Observable<any> {
-    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetRequestByid/${id}`);
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetRequestById/${id}`);
   }
   /**
    * Obtiene la bandeja del validador
