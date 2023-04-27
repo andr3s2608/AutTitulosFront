@@ -359,7 +359,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           registration_date: element.registration_date,
         })
       }
-      this.documentsService.updateDocumentsbyid(documentstoupdate).subscribe(resp => {
+      this.documentsService.updateDocumentsByIdRequest(documentstoupdate).subscribe(resp => {
       });
 
       //guardado resolution bd

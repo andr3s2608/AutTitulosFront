@@ -15,8 +15,42 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    */
   public requestDataForm: any;
 
+  public listInstitutes: any[];
+
+  public listProfessions: any[];
+
   constructor(private controlContainer: ControlContainer) {
     super();
+    this.listInstitutes = [
+      {
+        id: 1,
+        nombre: "UNIVERSIDAD 1"
+      },
+      {
+        id: 2,
+        nombre: "UNIVERSIDAD 2"
+      },
+      {
+        id: 3,
+        nombre: "UNIVERSIDAD 3"
+      }
+    ];
+
+    this.listProfessions = [
+      {
+        id: 1,
+        nombre: "TECNICO 1"
+      },
+      {
+        id: 2,
+        nombre: "TECNOLOGO 2"
+      },
+      {
+        id: 3,
+        nombre: "PROFESIONAL 3"
+      }
+    ]
+
   }
 
   ngOnInit(): void {

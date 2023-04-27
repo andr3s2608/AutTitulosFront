@@ -8,21 +8,21 @@
   </div>
   <div class="row">
     <div class="col-6" style="padding-top: 2%" *ngFor="let document of listDocumentsToSaved;">
-      <label for="inputDocument_{{document.id}}" class="label-carga-de-archivo-govco">{{document.description}}<span class="required"> *</span></label>
+      <label for="inputDocument_{{document.IdDocumentType}}" class="label-carga-de-archivo-govco">{{document.description}}<span class="required"> *</span></label>
       <div class="input-group mt-2 mb-1 ">
-        <input type="file" class="form-control input-file-custom" id="inputDocument_{{document.id}}"
+        <input type="file" class="form-control input-file-custom" id="inputDocument_{{document.IdDocumentType}}"
                aria-describedby="inputFile_Aria" aria-label="Upload"
-               [ngClass]="{'error': isValidInputFile('inputDocument_'+document.id)}"
-               accept="application/pdf" (change)="addSelectedFile($event, document.id, document.description)">
-        <button class="btn btn-outline-secondary" type="button" id="inputDocAddDescri_{{document.id}}"
-                *ngIf="hasDocument(document.id)"
-                (click)="removeFileAdded(document.id)">
+               [ngClass]="{'error': isValidInputFile('inputDocument_'+document.IdDocumentType)}"
+               accept="application/pdf" (change)="addSelectedFile($event, document.IdDocumentType, document.description)">
+        <button class="btn btn-outline-secondary" type="button" id="inputDocAddDescri_{{document.IdDocumentType}}"
+                *ngIf="hasDocument(document.IdDocumentType)"
+                (click)="removeFileAdded(document.IdDocumentType)">
           <span class="govco-trash-alt"></span>
         </button>
       </div>
       <span class="text-validation-carga-de-archivo-govco"><small>Únicamente archivo en formato .pdf.</small></span>
       <br>
-      <span *ngIf="isValidInputFile('inputDocument_'+document.id)"
+      <span *ngIf="isValidInputFile('inputDocument_'+document.IdDocumentType)"
         class="error-texto-govco alert-entradas-de-texto-govco" id="titleTypeId-note" role="alert" aria-live="assertive" style="color: #962423">
           Es requerido
         <br>

@@ -39,7 +39,7 @@ export class AttachmentViewerComponent implements OnInit {
               private archiveService: ArchiveService,
               private documentService: DocumentsService, private controlContainer: ControlContainer) {
 
-    this.documentService.getDocumentsbyid("1").subscribe(resp => {
+    this.documentService.getDocumentsByIdRequest("1").subscribe(resp => {
 
       this.documentSupports = resp.result.data;
   this.attachmentform.get('documentstate').setValue(this.documentSupports );

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {ProcedureRequestBackDto} from "../models/procedureRequestBack.model";
+import {ProcedureResponseSaveBackDto} from "../models/procedureResponseSaveBack.model";
 const { PROCEDURE_SHARED_URI } = environment;
 const { PROCEDURE_SECURITY_URI } = environment;
 const { PROCEDURE_NOTIFICATIONS_URI } = environment;
@@ -16,6 +18,10 @@ const { PROCEDURE_LOCAL_URI } = environment;
 export class RequestService {
 
   constructor(private http: HttpClient) { }
+
+  public saveRequest(request: ProcedureRequestBackDto): Observable<ProcedureResponseSaveBackDto> {
+    return this.http.post<ProcedureResponseSaveBackDto>(`${PROCEDURE_LOCAL_URI}/Request/AddRequest`, request);
+  }
 
   /**
    * Obtiene los datos de la solicitud
