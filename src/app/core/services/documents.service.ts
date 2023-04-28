@@ -65,7 +65,7 @@ export class DocumentsService {
    * @param document
    */
   uploadFiles(document: any) : Observable<any> {
-    return this.http.put(`${PROCEDURE_BLOB_URI}Storage/AddFile`,document);
+    return this.http.post(`${PROCEDURE_BLOB_URI}Storage/AddFile`,document);
   }
 
 

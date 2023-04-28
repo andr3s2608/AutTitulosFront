@@ -67,7 +67,7 @@ export class ValidatorsDashboardComponent implements OnInit{
       ""+" ",
       ""+" ",
       "1",
-        "15","Funcionario").subscribe(resp => {
+        "15","Subdirector").subscribe(resp => {
         this.tableFilter=resp.result.data;
 
     });

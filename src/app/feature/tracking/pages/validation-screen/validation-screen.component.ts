@@ -116,7 +116,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         this.tramiteActual={
           id:datatramite.idProcedureRequest,
           user:this.user,
-          statusId: datatramite.idStatus_types,
+          statusId: datatramite.idStatus,
           status: datatramite.status,
           filedNumber: datatramite.filed_number,
           dateRequest: new Date(Date.now()),
@@ -270,7 +270,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
     const status= this.validationForm.get('validationstateform.status').value;
     let preliminarresolution=true;
-
+  console.log(status)
 
     let statustogenerate="";
     const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'Reposición'];
@@ -283,11 +283,14 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     }
     if(status.includes("Firmar"))
     {
+      console.log('entro')
       let laststatus=this.tramiteActual.statusId+"";
-      preliminarresolution=false;
+      console.log(laststatus)
       for (let i = 0; i < ultimosestados.length  ; i++) {
+        console.log(ultimosestados[i])
         if(laststatus.includes(ultimosestados[i]))
         {
+          console.log('entro includes')
           statustogenerate=estados[i];
         }
       }
@@ -308,7 +311,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
       this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
       statustogenerate,
-      "Funcionario",
+      "Subdirector",
         this.validationForm.get('validationstateform.aclarationparagraph').value+" ",
         this.validationForm.get('validationstateform.justificationparagraph1').value+
               this.validationForm.get('validationstateform.justificationparagraph2').value+" ",
@@ -354,12 +357,17 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         (this.validationForm.get('basicDataForm.segundoNombre').value!=null ?this.validationForm.get('basicDataForm.segundoNombre').value.toString().toUpperCase() : "" )+" "+
         this.validationForm.get('basicDataForm.primerApellido').value.toString().toUpperCase()+" "+
         (this.validationForm.get('basicDataForm.segundoApellido').value!=null ?this.validationForm.get('basicDataForm.segundoApellido').value.toString().toUpperCase() : "" )+" ";
+
+      const idistitute= (this.validationForm.get('requestDataForm.instituteId').value+"").split(",");
+      const idprofesion= (this.validationForm.get('requestDataForm.professionId').value+"").split(",");
+
+
       const json:any ={
         IdProcedureRequest:this.tramiteActual.id,
         IdTitleTypes:this.validationForm.get('requestDataForm.titleTypeId').value,
         IdStatus_types:this.validationForm.get('validationstateform.selectedstatus').value,
-        IdInstitute:this.validationForm.get('requestDataForm.instituteId').value,
-        IdProfessionInstitute:this.validationForm.get('requestDataForm.professionId').value,
+        IdInstitute:idistitute[0],
+        IdProfessionInstitute:idprofesion[0],
         IdUser:this.tramiteActual.user.idUser,
         user_code_ventanilla:this.tramiteActual.user.idUserVentanilla,
         filed_number:this.tramiteActual.filedNumber,
@@ -375,12 +383,12 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         number_resolution_convalidation:"",
         date_resolution_convalidation:new Date(Date.now()),
         IdEntity:1,
-        name_institute:"",
+        name_institute:idistitute[1],
         last_status_date:new Date(Date.now()),
         filed_date:new Date(this.tramiteActual.filed_date),
         IdNumber:this.validationForm.get('basicDataForm.numeroIdentificacion').value,
         AplicantName:aplicantname,
-        name_profession:"",
+        name_profession:idprofesion[1],
         IdDocument_type:this.validationForm.get('basicDataForm.documentodescripcion').value,
       }
 
@@ -406,71 +414,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
 
 
-      //guardado resolution bd
-      if(this.validationForm.get('validationstateform.selectedstatus').value===11 )
-      {
-        const ultimosestados: Array<string> = ['4', '5', '10', '6'];
-        for (const element of ultimosestados) {
-          if((this.tramiteActual.statusId+'').includes(element))
-          {
-            const resolution:any =
-              {
-                idProcedureRequest: this.tramiteActual.id,
-                date: new Date(Date.now()),
-                path: "prueba"
-              }
 
-            this.resolutiontService.addResolution(resolution).subscribe(resp => {
-            });
-
-            this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
-              this.tramiteActual.statusId===4 ? "Aprobacion": "Negacion",
-              "Funcionario",
-              "",
-              "",
-              "",
-              false
-            ).subscribe(resp => {
-
-
-              const urlToFile = async (url: string, filename: string, mimeType: any) => {
-                const res = await fetch(url);
-                const buf = await res.arrayBuffer();
-                return new File([buf], filename, { type: mimeType });
-              };
-
-              (async () => {
-                const file = await urlToFile('data:application/pdf;base64,' + resp.result.data, 'resolucion', 'application/pdf');
-
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append(
-                  'nameFile',
-                  'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
-                );
-                formData.append('containerName', "aguahumanos");
-                formData.append('oid', this.tramiteActual.user.idUser);
-
-                this.documentsService.uploadFiles(formData).subscribe(resp => {
-                  console.log(resp);
-                });
-
-              })();
-
-            });
-
-
-
-
-
-
-
-
-           break;
-          }
-        }
-
-      }
 
 
 
@@ -507,11 +451,84 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       this.trackingService.addTracking(tracking).subscribe(resp => {
       });
 
-      this.popupAlert.successAlert(
-        `Solicitud Validada Exitosamente`,
-        4000
-      );
-      this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)
+      //guardado resolution bd
+      if(this.validationForm.get('validationstateform.selectedstatus').value==='11' )
+      {
+
+          this.popupAlert.infoAlert(
+            `Generando Resolucion`,
+            11000
+          );
+        const ultimosestados: Array<string> = ['4', '5', '10', '6'];
+        for (const element of ultimosestados) {
+          if((this.tramiteActual.statusId+'').includes(element))
+          {
+            const resolution:any =
+              {
+                idProcedureRequest: this.tramiteActual.id,
+                date: new Date(Date.now()),
+                path: "prueba"
+              }
+
+            this.resolutiontService.addResolution(resolution).subscribe(resp => {
+            });
+
+            this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
+              this.tramiteActual.statusId===4 ? "Aprobacion": "Negacion",
+              "Subdirector",
+              " ",
+              " ",
+              " ",
+              false
+            ).subscribe(resp => {
+
+
+              const urlToFile = async (url: string, filename: string, mimeType: any) => {
+                const res = await fetch(url);
+                const buf = await res.arrayBuffer();
+                return new File([buf], filename, { type: mimeType });
+              };
+
+              (async () => {
+                const file = await urlToFile('data:application/pdf;base64,' + resp.result.data, 'resolucion', 'application/pdf');
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append(
+                  'nameFile',
+                  'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
+                );
+                formData.append('containerName', "aguahumanos");
+                formData.append('oid', this.tramiteActual.user.idUser);
+
+                this.documentsService.uploadFiles(formData).subscribe(resp => {
+                  this.popupAlert.successAlert(
+                    `Solicitud Validada Exitosamente`,
+                    4000
+                  );
+                  this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)
+
+                  console.log(resp);
+                });
+
+              })();
+
+            });
+            break;
+          }
+        }
+
+      }
+      else
+      {
+        this.popupAlert.successAlert(
+          `Solicitud Validada Exitosamente`,
+          4000
+        );
+        this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)
+
+      }
+
 
 
     }
