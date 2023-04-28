@@ -8,6 +8,7 @@ export const environment = {
   PROCEDURE_SECURITY_URI: 'https://apm-aeu-sds-dev-shared.azure-api.net/security/api/v2/Security',
   PROCEDURE_NOTIFICATIONS_URI: 'https://apm-aeu-sds-dev-shared.azure-api.net/notifications/api/v1',
   PROCEDURE_LOCAL_URI:'https://localhost:5001/api/v1',
+  PROCEDURE_BLOB_URI:'https://apm-aeu-sds-dev-shared.azure-api.net/filemanager/api/v1/',
 
 };
 

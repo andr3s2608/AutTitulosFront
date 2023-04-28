@@ -7,6 +7,7 @@ const { PROCEDURE_SHARED_URI } = environment;
 const { PROCEDURE_SECURITY_URI } = environment;
 const { PROCEDURE_NOTIFICATIONS_URI } = environment;
 const { PROCEDURE_LOCAL_URI } = environment;
+const { PROCEDURE_BLOB_URI } = environment;
 
 /**
  * Service con los métodos relacionados al registro de una persona
@@ -57,6 +58,14 @@ export class DocumentsService {
                    preliminar:boolean
   ) : Observable<any> {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/Document/GetGeneratedPDF/${idrequest}/${status}/${rol}/${ma}/${maj}/${maa}/${preliminar}`);
+  }
+
+  /**
+   * añade el documento al contenedor en la nube
+   * @param document
+   */
+  uploadFiles(document: any) : Observable<any> {
+    return this.http.put(`${PROCEDURE_BLOB_URI}Storage/AddFile`,document);
   }
 
 

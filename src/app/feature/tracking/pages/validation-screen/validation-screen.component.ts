@@ -404,29 +404,71 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       this.documentsService.updateDocumentsByIdRequest(documentstoupdate).subscribe(resp => {
       });
 
+
+
       //guardado resolution bd
-      if(this.validationForm.get('validationstateform.selectedstatus').value===11 && (this.tramiteActual.statusId===4
-        || this.tramiteActual.statusId===5 ))
+      if(this.validationForm.get('validationstateform.selectedstatus').value===11 )
       {
-        const resolution:any =
+        const ultimosestados: Array<string> = ['4', '5', '10', '6'];
+        for (const element of ultimosestados) {
+          if((this.tramiteActual.statusId+'').includes(element))
           {
-            idProcedureRequest: this.tramiteActual.id,
-            date: new Date(Date.now()),
-            path: "prueba"
+            const resolution:any =
+              {
+                idProcedureRequest: this.tramiteActual.id,
+                date: new Date(Date.now()),
+                path: "prueba"
+              }
+
+            this.resolutiontService.addResolution(resolution).subscribe(resp => {
+            });
+
+            this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
+              this.tramiteActual.statusId===4 ? "Aprobacion": "Negacion",
+              "Funcionario",
+              "",
+              "",
+              "",
+              false
+            ).subscribe(resp => {
+
+
+              const urlToFile = async (url: string, filename: string, mimeType: any) => {
+                const res = await fetch(url);
+                const buf = await res.arrayBuffer();
+                return new File([buf], filename, { type: mimeType });
+              };
+
+              (async () => {
+                const file = await urlToFile('data:application/pdf;base64,' + resp.result.data, 'resolucion', 'application/pdf');
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append(
+                  'nameFile',
+                  'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
+                );
+                formData.append('containerName', "aguahumanos");
+                formData.append('oid', this.tramiteActual.user.idUser);
+
+                this.documentsService.uploadFiles(formData).subscribe(resp => {
+                  console.log(resp);
+                });
+
+              })();
+
+            });
+
+
+
+
+
+
+
+
+           break;
           }
-
-        this.resolutiontService.addResolution(resolution).subscribe(resp => {
-        });
-
-        this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
-          this.tramiteActual.statusId===4 ? "Aprobacion": "Negacion",
-          "Funcionario",
-          "",
-          "",
-          "",
-          false
-        ).subscribe(resp => {
-        });
+        }
 
       }
 
