@@ -16,16 +16,17 @@ const { PROCEDURE_LOCAL_URI } = environment;
 export class TrackingService {
 
   constructor(private http: HttpClient) { }
+
   /**
-   * insertael seguimiento de la solicitud
-   * * @param tracking
+   * Inserta el seguimiento de la solicitud
+   * @param tracking
    */
   addTracking(tracking: any) : Observable<any> {
     return this.http.post(`${PROCEDURE_LOCAL_URI}/Tracking/AddTracking`,tracking);
   }
 
   /**
-   * Obtiene los documentos de la solicitud
+   * Obtiene el seguimiento de una solicitud
    * @param id
    */
    getTrackingbyid(id: string) : Observable<any> {

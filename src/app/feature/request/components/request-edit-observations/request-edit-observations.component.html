@@ -1,0 +1,16 @@
+<form role="form" [formGroup]="requestEditInfoForm">
+  <div class="row">
+    <div class="col-sm-12 col-md-7">
+      <div class="entradas-de-texto-govco">
+        <label for="procedureId">Número de radicado</label>
+        <input type="text" id="procedureId" formControlName="idProcedure">
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12">
+      <div class="entradas-de-texto-govco">
+        <label for="observations">Observaciones</label>
+        <textarea type="text" id="observations" formControlName="observations" rows="3" cols="100"></textarea>
+      </div>
+    </div>
+  </div>
+</form>

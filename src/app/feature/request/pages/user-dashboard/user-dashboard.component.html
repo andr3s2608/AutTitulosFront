@@ -1,21 +1,28 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-12 col-md-8">
-      <app-advance-line [step]="stepAdvanceLine" [currentProgress]="currentProgressAdvanceLine" [source]="'ciudadano'"></app-advance-line>
+    <div class="col-sm-12 col-md-9">
+      <app-advance-line [step]="stepAdvanceLine" [currentProgress]="currentProgressAdvanceLine"
+                        [source]="'ciudadano'"></app-advance-line>
 
       <form *ngIf="showDashboard==true && showDisclaimerForm==false">
         <br><h4 class="h4-tipografia-govco title-1">Bandeja de Entrada y Gestión</h4><br>
 
         <div class="row  justify-content-center align-items-center mx-auto " style="width: 100%">
-          <ul class="nav nav-tabs ">
-            <li class="nav-item">
-              <a class="nav-link active">Recientes</a>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button (click)="filterTable(0)" class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                      data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                      aria-selected="true">Recientes
+              </button>
             </li>
             <li class="nav-item">
-              <a class="nav-link ">Solucionados</a>
+              <button (click)="filterTable(1)" class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                      data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                      aria-selected="false">Solucionados
+              </button>
             </li>
           </ul>
-          <div class="border">
+          <div class="border tab-content" id="myTabContent">
 
             <br>
             <p>Filtrar por:</p>
@@ -40,8 +47,8 @@
 
             </div>
             <br>
-            <div>
-              <table class="table table-striped table-responsive" aria-describedby="dashboard-usuario">
+            <div class="table-responsive">
+              <table class="table table-striped" aria-describedby="dashboard-usuario">
                 <thead>
                 <tr>
                   <th>No. de radicado</th>
@@ -54,16 +61,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let item of allByUser; let i= index">
-                  <td>{{item.filedNumber}}</td>
+                <tr *ngFor="let item of filterAllByUser; let i= index">
+                  <td>{{item.filed_number}}</td>
                   <td>{{item.titleType}}</td>
                   <td>{{item.filedDate | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.institute}}</td>
                   <td>{{item.profession}}</td>
-                  <td style="background-color: {{item.colorTime}};">{{item.status}}</td>
+                  <td style="background-color: #70AF3D;">{{item.status}}</td>
                   <td class="text-justify">
                     <div class="">
-                      <span data-bs-toggle="modal" data-bs-target="#seguimiento-auditoria" class="govco-eye"
+                      <span (click)="loadTrackingProcedure(item.idProcedureRequest)" data-bs-toggle="modal"
+                            data-bs-target="#seguimiento-auditoria" class="govco-eye"
                             style="font-size: 20px; color: #3366cc; cursor: pointer;"></span>
                       <br/>
                       Seguimiento Auditoria
@@ -88,9 +96,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                  <td>{{item.filedDate | date: 'dd/MM/yyyy hh:mm a'}}</td>
-                                  <td>{{item.status}}</td>
+                                <tr *ngFor="let tracking of trackingRequest">
+                                  <td>{{tracking.date_tracking | date: 'dd/MM/yyyy hh:mm a'}}</td>
+                                  <td>{{tracking.observations}}</td>
                                 </tr>
                                 </tbody>
                               </table>
@@ -101,21 +109,22 @@
                           </div>
                         </div>
                       </div>
-
-
                     </div>
+
                     <div class="">
-                      <a
-                        *ngIf="item.status != 'Firmado por director' && item.status != 'Solicitar más información'"><span
-                        class="govco-book-reader" style="font-size: 15px">En validación</span></a>
-                      <a *ngIf="item.status == 'Solicitar más información'"><span class="govco-edit"
-                                                                                  style="font-size: 15px">Editar Trámite</span></a>
-                      <a *ngIf="item.status == 'Firmado por director'"><span class="govco-file-pdf"
-                                                                             style="font-size: 15px">Ver documento</span></a>
-                      <a (click)="showDisclaimerForm=true;showDashboard=false" *ngIf="item.status == 'Firmado por director'"><span class="govco-hand-paper"
-                                                                                        style="font-size: 15px">Solicitar Aclaración</span></a>
+                      <a *ngIf="item.statusId != 11 && item.statusId != 7">
+                        <span class="govco-book-reader" style="font-size: 15px">En validación</span></a>
+                      <a (click)="showEditProcedure(item.idProcedureRequest)" *ngIf="item.statusId == 7">
+                        <span class="govco-edit" style="font-size: 15px">Editar Trámite</span>
+                      </a>
+                      <a *ngIf="item.statusId == 11">
+                        <span class="govco-file-pdf" style="font-size: 15px">Ver documento</span>
+                      </a>
+                      <a (click)="showClarification(item.idProcedureRequest, item.filed_number, item.titleType)"
+                         *ngIf="item.statusId == 11">
+                        <span class="govco-hand-paper" style="font-size: 15px">Solicitar Aclaración</span>
+                      </a>
                     </div>
-
 
                   </td>
                 </tr>
@@ -132,21 +141,36 @@
         </div>
       </form>
 
+      <form [formGroup]="editRequestForm" *ngIf="showEditProcedureForm==true && showDashboard==false">
+        <app-edit-request [editRequest]="editRequest"></app-edit-request>
+        <div class="col-12" style="margin: 5% 0 5% 0; text-align: center">
+          <button type="button" class="btn-govco fill-btn-govco"
+                  (click)="showDashboard=true;showEditProcedureForm=false"
+                  style="margin-right: 1%;" [disabled]="sending">Volver
+          </button>
+          <button (click)="saveEditProcedute()" type="button" class="btn-govco fill-btn-govco" [disabled]="sending">
+            Guardar
+          </button>
+        </div>
+      </form>
+
       <form [formGroup]="requestClarificationForm" *ngIf="showDisclaimerForm==true && showDashboard==false">
-        <app-request-clarification></app-request-clarification>
+        <app-request-clarification [infoRequest]="infoRequest"></app-request-clarification>
         <div class="col-12" style="margin: 5% 0 5% 0; text-align: center">
           <button type="button" class="btn-govco fill-btn-govco"
                   (click)="showDashboard=true;showDisclaimerForm=false"
-                  style="margin-right: 1%;">Volver</button>
-          <button type="button" class="btn-govco fill-btn-govco"
-                  >Guardar</button>
+                  style="margin-right: 1%;" [disabled]="sending">Volver
+          </button>
+          <button (click)="saveClarification()" type="button" class="btn-govco fill-btn-govco" [disabled]="sending">
+            Guardar
+          </button>
         </div>
       </form>
 
 
     </div>
 
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-3">
       <app-service-area></app-service-area>
     </div>
   </div>

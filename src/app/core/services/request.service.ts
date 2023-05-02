@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {ProcedureRequestBackDto} from "../models/procedureRequestBack.model";
 import {ProcedureResponseSaveBackDto} from "../models/procedureResponseSaveBack.model";
+import {ProcedureResponseTableUserDto} from "../models/procedureResponseTableUserDto";
 const { PROCEDURE_SHARED_URI } = environment;
 const { PROCEDURE_SECURITY_URI } = environment;
 const { PROCEDURE_NOTIFICATIONS_URI } = environment;
@@ -30,6 +31,15 @@ export class RequestService {
   getRequestbyid(id: string) : Observable<any> {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetRequestById/${id}`);
   }
+
+  /**
+   * Obtiene el listado de solicitudes de un ciudadano para su respectiva bandeja
+   * @param idUser Id del usuario
+   */
+  public getDashboardUser(idUser: string): Observable<ProcedureResponseTableUserDto[]> {
+    return this.http.get<ProcedureResponseTableUserDto[]>(`${PROCEDURE_LOCAL_URI}/Request/GetRequestsByUser/${idUser}`)
+  }
+
   /**
    * Obtiene la bandeja del validador
    * @param id
@@ -39,7 +49,7 @@ export class RequestService {
   }
 
   /**
-   * Obtiene los datos de la solicitud
+   * Actualiza los datos de una solicitud
    * @param Request
    */
   updateRequest(Request:any) : Observable<any> {

@@ -96,7 +96,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         endDate: [ '', [ Validators.required, super.dateValidator ] ],
         book: [ '', [ ] ],
         folio: [ '', [ ] ],
-        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$") ] ],
+        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  super.numberDateFuture ] ],
         professionalCard: [],
         nameInternationalUniversity: [],
         countryId: [],
@@ -114,7 +114,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
   ngOnInit(): void {
 
-    //Mensaje de confirmacion al intentar recargar o salir de la página si se está guardadnop la solicitud
+    //Mensaje de confirmacion al intentar recargar o salir de la página si se está guardando la solicitud
     window.addEventListener('beforeunload', (event) => {
       if(this.sending){
         event.returnValue = '¿Estás seguro de que deseas salir de esta página?';
@@ -156,137 +156,146 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
    */
   public async saveRequest(): Promise<void> {
 
-    const formData = this.requestForm.value;
-    const requestDataForm = formData['requestDataForm'];
-    const attachmentForm = formData['attachmentForm'];
+    try {
+      const formData = this.requestForm.value;
+      const requestDataForm = formData['requestDataForm'];
+      const attachmentForm = formData['attachmentForm'];
 
 
-    if (!this.requestForm.valid) {
-      this.popupAlert.errorAlert(
-        `Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`,
-        4000
+      if (!this.requestForm.valid) {
+        this.popupAlert.errorAlert(
+          `Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`,
+          4000
+        );
+        console.log("FORMULARIO PROCESADO");
+        console.log(this.requestForm.value);
+        console.log("ERRORES FORMULARIO");
+        console.log(super.getAllErrors(this.requestForm));
+        this.requestForm.markAllAsTouched();
+        return;
+      }
+
+      if (attachmentForm.documentSupports.length < attachmentForm.quantityDocuments) {
+        this.popupAlert.errorAlert(
+          'Hay requisitos sin documentos adjuntos, ¡revise por favor!',
+          4000);
+        return;
+      }
+
+      this.popupAlert.infoAlert(
+        `Registrando solicitud, espere por favor.`,
+        5000
       );
-      console.log("FORMULARIO PROCESADO");
-      console.log(this.requestForm.value);
-      console.log("ERRORES FORMULARIO");
-      console.log(super.getAllErrors(this.requestForm));
-      this.requestForm.markAllAsTouched();
-      return;
-    }
 
-    if (attachmentForm.documentSupports.length < attachmentForm.quantityDocuments) {
-      this.popupAlert.errorAlert(
-        'Hay requisitos sin documentos adjuntos, ¡revise por favor!',
-        4000);
-      return;
-    }
+      this.sending = true;
 
-    //obtiene la info del instituto seleccionado
-    let infoInstitute = requestDataForm.instituteId;
-    infoInstitute = infoInstitute.split(",")
+      //obtiene la info del instituto seleccionado
+      let infoInstitute = requestDataForm.instituteId;
+      infoInstitute = infoInstitute.split(",")
 
-    //obtiene la info de la profesion seleccionada
-    let infoProfession = requestDataForm.professionId;
-    infoProfession = infoProfession.split(",")
+      //obtiene la info de la profesion seleccionada
+      let infoProfession = requestDataForm.professionId;
+      infoProfession = infoProfession.split(",")
 
-    //Valida si el countryId tiene un valor, por defecto coloca el de colombia
-    if (!requestDataForm.countryId) {
-      requestDataForm.countryId = 170;
-    }
+      //Valida si el countryId tiene un valor, por defecto coloca el de colombia
+      if (!requestDataForm.countryId) {
+        requestDataForm.countryId = 170;
+      }
 
-    let dtoProcedure: ProcedureRequestBackDto;
+      let dtoProcedure: ProcedureRequestBackDto;
 
-    dtoProcedure = {
-      IdTitleTypes: requestDataForm.titleTypeId,
-      IdStatus_types: 13,
-      IdInstitute: infoInstitute[0],
-      name_institute: infoInstitute[1],
-      IdProfessionInstitute: infoProfession[0],
-      name_profession: infoProfession[1],
-      last_status_date: new Date(Date.now()),
-      IdUser: 'idUserQuemado',
-      user_code_ventanilla: 10000,
-      AplicantName: "Nombre quemado",
-      IdDocument_type: "Cedula de ciudadania",
-      IdNumber: "123456789",
-      diploma_number: requestDataForm.diplomaNumber,
-      graduation_certificate: requestDataForm.graduationCertificate,
-      end_date: requestDataForm.endDate,
-      book: requestDataForm.book,
-      folio: requestDataForm.folio,
-      year_title: requestDataForm.yearTitle,
-      professional_card: requestDataForm.professionalCard,
-      IdCountry: requestDataForm.countryId,
-      number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
-      date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
-      IdEntity: requestDataForm.entityId,
-      filed_date: new Date(Date.now())
-    }
+      dtoProcedure = {
+        IdTitleTypes: requestDataForm.titleTypeId,
+        IdStatus_types: 13,
+        IdInstitute: infoInstitute[0],
+        name_institute: infoInstitute[1],
+        IdProfessionInstitute: infoProfession[0],
+        name_profession: infoProfession[1],
+        last_status_date: new Date(Date.now()),
+        IdUser: 'idUserQuemado',
+        user_code_ventanilla: 10000,
+        AplicantName: "Nombre quemado",
+        IdDocument_type: "Cedula de ciudadania",
+        IdNumber: "123456789",
+        diploma_number: requestDataForm.diplomaNumber,
+        graduation_certificate: requestDataForm.graduationCertificate,
+        end_date: requestDataForm.endDate,
+        book: requestDataForm.book,
+        folio: requestDataForm.folio,
+        year_title: requestDataForm.yearTitle,
+        professional_card: requestDataForm.professionalCard,
+        IdCountry: requestDataForm.countryId,
+        number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
+        date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
+        IdEntity: requestDataForm.entityId,
+        filed_date: new Date(Date.now())
+      }
 
-    console.log("dto a enviar", dtoProcedure);
+      console.log("dto a enviar", dtoProcedure);
 
-    let idProcedureRequest: number;
+      let idProcedureRequest: number;
 
-    await lastValueFrom(this.requestService.saveRequest(dtoProcedure)).then(requestResponse => {
-      console.log("esto me devolvió", requestResponse)
-      this.numberFiled = requestResponse.filedNumber;
-      idProcedureRequest = requestResponse.idProcedureRequest;
-    });
+      await lastValueFrom(this.requestService.saveRequest(dtoProcedure)).then(requestResponse => {
+        console.log("esto me devolvió", requestResponse)
+        this.numberFiled = requestResponse.filedNumber;
+        idProcedureRequest = requestResponse.idProcedureRequest;
+      });
 
-    console.log("idProcedure recibido", idProcedureRequest);
+      console.log("idProcedure recibido", idProcedureRequest);
 
-    //guardar documentos
+      //guardar documentos
 
-    let documentsSave: DocumentSupportDto[] = [];
+      let documentsSave: DocumentSupportDto[] = [];
 
-    console.log("documentos capturados", attachmentForm.documentSupports)
+      console.log("documentos capturados", attachmentForm.documentSupports)
 
-    for(const newFile of attachmentForm.documentSupports) {
-      //TODO completar funcionalidad  cuando haya blobstorage
-      /*
-       const fmData = new FormData();
-       fmData.append('File', newFile.content);
-       await this.documentService.saveBlobStorage(fmData)
-       */
-      documentsSave.push({
-        IdDocumentType: newFile.docTypeId,
+      for(const newFile of attachmentForm.documentSupports) {
+        //TODO completar funcionalidad  cuando haya blobstorage
+        /*
+         const fmData = new FormData();
+         fmData.append('File', newFile.content);
+         await this.documentService.saveBlobStorage(fmData)
+         */
+        documentsSave.push({
+          IdDocumentType: newFile.docTypeId,
+          IdProcedureRequest: idProcedureRequest,
+          path: "pathQuemado",
+          is_valid: true,
+          registration_date: new Date(Date.now()),
+          modification_date: new Date(Date.now())
+        })
+
+      }
+
+      console.log("documentos a enviar", documentsSave);
+      await lastValueFrom(this.documentsService.addDocumentsToRequest(documentsSave));
+      console.log("se guardaron documentos");
+
+      //guardar tracking
+      let tracking: TrackingRequestDto;
+
+      tracking = {
+        IdStatusTypes: 13,
         IdProcedureRequest: idProcedureRequest,
-        path: "pathQuemado",
-        is_valid: true,
-        registration_date: new Date(Date.now()),
-        modification_date: new Date(Date.now())
-      })
+        IdUser: "idUserQuemado",
+        dateTracking: new Date(Date.now()),
+        observations: "Registro por usuario externo"
+      }
 
+      console.log("tracking a enviar", tracking);
+
+      await lastValueFrom(this.trackingService.addTracking(tracking));
+
+      this.finishProcedure();
+    } catch (e) {
+      this.popupAlert.errorAlert("A ocurrido un error al guardar la solicitud", 4000);
     }
-
-    console.log("documentos a enviar", documentsSave);
-    await lastValueFrom(this.documentsService.addDocumentsToRequest(documentsSave));
-    console.log("se guardaron documentos");
-
-    //guardar tracking
-    let tracking: TrackingRequestDto;
-
-    tracking = {
-      IdStatusTypes: 5,
-      IdProcedureRequest: idProcedureRequest,
-      IdUser: "idUserQuemado",
-      dateTracking: new Date(Date.now()),
-      observations: "Registro por usuario externo"
-    }
-
-    console.log("tracking a enviar", tracking);
-
-    await lastValueFrom(this.trackingService.addTracking(tracking));
-
-
-    this.sending = true;
-    //this.numberFiled = "AUT2022REQUEST01"
-    this.finishProcedure(this.numberFiled);
 
   }
 
-  private finishProcedure(numberFiled: string): void {
-
+  private finishProcedure(): void {
+    this.popupAlert.successAlert("Solicitud registrada con éxito", 2000);
+    this.sending = false;
     this.showRequestForm = false;
     this.showResumeRequestSaved = true;
     this.stepAdvanceLine = 3;

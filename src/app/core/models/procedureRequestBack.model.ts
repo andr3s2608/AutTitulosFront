@@ -1,7 +1,14 @@
+import {DocumentSupportDto} from "./documentSupportDto.model";
+
 /**
  * Modelo de una solicitud a enviar al backend para guardar
  */
 export interface ProcedureRequestBackDto {
+
+  /**
+   * Id de la solicitud
+   */
+  IdProcedureRequest?: number;
 
   /**
    * Id Tipo titulo
@@ -122,4 +129,14 @@ export interface ProcedureRequestBackDto {
    * Fecha de radicacion
    */
   filed_date: Date;
+
+  /**
+   * Numero de radicado
+   */
+  filed_number?: string;
+
+  /**
+   * Lista de documentos de la solicitud
+   */
+  documentsSupport?: Array<DocumentSupportDto>
 }

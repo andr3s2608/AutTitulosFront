@@ -179,6 +179,16 @@ export class AppBaseComponent {
     return null;
   }
 
+  public numberDateFuture (control: FormControl): { [p: string]: boolean } | null {
+    if (control.value) {
+      const today = new Date(Date.now()).getFullYear();
+      if (control.value > (today)) {
+        return {'invalidDate': true }
+      }
+    }
+    return null;
+  }
+
   /**
    * Bloquea fechas futuras de un calendario
    * @param idInputDate Id del input tipo date a bloquear

@@ -12,6 +12,8 @@ import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.co
 import {PendingChangesGuard} from "../../core/guards/pending-changes.guard";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { RequestClarificationComponent } from './components/request-clarification/request-clarification.component';
+import { EditRequestComponent } from './pages/edit-request/edit-request.component';
+import { RequestEditObservationsComponent } from './components/request-edit-observations/request-edit-observations.component';
 
 
 
@@ -25,7 +27,9 @@ import { RequestClarificationComponent } from './components/request-clarificatio
         AttachmentsComponent,
         ResumeRequestSavedComponent,
         UserDashboardComponent,
-        RequestClarificationComponent
+        RequestClarificationComponent,
+        EditRequestComponent,
+        RequestEditObservationsComponent
     ],
     exports: [
         RequestDataComponent
