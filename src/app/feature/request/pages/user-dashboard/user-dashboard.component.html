@@ -114,7 +114,7 @@
                     <div class="">
                       <a *ngIf="item.statusId != 11 && item.statusId != 7">
                         <span class="govco-book-reader" style="font-size: 15px">En validación</span></a>
-                      <a *ngIf="item.statusId == 7">
+                      <a (click)="showEditProcedure(item.idProcedureRequest)" *ngIf="item.statusId == 7">
                         <span class="govco-edit" style="font-size: 15px">Editar Trámite</span>
                       </a>
                       <a *ngIf="item.statusId == 11">
@@ -138,6 +138,19 @@
             </div>
 
           </div>
+        </div>
+      </form>
+
+      <form [formGroup]="editRequestForm" *ngIf="showEditProcedureForm==true && showDashboard==false">
+        <app-edit-request [editRequest]="editRequest"></app-edit-request>
+        <div class="col-12" style="margin: 5% 0 5% 0; text-align: center">
+          <button type="button" class="btn-govco fill-btn-govco"
+                  (click)="showDashboard=true;showEditProcedureForm=false"
+                  style="margin-right: 1%;" [disabled]="sending">Volver
+          </button>
+          <button (click)="saveEditProcedute()" type="button" class="btn-govco fill-btn-govco" [disabled]="sending">
+            Guardar
+          </button>
         </div>
       </form>
 

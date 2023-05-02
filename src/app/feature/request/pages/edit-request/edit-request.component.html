@@ -1,0 +1,47 @@
+<!-- Crear solicitud -->
+<form role="form">
+  <br>
+  <h4 class="h4-tipografia-govco title-1">Datos de la solicitud</h4>
+  <br>
+
+  <app-request-edit-observations></app-request-edit-observations>
+
+  <div class="accordion-govco" id="accordionParent">
+
+    <h2 class="accordion-header" id="accordionIconoPanels-childOne">
+      <button class="button-accordion-govco collapsed"
+              type="button"
+              data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseOne"
+              aria-expanded="false" aria-controls="accordionIconoPanels-collapseOne">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Registro de Información</h4>
+                  </span>
+      </button>
+    </h2>
+    <div id="accordionIconoPanels-collapseOne" class="accordion-collapse collapse"
+         aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+      <div class="body-accordion-govco">
+        <app-request-data></app-request-data>
+      </div>
+    </div>
+
+    <h2 class="accordion-header" id="accordionIconoPanels-childTwo">
+      <button class="button-accordion-govco collapsed"
+              type="button"
+              data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTwo"
+              aria-expanded="false" aria-controls="accordionIconoPanels-collapseTwo">
+                  <span class="text-button-accordion-govco">
+                    <h4 class="h4-tipografia-govco title-1">Documentos adjuntos</h4>
+                  </span>
+      </button>
+    </h2>
+    <div id="accordionIconoPanels-collapseTwo" class="accordion-collapse collapse"
+         aria-labelledby="accordionIconoPanels-childTwo" data-bs-parent="#accordionParent">
+      <div class="body-accordion-govco">
+        <app-attachments></app-attachments>
+      </div>
+    </div>
+
+  </div>
+
+</form>

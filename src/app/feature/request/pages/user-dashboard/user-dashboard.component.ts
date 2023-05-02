@@ -10,6 +10,8 @@ import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.mod
 import {lastValueFrom} from "rxjs";
 import {DocumentsService} from "../../../../core/services/documents.service";
 import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
+import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -27,6 +29,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * Centinela que habilita el formulario de aclaración
    */
   public showDisclaimerForm: boolean;
+
+  /**
+   * Centinela que habilita el formulario de editar tramite
+   */
+  public showEditProcedureForm: boolean;
 
   /**
    * Lista de solicitudes realizadas por el ciudadano
@@ -59,6 +66,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   public requestClarificationForm: FormGroup;
 
   /**
+   * Formulario padre del editar la solicitud
+   */
+  public editRequestForm: FormGroup;
+
+  /**
    * Centinela para dehabilitar el boton de guardar aclaracion
    */
   public sending: boolean;
@@ -67,6 +79,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * Info de la solicitud
    */
   public infoRequest: any;
+
+  public editRequest: any;
 
   constructor(private fb: FormBuilder,
               private requestService: RequestService,
@@ -78,6 +92,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.currentProgressAdvanceLine = 94;
     this.showDashboard = true;
     this.showDisclaimerForm = false;
+    this.showEditProcedureForm = false;
 
     this.requestClarificationForm = this.fb.group({
       clarificationForm: this.fb.group({
@@ -86,8 +101,40 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         observation: ["", Validators.required]
       })
     });
+
+    this.editRequestForm = this.fb.group({
+      editObservationsForm: this.fb.group({
+        idProcedure: [ '', [ Validators.required ] ],
+        observations: [ '', [ Validators.required ] ],
+      }),
+      requestDataForm: this.fb.group({
+        idProcedure: [ '', [ Validators.required ] ],
+        titleTypeId: [ '', [ Validators.required ] ],
+        instituteId: [ '', [ Validators.required ] ],
+        professionId: [ '', [ Validators.required ] ],
+        diplomaNumber: [ '', [ Validators.pattern("^[0-9]*$") ] ],
+        graduationCertificate: [ '', [ ] ],
+        endDate: [ '', [ Validators.required, super.dateValidator ] ],
+        book: [ '', [ ] ],
+        folio: [ '', [ ] ],
+        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  super.numberDateFuture ] ],
+        professionalCard: [],
+        nameInternationalUniversity: [],
+        countryId: [],
+        numberResolutionConvalidation: [],
+        dateResolutionConvalidation: [],
+        entityId: []
+      }),
+      attachmentForm: this.fb.group({
+        quantityDocuments: [],
+        documentSupports: [[]]
+      })
+    });
   }
 
+  /**
+   * Carga el listado de solicitudes de un ciudadano
+   */
   ngOnInit(): void {
     this.popUp.infoAlert("Cargando solicitudes", 2000);
 
@@ -117,15 +164,19 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * Carga la lista de seguimiento de una solicitud
    * @param idRequest
    */
-  public loadTrackingProcedure(idRequest: number): void {
-    console.log("enntre al tacking", idRequest)
-    this.trackingService.getTrackingbyid(String(idRequest)).subscribe({
-      next: value => {
+  public async loadTrackingProcedure(idRequest: number): Promise<void> {
+    await lastValueFrom(this.trackingService.getTrackingbyid(String(idRequest))).then( value => {
         this.trackingRequest = value.data;
       }
-    })
+    )
   }
 
+  /**
+   * Habilita el formulario de aclaración
+   * @param idProcedure
+   * @param filed
+   * @param titleType
+   */
   public showClarification(idProcedure: number, filed: string, titleType: string): void {
 
     this.infoRequest = {
@@ -136,7 +187,40 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
     this.showDisclaimerForm = true;
     this.showDashboard = false;
+  }
 
+  /**
+   * Habilita el formulario de editar tramite
+   */
+  public async showEditProcedure(idProcedure: number): Promise<void> {
+    this.popUp.infoAlert("Cargando trámite...", 4000);
+
+    await lastValueFrom(this.requestService.getRequestbyid(String(idProcedure))).then(value => {this.editRequest = value})
+    await this.loadTrackingProcedure(idProcedure);
+    this.editRequestForm.get("editObservationsForm").get("idProcedure").setValue(this.editRequest.filed_number);
+    this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length-1].observations);
+    this.editRequestForm.get("editObservationsForm").disable();
+
+    this.editRequestForm.get("requestDataForm").get("idProcedure").setValue(this.editRequest.filed_number);
+    this.editRequestForm.get("requestDataForm").get("titleTypeId").setValue(this.editRequest.idTitleTypes);
+    this.editRequestForm.get("requestDataForm").get("instituteId").setValue([this.editRequest.idInstitute, this.editRequest.name_institute]);
+    this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession]);
+    this.editRequestForm.get("requestDataForm").get("diplomaNumber").setValue(this.editRequest.diploma_number);
+    this.editRequestForm.get("requestDataForm").get("graduationCertificate").setValue(this.editRequest.graduation_certificate);
+    this.editRequestForm.get("requestDataForm").get("endDate").setValue( formatDate(new Date(this.editRequest.end_date), 'yyyy-MM-dd', 'en'));
+    this.editRequestForm.get("requestDataForm").get("book").setValue(this.editRequest.book);
+    this.editRequestForm.get("requestDataForm").get("folio").setValue(this.editRequest.folio);
+    this.editRequestForm.get("requestDataForm").get("yearTitle").setValue(this.editRequest.year_title);
+    this.editRequestForm.get("requestDataForm").get("professionalCard").setValue(this.editRequest.professional_card);
+    this.editRequestForm.get("requestDataForm").get("nameInternationalUniversity").setValue(this.editRequest.name_institute);
+    this.editRequestForm.get("requestDataForm").get("countryId").setValue(this.editRequest.idCountry);
+    this.editRequestForm.get("requestDataForm").get("numberResolutionConvalidation").setValue(this.editRequest.number_resolution_convalidation);
+    this.editRequestForm.get("requestDataForm").get("dateResolutionConvalidation").setValue(this.editRequest.date_resolution_convalidation);
+    this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.IdEntity);
+
+
+    this.showEditProcedureForm = true;
+    this.showDashboard = false;
   }
 
   public async saveClarification(): Promise<void> {
@@ -212,6 +296,33 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       console.log(e)
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
+  }
+
+
+  public async saveEditProcedute(): Promise<void> {
+    try {
+      //guardar
+      // tracking
+      let tracking: TrackingRequestDto;
+
+      tracking = {
+        IdStatusTypes: 19,
+        IdProcedureRequest: this.editRequest.idProcedureRequest,
+        IdUser: "idUserQuemado",
+        dateTracking: new Date(Date.now()),
+        observations: "Subsanación por usuario externo"
+      }
+
+      console.log("tracking a enviar", tracking);
+
+      await lastValueFrom(this.trackingService.addTracking(tracking));
+
+      this.popUp.successAlert("Solicitud realizada exitosamente. Puede abandonar la página.", 4000);
+    } catch (e) {
+      console.log(e)
+      this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
+    }
+
   }
 
 }
