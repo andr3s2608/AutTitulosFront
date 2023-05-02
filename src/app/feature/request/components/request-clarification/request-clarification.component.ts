@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {PopUpService} from "../../../../core/services";
@@ -16,6 +16,10 @@ export class RequestClarificationComponent extends AppBaseComponent {
    */
   public clarificationForm: any;
 
+
+  @Input()
+  public infoRequest: any;
+
   constructor(private controlContainer: ControlContainer,
               private popupAlert: PopUpService) {
     super();
@@ -24,7 +28,6 @@ export class RequestClarificationComponent extends AppBaseComponent {
   ngOnInit(): void {
     this.clarificationForm = this.controlContainer.control;
     this.clarificationForm = this.clarificationForm.controls['clarificationForm'];
-
   }
 
   /**

@@ -379,7 +379,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         folio:this.validationForm.get('requestDataForm.folio').value,
         year_title:this.validationForm.get('requestDataForm.yearTitle').value,
         professional_card:this.validationForm.get('requestDataForm.professionalCard').value,
-        IdCountry:1,
+        IdCountry:170,
         number_resolution_convalidation:"",
         date_resolution_convalidation:new Date(Date.now()),
         IdEntity:1,

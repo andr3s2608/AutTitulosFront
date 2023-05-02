@@ -68,7 +68,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     let message;
     const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle'];
     const onlyNumber: Array<string> = ['diplomaNumber', 'yearTitle'];
-    const dateError: Array<string> = ['endDate'];
+    const dateError: Array<string> = ['endDate', 'yearTitle'];
 
     if (this.isTouchedField(this.requestDataForm, field)) {
 
