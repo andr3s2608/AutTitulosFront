@@ -192,8 +192,8 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     console.log(position,text);
     this.Direcction[position]=text;
     let directionarmed="";
-    for (let i = 0; i < this.Direcction.length; i++) {
-      directionarmed=directionarmed+this.Direcction[i]+" ";
+    for (const element of this.Direcction) {
+      directionarmed = directionarmed + element+" ";
     }
     this.naturalForm.get('direccionResidencia').setValue(directionarmed);
 
@@ -230,7 +230,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
 
 
-        this.naturalForm.get('basicDataForm.primerNombre').value
+
 
         const data = {
           primerNombre: this.naturalForm.get('basicDataForm.primerNombre').value.toString().toUpperCase(),
@@ -270,7 +270,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
 
           this.registerService.saveNaturalPerson(data).subscribe(resp => {
-            console.log(resp);
+
             if(resp.data==0 ||resp.data==null )
             {
               this.popupAlert.errorAlert(
@@ -281,10 +281,31 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
             else
             {
               this.popupAlert.successAlert(
-                `Solicitad Validada Exitosamente`,
+                `Usuario Registrado exitosamente`,
                 4000
               );
-              this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.CITIZEN)
+              let nuevoHTML='';
+
+              this.registerService.getFormats("1").subscribe(resp => {
+                const llavesAReemplazar = ['~:~ciudadano~:~', '~:~tipo_de_solicitud~:~', '~:~numero_de_tramite~:~'];
+                const valoresDinamicos = ['', '', ''];
+                nuevoHTML=resp.result.data.body;
+
+                for (let index = 0; index < llavesAReemplazar.length; index++) {
+                  nuevoHTML = nuevoHTML.replace(llavesAReemplazar[index], valoresDinamicos[index]);
+                }
+
+                this.registerService.sendEmail({
+                  to: this.naturalForm.get('basicDataForm.email').value.toString().toLowerCase(),
+                  subject: 'Registro en la plataforma',
+                  body: nuevoHTML
+                }).subscribe(resp => {
+                });
+
+
+                this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.CITIZEN)
+              });
+
             }
 
 

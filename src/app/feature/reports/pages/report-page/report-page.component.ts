@@ -123,41 +123,52 @@ export class ReportPageComponent implements OnInit {
   public getDashboard(type: string): void {
     let dateinitial;
     let datefinal;
+    let formattedDatefinal;
+    let formattedDateinitial;
+    if (this.reportsform.get('enddate').value != null && this.reportsform.get('enddate').value != "") {
+      datefinal = this.reportsform.get('enddate').value;
+      formattedDatefinal=datefinal;
+    } else {
+      datefinal = new Date(Date.now());
+
+      // Get year, month, and day part from the date
+      let yearfinal = datefinal.toLocaleString("default", {year: "numeric"});
+      let monthfinal = datefinal.toLocaleString("default", {month: "2-digit"});
+      let dayfinal = datefinal.toLocaleString("default", {day: "2-digit"});
+      // Generate yyyy-mm-dd date string
+      formattedDatefinal = yearfinal + "-" + monthfinal + "-" + dayfinal;
+
+    }
     if (this.reportsform.get('begindate').value != null && this.reportsform.get('begindate').value != "") {
       dateinitial = this.reportsform.get('begindate').value;
+      formattedDateinitial=dateinitial;
 
     } else {
       dateinitial = new Date(Date.now());
       //se toman los 30 dias iniciales
-      dateinitial.setDate(dateinitial.getDate() - 30);
+      dateinitial.setDate(datefinal.getDate() - 30);
+
+      // Get year, month, and day part from the date
+      let yearinitial = dateinitial.toLocaleString("default", {year: "numeric"});
+      let monthinitial = dateinitial.toLocaleString("default", {month: "2-digit"});
+      let dayinitial = dateinitial.toLocaleString("default", {day: "2-digit"});
+
+
+      // Generate yyyy-mm-dd date string
+      formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
     }
-    if (this.reportsform.get('enddate').value != null && this.reportsform.get('enddate').value != "") {
-      datefinal = this.reportsform.get('enddate').value;
-
-    } else {
-    datefinal = new Date(Date.now());
-    }
-
-
-    // Get year, month, and day part from the date
-    let yearfinal = datefinal.toLocaleString("default", {year: "numeric"});
-    let monthfinal = datefinal.toLocaleString("default", {month: "2-digit"});
-    let dayfinal = datefinal.toLocaleString("default", {day: "2-digit"});
-    // Generate yyyy-mm-dd date string
-    let formattedDatefinal = yearfinal + "-" + monthfinal + "-" + dayfinal;
 
 
 
 
 
-    // Get year, month, and day part from the date
-    let yearinitial = dateinitial.toLocaleString("default", {year: "numeric"});
-    let monthinitial = dateinitial.toLocaleString("default", {month: "2-digit"});
-    let dayinitial = dateinitial.toLocaleString("default", {day: "2-digit"});
-    // Generate yyyy-mm-dd date string
-    let formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
 
 
+
+
+    const difmonth=datefinal-dateinitial;
+
+  //console.log(difmonth.toLocaleString("default", {month: "2-digit"}))
 
 
     if (type === 'filtro') {
@@ -188,7 +199,7 @@ export class ReportPageComponent implements OnInit {
           }
         });
 
-        this.download(fileToExport,this.reportsform.get('selector').value+"");
+        this.download(fileToExport,this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value+"" :'Todos');
 
 
       });

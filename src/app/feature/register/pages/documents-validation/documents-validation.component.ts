@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {CityService} from "../../../../core/services";
+import {CityService, PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
 import {ROUTES} from "../../../../core/enums";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TrackingService} from "../../../../core/services/tracking.service";
 
 @Component({
   selector: 'app-documents-validation',
@@ -14,20 +15,21 @@ export class DocumentsValidationComponent implements OnInit{
 public variable : boolean=true;
 
   public form: FormGroup;
-  public idTramit:any;
-  public tramitName:any;
-  public idNumber:any;
-  public dateResolution:any;
-  public numberResolution:any;
-  public tramitStatus:any;
-  public aditionalInfo:any;
+
+  /**
+   * datos relacionados con el codigo de verificacion
+   */
+  public validationDocument:any;
 
 
 
 
 
 
-  constructor(public cityService: CityService, private router: Router,public fb: FormBuilder){
+  constructor(public trackingService: TrackingService,
+              private router: Router,
+              public fb: FormBuilder,
+              private popupAlert: PopUpService){
 
     this.form = this.fb.group({
       codigo: [ '' , [ Validators.required ]]
@@ -41,19 +43,27 @@ public variable : boolean=true;
   {
     if(this.form.valid)
     {
-      ///se hace la busqueda
-      this.idTramit=2;
-      this.tramitName="prueba";
-      this.idNumber=20;
-      this.dateResolution="20/03/2020";
-      this.numberResolution=34121;
-      this.tramitStatus="Aprobado";
-      this.aditionalInfo=" cumple"
+      this.trackingService.getValidationDocument(this.form.get('codigo').value).subscribe(resp => {
 
-      this.variable=false;
+        if(resp.result.count>0)
+        {
+          this.validationDocument=resp.result.data
+          this.variable=false;
+        }
+        else {
+          this.popupAlert.errorAlert(
+            resp.result.message,
+            4000
+          );
+
+        }
+      });
     }
     else {
-      console.log("no ha ingresado ningun codigo")
+      this.popupAlert.errorAlert(
+       'No se ha ingresado un codigo para validar',
+        4000
+      );
     }
 
 

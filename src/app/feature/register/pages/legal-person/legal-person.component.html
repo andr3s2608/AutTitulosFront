@@ -29,7 +29,8 @@
               <div class="entradas-de-texto-govco">
                 <label for="razonsocial">Razón Social <span class="required">(*)</span></label>
                 <input type="text" id="razonsocial" placeholder="RAZÓN SOCIAL"
-                       aria-describedby="input-razonsocial"/>
+                       aria-describedby="input-razonsocial"
+                       formControlName="razonsocial"/>
                 <span
                   class="error-texto-govco alert-entradas-de-texto-govco" id="razon-social-note" role="alert"
                   aria-live="assertive">
@@ -40,8 +41,9 @@
 
             <div class="col-sm-12 col-md-9">
               <div class="entradas-de-texto-govco">
-                <label for="tipoIdedentificacion">Tipo de Identificación <span class="required">(*)</span></label>
-                <select class="form-select" id="tipoIdedentificacion" aria-label="Default select example">
+                <label for="tipoIdentificacion">Tipo de Identificación <span class="required">(*)</span></label>
+                <select class="form-select" id="tipoIdentificacion" aria-label="Default select example"
+                        formControlName="tipoIdentificacion">
                   <option value="" selected>NIT</option>
                 </select>
               </div>
@@ -51,7 +53,8 @@
               <div class="entradas-de-texto-govco">
                 <label for="nit">NIT <span class="required">(*)</span></label>
                 <input type="text" id="nit" placeholder="NÚMERO DE NIT"
-                       aria-describedby="input-numero-nit"/>
+                       aria-describedby="input-numero-nit"
+                       formControlName="nit"/>
                 <span
                   class="error-texto-govco alert-entradas-de-texto-govco" id="nit-note" role="alert"
                   aria-live="assertive">

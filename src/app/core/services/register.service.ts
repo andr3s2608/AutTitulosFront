@@ -115,6 +115,13 @@ export class RegisterService {
   public sendEmail(cuerpoEmail: any): Observable<any> {
     return this.http.post(`${PROCEDURE_NOTIFICATIONS_URI}/Email/SendMail`, cuerpoEmail);
   }
+  /**
+   * Obtiene el formato de la notificacion
+   * @param idformat numero de formato
+   */
+  public getFormats(idformat: string): Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Format/GetFormats/${idformat}`);
+  }
 
   /**
    * Obtiene el rol de un usuario dado su oid del b2c

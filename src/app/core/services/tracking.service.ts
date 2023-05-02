@@ -40,4 +40,12 @@ export class TrackingService {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/Tracking/GetDuplicated/${id}`);
   }
 
+  /**
+   * Obtiene las solicitudes con el mismo numero de id
+   * @param id
+   */
+  getValidationDocument(id: string) : Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Tracking/GetValidation/${id}`);
+  }
+
 }

@@ -274,6 +274,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
     let statustogenerate="";
     const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'Reposición'];
+    const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
     for (const element of estados) {
       if(status.includes(element))
@@ -283,14 +284,13 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     }
     if(status.includes("Firmar"))
     {
-      console.log('entro')
       let laststatus=this.tramiteActual.statusId+"";
-      console.log(laststatus)
+
       for (let i = 0; i < ultimosestados.length  ; i++) {
-        console.log(ultimosestados[i])
+
         if(laststatus.includes(ultimosestados[i]))
         {
-          console.log('entro includes')
+
           statustogenerate=estados[i];
         }
       }
@@ -455,30 +455,35 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       if(this.validationForm.get('validationstateform.selectedstatus').value==='11' )
       {
 
-          this.popupAlert.infoAlert(
-            `Generando Resolucion`,
-            11000
-          );
+
+        const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
         const ultimosestados: Array<string> = ['4', '5', '10', '6'];
-        for (const element of ultimosestados) {
-          if((this.tramiteActual.statusId+'').includes(element))
+        for (let i = 0; i <ultimosestados.length ; i++)
+
+         {
+          if((this.tramiteActual.statusId+'').includes(ultimosestados[i]))
           {
+            this.popupAlert.infoAlert(
+              `Generando Resolucion`,
+              11000
+            );
             const resolution:any =
               {
                 idProcedureRequest: this.tramiteActual.id,
                 date: new Date(Date.now()),
-                path: "prueba"
+                path: this.tramiteActual.user.idUser+'/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
               }
 
             this.resolutiontService.addResolution(resolution).subscribe(resp => {
             });
 
             this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
-              this.tramiteActual.statusId===4 ? "Aprobacion": "Negacion",
+              estadosbd[i],
               "Subdirector",
-              " ",
-              " ",
-              " ",
+              this.validationForm.get('validationstateform.aclarationparagraph').value+" ",
+              this.validationForm.get('validationstateform.justificationparagraph1').value+
+              this.validationForm.get('validationstateform.justificationparagraph2').value+" ",
+              this.validationForm.get('validationstateform.aclarationparagrapharticle').value+" ",
               false
             ).subscribe(resp => {
 
@@ -508,7 +513,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
                   );
                   this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)
 
-                  console.log(resp);
+
                 });
 
               })();
@@ -525,6 +530,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           `Solicitud Validada Exitosamente`,
           4000
         );
+        localStorage.removeItem("procedure");
         this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.ValidatorDashboard)
 
       }
