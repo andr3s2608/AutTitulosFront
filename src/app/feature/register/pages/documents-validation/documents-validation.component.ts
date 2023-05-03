@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CityService, PopUpService} from "../../../../core/services";
+import { PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
 import {ROUTES} from "../../../../core/enums";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -72,7 +72,7 @@ public variable : boolean=true;
 
   public volver()
   {
-    this.router.navigateByUrl(ROUTES.AUT_TITULOS);
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+'/'+ROUTES.DOCUMENTS_VALID);
   }
 
 }

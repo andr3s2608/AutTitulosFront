@@ -55,7 +55,8 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
     this.validationStateForm = this.controlContainer.control;
     this.validationStateForm = this.validationStateForm.controls['validationstateform'];
 
-    this.statusService.getStatusTypes("Subdirector").subscribe(resp => {
+
+    this.statusService.getStatusTypes(localStorage.getItem('Role')).subscribe(resp => {
 
       this.solicitudstates = resp.data;
       let statustosearch='';

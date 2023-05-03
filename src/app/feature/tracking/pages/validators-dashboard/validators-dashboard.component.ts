@@ -51,7 +51,8 @@ export class ValidatorsDashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
+    let role = 'Subdirector';
+    localStorage.setItem('Role',role);
     let date = new Date(Date.now());
 
 // Get year, month, and day part from the date
@@ -66,7 +67,7 @@ export class ValidatorsDashboardComponent implements OnInit{
       ""+" ",
       ""+" ",
       "1",
-        "15","Subdirector").subscribe(resp => {
+        "15",role).subscribe(resp => {
         this.tableFilter=resp.data;
 
     });
