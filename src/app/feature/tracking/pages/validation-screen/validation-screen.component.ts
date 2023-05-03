@@ -31,7 +31,25 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   /**
    * ultimo seguimiento
    */
-  public lasttracking: any;
+  public lasttracking: any = {
+    idStatusTypes:0,
+    negationcauses: '',
+    othernegationcauses: '',
+    recurrentargument: '',
+    considerations: '',
+    merits: '',
+    articles: 'Articulo Primero: /n Articulo Segundo:',
+    aditionalinfo: '',
+    checkBoxnameserror:  false,
+    checkBoxprofessionerror: false ,
+    checkBoxinstitutionerror: false,
+    checkBoxdocumenterror: false ,
+    checkBoxdateerror: false ,
+    aclarationparagraph: '' ,
+    justificationparagraph1: '' ,
+    justificationparagraph2: '',
+    aclarationparagrapharticle:  ''
+  };
   /**
    * lista de seguimiento
    */
@@ -116,7 +134,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         this.tramiteActual={
           id:datatramite.idProcedureRequest,
           user:this.user,
-          statusId: datatramite.idStatus,
+          statusId: datatramite.idStatus_types,
           status: datatramite.status,
           filedNumber: datatramite.filed_number,
           dateRequest: new Date(Date.now()),
@@ -133,13 +151,15 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           filed_date:datatramite.filed_date,
           name_institute:datatramite.name_institute,
           idnumber:datatramite.idNumber,
-          aplicantnanme:datatramite.aplicantName
+          aplicantnanme:datatramite.aplicantName,
+          profesionid:datatramite.idProfessionInstitute,
+          name_profesion:datatramite.name_profession
         }
 
         this.trackingService.getTrackingbyid(datatramite.idProcedureRequest).subscribe(resp3 => {
-          this.tracking=resp3.result.data;
+          this.tracking=resp3.data;
 
-          if(resp3.result.count> 2)
+          if(resp3.count> 2)
           {
 
             this.lasttracking= this.tracking[this.tracking.length-1];
@@ -172,11 +192,13 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
   private loadInfoTramiteActual(): void {
 
     let checkbox:any;
-    console.log(this.lasttracking+ "holaaa")
-    if(this.lasttracking!=null)
+    let istrack=false;
+
+    if(this.lasttracking.idStatusTypes!=0 )
     {
-      console.log('entro2?')
-      checkbox=this.lasttracking.clarification_types_motives.split('/')
+
+      checkbox=this.lasttracking.clarification_types_motives.split('/');
+      istrack=true;
     }
 
     this.validationForm = this.fb.group({
@@ -227,8 +249,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
       requestDataForm: this.fb.group({
         titleTypeId: [ this.tramiteActual.titleTypeId, [ Validators.required ] ],
-        instituteId: [ this.tramiteActual.instituteId, [ Validators.required ] ],
-        professionId: [ "", [ Validators.required ] ],
+        instituteId: [ [this.tramiteActual.instituteId,this.tramiteActual.name_institute], [ Validators.required ] ],
+        professionId: [[this.tramiteActual.profesionid,this.tramiteActual.name_profesion], [ Validators.required ] ],
         diplomaNumber: [ this.tramiteActual.diplomaNumber, [ Validators.pattern("^[0-9]*$") ] ],
         graduationCertificate: [ this.tramiteActual.graduationCertificate, [ ] ],
         endDate: [ formatDate(new Date(this.tramiteActual.endDate), 'yyyy-MM-dd', 'en'), [ Validators.required, super.dateValidator ] ],
@@ -242,22 +264,22 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         selectedstatus: [1],
         status: [ 'Aprobacion' ],
         internalobservations: [ '' ],
-        negationcauses: [ this.lasttracking!=null ? this.lasttracking.negation_causes : '' ],
-        othernegationcauses: [ this.lasttracking!=null ? this.lasttracking.other_negation_causes : '' ],
-        recurrentargument: [ this.lasttracking!=null ? this.lasttracking.recurrent_argument : '' ],
-        considerations: [ this.lasttracking!=null ? this.lasttracking.consideration : '' ],
-        merits: [ this.lasttracking!=null ? this.lasttracking.exposed_merits : '' ],
-        articles: [ this.lasttracking!=null ? this.lasttracking.articles : 'Articulo Primero: /n Articulo Segundo:' ],
-        aditionalinfo: [ this.lasttracking!=null ? this.lasttracking.additional_information : '' ],
-        checkBoxnameserror: [ this.lasttracking!=null ? toBoolean(checkbox[0]) : false ],
-        checkBoxprofessionerror: [this.lasttracking!=null ? toBoolean(checkbox[1]) : false ],
-        checkBoxinstitutionerror: [this.lasttracking!=null ? toBoolean(checkbox[2]) :false],
-        checkBoxdocumenterror: [this.lasttracking!=null ? toBoolean(checkbox[3]) : false ],
-        checkBoxdateerror: [this.lasttracking!=null ? toBoolean(checkbox[4]) :false ],
-        aclarationparagraph: [ this.lasttracking!=null ? this.lasttracking.paragraph_MA : '' ],
-        justificationparagraph1: [ this.lasttracking!=null ? this.lasttracking.paragraph_JMA1 : '' ],
-        justificationparagraph2: [ this.lasttracking!=null ? this.lasttracking.paragraph_JMA2 : '' ],
-        aclarationparagrapharticle: [ this.lasttracking!=null ? this.lasttracking.paragraph_AMA : '' ] ,
+        negationcauses: [this.lasttracking.negation_causes ],
+        othernegationcauses: [ this.lasttracking.other_negation_causes ],
+        recurrentargument: [ this.lasttracking.recurrent_argument  ],
+        considerations: [ this.lasttracking.consideration],
+        merits: [  this.lasttracking.exposed_merits  ],
+        articles: [  this.lasttracking.articles  ],
+        aditionalinfo: [ this.lasttracking.additional_information ],
+        checkBoxnameserror: [ istrack ? toBoolean(checkbox[0]) : false ],
+        checkBoxprofessionerror: [istrack? toBoolean(checkbox[1]) : false ],
+        checkBoxinstitutionerror: [istrack ? toBoolean(checkbox[2]) :false],
+        checkBoxdocumenterror: [istrack ? toBoolean(checkbox[3]) : false ],
+        checkBoxdateerror: [istrack ? toBoolean(checkbox[4]) :false ],
+        aclarationparagraph: [ this.lasttracking.paragraph_MA  ],
+        justificationparagraph1: [ this.lasttracking.paragraph_JMA1  ],
+        justificationparagraph2: [ this.lasttracking.paragraph_JMA2  ],
+        aclarationparagrapharticle: [ this.lasttracking.paragraph_AMA  ] ,
 
       }),
     })
@@ -287,11 +309,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
       let laststatus=this.tramiteActual.statusId+"";
 
       for (let i = 0; i < ultimosestados.length  ; i++) {
-
+    console.log(laststatus)
         if(laststatus.includes(ultimosestados[i]))
         {
-
-          statustogenerate=estados[i];
+          statustogenerate=estadosbd[i];
         }
       }
     }
@@ -319,7 +340,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         preliminarresolution
     ).subscribe(resp => {
 
-      let fileObtenido=resp.result.data;
+      let fileObtenido=resp.data;
       const byteArray = new Uint8Array(atob(fileObtenido).split('').map((char) => char.charCodeAt(0)));
       const file = new Blob([byteArray], {type: 'application/pdf'});
       let datalocalURL = URL.createObjectURL(file);
@@ -335,9 +356,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
 
   public async saveRequest(): Promise<void> {
 
-
-
-
     if (!this.validationForm.valid) {
 
       this.popupAlert.errorAlert(
@@ -352,20 +370,39 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
     }
     else {
 
+      const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
+      const ultimosestados: Array<string> = ['4', '5', '10', '6'];
+      const estadofinalfirmado: Array<number> = [16, 17, 18, 20];
+
+      let status=0;
+
+      for (let i = 0; i <ultimosestados.length ; i++)
+      {
+        if((this.tramiteActual.statusId+'').includes(ultimosestados[i]))
+        {
+          status=i;
+        }
+      }
+
 
       const aplicantname=this.validationForm.get('basicDataForm.primerNombre').value.toString().toUpperCase()+" "+
-        (this.validationForm.get('basicDataForm.segundoNombre').value!=null ?this.validationForm.get('basicDataForm.segundoNombre').value.toString().toUpperCase() : "" )+" "+
+        (this.validationForm.get('basicDataForm.segundoNombre').value.toString() + "" ).toUpperCase()+
         this.validationForm.get('basicDataForm.primerApellido').value.toString().toUpperCase()+" "+
-        (this.validationForm.get('basicDataForm.segundoApellido').value!=null ?this.validationForm.get('basicDataForm.segundoApellido').value.toString().toUpperCase() : "" )+" ";
+        (this.validationForm.get('basicDataForm.segundoApellido').value.toString() + "" ).toUpperCase();
 
       const idistitute= (this.validationForm.get('requestDataForm.instituteId').value+"").split(",");
       const idprofesion= (this.validationForm.get('requestDataForm.professionId').value+"").split(",");
 
 
+
+
+      let selectedstatus=this.validationForm.get('validationstateform.selectedstatus').value ===11 ?
+        this.validationForm.get('validationstateform.selectedstatus').value : estadofinalfirmado[status];
+
       const json:any ={
         IdProcedureRequest:this.tramiteActual.id,
         IdTitleTypes:this.validationForm.get('requestDataForm.titleTypeId').value,
-        IdStatus_types:this.validationForm.get('validationstateform.selectedstatus').value,
+        IdStatus_types:selectedstatus,
         IdInstitute:idistitute[0],
         IdProfessionInstitute:idprofesion[0],
         IdUser:this.tramiteActual.user.idUser,
@@ -392,8 +429,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         IdDocument_type:this.validationForm.get('basicDataForm.documentodescripcion').value,
       }
 
-      this.requestService.updateRequest(json).subscribe(resp => {
-      });
+      this.requestService.updateRequest(json).subscribe();
 
       //actualizacion de documentos
       let documentos=this.validationForm.get('attachmentform.documentstate').value;
@@ -409,8 +445,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           registration_date: element.registration_date,
         })
       }
-      this.documentsService.updateDocumentsByIdRequest(documentstoupdate).subscribe(resp => {
-      });
+      this.documentsService.updateDocumentsByIdRequest(documentstoupdate).subscribe();
 
 
 
@@ -427,9 +462,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
         this.validationForm.get('validationstateform.checkBoxdateerror').value;
 
 
+
       const tracking :any =
         {
-          IdStatusTypes: this.validationForm.get('validationstateform.selectedstatus').value,
+          IdStatusTypes: selectedstatus,
           IdProcedureRequest: this.tramiteActual.id,
           IdUser: 'andres',
           observations: this.validationForm.get('validationstateform.internalobservations').value,
@@ -448,21 +484,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
           dateTracking:new Date(Date.now())
         }
 
-      this.trackingService.addTracking(tracking).subscribe(resp => {
-      });
+      this.trackingService.addTracking(tracking).subscribe();
 
       //guardado resolution bd
       if(this.validationForm.get('validationstateform.selectedstatus').value==='11' )
       {
-
-
-        const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
-        const ultimosestados: Array<string> = ['4', '5', '10', '6'];
-        for (let i = 0; i <ultimosestados.length ; i++)
-
-         {
-          if((this.tramiteActual.statusId+'').includes(ultimosestados[i]))
-          {
             this.popupAlert.infoAlert(
               `Generando Resolucion`,
               11000
@@ -474,11 +500,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
                 path: this.tramiteActual.user.idUser+'/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
               }
 
-            this.resolutiontService.addResolution(resolution).subscribe(resp => {
-            });
+            this.resolutiontService.addResolution(resolution).subscribe();
 
             this.documentsService.getResolutionPdf(this.tramiteActual.id+"",
-              estadosbd[i],
+              estadosbd[status],
               "Subdirector",
               this.validationForm.get('validationstateform.aclarationparagraph').value+" ",
               this.validationForm.get('validationstateform.justificationparagraph1').value+
@@ -495,7 +520,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
               };
 
               (async () => {
-                const file = await urlToFile('data:application/pdf;base64,' + resp.result.data, 'resolucion', 'application/pdf');
+                const file = await urlToFile('data:application/pdf;base64,' + resp.data, 'resolucion', 'application/pdf');
 
                 const formData = new FormData();
                 formData.append('file', file);
@@ -506,7 +531,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
                 formData.append('containerName', "aguahumanos");
                 formData.append('oid', this.tramiteActual.user.idUser);
 
-                this.documentsService.uploadFiles(formData).subscribe(resp => {
+                this.documentsService.uploadFiles(formData).subscribe(() => {
                   this.popupAlert.successAlert(
                     `Solicitud Validada Exitosamente`,
                     4000
@@ -519,9 +544,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements  OnIn
               })();
 
             });
-            break;
-          }
-        }
+
+
 
       }
       else

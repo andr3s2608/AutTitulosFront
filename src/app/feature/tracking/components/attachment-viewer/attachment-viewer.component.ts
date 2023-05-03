@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ArchiveService, PopUpService} from "../../../../core/services";
-import {RegisterService} from "../../../../core/services/register.service";
-import {ControlContainer, FormGroup} from "@angular/forms";
+import {ControlContainer} from "@angular/forms";
 import {DocumentsService} from "../../../../core/services/documents.service";
 
 /**
@@ -39,12 +38,10 @@ export class AttachmentViewerComponent implements OnInit {
               private archiveService: ArchiveService,
               private documentService: DocumentsService, private controlContainer: ControlContainer) {
 
-    this.documentService.getDocumentsByIdRequest("1").subscribe(resp => {
+    this.documentService.getDocumentsByIdRequest(localStorage.getItem('procedure')).subscribe(resp => {
 
-      this.documentSupports = resp.result.data;
+      this.documentSupports = resp.data;
   this.attachmentform.get('documentstate').setValue(this.documentSupports );
-      let documents:any[];
-
 
     });
 

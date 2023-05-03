@@ -86,7 +86,10 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
       });
       filtro.push({codigo: "PPT", descripcion: "Permiso Protección Temporal", idTipoIdentificacion: 4})
       this.identificationType = filtro;
+      this.basicDataForm.get('documentodescripcion').setValue(this.identificationType[this.basicDataForm.get('tipoDocumento').value-1].descripcion);
     });
+
+
     this.registerService.getSex().subscribe(resp => this.sexes = resp.data);
     this.registerService.getGender().subscribe(resp => this.gender = resp.data);
     this.registerService.getSexualOrientation().subscribe(resp => this.sexualOrientation = resp.data);

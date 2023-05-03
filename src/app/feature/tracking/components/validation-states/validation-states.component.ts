@@ -1,8 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder} from "@angular/forms";
-import {CityService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
-import {RegisterService} from "../../../../core/services/register.service";
 import {StatusService} from "../../../../core/services/status.service";
 import {TrackingService} from "../../../../core/services/tracking.service";
 
@@ -19,6 +17,8 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
   @Input() idnumber: string;
 
   @Input() apliccantname: string;
+
+  @Input() actualstatus: string;
 
   /**
    * estado seleccionado a mostrar
@@ -57,14 +57,41 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
 
     this.statusService.getStatusTypes("Subdirector").subscribe(resp => {
 
-      this.solicitudstates = resp.result.data;
-      this.status=this.solicitudstates[0].description;
+      this.solicitudstates = resp.data;
+      let statustosearch='';
+      if(this.actualstatus==='14')
+      {
+        statustosearch='3';
+      }
+      if(this.actualstatus==='15')
+      {
+        statustosearch='9';
+      }
+      if(statustosearch!='')
+      {
+        for (const element of this.solicitudstates) {
+
+          if (element.idStatusType + "" == statustosearch) {
+            this.validationStateForm.get('selectedstatus').setValue(element.idStatusType);
+            this.validationStateForm.get('status').setValue(element.description);
+            this.status = element.description;
+            break;
+          }
+        }
+      }
+      else {
+        this.validationStateForm.get('selectedstatus').setValue(this.solicitudstates[0].idStatusType);
+        this.validationStateForm.get('status').setValue(this.solicitudstates[0].description);
+        this.status=this.solicitudstates[0].description;
+      }
+
+
     });
 
     this.trackingService.getDuplicatedbyid(this.idnumber).subscribe(resp => {
 
-      this.duplicatedid = resp.result.data;
-      if(resp.result.count>1)
+      this.duplicatedid = resp.data;
+      if(resp.count>1)
       {
         this.showduplicated=true;
       }
