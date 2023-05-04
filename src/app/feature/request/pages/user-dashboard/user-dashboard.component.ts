@@ -198,7 +198,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     await lastValueFrom(this.requestService.getRequestbyid(String(idProcedure))).then(value => {this.editRequest = value})
     await this.loadTrackingProcedure(idProcedure);
     this.editRequestForm.get("editObservationsForm").get("idProcedure").setValue(this.editRequest.filed_number);
-    this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length-1].observations);
+    this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length-1].additional_information);
     this.editRequestForm.get("editObservationsForm").disable();
 
     this.editRequestForm.get("requestDataForm").get("idProcedure").setValue(this.editRequest.filed_number);
@@ -281,8 +281,20 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdProcedureRequest:  this.infoRequest.idProcedure,
         IdUser: "idUserQuemado",
         dateTracking: new Date(Date.now()),
-        observations: "Solicitud de aclaración por ciudadano"
-      }
+        observations: clarificationForm.observation,
+        clarification_types_motives: "false/false/false/false/false",
+        negation_causes: " ",
+        other_negation_causes: " ",
+        recurrent_argument: " ",
+        consideration: " ",
+        exposed_merits: " ",
+        articles: " ",
+        additional_information: " ",
+        paragraph_MA: " ",
+        paragraph_JMA1: " ",
+        paragraph_JMA2: " ",
+        paragraph_AMA: " ",
+    }
 
       console.log("tracking a enviar", tracking);
 
@@ -310,7 +322,19 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdProcedureRequest: this.editRequest.idProcedureRequest,
         IdUser: "idUserQuemado",
         dateTracking: new Date(Date.now()),
-        observations: "Subsanación por usuario externo"
+        observations: "Subsanación por usuario externo",
+        clarification_types_motives: "false/false/false/false/false",
+        negation_causes: " ",
+        other_negation_causes: " ",
+        recurrent_argument: " ",
+        consideration: " ",
+        exposed_merits: " ",
+        articles: " ",
+        additional_information: " ",
+        paragraph_MA: " ",
+        paragraph_JMA1: " ",
+        paragraph_JMA2: " ",
+        paragraph_AMA: " ",
       }
 
       console.log("tracking a enviar", tracking);
