@@ -42,6 +42,7 @@ export class ValidatorsDashboardComponent implements OnInit{
     this.stepAdvanceLine=2;
     this.validatorForm = this.fb.group({
       selector: [''],
+      selectorrole: [localStorage.getItem('Role')!=null ?localStorage.getItem('Role'):'Funcionario'],
       textfilter: [''],
       pageSize: [10],
       pageNumber: [1],
@@ -51,8 +52,16 @@ export class ValidatorsDashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    let role = 'Subdirector';
-    localStorage.setItem('Role',role);
+    let role='';
+    if(localStorage.getItem('Role')!=null)
+    {
+      role=localStorage.getItem('Role');
+    }
+    else {
+      localStorage.setItem('Role','Funcionario');
+      role='Funcionario';
+    }
+
     let date = new Date(Date.now());
 
 // Get year, month, and day part from the date
@@ -87,6 +96,13 @@ export class ValidatorsDashboardComponent implements OnInit{
 
   }
 
+  public changerole(): void
+  {
+    console.log(this.validatorForm.get('selectorrole').value);
+    console.log('hola')
+    localStorage.setItem('Role',this.validatorForm.get('selectorrole').value)
+
+  }
   public getdashboard(): void
   {
       let selector=  this.validatorForm.get('selector').value;
