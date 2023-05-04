@@ -119,12 +119,14 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     if (idx == -1) {
       this.listDocumentSupports.push({
         docTypeId,
+        docDescription,
         content: fileSelected
       });
     } else {
       if (fileSelected) {
         this.listDocumentSupports[idx] = {
           docTypeId,
+          docDescription,
           content: fileSelected
         };
       } else {

@@ -251,11 +251,16 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
       for(const newFile of attachmentForm.documentSupports) {
         //TODO completar funcionalidad  cuando haya blobstorage
-        /*
+
          const fmData = new FormData();
          fmData.append('File', newFile.content);
-         await this.documentService.saveBlobStorage(fmData)
-         */
+         fmData.append('NameFile', newFile.docDescription);
+         fmData.append('ContainerName', "aguahumanos");
+         fmData.append('Oid', `oidUserQuemado_${newFile.docDescription}`);
+         await lastValueFrom(this.archiveService.saveFileBlobStorage(fmData)).then( resp => {
+           console.log("esto es lo que devuelve el blob", resp)
+         });
+
         documentsSave.push({
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: idProcedureRequest,

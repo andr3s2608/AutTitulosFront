@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {PopUpService} from "./popUp.service";
+import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
+const { PROCEDURE_BLOB_URI } = environment;
 
 /**
  * Service que permite descargar o ver archivos
@@ -90,5 +93,9 @@ export class ArchiveService {
         'Ocurrió un error al previsualizar el documento.',
         4000);
     }
+  }
+
+  public saveFileBlobStorage(data: FormData): Observable<any> {
+    return this.http.post(`${PROCEDURE_BLOB_URI}Storage/AddFile`, data);
   }
 }
