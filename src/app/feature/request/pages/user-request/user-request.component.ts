@@ -279,7 +279,19 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdProcedureRequest: idProcedureRequest,
         IdUser: "idUserQuemado",
         dateTracking: new Date(Date.now()),
-        observations: "Registro por usuario externo"
+        observations: "Registro por usuario externo",
+        clarification_types_motives: "false/false/false/false/false",
+        negation_causes: " ",
+        other_negation_causes: " ",
+        recurrent_argument: " ",
+        consideration: " ",
+        exposed_merits: " ",
+        articles: " ",
+        additional_information: " ",
+        paragraph_MA: " ",
+        paragraph_JMA1: " ",
+        paragraph_JMA2: " ",
+        paragraph_AMA: " "
       }
 
       console.log("tracking a enviar", tracking);
