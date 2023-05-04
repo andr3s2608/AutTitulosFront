@@ -176,7 +176,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     this.registerService.getGender().subscribe(resp => this.gender = resp.data);
     this.registerService.getSexualOrientation().subscribe(resp => this.sexualOrientation = resp.data);
     this.registerService.getEthnicity().subscribe(resp => this.ethnicity = resp.data);
-    //this.registerService.getMaritalStatus().subscribe(resp=>this.maritalStatus = resp.data);
     this.registerService.getEducationLevel().subscribe(resp => this.educationLevel = resp.data);
     this.cityService.getUpz().subscribe(resp => this.upzlist = resp.data);
     this.cityService.getBarrios().subscribe(resp => this.barriolist = resp.data);
@@ -227,19 +226,14 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       }
       else
       {
-
-
-
-
-
         const data = {
           primerNombre: this.naturalForm.get('basicDataForm.primerNombre').value.toString().toUpperCase(),
-          segundoNombre: this.naturalForm.get('basicDataForm.segundoNombre').value.toString().toUpperCase() ??  '',
+          segundoNombre: this.naturalForm.get('basicDataForm.segundoNombre').value.toString().toUpperCase() +'',
           primerApellido: this.naturalForm.get('basicDataForm.primerApellido').value.toString().toUpperCase(),
-          segundoApellido: this.naturalForm.get('basicDataForm.segundoApellido').value.toString().toUpperCase() ?? '',
+          segundoApellido: this.naturalForm.get('basicDataForm.segundoApellido').value.toString().toUpperCase() +'',
           tipoDocumento: this.naturalForm.get('basicDataForm.tipoDocumento').value, //listado tipos de documentos
           numeroIdentificacion: this.naturalForm.get('basicDataForm.numeroIdentificacion').value,
-          telefonoFijo: this.naturalForm.get('basicDataForm.telefonoFijo').value ?? '',
+          telefonoFijo: this.naturalForm.get('basicDataForm.telefonoFijo').value +'',
           telefonoCelular: this.naturalForm.get('basicDataForm.telefonoCelular').value,
           email: this.naturalForm.get('basicDataForm.email').value.toString().toLowerCase(),
           nacionalidad: this.naturalForm.get('geographicDataForm.nacionalidad').value, //listado de paises
@@ -256,7 +250,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
           sexo: this.naturalForm.get('sexo').value, //listado sexo
           genero: this.naturalForm.get('genero').value, //lista quemada
           orientacionSexual: this.naturalForm.get('orientacionSexual').value, //lista quemada
-          etnia: this.naturalForm.get('etnia').value ?? '', //listado etnia
+          etnia: this.naturalForm.get('etnia').value , //listado etnia
           estadoCivil: this.naturalForm.get('estadoCivil').value, //lista quemada
           nivelEducativo: this.naturalForm.get('nivelEducativo').value,//listado nivel educativo,
           cx:1,
@@ -271,7 +265,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
 
           this.registerService.saveNaturalPerson(data).subscribe(resp => {
 
-            if(resp.data==0 ||resp.data==null )
+            if(resp.data==null )
             {
               this.popupAlert.errorAlert(
                 resp.message,
@@ -289,11 +283,9 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
               this.registerService.getFormats("1").subscribe(resp => {
                 const llavesAReemplazar = ['~:~ciudadano~:~', '~:~tipo_de_solicitud~:~', '~:~numero_de_tramite~:~'];
                 const valoresDinamicos = ['', '', ''];
-                nuevoHTML=resp.result.data.body;
+                nuevoHTML=this.getHtmlBody(resp.data.body,llavesAReemplazar,valoresDinamicos);
 
-                for (let index = 0; index < llavesAReemplazar.length; index++) {
-                  nuevoHTML = nuevoHTML.replace(llavesAReemplazar[index], valoresDinamicos[index]);
-                }
+
 
                 this.registerService.sendEmail({
                   to: this.naturalForm.get('basicDataForm.email').value.toString().toLowerCase(),
@@ -318,6 +310,14 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     }
   }
 
+  public getHtmlBody(body: string,keys:any[],dinamickeys:any[]): string
+  {
+    let nuevoHTML=body;
+    for (let index = 0; index < dinamickeys.length; index++) {
+      nuevoHTML = nuevoHTML.replace(keys[index], dinamickeys[index]);
+    }
+    return nuevoHTML;
+  }
 
   /**
    * Devuelve un mensaje de validación de un campo del formulario

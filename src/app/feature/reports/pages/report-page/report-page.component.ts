@@ -1,6 +1,6 @@
 import {Component, OnInit,Injectable} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {CityService, PopUpService} from "../../../../core/services";
+import {PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
 import {ReportsService} from "../../../../core/services/reports.service";
 import * as XLSX from 'xlsx';
@@ -106,7 +106,7 @@ export class ReportPageComponent implements OnInit {
       "" + " ",
       "1",
       "15").subscribe(resp => {
-      this.tableFilter = resp.result.data;
+      this.tableFilter = resp.data;
 
     });
     this.lastfilters = {
@@ -128,6 +128,7 @@ export class ReportPageComponent implements OnInit {
     if (this.reportsform.get('enddate').value != null && this.reportsform.get('enddate').value != "") {
       datefinal = this.reportsform.get('enddate').value;
       formattedDatefinal=datefinal;
+      datefinal=new Date(datefinal);
     } else {
       datefinal = new Date(Date.now());
 
@@ -142,6 +143,7 @@ export class ReportPageComponent implements OnInit {
     if (this.reportsform.get('begindate').value != null && this.reportsform.get('begindate').value != "") {
       dateinitial = this.reportsform.get('begindate').value;
       formattedDateinitial=dateinitial;
+      dateinitial=new Date(dateinitial);
 
     } else {
       dateinitial = new Date(Date.now());
@@ -162,30 +164,33 @@ export class ReportPageComponent implements OnInit {
 
 
 
+    let months = (datefinal.getFullYear() - dateinitial.getFullYear()) * 12;
+    months -= dateinitial.getMonth();
+    months += datefinal.getMonth();
 
 
 
 
-    const difmonth=datefinal-dateinitial;
-
-  //console.log(difmonth.toLocaleString("default", {month: "2-digit"}))
 
 
-    if (type === 'filtro') {
+
+
+       if (type === 'filtro') {
 
       this.popupAlert.infoAlert(
         'Generando documento,por favor espere',
         7000);
-
+         let filter=this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" ";
       this.reportsService.getReportsDashboard(
+
         formattedDateinitial + "",
         formattedDatefinal + "",
         " ",
-        this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" ",
+        filter+"",
         "" + " ",
         "1",
-        "10000000").subscribe(resp => {
-          const data = resp.result.data;
+        months*10000+"").subscribe(resp => {
+          const data = resp.data;
         const fileToExport = data.map((items:any) => {
           return {
 
@@ -205,22 +210,23 @@ export class ReportPageComponent implements OnInit {
       });
     }
     else {
+      let text=this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" "
       this.reportsService.getReportsDashboard(
         formattedDateinitial + "",
         formattedDatefinal + "",
-        this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
+        text+"",
         " ",
         "" + " ",
         "1",
         "15").subscribe(resp => {
-        this.tableFilter = resp.result.data;
+        this.tableFilter = resp.data;
 
       });
 
       this.lastfilters = {
         initialdate:formattedDateinitial + "",
         finaldate:formattedDatefinal + "",
-        texttosearch:this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" ",
+        texttosearch:text,
         selectedfilter:" ",
         iduser:" ",
         pagenumber:"1",

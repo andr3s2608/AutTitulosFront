@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {CityService} from "../../../../core/services";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ROUTES} from "../../../../core/enums";
 import {RequestService} from "../../../../core/services/request.service";
@@ -52,7 +51,8 @@ export class ValidatorsDashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
+    let role = 'Subdirector';
+    localStorage.setItem('Role',role);
     let date = new Date(Date.now());
 
 // Get year, month, and day part from the date
@@ -67,8 +67,8 @@ export class ValidatorsDashboardComponent implements OnInit{
       ""+" ",
       ""+" ",
       "1",
-        "15","Subdirector").subscribe(resp => {
-        this.tableFilter=resp.result.data;
+        "15",role).subscribe(resp => {
+        this.tableFilter=resp.data;
 
     });
     this.lastfilters= {
@@ -107,8 +107,8 @@ export class ValidatorsDashboardComponent implements OnInit{
       (text==null || text=="") ? " ":text,
       (selector==null || selector=="") ? " ":selector,
       "1",
-      "15","Funcionario").subscribe(resp => {
-      this.tableFilter=resp.result.data;
+      "15","Subdirector").subscribe(resp => {
+      this.tableFilter=resp.data;
 
     });
   this.lastfilters= {

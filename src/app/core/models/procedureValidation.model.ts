@@ -26,5 +26,8 @@ export interface ProcedureValidation {
   "idnumber": string,
   "aplicantnanme": string,
 
+  "name_profesion": string,
+  "profesionid": string
+
 
 }
