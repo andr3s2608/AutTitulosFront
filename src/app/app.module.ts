@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
+import { CommonModule, HashLocationStrategy, LocationStrategy, registerLocaleData } from "@angular/common";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeatureModule } from "./feature/feature.module";
@@ -43,6 +43,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     HttpClientModule,
   ],
   providers: [
+    
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
