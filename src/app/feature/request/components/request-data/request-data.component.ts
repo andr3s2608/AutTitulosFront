@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
+import {RequestService} from "../../../../core/services/request.service";
+import {IesServices} from "../../../../core/services/ies.services";
 
 @Component({
   selector: 'app-request-data',
@@ -19,45 +21,40 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
   public listProfessions: any[];
 
-  constructor(private controlContainer: ControlContainer) {
+  constructor(private controlContainer: ControlContainer,  private iesServices: IesServices,) {
     super();
-    this.listInstitutes = [
-      {
-        id: 1,
-        nombre: "UNIVERSIDAD 1"
-      },
-      {
-        id: 2,
-        nombre: "UNIVERSIDAD 2"
-      },
-      {
-        id: 3,
-        nombre: "UNIVERSIDAD 3"
-      }
-    ];
 
-    this.listProfessions = [
-      {
-        id: 1,
-        nombre: "TECNICO 1"
-      },
-      {
-        id: 2,
-        nombre: "TECNOLOGO 2"
-      },
-      {
-        id: 3,
-        nombre: "PROFESIONAL 3"
-      }
-    ]
+
+    this.iesServices.getInstitutes().subscribe(resp => {
+      this.listInstitutes = resp.data;
+    });
+
+
+
+
 
   }
 
   ngOnInit(): void {
     this.requestDataForm = this.controlContainer.control;
     this.requestDataForm = this.requestDataForm.controls['requestDataForm'];
-  }
 
+
+    if(this.requestDataForm.get('instituteId').value!='' && this.requestDataForm.get('instituteId').value!=null)
+    {
+      this.getPrograms();
+    }
+  }
+  /**
+   * Devuelve un la lista de los programas por isntitucion
+   */
+  public async getPrograms() {
+    let institute = this.requestDataForm.get('instituteId').value
+
+    this.iesServices.getProgramsbyId(institute[0]).subscribe(resp2 => {
+      this.listProfessions = resp2.data;
+    });
+  }
 
   /**
    * Devuelve un mensaje de validación de un campo del formulario

@@ -208,7 +208,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
         IdInstitute: infoInstitute[0],
-        name_institute: infoInstitute[1],
+        name_institute: infoInstitute[1]+infoInstitute[2],
         IdProfessionInstitute: infoProfession[0],
         name_profession: infoProfession[1],
         last_status_date: new Date(Date.now()),
