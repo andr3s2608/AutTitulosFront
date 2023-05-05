@@ -490,8 +490,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
       } else {
         this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
-        this.getHtmlBody(selectedstatus,selectedstatus);
-
+        await this.getHtmlBody(selectedstatus,selectedstatus);
       }
     }
   }
@@ -527,12 +526,12 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           subject: 'Notificación de Anulacion',
           body: nuevoHTML
         }).subscribe(() => {
-          this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard)
+          this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
         });
       });
     }
     else {
-      this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard)
+      this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
     }
   }
 

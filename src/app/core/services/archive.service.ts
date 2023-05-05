@@ -111,9 +111,11 @@ export class ArchiveService {
   }
 
   /**
-   * Guarda un archivo en el blob storage
+   * Guarda un archivo en el contenedor/blob storage de la nube
    * En el contenedor aguahumanos
    * @param file Archivo a guardar
+   * @param nameFile Nombre del archivo
+   * @param oid Identificador que se quiere
    */
   public saveFileBlobStorage(file: Blob, nameFile: string, oid: string): Observable<any> {
 
