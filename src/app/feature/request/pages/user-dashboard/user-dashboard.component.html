@@ -117,11 +117,11 @@
                       <a (click)="showEditProcedure(item.idProcedureRequest)" *ngIf="item.statusId == 7">
                         <span class="govco-edit" style="font-size: 15px">Editar Trámite</span>
                       </a>
-                      <a *ngIf="item.statusId == 11">
+                      <a (click)="showResolution()" *ngIf="item.statusId == 16">
                         <span class="govco-file-pdf" style="font-size: 15px">Ver documento</span>
                       </a>
                       <a (click)="showClarification(item.idProcedureRequest, item.filed_number, item.titleType)"
-                         *ngIf="item.statusId == 11">
+                         *ngIf="item.statusId == 16">
                         <span class="govco-hand-paper" style="font-size: 15px">Solicitar Aclaración</span>
                       </a>
                     </div>

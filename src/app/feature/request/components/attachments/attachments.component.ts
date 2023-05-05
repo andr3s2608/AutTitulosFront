@@ -134,7 +134,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
       }
     }
 
-    this.popupAlert.successAlert(`El archivo ${docDescription} fue cargado correctamente`, 2000);
+    this.popupAlert.successAlert(`El archivo ${docDescription} fue cargado correctamente.`, 2000);
 
   }
 

@@ -155,7 +155,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     if (filter == 0) {
       this.filterAllByUser = this.allByUser.filter(request => request.statusId != 11);
     } else {
-      this.filterAllByUser = this.allByUser.filter(request => request.statusId == 11);
+      this.filterAllByUser = this.allByUser.filter(request => request.statusId == 16);
     }
   }
 
@@ -221,6 +221,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
     this.showEditProcedureForm = true;
     this.showDashboard = false;
+  }
+
+  public showResolution(): void {
+
   }
 
   public async saveClarification(): Promise<void> {
