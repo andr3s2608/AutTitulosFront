@@ -119,12 +119,14 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     if (idx == -1) {
       this.listDocumentSupports.push({
         docTypeId,
+        docDescription,
         content: fileSelected
       });
     } else {
       if (fileSelected) {
         this.listDocumentSupports[idx] = {
           docTypeId,
+          docDescription,
           content: fileSelected
         };
       } else {
@@ -132,7 +134,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
       }
     }
 
-    this.popupAlert.successAlert(`El archivo ${docDescription} fue cargado correctamente`, 2000);
+    this.popupAlert.successAlert(`El archivo ${docDescription} fue cargado correctamente.`, 2000);
 
   }
 

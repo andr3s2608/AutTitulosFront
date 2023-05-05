@@ -213,7 +213,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         name_profession: infoProfession[1],
         last_status_date: new Date(Date.now()),
         IdUser: 'idUserQuemado',
-        user_code_ventanilla: 10000,
+        user_code_ventanilla: 1923,
         AplicantName: "Nombre quemado",
         IdDocument_type: "Cedula de ciudadania",
         IdNumber: "123456789",
@@ -250,16 +250,19 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       console.log("documentos capturados", attachmentForm.documentSupports)
 
       for(const newFile of attachmentForm.documentSupports) {
-        //TODO completar funcionalidad  cuando haya blobstorage
-        /*
-         const fmData = new FormData();
-         fmData.append('File', newFile.content);
-         await this.documentService.saveBlobStorage(fmData)
-         */
+
+         await lastValueFrom(this.archiveService.saveFileBlobStorage(
+           newFile.content,
+           `Soporte_${newFile.docDescription}`,
+           `oidUserQuemado_${newFile.docDescription}`))
+           .then( resp => {
+           this.popupAlert.infoAlert("Subiendo archivos...", 500);
+         });
+
         documentsSave.push({
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: idProcedureRequest,
-          path: "pathQuemado",
+          path: `oidUserQuemado_${newFile.docDescription}/Soporte_${newFile.docDescription}`,
           is_valid: true,
           registration_date: new Date(Date.now()),
           modification_date: new Date(Date.now())

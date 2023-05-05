@@ -60,14 +60,4 @@ export class DocumentsService {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/Document/GetGeneratedPDF/${idrequest}/${status}/${rol}/${ma}/${maj}/${maa}/${preliminar}`);
   }
 
-  /**
-   * añade el documento al contenedor en la nube
-   * @param document
-   */
-  uploadFiles(document: any) : Observable<any> {
-    return this.http.post(`${PROCEDURE_BLOB_URI}Storage/AddFile`,document);
-  }
-
-
-
 }

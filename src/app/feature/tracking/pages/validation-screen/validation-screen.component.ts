@@ -12,6 +12,7 @@ import {ResolutionService} from "../../../../core/services/resolution.service";
 import {ROUTES} from "../../../../core/enums";
 import {Router} from "@angular/router";
 import {toBoolean, toNumber} from "ng-zorro-antd/core/util";
+import {lastValueFrom, switchMap} from "rxjs";
 
 /**
  * Component que permite validar la información de un trámite
@@ -91,6 +92,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
               public registerService: RegisterService,
               public trackingService: TrackingService,
               public documentsService: DocumentsService,
+              private archiveService: ArchiveService,
               public requestService: RequestService,
               public resolutiontService: ResolutionService,
               public archive: ArchiveService,
@@ -291,11 +293,13 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'Reposición'];
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
+
     for (const element of estados) {
       if (status.includes(element)) {
         statustogenerate = element;
       }
     }
+
     if (status.includes("Firmar")) {
       let laststatus = this.tramiteActual.statusId + "";
 
@@ -306,16 +310,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         }
       }
     }
+
     if (statustogenerate === "") {
-      this.popupAlert.infoAlert(
-        `Por favor, revise el estado que desea previzualizar.`,
-        4000
-      );
+      this.popupAlert.infoAlert(`Por favor, revise el estado que desea previzualizar.`, 4000);
     } else {
-      this.popupAlert.infoAlert(
-        `Por favor espere mientras se genera el documento`,
-        10000
-      );
+      this.popupAlert.infoAlert(`Por favor espere mientras se genera el documento`, 10000);
 
       this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
         statustogenerate,
@@ -330,14 +329,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         let fileObtenido = resp.data;
         const byteArray = new Uint8Array(atob(fileObtenido).split('').map((char) => char.charCodeAt(0)));
         const file = new Blob([byteArray], {type: 'application/pdf'});
-        let datalocalURL = URL.createObjectURL(file);
-        window.open(datalocalURL, '_blank');
 
+        this.archiveService.viewArchiveExternalWindow("", file);
       });
-
     }
-
-
   }
 
   public async saveRequest(): Promise<void> {
@@ -427,7 +422,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           registration_date: element.registration_date,
         })
       }
-       this.documentsService.updateDocumentsByIdRequest(documentstoupdate).subscribe();
+      await lastValueFrom(this.documentsService.updateDocumentsByIdRequest(documentstoupdate));
 
 
       //guardado de seguimiento
@@ -463,10 +458,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
       //guardado resolution bd
       if (this.validationForm.get('validationstateform.selectedstatus').value === '11') {
-        this.popupAlert.infoAlert(
-          `Generando Resolucion`,
-          11000
-        );
+
+        this.popupAlert.infoAlert(`Generando Resolucion`, 11000);
+
         const resolution: any =
           {
             idProcedureRequest: this.tramiteActual.id,
@@ -474,7 +468,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
             path: this.tramiteActual.user.idUser + '/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
           }
 
-        this.resolutiontService.addResolution(resolution).subscribe();
+        await lastValueFrom(this.resolutiontService.addResolution(resolution));
 
         this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
           estadosbd[status],
@@ -484,58 +478,24 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
           this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
           false
-        ).subscribe(resp => {
-
-
-          const urlToFile = async (url: string, filename: string, mimeType: any) => {
-            const res = await fetch(url);
-            const buf = await res.arrayBuffer();
-            return new File([buf], filename, {type: mimeType});
-          };
-
-          (async () => {
-            const file = await urlToFile('data:application/pdf;base64,' + resp.data, 'resolucion', 'application/pdf');
-
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append(
-              'nameFile',
-              'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
-            );
-            formData.append('containerName', "aguahumanos");
-            formData.append('oid', this.tramiteActual.user.idUser);
-
-            this.documentsService.uploadFiles(formData).subscribe(() => {
-              this.popupAlert.successAlert(
-                `Solicitud Validada Exitosamente`,
-                4000
-              );
-
-              this.getHtmlBody(status,toNumber(this.validationForm.get('validationstateform.selectedstatus').value))
-
-
-            });
-
-          })();
-
+        ).pipe(
+          switchMap(resp => this.archiveService.saveFileBlobStorage(resp.data, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser))
+        ).subscribe({
+          next: value => {
+            this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
+            this.getHtmlBody(status,toNumber(this.validationForm.get('validationstateform.selectedstatus').value))
+          }
         });
 
 
       } else {
-        this.popupAlert.successAlert(
-          `Solicitud Validada Exitosamente`,
-          4000
-        );
-        this.getHtmlBody(selectedstatus,selectedstatus)
-
-
+        this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
+        await this.getHtmlBody(selectedstatus,selectedstatus);
       }
-
-
     }
-
-
   }
+
+
   public async getHtmlBody(status:number,selectedstatus:number) :Promise<void>
   {
     console.log(status,selectedstatus)
@@ -566,19 +526,13 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           subject: 'Notificación de Anulacion',
           body: nuevoHTML
         }).subscribe(() => {
-          this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard)
+          this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
         });
       });
     }
     else {
-      this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard)
+      this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
     }
-
-
-
-
   }
-
-
 
 }
