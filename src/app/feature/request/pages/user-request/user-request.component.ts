@@ -14,6 +14,7 @@ import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.mod
 import {DocumentsService} from "../../../../core/services/documents.service";
 import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
 import {TrackingService} from "../../../../core/services/tracking.service";
+import {RegisterService} from "../../../../core/services/register.service";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -73,6 +74,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
   constructor(private archiveService: ArchiveService,
               private popupAlert: PopUpService,
               private requestService: RequestService,
+              public registerService: RegisterService,
               private documentsService: DocumentsService,
               private trackingService: TrackingService,
               private fb: FormBuilder,
@@ -234,6 +236,12 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       console.log("dto a enviar", dtoProcedure);
 
       let idProcedureRequest: number;
+      let email:string='';
+
+      await lastValueFrom(this.registerService.getInfoUserByIdCodeVentanilla(dtoProcedure.user_code_ventanilla)).then(requestResponse => {
+
+        email=requestResponse.data.email;
+      });
 
       await lastValueFrom(this.requestService.saveRequest(dtoProcedure)).then(requestResponse => {
 
@@ -301,21 +309,33 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
       await lastValueFrom(this.trackingService.addTracking(tracking));
 
-      this.finishProcedure();
+      this.finishProcedure(email);
     } catch (e) {
       this.popupAlert.errorAlert("A ocurrido un error al guardar la solicitud", 4000);
     }
 
   }
 
-  private finishProcedure(): void {
+  private async finishProcedure(email: string): Promise<void> {
     this.popupAlert.successAlert("Solicitud registrada con éxito", 2000);
     this.sending = false;
     this.showRequestForm = false;
     this.showResumeRequestSaved = true;
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 60;
+  let nuevoHTML='';
+    await lastValueFrom(this.registerService.getFormats("12")).then(requestResponse => {
 
+      nuevoHTML = requestResponse.data.body;
+
+    });
+
+    this.registerService.sendEmail({
+      to: email.toLowerCase(),
+      subject: 'Notificación de Creacion de solicitud',
+      body: nuevoHTML
+    }).subscribe(() => {
+    });
 
 
   }
