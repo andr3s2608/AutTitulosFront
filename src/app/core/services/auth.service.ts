@@ -16,6 +16,8 @@ export class AuthService {
       rol: "Ciudadano",
       fullName: `Persona Natural SDS`,
       email: "personanaturalsds@outlook.es",
+      documentType: "Cedula de ciudadania",
+      documentNumber: "1099324897"
     },
     {
       userId: "fe3a0cef-1348-48fe-b8b8-b743d24f666a",
@@ -23,6 +25,8 @@ export class AuthService {
       rol: "Funcionario",
       fullName: `SDS Validador ROl`,
       email: "SDSValidador@outlook.com",
+      documentType: "Cedula de ciudadania",
+      documentNumber: "100001101"
     },
     {
       userId: "e181c33a-a648-4975-9404-bf6977f00f5c",
@@ -30,6 +34,8 @@ export class AuthService {
       rol: "Coordinador",
       fullName: `SDS Coordinador Rol`,
       email: "sdscoordinador@outlook.com",
+      documentType: "Cedula de ciudadania",
+      documentNumber: "234567890"
     },
     {
       userId: "4ba79be3-d686-4e4d-959a-e14a9a081604",
@@ -37,6 +43,8 @@ export class AuthService {
       rol: "Subdirector",
       fullName: `SDS Subdirector Rol`,
       email: "SDSSubdirector@outlook.com",
+      documentType: "Cedula de ciudadania",
+      documentNumber: "23456789"
     }
   ]
 

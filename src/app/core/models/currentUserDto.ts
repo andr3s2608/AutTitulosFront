@@ -5,4 +5,6 @@ export interface CurrentUserDto {
   rol: string;
   fullName: string;
   email: string;
+  documentType: string;
+  documentNumber: string;
 }

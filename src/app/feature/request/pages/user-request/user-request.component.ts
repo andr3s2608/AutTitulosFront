@@ -15,6 +15,8 @@ import {DocumentsService} from "../../../../core/services/documents.service";
 import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
 import {TrackingService} from "../../../../core/services/tracking.service";
 import {CustomValidators} from "../../../../core/utils/custom-validators";
+import {AuthService} from "../../../../core/services/auth.service";
+import {CurrentUserDto} from "../../../../core/models/currentUserDto";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -71,13 +73,19 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
    */
   public requestForm: FormGroup;
 
+  /**
+   * Usuario actual en la solicitud
+   */
+  public currentUser: CurrentUserDto;
+
   constructor(private archiveService: ArchiveService,
               private popupAlert: PopUpService,
               private requestService: RequestService,
               private documentsService: DocumentsService,
               private trackingService: TrackingService,
               private fb: FormBuilder,
-              private route: Router) {
+              private route: Router,
+              private authService: AuthService) {
     super();
     this.rutaImagenPopUpInicial = './assets/images/infografia-popup-inicial.jpg'
     this.rutaPdfListadoInstituciones = './assets/binaries/listado.pdf'
@@ -123,6 +131,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
     });
 
     this.popUpInicial();
+    this.currentUser = this.authService.getCurrentUser();
   }
 
   public redirectionDashboard(): void {
@@ -205,6 +214,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
       let dtoProcedure: ProcedureRequestBackDto;
 
+
       dtoProcedure = {
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
@@ -213,11 +223,11 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdProfessionInstitute: infoProfession[0],
         name_profession: infoProfession[1],
         last_status_date: new Date(Date.now()),
-        IdUser: 'idUserQuemado',
-        user_code_ventanilla: 1923,
-        AplicantName: "Nombre quemado",
-        IdDocument_type: "Cedula de ciudadania",
-        IdNumber: "123456789",
+        IdUser: this.currentUser.userId,
+        user_code_ventanilla: this.currentUser.codeVentanilla,
+        AplicantName: this.currentUser.fullName,
+        IdDocument_type: this.currentUser.documentType,
+        IdNumber:  this.currentUser.documentNumber,
         diploma_number: requestDataForm.diplomaNumber,
         graduation_certificate: requestDataForm.graduationCertificate,
         end_date: requestDataForm.endDate,
@@ -255,7 +265,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
          await lastValueFrom(this.archiveService.saveFileBlobStorage(
            newFile.content,
            `Soporte_${newFile.docDescription}`,
-           `oidUserQuemado_${newFile.docDescription}`))
+           `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}`))
            .then( resp => {
            this.popupAlert.infoAlert("Subiendo archivos...", 500);
          });
@@ -263,7 +273,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         documentsSave.push({
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: idProcedureRequest,
-          path: `oidUserQuemado_${newFile.docDescription}/Soporte_${newFile.docDescription}`,
+          path: `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}/Soporte_${newFile.docDescription}`,
           is_valid: true,
           registration_date: new Date(Date.now()),
           modification_date: new Date(Date.now())
@@ -281,7 +291,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       tracking = {
         IdStatusTypes: 13,
         IdProcedureRequest: idProcedureRequest,
-        IdUser: "idUserQuemado",
+        IdUser: this.currentUser.userId,
         dateTracking: new Date(Date.now()),
         observations: "Registro por usuario externo",
         clarification_types_motives: "false/false/false/false/false",
