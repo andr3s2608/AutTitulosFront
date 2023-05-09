@@ -13,6 +13,8 @@ import {ROUTES} from "../../../../core/enums";
 import {Router} from "@angular/router";
 import {toBoolean, toNumber} from "ng-zorro-antd/core/util";
 import {lastValueFrom, switchMap} from "rxjs";
+import {CurrentUserDto} from "../../../../core/models/currentUserDto";
+import {AuthService} from "../../../../core/services/auth.service";
 
 /**
  * Component que permite validar la información de un trámite
@@ -95,6 +97,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    */
   public Role: string;
 
+  /**
+   * Funcionario actual validando la solicitud
+   */
+  public currentValidator: CurrentUserDto;
+
   constructor(public fb: FormBuilder,
               public cityService: CityService,
               public registerService: RegisterService,
@@ -104,7 +111,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
               public requestService: RequestService,
               public resolutiontService: ResolutionService,
               public archive: ArchiveService,
-              private popupAlert: PopUpService, private router: Router) {
+              private popupAlert: PopUpService,
+              private router: Router,
+              private authService: AuthService) {
     super();
     let procedure = localStorage.getItem("procedure");
     this.requestService.getRequestbyid(procedure).subscribe(resp => {
@@ -190,6 +199,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
+    this.currentValidator = this.authService.getCurrentUser();
   }
 
   private loadInfoTramiteActual(): void {
@@ -210,7 +220,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         filedNumber: [this.tramiteActual.filedNumber, [Validators.required]],
         titleType: ['NACIONAL', [Validators.required]],
         status: [this.tramiteActual.status, [Validators.required]],
-        assignedUser: ['NombreFuncionario', [Validators.required]],
+        assignedUser: [this.currentValidator.fullName, [Validators.required]],
         dateRequest: [formatDate(new Date(this.tramiteActual.dateRequest), 'yyyy-MM-dd', 'en'), [Validators.required]]
       }),
 

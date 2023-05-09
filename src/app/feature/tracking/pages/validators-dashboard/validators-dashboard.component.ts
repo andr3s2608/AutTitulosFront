@@ -10,19 +10,21 @@ import Swal from "sweetalert2";
   templateUrl: './validators-dashboard.component.html',
   styleUrls: ['./validators-dashboard.component.scss']
 })
-export class ValidatorsDashboardComponent implements OnInit{
+export class ValidatorsDashboardComponent implements OnInit {
+
   public validatorForm: FormGroup;
+
   tableFilter: any[] = [];
 
-  public lastfilters:any = {
-    finaldate:"",
-    texttosearch:" ",
-    selectedfilter:" ",
-    pagenumber:"1",
-    pagination:"15"
+  public lastfilters: any = {
+    finaldate: "",
+    texttosearch: " ",
+    selectedfilter: " ",
+    pagenumber: "1",
+    pagination: "15"
   }
 
-  lengthpages:number=0;
+  lengthpages: number = 0;
 
 
   /**
@@ -34,13 +36,13 @@ export class ValidatorsDashboardComponent implements OnInit{
    * Modela la barra de progreso a pintar en la linea de avance
    */
   public currentProgressAdvanceLine: number;
-  constructor(
-    public requestService: RequestService,public fb: FormBuilder, private router: Router
 
-  )
-  {
-    this.currentProgressAdvanceLine=50;
-    this.stepAdvanceLine=2;
+  constructor(public requestService: RequestService,
+              public fb: FormBuilder,
+              private router: Router
+  ) {
+    this.currentProgressAdvanceLine = 50;
+    this.stepAdvanceLine = 2;
     this.validatorForm = this.fb.group({
       selector: [''],
       selectorrole: [localStorage.getItem('Role')],
@@ -48,7 +50,6 @@ export class ValidatorsDashboardComponent implements OnInit{
       pageSize: [10],
       pageNumber: [1],
     });
-
 
   }
 
@@ -82,23 +83,15 @@ export class ValidatorsDashboardComponent implements OnInit{
     }
   }
 
-  public validar(id:any): void
-  {
-    localStorage.setItem("procedure",id+"");
-    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
-
+  public validar(id: any): void {
+    localStorage.setItem("procedure", id + "");
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.Validation)
   }
 
-  public changerole(): void
-  {
-
-    localStorage.setItem('Role',this.validatorForm.get('selectorrole').value)
-
-  }
-  public getdashboard(): void
-  {
-      let selector=  this.validatorForm.get('selector').value;
-      let text=  this.validatorForm.get('textfilter').value;
+  public getdashboard(): void {
+    let role: string = localStorage.getItem('Role');
+    let selector = this.validatorForm.get('selector').value;
+    let text = this.validatorForm.get('textfilter').value;
 
 
     let date = new Date(Date.now());
@@ -128,7 +121,6 @@ export class ValidatorsDashboardComponent implements OnInit{
   }
 
   }
-
 
 
 }
