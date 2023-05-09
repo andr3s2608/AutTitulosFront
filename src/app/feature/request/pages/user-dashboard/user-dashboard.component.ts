@@ -273,9 +273,9 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         modification_date: new Date(Date.now())
       })
 
-      console.log("documentos a enviar", documentsSave);
+
       await lastValueFrom(this.documentsService.addDocumentsToRequest(documentsSave));
-      console.log("se guardaron documentos");
+
 
 
       //guardar tracking
@@ -301,7 +301,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         paragraph_AMA: " ",
     }
 
-      console.log("tracking a enviar", tracking);
+
 
       await lastValueFrom(this.trackingService.addTracking(tracking));
 
@@ -310,7 +310,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
 
     } catch (e) {
-      console.log(e)
+
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
   }
@@ -342,13 +342,13 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         paragraph_AMA: " ",
       }
 
-      console.log("tracking a enviar", tracking);
+
 
       await lastValueFrom(this.trackingService.addTracking(tracking));
 
       this.popUp.successAlert("Solicitud realizada exitosamente. Puede abandonar la página.", 4000);
     } catch (e) {
-      console.log(e)
+
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
 

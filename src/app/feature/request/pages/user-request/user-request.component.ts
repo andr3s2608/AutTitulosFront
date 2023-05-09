@@ -219,7 +219,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
         IdInstitute: infoInstitute[0],
-        name_institute: infoInstitute[1]+infoInstitute[2],
+        name_institute: infoInstitute[1]+','+infoInstitute[2],
         IdProfessionInstitute: infoProfession[0],
         name_profession: infoProfession[1],
         last_status_date: new Date(Date.now()),
@@ -247,18 +247,18 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       let idProcedureRequest: number;
 
       await lastValueFrom(this.requestService.saveRequest(dtoProcedure)).then(requestResponse => {
-        console.log("esto me devolvió", requestResponse)
+
         this.numberFiled = requestResponse.filedNumber;
         idProcedureRequest = requestResponse.idProcedureRequest;
       });
 
-      console.log("idProcedure recibido", idProcedureRequest);
+
 
       //guardar documentos
 
       let documentsSave: DocumentSupportDto[] = [];
 
-      console.log("documentos capturados", attachmentForm.documentSupports)
+
 
       for(const newFile of attachmentForm.documentSupports) {
 
@@ -308,7 +308,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         paragraph_AMA: " "
       }
 
-      console.log("tracking a enviar", tracking);
+
 
       await lastValueFrom(this.trackingService.addTracking(tracking));
 
@@ -326,13 +326,16 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
     this.showResumeRequestSaved = true;
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 60;
+
+
+
   }
 
 
 
 
   onExit(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("estoy aqui")
+
 
 
 

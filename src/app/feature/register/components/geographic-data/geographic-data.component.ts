@@ -75,7 +75,7 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
   public changepais(idpais:any): void {
       if(idpais==170)
       {
-        console.log(false)
+
         this.geographicDataForm.controls["departamentoNacimiento"].setValidators(
           [Validators.required]);
         this.geographicDataForm.controls["departamentoNacimiento"].updateValueAndValidity();
@@ -87,7 +87,7 @@ export class GeographicDataComponent extends AppBaseComponent implements  OnInit
         this.foreign=false;
       }
       else {
-        console.log(true)
+
         this.geographicDataForm.controls["departamentoNacimiento"].setValidators([]);
         this.geographicDataForm.controls["departamentoNacimiento"].updateValueAndValidity();
         this.geographicDataForm.controls["ciudadNacimiento"].setValidators([]);

@@ -188,7 +188,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
   }
 
   public direccion(position:number,text:string) {
-    console.log(position,text);
+
     this.Direcction[position]=text;
     let directionarmed="";
     for (const element of this.Direcction) {
