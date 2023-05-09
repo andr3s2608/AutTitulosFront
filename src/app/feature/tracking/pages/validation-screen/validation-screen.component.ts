@@ -380,7 +380,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       const idistitute = (this.validationForm.get('requestDataForm.instituteId').value + "").split(",");
       const idprofesion = (this.validationForm.get('requestDataForm.professionId').value + "").split(",");
 
-      console.log(this.validationForm.get('validationstateform.selectedstatus'));
+
 
       let selectedstatus= this.validationForm.get('validationstateform.selectedstatus').value != 11 ?
         this.validationForm.get('validationstateform.selectedstatus').value : estadofinalfirmado[status];
@@ -447,19 +447,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           IdStatusTypes: selectedstatus,
           IdProcedureRequest: this.tramiteActual.id,
           IdUser: 'andres',
-          observations: '"' + this.validationForm.get('validationstateform.aditionalinfo').value + '",' + this.validationForm.get('validationstateform.internalobservations').value,
-          negation_causes: this.validationForm.get('validationstateform.negationcauses').value,
-          other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value,
-          recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value,
-          consideration: this.validationForm.get('validationstateform.considerations').value,
-          exposed_merits: this.validationForm.get('validationstateform.merits').value,
-          articles: this.validationForm.get('validationstateform.articles').value,
-          additional_information: this.validationForm.get('validationstateform.aditionalinfo').value,
+          observations: ''+ this.validationForm.get('validationstateform.aditionalinfo').value +',' + this.validationForm.get('validationstateform.internalobservations').value,
+          negation_causes: this.validationForm.get('validationstateform.negationcauses').value+"",
+          other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value+"",
+          recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value+"",
+          consideration: this.validationForm.get('validationstateform.considerations').value+"",
+          exposed_merits: this.validationForm.get('validationstateform.merits').value+"",
+          articles: this.validationForm.get('validationstateform.articles').value+"",
+          additional_information: this.validationForm.get('validationstateform.aditionalinfo').value+"",
           clarification_types_motives: motivosaclaracion,
-          paragraph_MA: this.validationForm.get('validationstateform.aclarationparagraph').value,
-          paragraph_JMA1: this.validationForm.get('validationstateform.justificationparagraph1').value,
-          paragraph_JMA2: this.validationForm.get('validationstateform.justificationparagraph2').value,
-          paragraph_AMA: this.validationForm.get('validationstateform.aclarationparagrapharticle').value,
+          paragraph_MA: this.validationForm.get('validationstateform.aclarationparagraph').value+"",
+          paragraph_JMA1: this.validationForm.get('validationstateform.justificationparagraph1').value+"",
+          paragraph_JMA2: this.validationForm.get('validationstateform.justificationparagraph2').value+"",
+          paragraph_AMA: this.validationForm.get('validationstateform.aclarationparagrapharticle').value+"",
           dateTracking: new Date(Date.now())
         }
 
@@ -470,14 +470,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         this.popupAlert.infoAlert(`Generando Resolucion`, 11000);
 
-        const resolution: any =
-          {
-            idProcedureRequest: this.tramiteActual.id,
-            date: new Date(Date.now()),
-            path: this.tramiteActual.user.idUser + '/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
-          }
+        if(status<2)
+        {
+          const resolution: any =
+            {
+              idProcedureRequest: this.tramiteActual.id,
+              date: new Date(Date.now()),
+              idStatus:selectedstatus,
+              path: this.tramiteActual.user.idUser + '/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
+            }
 
-        await lastValueFrom(this.resolutiontService.addResolution(resolution));
+          await lastValueFrom(this.resolutiontService.addResolution(resolution));
+        }
+
 
         let file:any=null;
         this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
@@ -520,6 +525,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     let sendnotification=false;
     let senddocument=false;
     let tittle='';
+    let observacion='';
    if(selectedstatus===11)
    {
      sendnotification=true;
@@ -529,18 +535,27 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
      status=status+6;
    }
-    if(selectedstatus===7 || selectedstatus===8)
+    if(selectedstatus===7 )
     {
       sendnotification=true;
       tittle=this.notificationtittle[status-3];
       status=status+3;
+      observacion=this.validationForm.get('validationstateform.aditionalinfo').value;
+    }
+    if(selectedstatus===8)
+    {
+      sendnotification=true;
+      tittle=this.notificationtittle[status-3];
+      status=status+3;
+
+      observacion=this.validationForm.get('validationstateform.internalobservations').value;
     }
     localStorage.removeItem("procedure");
     if(sendnotification)
     {
       this.registerService.getFormats((status)+"").subscribe(resp => {
-        const keys = ['~:~nro_radicado~:~', '~:~nombres~:~', '~:~observacion~:~'];
-        const dinamickeys = [this.tramiteActual.filedNumber, '', ''];
+        const keys = ['~:~asunto~:~','~:~nro_radicado~:~', '~:~nombres~:~', '~:~observacion~:~'];
+        const dinamickeys = [tittle,this.tramiteActual.filedNumber, names, observacion];
 
         let nuevoHTML=resp.data.body;
         for (let index = 0; index < dinamickeys.length; index++) {
