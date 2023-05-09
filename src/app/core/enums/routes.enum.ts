@@ -13,6 +13,8 @@ export enum ROUTES {
   REGISTRATION_NATURAL = 'persona-natural',
   REGISTRATION_LEGAL = 'persona-juridica',
 
+  LOGIN = 'iniciar-sesion',
+
   ACEPTAR_POLITICA_DATOS = 'aceptar-politica-datos',
 
   //RecoverPassword = 'recover/password',

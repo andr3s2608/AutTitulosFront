@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AppBaseComponent} from "../core/utils";
 import {Router} from "@angular/router";
 import {ROUTES} from "../core/enums";
+import {AuthGuardService} from "../core/guards/auth-guard.service";
+import {AuthService} from "../core/services/auth.service";
 
 /**
  * Componente que agrupa todos los feature
@@ -16,7 +18,8 @@ export class FeatureComponent extends AppBaseComponent implements OnInit {
   public isIframe = false;
 
   public ocultarRegistroValidacion = false;
-  constructor( private router: Router)
+
+  constructor( private router: Router, private authService: AuthService)
   {
     super();
   }
@@ -24,6 +27,7 @@ export class FeatureComponent extends AppBaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.isIframe = window !== window.parent && !window.opener;
+    this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.LOGIN}`);
   }
 
   public registro():void

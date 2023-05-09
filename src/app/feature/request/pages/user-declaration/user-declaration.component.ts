@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {ROUTES} from "../../../../core/enums";
+import Swal from "sweetalert2";
+import {AuthService} from "../../../../core/services/auth.service";
 
 @Component({
   selector: 'app-user-declaration',
@@ -14,7 +16,7 @@ export class UserDeclarationComponent {
    */
   public cadenaDeclaracion: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.cadenaDeclaracion = "<br><b>Señor Ciudadano(a):</b><br><br>" +
       "El siguiente Trámite se denomina 'Registro y Autorización de Títulos en el Área de la Salud, para las" +
       " tecnologías, ocupaciones u oficios en el área salud y para las profesiones de Psicología y Gerontología'.<br>" +
@@ -43,6 +45,14 @@ export class UserDeclarationComponent {
   }
 
   public notAccept(): void {
+    this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.LOGIN}`).then(x => {
+      this.authService.signOutCurrentUser();
+      Swal.fire({
+        icon: 'error',
+        title: 'Declaración juramentada',
+        text: 'Debe aceptar la declaración para ingresar en la plataforma'
+      });
+    });
     //Cerrar sesión?
   }
 

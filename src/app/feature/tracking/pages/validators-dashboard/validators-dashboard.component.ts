@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ROUTES} from "../../../../core/enums";
 import {RequestService} from "../../../../core/services/request.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-validators-dashboard',
@@ -42,7 +43,7 @@ export class ValidatorsDashboardComponent implements OnInit{
     this.stepAdvanceLine=2;
     this.validatorForm = this.fb.group({
       selector: [''],
-      selectorrole: [localStorage.getItem('Role')!=null ?localStorage.getItem('Role'):'Funcionario'],
+      selectorrole: [localStorage.getItem('Role')],
       textfilter: [''],
       pageSize: [10],
       pageNumber: [1],
@@ -52,15 +53,7 @@ export class ValidatorsDashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    let role='';
-    if(localStorage.getItem('Role')!=null)
-    {
-      role=localStorage.getItem('Role');
-    }
-    else {
-      localStorage.setItem('Role','Funcionario');
-      role='Funcionario';
-    }
+    let role: string = localStorage.getItem('Role');
 
     let date = new Date(Date.now());
 

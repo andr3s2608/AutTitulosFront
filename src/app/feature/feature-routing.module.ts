@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {inject, NgModule} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {FeatureComponent} from "./feature.component";
 import {LegalPersonComponent} from "./register/pages/legal-person/legal-person.component";
@@ -13,6 +13,8 @@ import {UserDashboardComponent} from "./request/pages/user-dashboard/user-dashbo
 import {ValidatorsDashboardComponent} from "./tracking/pages/validators-dashboard/validators-dashboard.component";
 import {ValidationScreenComponent} from "./tracking/pages/validation-screen/validation-screen.component";
 import {ReportPageComponent} from "./reports/pages/report-page/report-page.component";
+import {LoginComponent} from "./register/pages/login/login.component";
+import {AuthGuardService} from "../core/guards/auth-guard.service";
 
 
 const routes: Routes = [
@@ -29,8 +31,26 @@ const routes: Routes = [
     },
     children: [
       {
+        path: ROUTES.LOGIN,
+        component: LoginComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveLogin()],
+        data: {
+          breadcrumb: [
+            {
+              label: 'Inicio',
+              url: ''
+            },
+            {
+              label: 'Iniciar sesión',
+              url: ROUTES.LOGIN
+            }
+          ]
+        },
+      },
+      {
         path: ROUTES.REGISTER,
         component: ScreenRegisterComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveLogin()],
         data: {
           breadcrumb: [
             {
@@ -47,6 +67,7 @@ const routes: Routes = [
       {
         path: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_NATURAL,
         component: NaturalPersonComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveLogin()],
         data: {
           breadcrumb: [
             {
@@ -67,6 +88,7 @@ const routes: Routes = [
       {
         path: ROUTES.REGISTER + "/" + ROUTES.REGISTRATION_LEGAL,
         component: LegalPersonComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveLogin()],
         data: {
           breadcrumb: [
             {
@@ -99,6 +121,7 @@ const routes: Routes = [
       {
         path: ROUTES.CITIZEN,
         component: UserDeclarationComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveCitizen()],
         data: {
           breadcrumb: [
             {
@@ -115,6 +138,7 @@ const routes: Routes = [
       {
         path: ROUTES.CITIZEN + "/" +ROUTES.CREATE_REQUEST,
         component: UserRequestComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveCitizen()],
         canDeactivate: [],
         data: {
           breadcrumb: [
@@ -136,6 +160,7 @@ const routes: Routes = [
       {
         path: ROUTES.CITIZEN + "/" + ROUTES.PERSON_DASHBOARD,
         component: UserDashboardComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveCitizen()],
         data: {
           breadcrumb: [
             {
@@ -156,6 +181,7 @@ const routes: Routes = [
       {
         path: ROUTES.Validation,
         component: ValidationScreenComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveValidators()],
         data: {
           breadcrumb: [
             {
@@ -176,6 +202,7 @@ const routes: Routes = [
       {
         path: ROUTES.ValidatorDashboard,
         component: ValidatorsDashboardComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveValidators()],
         data: {
           breadcrumb: [
             {
@@ -196,6 +223,7 @@ const routes: Routes = [
       {
         path: ROUTES.ReportsDashboard,
         component: ReportPageComponent,
+        canActivate: [() => inject(AuthGuardService).canActiveValidators()],
         data: {
           breadcrumb: [
             {

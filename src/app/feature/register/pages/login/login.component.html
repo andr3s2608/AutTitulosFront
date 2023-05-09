@@ -1,0 +1,65 @@
+<div class="d-flex flex-column general-layout">
+  <div class="content-layout" id="content-layout-id">
+    <main class="scroll" id="interno">
+      <div class="information d-flex justify-content-center">
+
+        <div class="govco-form-signin col-lg-6 col-md-6 col-12 my-4">
+          <form [formGroup]="loginForm">
+            <h3 class="govco-title-sign-form headline-l-govco">
+              Inicio de sesión
+            </h3>
+
+            <div class="col-sm-12 col-md-12">
+              <div class="entradas-de-texto-govco">
+                <label for="email-nombre">Usuario <span class="required">(*)</span></label>
+                <input type="text" id="email-nombre" placeholder="Ej: user@example.com" formControlName="email"
+                       [ngClass]="{'error': isTouchedField(loginForm, 'email')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="primer-nombre-note" role="alert"
+                  aria-live="assertive">
+                   {{ getErrorMessage('email') }}
+               </span>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+              <div class="entradas-de-texto-govco">
+                <label for="password-nombre">Contraseña <span class="required">(*)</span></label>
+                <input type="password" id="password-nombre" placeholder="Contraseña" formControlName="password"
+                       [ngClass]="{'error': isTouchedField(loginForm, 'password')}"/>
+                <span
+                  class="error-texto-govco alert-entradas-de-texto-govco" id="password-note" role="alert"
+                  aria-live="assertive">
+                   {{ getErrorMessage('password') }}
+               </span>
+              </div>
+            </div>
+
+            <!--<div class="checkbox">
+              <label class="checkbox-govco mb-0">
+                <input type="checkbox" id="checkboxPassword-govco" />
+                &lt;!&ndash; <label class="label_checkbox" for="checkboxPassword-govco"> Mostrar contraseña</label> &ndash;&gt;
+              </label>
+            </div>-->
+            <div class="row mx-auto" style="text-align: center">
+              <div class="col-sm-11 col-md-11">
+                <button type="submit"
+                        (click)="submitLoginForm()"
+                        class="btn-govco fill-btn-govco">INICIAR SESIÓN</button>
+              </div>
+            </div>
+
+            <!--<div class="d-flex">
+              <button type="button" class="btn btn-font-gov-co px-0">OLVIDÉ MI CONTRASEÑA</button>
+            </div>
+            <div class="d-flex mt-2">
+              <button type="button" class="btn btn-font-gov-co px-0" *ngIf="!loginDisplay" (click)="login()">INICIAR SESIÓN COMO EXTERNO</button>
+            </div>-->
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+

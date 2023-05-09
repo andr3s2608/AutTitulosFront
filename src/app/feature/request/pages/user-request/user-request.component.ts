@@ -14,6 +14,7 @@ import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.mod
 import {DocumentsService} from "../../../../core/services/documents.service";
 import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
 import {TrackingService} from "../../../../core/services/tracking.service";
+import {CustomValidators} from "../../../../core/utils/custom-validators";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -96,7 +97,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         endDate: [ '', [ Validators.required, super.dateValidator ] ],
         book: [ '', [ ] ],
         folio: [ '', [ ] ],
-        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  super.numberDateFuture ] ],
+        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  CustomValidators.numberDateFuture ] ],
         professionalCard: [],
         nameInternationalUniversity: [],
         countryId: [],

@@ -17,3 +17,16 @@ export enum ErrorMessage {
 
   MAX_3MB_DOCUMENT = 'El archivo escogido pesa más de 3Mb.'
 }
+
+/**
+ * Enumeracion para los errores de los formularios
+ */
+export enum HasErrorForm {
+
+  REQUIRED = "required",
+
+  EMAIL = "invalidEmail",
+
+  DATE = "invalidDate"
+
+}

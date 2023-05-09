@@ -12,6 +12,7 @@ import {DocumentsService} from "../../../../core/services/documents.service";
 import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
 import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
 import {formatDate} from "@angular/common";
+import {CustomValidators} from "../../../../core/utils/custom-validators";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -117,7 +118,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         endDate: [ '', [ Validators.required, super.dateValidator ] ],
         book: [ '', [ ] ],
         folio: [ '', [ ] ],
-        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  super.numberDateFuture ] ],
+        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  CustomValidators.numberDateFuture ] ],
         professionalCard: [],
         nameInternationalUniversity: [],
         countryId: [],
