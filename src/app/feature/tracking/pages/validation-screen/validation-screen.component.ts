@@ -51,6 +51,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     justificationparagraph2: '',
     aclarationparagrapharticle: ''
   };
+
+
+
+
   /**
    * lista de seguimiento
    */
@@ -71,7 +75,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    */
   public validationForm: FormGroup;
 
-
+  /**
+   * nombre que tomara la notificacion
+   */
+  public notificationtittle: Array<string> = ['Aprobación', 'Desistimiento', 'Aclaración', 'Recurso de Reposición',
+    'Subsanación','Negación/Tramite Duplicado Anulado'];
   /**
    * Modela el numero a pintar en la linea de avance
    */
@@ -156,6 +164,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           profesionid: datatramite.idProfessionInstitute,
           name_profesion: datatramite.name_profession
         }
+
 
         this.trackingService.getTrackingbyid(datatramite.idProcedureRequest).subscribe(resp3 => {
           this.tracking = resp3.data;
@@ -287,7 +296,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
     const status = this.validationForm.get('validationstateform.status').value;
     let preliminarresolution = true;
-    console.log(status)
+
 
     let statustogenerate = "";
     const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'Reposición'];
@@ -304,7 +313,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       let laststatus = this.tramiteActual.statusId + "";
 
       for (let i = 0; i < ultimosestados.length; i++) {
-        console.log(laststatus)
+
         if (laststatus.includes(ultimosestados[i])) {
           statustogenerate = estadosbd[i];
         }
@@ -397,7 +406,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         number_resolution_convalidation: "",
         date_resolution_convalidation: new Date(Date.now()),
         IdEntity: 1,
-        name_institute: idistitute[1],
+        name_institute: idistitute[1]+','+idistitute[2],
         last_status_date: new Date(Date.now()),
         filed_date: new Date(this.tramiteActual.filed_date),
         IdNumber: this.validationForm.get('basicDataForm.numeroIdentificacion').value,
@@ -470,6 +479,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         await lastValueFrom(this.resolutiontService.addResolution(resolution));
 
+        let file:any=null;
         this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
           estadosbd[status],
           this.Role + "",
@@ -479,55 +489,89 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
           false
         ).pipe(
-          switchMap(resp => this.archiveService.saveFileBlobStorage(resp.data, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser))
+          switchMap(resp =>
+          {
+            file=resp.data;
+
+            return this.archiveService.saveFileBlobStorage(resp.data, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser)
+          }
+
+          )
         ).subscribe({
           next: value => {
+
             this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
-            this.getHtmlBody(status,toNumber(this.validationForm.get('validationstateform.selectedstatus').value))
+            this.getHtmlBody(status,toNumber(this.validationForm.get('validationstateform.selectedstatus').value),file,aplicantname)
           }
         });
 
 
       } else {
         this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
-        await this.getHtmlBody(selectedstatus,selectedstatus);
+        await this.getHtmlBody(selectedstatus,selectedstatus,null,aplicantname);
       }
     }
   }
 
 
-  public async getHtmlBody(status:number,selectedstatus:number) :Promise<void>
+  public async getHtmlBody(status:number,selectedstatus:number,file:any,names:string) :Promise<void>
   {
-    console.log(status,selectedstatus)
+
     let sendnotification=false;
+    let senddocument=false;
+    let tittle='';
    if(selectedstatus===11)
    {
      sendnotification=true;
+     senddocument=true;
+
+     tittle=this.notificationtittle[status];
+
      status=status+6;
    }
     if(selectedstatus===7 || selectedstatus===8)
     {
       sendnotification=true;
+      tittle=this.notificationtittle[status-3];
       status=status+3;
     }
     localStorage.removeItem("procedure");
     if(sendnotification)
     {
       this.registerService.getFormats((status)+"").subscribe(resp => {
-        const keys = ['~:~ciudadano~:~', '~:~tipo_de_solicitud~:~', '~:~numero_de_tramite~:~'];
-        const dinamickeys = ['', '', ''];
+        const keys = ['~:~nro_radicado~:~', '~:~nombres~:~', '~:~observacion~:~'];
+        const dinamickeys = [this.tramiteActual.filedNumber, '', ''];
 
         let nuevoHTML=resp.data.body;
         for (let index = 0; index < dinamickeys.length; index++) {
           nuevoHTML = nuevoHTML.replace(keys[index], dinamickeys[index]);
         }
-        this.registerService.sendEmail({
-          to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
-          subject: 'Notificación de Anulacion',
-          body: nuevoHTML
-        }).subscribe(() => {
-          this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
-        });
+        if(senddocument)
+        {
+          this.registerService.sendEmailAttachment({
+            to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
+            subject: 'Notificación de '+tittle+' Tramite 19',
+            body: nuevoHTML,
+            attachment: file,
+            AttachmentTitle: 'Resolucion_tramite_19.pdf'
+          }).subscribe(() => {
+            this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
+          });
+
+
+        }else
+        {
+          this.registerService.sendEmail({
+            to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
+            subject: 'Notificación de '+tittle+' Tramite 19',
+            body: nuevoHTML
+          }).subscribe(() => {
+            this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.ValidatorDashboard);
+          });
+        }
+
+
+
       });
     }
     else {

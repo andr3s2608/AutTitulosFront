@@ -116,6 +116,13 @@ export class RegisterService {
     return this.http.post(`${PROCEDURE_NOTIFICATIONS_URI}/Email/SendMail`, cuerpoEmail);
   }
   /**
+   * Envia notificacion  con archivo por email
+   * @param cuerpoEmail Cuerpo que se va a enviar
+   */
+  public sendEmailAttachment(cuerpoEmail: any): Observable<any> {
+    return this.http.post(`${PROCEDURE_NOTIFICATIONS_URI}/Email/SendMailWithAttachment`, cuerpoEmail);
+  }
+  /**
    * Obtiene el formato de la notificacion
    * @param idformat numero de formato
    */

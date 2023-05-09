@@ -98,8 +98,7 @@ export class ValidatorsDashboardComponent implements OnInit{
 
   public changerole(): void
   {
-    console.log(this.validatorForm.get('selectorrole').value);
-    console.log('hola')
+
     localStorage.setItem('Role',this.validatorForm.get('selectorrole').value)
 
   }

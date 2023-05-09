@@ -25,6 +25,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     super();
 
 
+
     this.iesServices.getInstitutes().subscribe(resp => {
       this.listInstitutes = resp.data;
     });
@@ -49,11 +50,20 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    * Devuelve un la lista de los programas por isntitucion
    */
   public async getPrograms() {
+
     let institute = this.requestDataForm.get('instituteId').value
+
+    if(institute.length>2)
+    {
+      console.log('entro');
+      institute=institute.split(',');
+      this.requestDataForm.get('professionId').setValue('');
+    }
 
     this.iesServices.getProgramsbyId(institute[0]).subscribe(resp2 => {
       this.listProfessions = resp2.data;
     });
+
   }
 
   /**

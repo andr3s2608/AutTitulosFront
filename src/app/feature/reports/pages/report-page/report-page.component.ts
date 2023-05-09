@@ -244,7 +244,7 @@ export class ReportPageComponent implements OnInit {
 
   public download(element: any, fileName: string): void {
 
-    console.log(element)
+
     // generate workbook and add the worksheet
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
