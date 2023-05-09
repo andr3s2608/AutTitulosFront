@@ -17,6 +17,7 @@ import {TrackingService} from "../../../../core/services/tracking.service";
 import {CustomValidators} from "../../../../core/utils/custom-validators";
 import {AuthService} from "../../../../core/services/auth.service";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
+import {RegisterService} from "../../../../core/services/register.service";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -81,6 +82,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
   constructor(private archiveService: ArchiveService,
               private popupAlert: PopUpService,
               private requestService: RequestService,
+              public registerService: RegisterService,
               private documentsService: DocumentsService,
               private trackingService: TrackingService,
               private fb: FormBuilder,
@@ -319,14 +321,24 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
   }
 
-  private finishProcedure(): void {
+  private async finishProcedure(): Promise<void> {
     this.popupAlert.successAlert("Solicitud registrada con éxito", 2000);
     this.sending = false;
     this.showRequestForm = false;
     this.showResumeRequestSaved = true;
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 60;
+    let nuevoHTML='';
+    await lastValueFrom(this.registerService.getFormats("12")).then(requestResponse => {
+      nuevoHTML = requestResponse.data.body;
+    });
 
+    this.registerService.sendEmail({
+      to: this.currentUser.email.toLowerCase(),
+      subject: 'Notificación de Creacion de solicitud',
+      body: nuevoHTML
+    }).subscribe(() => {
+    });
 
 
   }

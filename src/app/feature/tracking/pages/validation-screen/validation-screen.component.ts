@@ -129,7 +129,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
           segundoNombre: data.segundoNombre ? data.segundoNombre : '',
           primerApellido: data.primerApellido ? data.primerApellido : '',
           segundoApellido: data.segundoApellido ? data.segundoApellido : '',
-          email: data.segundoApellido ? data.segundoApellido : '',
+          email: data.email ? data.email : '',
           fechaNacimiento: data.fechaNacimiento ? new Date(data.fechaNacimiento) : new Date(null),
           telefonoFijo: data.telefonoFijo ? data.telefonoFijo : '',
           telefonoCelular: data.telefonoCelular ? data.telefonoCelular : '',
