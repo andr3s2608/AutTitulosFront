@@ -56,30 +56,30 @@ export class ValidatorsDashboardComponent implements OnInit {
   ngOnInit(): void {
     let role: string = localStorage.getItem('Role');
 
-    let date = new Date(Date.now());
+    let date: Date = new Date(Date.now());
 
-// Get year, month, and day part from the date
-    let year = date.toLocaleString("default", { year: "numeric" });
-    let month = date.toLocaleString("default", { month: "2-digit" });
-    let day = date.toLocaleString("default", { day: "2-digit" });
+    // Get year, month, and day part from the date
+    let year = date.toLocaleString("default", {year: "numeric"});
+    let month = date.toLocaleString("default", {month: "2-digit"});
+    let day = date.toLocaleString("default", {day: "2-digit"});
 
-// Generate yyyy-mm-dd date string
+    // Generate yyyy-mm-dd date string
     let formattedDate = year + "-" + month + "-" + day;
     this.requestService.getDashboardValidation(
-      formattedDate+"",
-      ""+" ",
-      ""+" ",
+      formattedDate + "",
+      "" + " ",
+      "" + " ",
       "1",
-        "15",role).subscribe(resp => {
-        this.tableFilter=resp.data;
+      "15", role).subscribe(resp => {
+      this.tableFilter = resp.data;
 
     });
-    this.lastfilters= {
-      finaldate:formattedDate+"",
-      texttosearch:""+" ",
-      selectedfilter:""+" ",
-      pagenumber:"1",
-      pagination:"15"
+    this.lastfilters = {
+      finaldate: formattedDate + "",
+      texttosearch: "" + " ",
+      selectedfilter: "" + " ",
+      pagenumber: "1",
+      pagination: "15"
     }
   }
 
@@ -93,32 +93,31 @@ export class ValidatorsDashboardComponent implements OnInit {
     let selector = this.validatorForm.get('selector').value;
     let text = this.validatorForm.get('textfilter').value;
 
+    let date: Date = new Date(Date.now());
 
-    let date = new Date(Date.now());
+    // Get year, month, and day part from the date
+    let year = date.toLocaleString("default", {year: "numeric"});
+    let month = date.toLocaleString("default", {month: "2-digit"});
+    let day = date.toLocaleString("default", {day: "2-digit"});
 
-// Get year, month, and day part from the date
-    let year = date.toLocaleString("default", { year: "numeric" });
-    let month = date.toLocaleString("default", { month: "2-digit" });
-    let day = date.toLocaleString("default", { day: "2-digit" });
-
-// Generate yyyy-mm-dd date string
+    // Generate yyyy-mm-dd date string
     let formattedDate = year + "-" + month + "-" + day;
     this.requestService.getDashboardValidation(
-      formattedDate+"",
-      (text==null || text=="") ? " ":text,
-      (selector==null || selector=="") ? " ":selector,
+      formattedDate + "",
+      (text == null || text == "") ? " " : text,
+      (selector == null || selector == "") ? " " : selector,
       "1",
-      "15","Subdirector").subscribe(resp => {
-      this.tableFilter=resp.data;
-
+      "15", role).subscribe(resp => {
+      this.tableFilter = resp.data;
     });
-  this.lastfilters= {
-    finaldate:formattedDate+"",
-    texttosearch:(text==null || text=="") ? " ":text,
-    selectedfilter:(selector==null || selector=="") ? " ":selector,
-    pagenumber:"1",
-    pagination:"15"
-  }
+
+    this.lastfilters = {
+      finaldate: formattedDate + "",
+      texttosearch: (text == null || text == "") ? " " : text,
+      selectedfilter: (selector == null || selector == "") ? " " : selector,
+      pagenumber: "1",
+      pagination: "15"
+    }
 
   }
 

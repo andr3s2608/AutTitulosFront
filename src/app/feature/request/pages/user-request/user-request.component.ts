@@ -27,7 +27,7 @@ import {RegisterService} from "../../../../core/services/register.service";
   templateUrl: './user-request.component.html',
   styleUrls: ['./user-request.component.scss']
 })
-export class UserRequestComponent extends AppBaseComponent implements OnInit, OnExit  {
+export class UserRequestComponent extends AppBaseComponent implements OnInit, OnExit {
 
   /**
    * Ruta de la imagen del popup inicial
@@ -99,15 +99,15 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
     this.requestForm = this.fb.group({
       requestDataForm: this.fb.group({
-        titleTypeId: [ '', [ Validators.required ] ],
-        instituteId: [ '', [ Validators.required ] ],
-        professionId: [ '', [ Validators.required ] ],
-        diplomaNumber: [ '', [ Validators.pattern("^[0-9]*$") ] ],
-        graduationCertificate: [ '', [ ] ],
-        endDate: [ '', [ Validators.required, super.dateValidator ] ],
-        book: [ '', [ ] ],
-        folio: [ '', [ ] ],
-        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  CustomValidators.numberDateFuture ] ],
+        titleTypeId: ['', [Validators.required]],
+        instituteId: ['', [Validators.required]],
+        professionId: ['', [Validators.required]],
+        diplomaNumber: ['', [Validators.pattern("^[0-9]*$")]],
+        graduationCertificate: ['', []],
+        endDate: ['', [Validators.required, super.dateValidator]],
+        book: ['', []],
+        folio: ['', []],
+        yearTitle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"), CustomValidators.numberDateFuture]],
         professionalCard: [],
         nameInternationalUniversity: [],
         countryId: [],
@@ -127,7 +127,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
     //Mensaje de confirmacion al intentar recargar o salir de la página si se está guardando la solicitud
     window.addEventListener('beforeunload', (event) => {
-      if(this.sending){
+      if (this.sending) {
         event.returnValue = '¿Estás seguro de que deseas salir de esta página?';
       }
     });
@@ -137,7 +137,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
   }
 
   public redirectionDashboard(): void {
-    this.route.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.CITIZEN + "/" +ROUTES.PERSON_DASHBOARD);
+    this.route.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.CITIZEN + "/" + ROUTES.PERSON_DASHBOARD);
   }
 
 
@@ -155,9 +155,9 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       denyButtonColor: '#3366CC',
       html: `<img alt='registro-titulos' src='${this.rutaImagenPopUpInicial}' style="width: 100%;">`,
       width: '60%',
-    }).then( result => {
+    }).then(result => {
       if (result.isDenied) {
-        this.archiveService.downloadArchive(this.rutaPdfListadoInstituciones,'listadoInstituciones', '.pdf');
+        this.archiveService.downloadArchive(this.rutaPdfListadoInstituciones, 'listadoInstituciones', '.pdf');
       }
     });
   }
@@ -173,12 +173,8 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       const requestDataForm = formData['requestDataForm'];
       const attachmentForm = formData['attachmentForm'];
 
-
       if (!this.requestForm.valid) {
-        this.popupAlert.errorAlert(
-          `Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`,
-          4000
-        );
+        this.popupAlert.errorAlert(`Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`, 4000);
         console.log("FORMULARIO PROCESADO");
         console.log(this.requestForm.value);
         console.log("ERRORES FORMULARIO");
@@ -221,7 +217,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
         IdInstitute: infoInstitute[0],
-        name_institute: infoInstitute[1]+','+infoInstitute[2],
+        name_institute: infoInstitute[1] + ',' + infoInstitute[2],
         IdProfessionInstitute: infoProfession[0],
         name_profession: infoProfession[1],
         last_status_date: new Date(Date.now()),
@@ -229,7 +225,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         user_code_ventanilla: this.currentUser.codeVentanilla,
         AplicantName: this.currentUser.fullName,
         IdDocument_type: this.currentUser.documentType,
-        IdNumber:  this.currentUser.documentNumber,
+        IdNumber: this.currentUser.documentNumber,
         diploma_number: requestDataForm.diplomaNumber,
         graduation_certificate: requestDataForm.graduationCertificate,
         end_date: requestDataForm.endDate,
@@ -255,22 +251,20 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       });
 
 
-
       //guardar documentos
 
       let documentsSave: DocumentSupportDto[] = [];
 
 
+      for (const newFile of attachmentForm.documentSupports) {
 
-      for(const newFile of attachmentForm.documentSupports) {
-
-         await lastValueFrom(this.archiveService.saveFileBlobStorage(
-           newFile.content,
-           `Soporte_${newFile.docDescription}`,
-           `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}`))
-           .then( resp => {
-           this.popupAlert.infoAlert("Subiendo archivos...", 500);
-         });
+        await lastValueFrom(this.archiveService.saveFileBlobStorage(
+          newFile.content,
+          `Soporte_${newFile.docDescription}`,
+          `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}`))
+          .then(resp => {
+            this.popupAlert.infoAlert("Subiendo archivos...", 500);
+          });
 
         documentsSave.push({
           IdDocumentType: newFile.docTypeId,
@@ -311,7 +305,6 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       }
 
 
-
       await lastValueFrom(this.trackingService.addTracking(tracking));
 
       this.finishProcedure();
@@ -321,6 +314,9 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
   }
 
+  /**
+   * Realiza operaciones finales despues de guardada la solicitud
+   */
   private async finishProcedure(): Promise<void> {
     this.popupAlert.successAlert("Solicitud registrada con éxito", 2000);
     this.sending = false;
@@ -328,34 +324,24 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
     this.showResumeRequestSaved = true;
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 60;
-    let nuevoHTML='';
-    await lastValueFrom(this.registerService.getFormats("12")).then(requestResponse => {
-      nuevoHTML = requestResponse.data.body;
-    });
+    let nuevoHTML = '';
+
+    await lastValueFrom(this.registerService.getFormats("12")).then(requestResponse => nuevoHTML = requestResponse.data.body);
 
     this.registerService.sendEmail({
       to: this.currentUser.email.toLowerCase(),
       subject: 'Notificación de Creacion de solicitud',
       body: nuevoHTML
-    }).subscribe(() => {
     });
-
 
   }
 
 
-
-
+  //Not Implemented
   onExit(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-
-
-
 
     const rta = confirm('Are you sure?');
     return rta;
-
-
 
     /*
 
@@ -374,32 +360,32 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       console.log(aqui)
       return aqui*/
 
-      /*
-            Swal.fire({
-              text: 'salir',
-              showConfirmButton: true,
-            }).then( result => {
-              if(result.isConfirmed){
-                console.log('entre en el then')
-                exit = true;
-                return false;
-              } else {
-                return true;
-              }
-            })
-          }else {
-            console.log('retornare algo')
-            return exit;
-          }
-    } else {
-      console.log('retornare algo2')
-      return false;
-    }*/
+    /*
+          Swal.fire({
+            text: 'salir',
+            showConfirmButton: true,
+          }).then( result => {
+            if(result.isConfirmed){
+              console.log('entre en el then')
+              exit = true;
+              return false;
+            } else {
+              return true;
+            }
+          })
+        }else {
+          console.log('retornare algo')
+          return exit;
+        }
+  } else {
+    console.log('retornare algo2')
+    return false;
+  }*/
 
 
   }
 
-  public confirmDialog(msg:any) {
+  public confirmDialog(msg: any) {
     return new Promise(function (resolve, reject) {
       let confirmed = window.confirm(msg);
 

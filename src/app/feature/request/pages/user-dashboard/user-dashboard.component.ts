@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProcedureResponseTableUserDto} from "../../../../core/models/procedureResponseTableUserDto";
 import {RequestService} from "../../../../core/services/request.service";
 import {TrackingService} from "../../../../core/services/tracking.service";
-import {PopUpService} from "../../../../core/services";
+import {ArchiveService, PopUpService} from "../../../../core/services";
 import Swal from "sweetalert2";
 import {AppBaseComponent} from "../../../../core/utils";
 import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.model";
@@ -13,6 +13,8 @@ import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
 import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
 import {formatDate} from "@angular/common";
 import {CustomValidators} from "../../../../core/utils/custom-validators";
+import {CurrentUserDto} from "../../../../core/models/currentUserDto";
+import {AuthService} from "../../../../core/services/auth.service";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -83,11 +85,18 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
   public editRequest: any;
 
+  /**
+   * Usuario actual en la solicitud
+   */
+  public currentUser: CurrentUserDto;
+
   constructor(private fb: FormBuilder,
               private requestService: RequestService,
               private trackingService: TrackingService,
               private popUp: PopUpService,
-              private documentsService: DocumentsService) {
+              private documentsService: DocumentsService,
+              private authService: AuthService,
+              private archiveService: ArchiveService) {
     super();
     this.stepAdvanceLine = 4;
     this.currentProgressAdvanceLine = 94;
@@ -97,7 +106,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
     this.requestClarificationForm = this.fb.group({
       clarificationForm: this.fb.group({
-        reasonTypeId: ["", Validators.required ],
+        reasonTypeId: ["", Validators.required],
         fileSupport: [],
         observation: ["", Validators.required]
       })
@@ -105,20 +114,20 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
     this.editRequestForm = this.fb.group({
       editObservationsForm: this.fb.group({
-        idProcedure: [ '', [ Validators.required ] ],
-        observations: [ '', [ Validators.required ] ],
+        idProcedure: ['', [Validators.required]],
+        observations: ['', [Validators.required]],
       }),
       requestDataForm: this.fb.group({
-        idProcedure: [ '', [ Validators.required ] ],
-        titleTypeId: [ '', [ Validators.required ] ],
-        instituteId: [ '', [ Validators.required ] ],
-        professionId: [ '', [ Validators.required ] ],
-        diplomaNumber: [ '', [ Validators.pattern("^[0-9]*$") ] ],
-        graduationCertificate: [ '', [ ] ],
-        endDate: [ '', [ Validators.required, super.dateValidator ] ],
-        book: [ '', [ ] ],
-        folio: [ '', [ ] ],
-        yearTitle: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"),  CustomValidators.numberDateFuture ] ],
+        idProcedure: ['', [Validators.required]],
+        titleTypeId: ['', [Validators.required]],
+        instituteId: ['', [Validators.required]],
+        professionId: ['', [Validators.required]],
+        diplomaNumber: ['', [Validators.pattern("^[0-9]*$")]],
+        graduationCertificate: ['', []],
+        endDate: ['', [Validators.required, super.dateValidator]],
+        book: ['', []],
+        folio: ['', []],
+        yearTitle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"), CustomValidators.numberDateFuture]],
         professionalCard: [],
         nameInternationalUniversity: [],
         countryId: [],
@@ -137,9 +146,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * Carga el listado de solicitudes de un ciudadano
    */
   ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
     this.popUp.infoAlert("Cargando solicitudes", 2000);
 
-    this.requestService.getDashboardUser("idUserQuemado").subscribe({
+    this.requestService.getDashboardUser(this.currentUser.userId).subscribe({
       next: value => {
         this.allByUser = value;
         this.filterTable(0);
@@ -166,7 +176,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * @param idRequest
    */
   public async loadTrackingProcedure(idRequest: number): Promise<void> {
-    await lastValueFrom(this.trackingService.getTrackingbyid(String(idRequest))).then( value => {
+    await lastValueFrom(this.trackingService.getTrackingbyid(String(idRequest))).then(value => {
         this.trackingRequest = value.data;
       }
     )
@@ -196,10 +206,12 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   public async showEditProcedure(idProcedure: number): Promise<void> {
     this.popUp.infoAlert("Cargando trámite...", 4000);
 
-    await lastValueFrom(this.requestService.getRequestbyid(String(idProcedure))).then(value => {this.editRequest = value})
+    await lastValueFrom(this.requestService.getRequestbyid(String(idProcedure))).then(value => {
+      this.editRequest = value
+    })
     await this.loadTrackingProcedure(idProcedure);
     this.editRequestForm.get("editObservationsForm").get("idProcedure").setValue(this.editRequest.filed_number);
-    this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length-1].additional_information);
+    this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length - 1].additional_information);
     this.editRequestForm.get("editObservationsForm").disable();
 
     this.editRequestForm.get("requestDataForm").get("idProcedure").setValue(this.editRequest.filed_number);
@@ -208,7 +220,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession]);
     this.editRequestForm.get("requestDataForm").get("diplomaNumber").setValue(this.editRequest.diploma_number);
     this.editRequestForm.get("requestDataForm").get("graduationCertificate").setValue(this.editRequest.graduation_certificate);
-    this.editRequestForm.get("requestDataForm").get("endDate").setValue( formatDate(new Date(this.editRequest.end_date), 'yyyy-MM-dd', 'en'));
+    this.editRequestForm.get("requestDataForm").get("endDate").setValue(formatDate(new Date(this.editRequest.end_date), 'yyyy-MM-dd', 'en'));
     this.editRequestForm.get("requestDataForm").get("book").setValue(this.editRequest.book);
     this.editRequestForm.get("requestDataForm").get("folio").setValue(this.editRequest.folio);
     this.editRequestForm.get("requestDataForm").get("yearTitle").setValue(this.editRequest.year_title);
@@ -248,7 +260,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       const formData = this.requestClarificationForm.value;
       const clarificationForm = formData['clarificationForm'];
 
-      console.log("formData",formData)
+      console.log("formData", formData)
 
       if (clarificationForm.fileSupport == null) {
         this.popUp.errorAlert(
@@ -263,11 +275,18 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
       console.log("documentos capturados", clarificationForm.fileSupport);
 
-      //TODO completar funcionalidad  cuando haya blobstorage
+      await lastValueFrom(this.archiveService.saveFileBlobStorage(
+        clarificationForm.fileSupport,
+        `Soporte_ReposicionAclaracion`,
+        `oid${this.currentUser.codeVentanilla}_ReposicionAclaracion`))
+        .then(resp => {
+          this.popUp.infoAlert("Subiendo archivos...", 500);
+        });
+
       documentsSave.push({
         IdDocumentType: 6,
         IdProcedureRequest: this.infoRequest.idProcedure,
-        path: "pathQuemado",
+        path: `oid${this.currentUser.codeVentanilla}_ReposicionAclaracion/Soporte_ReposicionAclaracion`,
         is_valid: true,
         registration_date: new Date(Date.now()),
         modification_date: new Date(Date.now())
@@ -277,14 +296,13 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       await lastValueFrom(this.documentsService.addDocumentsToRequest(documentsSave));
 
 
-
       //guardar tracking
       let tracking: TrackingRequestDto;
 
       tracking = {
         IdStatusTypes: clarificationForm.reasonTypeId,
-        IdProcedureRequest:  this.infoRequest.idProcedure,
-        IdUser: "idUserQuemado",
+        IdProcedureRequest: this.infoRequest.idProcedure,
+        IdUser: this.currentUser.userId,
         dateTracking: new Date(Date.now()),
         observations: clarificationForm.observation,
         clarification_types_motives: "false/false/false/false/false",
@@ -299,18 +317,12 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         paragraph_JMA1: " ",
         paragraph_JMA2: " ",
         paragraph_AMA: " ",
-    }
-
-
+      }
 
       await lastValueFrom(this.trackingService.addTracking(tracking));
-
-
       this.popUp.successAlert("Solicitud realizada exitosamente. Puede abandonar la página.", 4000);
 
-
     } catch (e) {
-
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
   }
@@ -325,7 +337,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       tracking = {
         IdStatusTypes: 19,
         IdProcedureRequest: this.editRequest.idProcedureRequest,
-        IdUser: "idUserQuemado",
+        IdUser: this.currentUser.userId,
         dateTracking: new Date(Date.now()),
         observations: "Subsanación por usuario externo",
         clarification_types_motives: "false/false/false/false/false",
@@ -342,13 +354,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         paragraph_AMA: " ",
       }
 
-
-
       await lastValueFrom(this.trackingService.addTracking(tracking));
-
       this.popUp.successAlert("Solicitud realizada exitosamente. Puede abandonar la página.", 4000);
-    } catch (e) {
 
+    } catch (e) {
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
 
