@@ -23,7 +23,7 @@ export class AuthGuardService {
       if (user.rol == Rol.Citizen) {
         this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.CITIZEN}`);
       } else {
-        this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.ValidatorDashboard}`);
+       // this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.ValidatorDashboard}`);
 
       }
       return false;
