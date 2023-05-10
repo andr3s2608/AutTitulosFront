@@ -133,7 +133,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         this.tracking = resp3.data;
 
         if (resp3.count > 2) {
-
           this.lasttracking = this.tracking[this.tracking.length - 1];
         }
 
