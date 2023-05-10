@@ -70,11 +70,12 @@ export class AuthService {
     ).pipe( map( res => {
       //console.log(res);
       let decodedToken = this.getDecodedAccessToken(res.accessToken);
-      //console.log(decodedToken);
+      console.log(decodedToken);
       let parsedRoles = JSON.parse(decodedToken.access);
       let procedure16Roles = parsedRoles.filter((element:any) => {
         return element.ProcedureName == "Tramite 16"
       });
+      console.log(procedure16Roles)
       let role = procedure16Roles[0].RolesDto[0].Rol;
 
       let currentUser: CurrentUserDto;
@@ -104,6 +105,7 @@ export class AuthService {
         accessToken: res.accessToken,
         ...currentUser
       };
+      console.log(currentUser);
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       localStorage.setItem('Role', currentUser.rol);
 

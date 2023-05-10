@@ -473,7 +473,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       {
         IdStatusTypes: selectedstatus,
         IdProcedureRequest: this.tramiteActual.id,
-        IdUser: 'andres',
+        IdUser: this.currentValidator.userId,
         observations: '' + this.validationForm.get('validationstateform.aditionalinfo').value + ',' + this.validationForm.get('validationstateform.internalobservations').value,
         negation_causes: this.validationForm.get('validationstateform.negationcauses').value + "",
         other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value + "",

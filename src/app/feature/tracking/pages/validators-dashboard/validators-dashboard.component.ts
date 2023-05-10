@@ -54,6 +54,7 @@ export class ValidatorsDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     let role: string = localStorage.getItem('Role');
 
     let date: Date = new Date(Date.now());
