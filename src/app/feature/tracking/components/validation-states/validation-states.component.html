@@ -1,47 +1,48 @@
 <form role="form" [formGroup]="validationStateForm">
 
-<div class="row">
-  <div class="row mt-3" >
-    <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-    <p>Trámite: {{tramitNumber}}</p>
-    </div>
+  <div class="row">
+    <div class="row mt-3">
       <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-    <p>Estado Actual: {{status}}</p>
+        <p>Trámite: {{tramitNumber}}</p>
       </div>
-  </div>
+      <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <p>Estado Actual: {{status}}</p>
+      </div>
+    </div>
 
-  <br><br>
-  <div class="col-sm-5 col-md-5">
-    <div class="entradas-de-texto-govco">
+    <br><br>
+    <div class="col-sm-5 col-md-5">
+      <div class="entradas-de-texto-govco">
 
-      <select class="form-select" id="selectedstatus" aria-label="Default select example"
-              formControlName="selectedstatus"
-              (change)="statechange()"
-              [ngClass]="{'error': isTouchedField(validationStateForm, 'selectedstatus')}"><span class="required">(*)</span>
-        <option value="" selected disabled>Seleccione</option>
-        <option *ngFor="let estados of solicitudstates" [value]="estados.idStatusType">{{estados.description}}</option>
+        <select class="form-select" id="selectedstatus" aria-label="Default select example"
+                formControlName="selectedstatus"
+                (change)="statechange()"
+                [ngClass]="{'error': isTouchedField(validationStateForm, 'selectedstatus')}"><span
+          class="required">(*)</span>
+          <option value="" selected disabled>Seleccione</option>
+          <option *ngFor="let estados of solicitudstates"
+                  [value]="estados.idStatusType">{{estados.description}}</option>
 
 
-      </select>
-      <span
-        class="error-texto-govco alert-entradas-de-texto-govco" id="nacionalidad-note" role="alert"
-        aria-live="assertive">
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" id="nacionalidad-note" role="alert"
+          aria-live="assertive">
             {{ getErrorMessage('selectedstatus') }}
         </span>
+      </div>
     </div>
-  </div>
 
 
-
-
-    <div class="col-9" *ngIf="showduplicated==true">
+    <div class="col-12" *ngIf="showduplicated==true">
       <div class="alert alert-danger" role="alert">
-        El sistema ha identificado que el numero de identificación del trámite actual ya cuenta con profesiones registradas
+        El sistema ha identificado que el numero de identificación del trámite actual ya cuenta con profesiones
+        registradas
         en nuestras bases de datos existentes en el sistema (Oracle y Agilinea).
         Agradecemos validar la siguiente información, si la profesión a realizar el trámite se encuentra a continuación.
         Favor abstenerse de continuar con la gestión.
 
-        <div class="row mt-3" >
+        <div class="row mt-3">
           <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <p>Número de identificación: {{idnumber}}</p>
           </div>
@@ -51,188 +52,187 @@
         </div>
 
         <div>
-          <table class="table table-striped table-responsive" aria-describedby="tabla-tramite-duplicado">
-            <thead>
-            <tr>
-              <th>Nombre profesión</th>
-              <th>Nombre Institución</th>
-              <th>Fecha y N° Resolución</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of duplicatedid; let i= index">
-              <td>{{item.name_profesion}}</td>
-              <td>{{item.name_institute}}</td>
-              <td>{{item.date_resolution}}</td>
-            </tr>
-            </tbody>
-          </table>
+          <div class="table ">
+            <div class="table-responsive">
+              <table class="table table-striped table-responsive" aria-describedby="tabla-tramite-duplicado">
+                <thead>
+                <tr>
+                  <th>Nombre profesión</th>
+                  <th>Nombre Institución</th>
+                  <th>Fecha y N° Resolución</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of duplicatedid; let i= index">
+                  <td>{{item.name_profesion}}</td>
+                  <td>{{item.name_institute}}</td>
+                  <td>{{item.date_resolution}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
 
 
-
-
       </div>
     </div>
 
 
+    <div class="row" *ngIf="status=='Negado por parte del validador de documentos'">
 
-
-
-  <div class="row"*ngIf="status=='Negado por parte del validador de documentos'" >
-
-    <label for="negationcauses" class="form-label">Causales de la negación</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      <label for="negationcauses" class="form-label">Causales de la negación</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="negationcauses" class="form-control" rows="1"
                     aria-describedby="negationcauses-note"
-                    formControlName="negationcauses"[maxLength]="400" >
+                    formControlName="negationcauses" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="othernegationcauses" class="form-label">Otras causales de la negación</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="othernegationcauses" class="form-label">Otras causales de la negación</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="othernegationcauses" class="form-control" rows="1"
                     aria-describedby="othernegationcauses-note"
-                    formControlName="othernegationcauses"[maxLength]="400" >
+                    formControlName="othernegationcauses" [maxLength]="400">
           </textarea>
+      </div>
     </div>
-  </div>
-  <div class="row"*ngIf="status=='Resuelve recurso de reposición de validación' " >
+    <div class="row" *ngIf="status=='Resuelve recurso de reposición de validación' ">
 
-    <label for="recurrentargument" class="form-label">Argumento del recurrente</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      <label for="recurrentargument" class="form-label">Argumento del recurrente</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="recurrentargument" class="form-control" rows="1"
                     aria-describedby="recurrentargument-note"
-                    formControlName="recurrentargument"[maxLength]="400" >
+                    formControlName="recurrentargument" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="considerations" class="form-label">Consideraciones de la dirección de calidad de servicios de salud</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="considerations" class="form-label">Consideraciones de la dirección de calidad de servicios de
+        salud</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="considerations" class="form-control" rows="1"
                     aria-describedby="considerations-note"
-                    formControlName="considerations"[maxLength]="400" >
+                    formControlName="considerations" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="merits" class="form-label">Meritos Expuestos</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="merits" class="form-label">Meritos Expuestos</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="merits" class="form-control" rows="1"
                     aria-describedby="merits-note"
-                    formControlName="merits"[maxLength]="400" >
+                    formControlName="merits" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="articles" class="form-label">Articulos</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="articles" class="form-label">Articulos</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="articles" class="form-control" rows="1"
                     aria-describedby="articles-note"
-                    formControlName="articles"[maxLength]="400" >
+                    formControlName="articles" [maxLength]="400">
           </textarea>
+      </div>
     </div>
-  </div>
 
-  <div class="row"*ngIf="status=='Solicitar Información' " >
+    <div class="row" *ngIf="status=='Solicitar Información' ">
 
-    <label for="aditionalinfo" class="form-label">Digite la información adicional que desea que adjunte o justifique</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      <label for="aditionalinfo" class="form-label">Digite la información adicional que desea que adjunte o
+        justifique</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="aditionalinfo" class="form-control" rows="1"
                     aria-describedby="aditionalinfo-note"
-                    formControlName="aditionalinfo"[maxLength]="400" >
+                    formControlName="aditionalinfo" [maxLength]="400">
           </textarea>
-    </div>
+      </div>
 
-  </div>
-  <div class="row"*ngIf="status=='Resuelve recurso de aclaración validación' " >
-    <div class="col-9">
-      <div class="alert alert-danger" role="alert">
-        El sistema ha identificado que se esta iniciando la gestión de una resolución por aclaración.
-        Por favor actualizar en la parte superior el dato a corregir quedando sobre la ficha del tramite los
-        datos correctos según corresponda. A continuación,seleccione el tipo de motivo de aclaración para
-        ingresar los datos errados y asi poder generar la proyección de la resolución de aclaración correctamente.
-        Realizar detenidamente para evitar nuevas novedades sobre el tramite. Si surgen dudas sobre como diligenciar
-        estos items por favor leer el manual de usuario.
-       </div>
     </div>
+    <div class="row" *ngIf="status=='Resuelve recurso de aclaración validación' ">
+      <div class="col-9">
+        <div class="alert alert-danger" role="alert">
+          El sistema ha identificado que se esta iniciando la gestión de una resolución por aclaración.
+          Por favor actualizar en la parte superior el dato a corregir quedando sobre la ficha del tramite los
+          datos correctos según corresponda. A continuación,seleccione el tipo de motivo de aclaración para
+          ingresar los datos errados y asi poder generar la proyección de la resolución de aclaración correctamente.
+          Realizar detenidamente para evitar nuevas novedades sobre el tramite. Si surgen dudas sobre como diligenciar
+          estos items por favor leer el manual de usuario.
+        </div>
+      </div>
 
-    <div  class="col-12 col-md-12 pl-4 mt-4">
-      <div class="col-sm-12">
-        <input type="checkbox" name="nameserror" id="nameserror" formControlName="checkBoxnameserror"
-             >
-       Error de digitación Nombres y/o Apellidos
+      <div class="col-12 col-md-12 pl-4 mt-4">
+        <div class="col-sm-12">
+          <input type="checkbox" name="nameserror" id="nameserror" formControlName="checkBoxnameserror"
+          >
+          Error de digitación Nombres y/o Apellidos
+        </div>
       </div>
-    </div>
-    <div  class="col-12 col-md-12 pl-4 mt-4">
-      <div class="col-sm-12">
-        <input type="checkbox" name="professionerror" id="professionerror" formControlName="checkBoxprofessionerror"
-               >
-       Error selección Titulación y/o Profesión
+      <div class="col-12 col-md-12 pl-4 mt-4">
+        <div class="col-sm-12">
+          <input type="checkbox" name="professionerror" id="professionerror" formControlName="checkBoxprofessionerror"
+          >
+          Error selección Titulación y/o Profesión
+        </div>
       </div>
-    </div>
-    <div  class="col-12 col-md-12 pl-4 mt-4">
-      <div class="col-sm-12">
-        <input type="checkbox" name="institutionerror" id="institutionerror" formControlName="checkBoxinstitutionerror"
-               >
-        Error selección Institución Educativa
+      <div class="col-12 col-md-12 pl-4 mt-4">
+        <div class="col-sm-12">
+          <input type="checkbox" name="institutionerror" id="institutionerror"
+                 formControlName="checkBoxinstitutionerror"
+          >
+          Error selección Institución Educativa
+        </div>
       </div>
-    </div>
-    <div  class="col-12 col-md-12 pl-4 mt-4">
-      <div class="col-sm-12">
-        <input type="checkbox" name="documenterror" id="documenterror" formControlName="checkBoxdocumenterror"
-               >
-        Error selección Tipo de Documento
+      <div class="col-12 col-md-12 pl-4 mt-4">
+        <div class="col-sm-12">
+          <input type="checkbox" name="documenterror" id="documenterror" formControlName="checkBoxdocumenterror"
+          >
+          Error selección Tipo de Documento
+        </div>
       </div>
-    </div>
-    <div  class="col-12 col-md-12 pl-4 mt-4">
-      <div class="col-sm-12">
-        <input type="checkbox" name="dateerror" id="dateerror" formControlName="checkBoxdateerror"
-               >
-        Error de digitación Fecha de Grado
+      <div class="col-12 col-md-12 pl-4 mt-4">
+        <div class="col-sm-12">
+          <input type="checkbox" name="dateerror" id="dateerror" formControlName="checkBoxdateerror"
+          >
+          Error de digitación Fecha de Grado
+        </div>
+        <br><br>
       </div>
-      <br><br>
-    </div>
 
 
-    <label for="aclarationparagraph" class="form-label">Párrafo  Motivos Aclaración</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      <label for="aclarationparagraph" class="form-label">Párrafo Motivos Aclaración</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="aclarationparagraph" class="form-control" rows="1"
                     aria-describedby="aclarationparagraph-note"
-                    formControlName="aclarationparagraph"[maxLength]="400" >
+                    formControlName="aclarationparagraph" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="justificationparagraph1" class="form-label">Párrafo Justificación Motivos Aclaración</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="justificationparagraph1" class="form-label">Párrafo Justificación Motivos Aclaración</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="justificationparagraph1" class="form-control" rows="1"
                     aria-describedby="justificationparagraph1-note"
-                    formControlName="justificationparagraph1"[maxLength]="400" >
+                    formControlName="justificationparagraph1" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="justificationparagraph2" class="form-label">Párrafo Justificación Motivos Aclaración</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="justificationparagraph2" class="form-label">Párrafo Justificación Motivos Aclaración</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="justificationparagraph2" class="form-control" rows="1"
                     aria-describedby="justificationparagraph2-note"
-                    formControlName="justificationparagraph2"[maxLength]="400" >
+                    formControlName="justificationparagraph2" [maxLength]="400">
           </textarea>
-    </div>
-    <label for="aclarationparagrapharticle" class="form-label">Párrafo Articulo 1 Motivos Aclaración</label>
-    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+      </div>
+      <label for="aclarationparagrapharticle" class="form-label">Párrafo Articulo 1 Motivos Aclaración</label>
+      <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
           <textarea id="aclarationparagrapharticle" class="form-control" rows="1"
                     aria-describedby="aclarationparagrapharticle-note"
-                    formControlName="aclarationparagrapharticle"[maxLength]="400" >
+                    formControlName="aclarationparagrapharticle" [maxLength]="400">
+          </textarea>
+      </div>
+
+    </div>
+
+
+    <label for="internalobservations" class="form-label">Observaciones Internas</label>
+    <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
+          <textarea id="internalobservations" class="form-control" rows="1"
+                    aria-describedby="internalobservations-note"
+                    formControlName="internalobservations" [maxLength]="400">
           </textarea>
     </div>
 
+
   </div>
-
-
-
-
-
-  <label for="internalobservations" class="form-label">Observaciones Internas</label>
-  <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
-          <textarea id="internalobservations" class="form-control" rows="1"
-                    aria-describedby="internalobservations-note"
-                    formControlName="internalobservations"[maxLength]="400" >
-          </textarea>
-  </div>
-
-
-
-</div>
 </form>

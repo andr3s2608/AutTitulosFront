@@ -31,6 +31,10 @@ export class ValidatorsDashboardComponent implements OnInit {
    * Modela el numero a pintar en la linea de avance
    */
   public stepAdvanceLine: number;
+  /**
+   * Numero de solicitudes total
+   */
+  public total: number=0;
 
   /**
    * Modela la barra de progreso a pintar en la linea de avance
@@ -73,7 +77,8 @@ export class ValidatorsDashboardComponent implements OnInit {
       "1",
       "15", role).subscribe(resp => {
       this.tableFilter = resp.data;
-
+      this.total=resp.count;
+      console.log(resp.message+" de "+this.total+ " Resultados");
     });
     this.lastfilters = {
       finaldate: formattedDate + "",
@@ -88,11 +93,33 @@ export class ValidatorsDashboardComponent implements OnInit {
     localStorage.setItem("procedure", id + "");
     this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.Validation)
   }
+  public pasarpagina(): void {
+  let pagina =  this.validatorForm.get('pageNumber').value;
+    let role: string = localStorage.getItem('Role');
+
+    this.requestService.getDashboardValidation(
+      this.lastfilters.finaldate+"",
+      this.lastfilters.texttosearch+"",
+      this.lastfilters.selectedfilter+"",
+      pagina+"",
+      "15", role).subscribe(resp => {
+      this.tableFilter = resp.data;
+      if(pagina=="1")
+      {
+        this.total=resp.count;
+      }
+      console.log(resp.message+" de "+this.total+ " Resultados");
+    });
+  }
+
+
 
   public getdashboard(): void {
     let role: string = localStorage.getItem('Role');
     let selector = this.validatorForm.get('selector').value;
     let text = this.validatorForm.get('textfilter').value;
+
+    this.validatorForm.get('pageNumber').setValue(1);
 
     let date: Date = new Date(Date.now());
 
@@ -110,6 +137,8 @@ export class ValidatorsDashboardComponent implements OnInit {
       "1",
       "15", role).subscribe(resp => {
       this.tableFilter = resp.data;
+      this.total=resp.count;
+      console.log(resp.message+" de "+this.total+ " Resultados");
     });
 
     this.lastfilters = {

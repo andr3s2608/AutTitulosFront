@@ -327,6 +327,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
     let nuevoHTML = '';
 
     await lastValueFrom(this.registerService.getFormats("12")).then(requestResponse => nuevoHTML = requestResponse.data.body);
+      nuevoHTML=nuevoHTML.replace('~:~no_radicado~:~',this.numberFiled);
 
     this.registerService.sendEmail({
       to: this.currentUser.email.toLowerCase(),

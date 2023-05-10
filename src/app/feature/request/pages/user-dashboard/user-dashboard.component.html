@@ -26,9 +26,9 @@
 
             <br>
             <p>Filtrar por:</p>
-            <div class="row entradas-de-texto-govco">
+            <div class="row  entradas-de-texto-govco">
 
-              <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+              <div class="mt-3 col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
                 <select class="form-select" id="selector" aria-label="Default select example">
                   <option value="" selected disabled>Seleccione</option>
                   <option value="">Id Solicitud</option>
@@ -39,7 +39,7 @@
                   <option value="">Tiempo de Atención Restante</option>
                 </select>
               </div>
-              <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+              <div class="mt-3 col-xxl-5 col-md-5 col-lg-5 col-sm-5 col-xs-5">
                 <div>
                   <input type="text" id="textfilter" placeholder="Buscar por palabra"/>
                 </div>
@@ -47,6 +47,8 @@
 
             </div>
             <br>
+            <div >
+            <div class="table col-12">
             <div class="table-responsive">
               <table class="table table-striped" aria-describedby="dashboard-usuario">
                 <thead>
@@ -131,13 +133,16 @@
                 </tbody>
               </table>
             </div>
+            </div>
 
-            <div class="colum_paginator">
+            <div class="mt-3 col-12 colcolum_paginator">
               <mat-paginator class="paginator" [hidePageSize]="true" [length]="10"
                              [pageSize]="10"></mat-paginator>
             </div>
+            </div>
 
           </div>
+
         </div>
       </form>
 

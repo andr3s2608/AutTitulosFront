@@ -12,7 +12,7 @@
   </div>
 
   <div class="row mt-3">
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-10 col-md-3 col-lg-4">
       <div class="entradas-de-texto-govco">
         <label for="begindate">Fecha Inicial</label>
         <input type="date" id="begindate"
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-10 col-md-3 col-lg-4">
       <div class="entradas-de-texto-govco">
         <label for="enddate">Fecha Final</label>
         <input type="date" id="enddate"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-10 col-md-5 col-lg-4">
       <div class="entradas-de-texto-govco">
         <label>Tipo reporte</label>
         <select class="form-select" id="selector" aria-label="Default select example"
@@ -53,18 +53,15 @@
 
   </div>
 
-  <div class="row mt-3 justify-content-center" style="text-align: center">
-    <div class="col-sm-5 col-md-6 col-lg-3">
-      <button     type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Consultar</button>
-    </div>
-    <div class="col-sm-5 col-md-7 col-lg-7">
-      <button (click)="getDashboard('filtro')" type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
+
+    <div class="col-sm-7 col-md-7 col-lg-7">
+      <button (click)="getDashboard('filtro')" type="button" style="margin-left: 0rem;" class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
     </div>
 
-  </div>
+
   <br><br>
 
-  <div class="col-10">
+  <div class="col-12">
     <div class="alert alert-primary text3-tipografia-govco" role="alert">
       <h1>¡Apreciado Usuario!</h1>
       <p>La consulta y el reporte de trámites en estado de Aprobación, es por rango de fecha de acuerdo
@@ -75,14 +72,14 @@
   </div>
 
   <br>
-  <div class="row col-xxl-7 col-md-7 col-lg-7 col-sm-7 col-xs-7 entradas-de-texto-govco">
-    <div class="col-xxl-1 col-md-1 col-lg-1 col-sm-1 col-xs-1">
+  <div class="row mt-3 entradas-de-texto-govco">
+    <div class="col-xxl-2 col-md-2 col-lg-2 col-sm-3 col-xs-2">
       <p>Buscar:</p>
     </div>
     <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
       <input type="text" id="textfilter" formControlName="textfilter" />
     </div>
-    <div class="col-xxl-2 col-md-2 col-lg-2 col-sm-2 col-xs-2">
+    <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
       <button (click)="getDashboard('text')" type="button" class="btn-govco fill-btn-govco">Filtrar</button>
     </div>
   </div>

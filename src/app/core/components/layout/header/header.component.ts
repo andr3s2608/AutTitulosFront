@@ -3,6 +3,7 @@ import {RequestService} from "../../../services/request.service";
 import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
+import {ROUTES} from "../../../enums";
 
 /**
  * Component encargado del header de la página
@@ -14,7 +15,7 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class HeaderComponent {
 
-  constructor(public authService: AuthService
+  constructor(public authService: AuthService, private router: Router
 
   ) {
 
@@ -24,6 +25,7 @@ export class HeaderComponent {
   public logout ()
   {
     this.authService.signOutCurrentUser();
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.LOGIN)
   }
 
 

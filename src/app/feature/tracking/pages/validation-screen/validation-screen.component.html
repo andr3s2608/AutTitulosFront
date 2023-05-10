@@ -7,207 +7,215 @@
 
     <br>
 
-    <div class="row mt-3 col-lg-12 col-md-12 col-xl-12 col-xs-12 col-md-12  align-items-center justify-content-center  ">
+    <div
+      class="row mt-3 col-lg-12 col-md-12 col-xl-12 col-xs-12 col-md-12  align-items-center justify-content-center  ">
 
-    <div class="row  justify-content-center mx-auto  align-items-center border col-lg-9 col-md-9 col-xl-9 col-xs-9 col-md-9"
-         style="margin-left: 6rem ">
+      <div
+        class="row mt.3 justify-content-center mx-auto  align-items-center border col-lg-9 col-md-9 col-xl-9 col-xs-9 col-md-9"
+        style="margin-left: 6rem ">
 
-      <div class="accordion-govco" id="accordionParent">
+        <div class="accordion-govco" id="accordionParent">
 
-        <div class="item-accordion-govco">
-          <h2 class="accordion-header" id="accordionIconoPanels-childSix">
-            <button class="button-accordion-govco collapsed"
-                    type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseSix"
-                    aria-expanded="false" aria-controls="accordionIconoPanels-collapseSix">
+          <div class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
+            <h2 class="accordion-header" id="accordionIconoPanels-childSix">
+              <button class="button-accordion-govco collapsed"
+                      type="button"
+                      data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseSix"
+                      aria-expanded="false" aria-controls="accordionIconoPanels-collapseSix">
                   <span class="text-button-accordion-govco">
                     <h4 class="h4-tipografia-govco title-1">Información de la solicitud</h4>
                   </span>
-            </button>
-          </h2>
-          <div id="accordionIconoPanels-collapseSix" class="accordion-collapse collapse"
-               aria-labelledby="accordionIconoPanels-childSix" data-bs-parent="#accordionParent">
-            <div class="body-accordion-govco">
+              </button>
+            </h2>
+            <div id="accordionIconoPanels-collapseSix" class="accordion-collapse collapse"
+                 aria-labelledby="accordionIconoPanels-childSix" data-bs-parent="#accordionParent">
+              <div class="body-accordion-govco">
 
-              <app-information-request-validator></app-information-request-validator>
+                <app-information-request-validator></app-information-request-validator>
 
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="item-accordion-govco">
-          <h2 class="accordion-header" id="accordionIconoPanels-childOne">
-            <button class="button-accordion-govco collapsed"
-                    type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseOne"
-                    aria-expanded="false" aria-controls="accordionIconoPanels-collapseOne">
+          <div class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
+            <h2 class="accordion-header" id="accordionIconoPanels-childOne">
+              <button class="button-accordion-govco collapsed"
+                      type="button"
+                      data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseOne"
+                      aria-expanded="false" aria-controls="accordionIconoPanels-collapseOne">
                   <span class="text-button-accordion-govco">
                     <h4 class="h4-tipografia-govco title-1">Datos Personales</h4>
                   </span>
-            </button>
-          </h2>
-          <div id="accordionIconoPanels-collapseOne" class="accordion-collapse collapse"
-               aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
-            <div class="body-accordion-govco">
+              </button>
+            </h2>
+            <div id="accordionIconoPanels-collapseOne" class="accordion-collapse collapse"
+                 aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+              <div class="body-accordion-govco">
 
-              <app-personal-data></app-personal-data>
+                <app-personal-data></app-personal-data>
 
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="item-accordion-govco">
-          <h2 class="accordion-header" id="accordionIconoPanels-childTwo">
-            <button class="button-accordion-govco collapsed"
-                    type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTwo"
-                    aria-expanded="false" aria-controls="accordionIconoPanels-collapseTwo">
+          <div class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
+            <h2 class="accordion-header" id="accordionIconoPanels-childTwo">
+              <button class="button-accordion-govco collapsed"
+                      type="button"
+                      data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTwo"
+                      aria-expanded="false" aria-controls="accordionIconoPanels-collapseTwo">
                   <span class="text-button-accordion-govco">
                     <h4 class="h4-tipografia-govco title-1">Datos Geográficos</h4>
                   </span>
-            </button>
-          </h2>
-          <div id="accordionIconoPanels-collapseTwo" class="accordion-collapse collapse"
-               aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
-            <div class="body-accordion-govco">
+              </button>
+            </h2>
+            <div id="accordionIconoPanels-collapseTwo" class="accordion-collapse collapse"
+                 aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+              <div class="body-accordion-govco">
 
-              <app-geographic-data [source]="'validation'"></app-geographic-data>
+                <app-geographic-data [source]="'validation'"></app-geographic-data>
 
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="item-accordion-govco">
-          <h2 class="accordion-header" id="accordionIconoPanels-childTree">
-            <button class="button-accordion-govco collapsed"
-                    type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTree"
-                    aria-expanded="false" aria-controls="accordionIconoPanels-collapseTree">
+          <div class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
+            <h2 class="accordion-header" id="accordionIconoPanels-childTree">
+              <button class="button-accordion-govco collapsed"
+                      type="button"
+                      data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseTree"
+                      aria-expanded="false" aria-controls="accordionIconoPanels-collapseTree">
                   <span class="text-button-accordion-govco">
                     <h4 class="h4-tipografia-govco title-1">Información del Título</h4>
                   </span>
-            </button>
-          </h2>
-          <div id="accordionIconoPanels-collapseTree" class="accordion-collapse collapse"
-               aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
-            <div class="body-accordion-govco">
+              </button>
+            </h2>
+            <div id="accordionIconoPanels-collapseTree" class="accordion-collapse collapse"
+                 aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+              <div class="body-accordion-govco">
 
-              <app-request-data></app-request-data>
+                <app-request-data></app-request-data>
 
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="item-accordion-govco">
-          <h2 class="accordion-header" id="accordionIconoPanels-childFour">
-            <button class="button-accordion-govco collapsed"
-                    type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseFour"
-                    aria-expanded="false" aria-controls="accordionIconoPanels-collapseFour">
+          <div class="col-lg-12 col-md-12 col-sm-4  item-accordion-govco">
+            <h2 class="accordion-header" id="accordionIconoPanels-childFour">
+              <button class="button-accordion-govco collapsed"
+                      type="button"
+                      data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseFour"
+                      aria-expanded="false" aria-controls="accordionIconoPanels-collapseFour">
                   <span class="text-button-accordion-govco">
                     <h4 class="h4-tipografia-govco title-1">Visualizador Archivos Adjuntos</h4>
                   </span>
-            </button>
-          </h2>
-          <div id="accordionIconoPanels-collapseFour" class="accordion-collapse collapse"
-               aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
-            <div class="body-accordion-govco">
+              </button>
+            </h2>
+            <div id="accordionIconoPanels-collapseFour" class="accordion-collapse collapse"
+                 aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+              <div class="body-accordion-govco">
 
-              <app-attachment-viewer></app-attachment-viewer>
+                <app-attachment-viewer></app-attachment-viewer>
 
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="item-accordion-govco">
-          <h2 class="accordion-header" id="accordionIconoPanels-childFive">
-            <button class="button-accordion-govco collapsed"
-                    type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseFive"
-                    aria-expanded="false" aria-controls="accordionIconoPanels-collapseFive">
+          <div class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
+            <h2 class="accordion-header" id="accordionIconoPanels-childFive">
+              <button class="button-accordion-govco collapsed"
+                      type="button"
+                      data-bs-toggle="collapse" data-bs-target="#accordionIconoPanels-collapseFive"
+                      aria-expanded="false" aria-controls="accordionIconoPanels-collapseFive">
                   <span class="text-button-accordion-govco">
                     <h4 class="h4-tipografia-govco title-1">Resultado de la Validación</h4>
                   </span>
+              </button>
+            </h2>
+            <div id="accordionIconoPanels-collapseFive" class="accordion-collapse collapse"
+                 aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
+              <div class="body-accordion-govco">
+
+                <app-validation-states [tramitNumber]="this.tramiteActual.filedNumber"
+                                       [idnumber]="this.tramiteActual.idnumber"
+                                       [apliccantname]="this.tramiteActual.aplicantnanme"
+                                       [actualstatus]="this.tramiteActual.statusId+''"></app-validation-states>
+
+              </div>
+            </div>
+          </div>
+
+          <br>
+
+        </div>
+        <div class="row mt-3 justify-content-center align-items-center ">
+
+          <div class="mt-3 col-sm-7 col-md-3 col-lg-3 col-xs-7 ">
+            <button type="button" (click)="preliminar()" class="btn-govco fill-btn-govco">Preliminar</button>
+          </div>
+          <div class="mt-3 col-sm-7 col-md-5 col-lg-4 col-xs-7">
+            <button type="button" (click)="saveRequest()" class="btn-govco fill-btn-govco">
+              Guardar
             </button>
-          </h2>
-          <div id="accordionIconoPanels-collapseFive" class="accordion-collapse collapse"
-               aria-labelledby="accordionIconoPanels-childOne" data-bs-parent="#accordionParent">
-            <div class="body-accordion-govco">
-
-              <app-validation-states [tramitNumber]="this.tramiteActual.filedNumber"
-                                     [idnumber]="this.tramiteActual.idnumber"
-                                     [apliccantname]="this.tramiteActual.aplicantnanme"
-                                      [actualstatus]="this.tramiteActual.statusId+''"></app-validation-states>
-
-            </div>
           </div>
         </div>
 
-        <br>
-
-      </div>
-      <div class="row mt-3 justify-content-center mx-auto">
-        <div class="col-sm-6 col-md-6 col-lg-3 col-xs-6 ">
-          <button type="button" style="margin-left: 7rem;" (click)="preliminar()"class="btn-govco fill-btn-govco">Preliminar</button>
+        <div>
+          <br><br>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-3 col-xs-6">
-          <button type="button" style="margin-left: 1rem;" (click)="saveRequest()" class="btn-govco fill-btn-govco">
-            Guardar
-          </button>
-        </div>
-        <br><br>
-
       </div>
-
-    </div>
-    <div class="  col-lg-2 col-md-2 col-xl-2 col-xs-2 col-md-2 ">
-                      <span data-bs-toggle="modal" data-bs-target="#seguimiento-auditoria"  class="govco-eye"
-                            style="font-size: 20px; color: #3366cc; cursor: pointer; margin-left: 6rem;">
+      <div class="col-lg-2 col-md-2 col-xl-2 col-xs-2 col-md-2">
+        <div class="col-lg-2 col-md-2 col-xl-2 col-xs-2 col-md-2 justify-content-center">
+                      <span data-bs-toggle="modal" data-bs-target="#seguimiento-auditoria" class="govco-eye"
+                            style="font-size: 20px; color: #3366cc; cursor: pointer; margin-left: 3rem; ">
                         <br/>
-      Seguimiento Auditoria
-                      </span>
 
+                      </span></div>
+        <div class="col-lg-2 col-md-2 col-xl-2 col-xs-2 col-md-2 justify-content-center">
+          <span
+            style="font-size: 20px; color: #3366cc; cursor: pointer; ;"> Seguimiento Auditoria</span>
+        </div>
 
-      <!-- Modal -->
-      <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
-           id="seguimiento-auditoria" tabindex="-1" aria-labelledby="exampleModalLabel"
-           aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Tabla de seguimiento</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                      aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table" aria-describedby="modal-seguimiento">
-                <thead>
-                <tr>
-                  <th>Fecha Seguimiento</th>
-                  <th>Usuario</th>
-                  <th>Estado</th>
-                  <th>Observación</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of tracking; let i= index">
-                  <td>{{item.date_tracking | date: 'dd/MM/yyyy hh:mm a'}}</td>
-                  <td>{{item.idUser}}</td>
-                  <td>{{item.idStatusTypeTracNavigation.description}}</td>
-                  <td>{{item.observations}}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <!-- Modal -->
+        <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
+             id="seguimiento-auditoria" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tabla de seguimiento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <table class="table" aria-describedby="modal-seguimiento">
+                  <thead>
+                  <tr>
+                    <th>Fecha Seguimiento</th>
+                    <th>Usuario</th>
+                    <th>Estado</th>
+                    <th>Observación</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of tracking; let i= index">
+                    <td>{{item.date_tracking | date: 'dd/MM/yyyy hh:mm a'}}</td>
+                    <td>{{item.idUser}}</td>
+                    <td>{{item.idStatusTypeTracNavigation.description}}</td>
+                    <td>{{item.observations}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
             </div>
           </div>
         </div>
+
+
       </div>
-
-
-    </div>
     </div>
 
   </form>
