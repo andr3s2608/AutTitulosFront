@@ -60,7 +60,9 @@
 
       <br><br>
       <div class="row">
-
+        <div class="mt-3 col-12  ">
+          <span class="total"> {{paginator}}</span>
+        </div>
           <div class="table col-12">
             <div class="table-responsive">
               <table class="table table-striped " aria-describedby="tabla-funcionarios">
@@ -96,7 +98,7 @@
           </div>
 
       <div class="mt-3 col-12 colum_paginator">
-        <mat-paginator class="paginator" [hidePageSize]="true" [length]="lengthpages"
+        <mat-paginator class="paginator" [hidePageSize]="true"
                        [pageSize]="validatorForm.get('pageSize').value"></mat-paginator>
       </div>
       </div>

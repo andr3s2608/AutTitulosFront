@@ -60,7 +60,10 @@ export class ReportPageComponent implements OnInit {
    * Numero de solicitudes total
    */
   public total: number=0;
-
+  /**
+   * texto de resultados encontrados a mostrar
+   */
+  public paginator: string='';
 
   constructor(public fb: FormBuilder,
               public reportsService: ReportsService, private router: Router,private popupAlert: PopUpService) {
@@ -113,7 +116,7 @@ export class ReportPageComponent implements OnInit {
       "15").subscribe(resp => {
       this.tableFilter = resp.data;
       this.total=resp.count;
-      console.log(resp.message+" de "+this.total+ " Resultados");
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
     });
     this.lastfilters = {
       initialdate:formattedDateinitial + "",
@@ -128,46 +131,7 @@ export class ReportPageComponent implements OnInit {
 
   public pasarpagina(): void {
     let pagina =  this.reportsform.get('pageNumber').value;
-    let role: string = localStorage.getItem('Role');
 
-    let dateinitial;
-    let datefinal;
-    let formattedDatefinal;
-    let formattedDateinitial;
-    if (this.reportsform.get('enddate').value != null && this.reportsform.get('enddate').value != "") {
-      datefinal = this.reportsform.get('enddate').value;
-      formattedDatefinal=datefinal;
-      datefinal=new Date(datefinal);
-    } else {
-      datefinal = new Date(Date.now());
-
-      // Get year, month, and day part from the date
-      let yearfinal = datefinal.toLocaleString("default", {year: "numeric"});
-      let monthfinal = datefinal.toLocaleString("default", {month: "2-digit"});
-      let dayfinal = datefinal.toLocaleString("default", {day: "2-digit"});
-      // Generate yyyy-mm-dd date string
-      formattedDatefinal = yearfinal + "-" + monthfinal + "-" + dayfinal;
-
-    }
-    if (this.reportsform.get('begindate').value != null && this.reportsform.get('begindate').value != "") {
-      dateinitial = this.reportsform.get('begindate').value;
-      formattedDateinitial=dateinitial;
-      dateinitial=new Date(dateinitial);
-
-    } else {
-      dateinitial = new Date(Date.now());
-      //se toman los 30 dias iniciales
-      dateinitial.setDate(datefinal.getDate() - 30);
-
-      // Get year, month, and day part from the date
-      let yearinitial = dateinitial.toLocaleString("default", {year: "numeric"});
-      let monthinitial = dateinitial.toLocaleString("default", {month: "2-digit"});
-      let dayinitial = dateinitial.toLocaleString("default", {day: "2-digit"});
-
-
-      // Generate yyyy-mm-dd date string
-      formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
-    }
     this.reportsService.getReportsDashboard(
       this.lastfilters.initialdate + "",
       this.lastfilters.finaldate + "",
@@ -181,7 +145,7 @@ export class ReportPageComponent implements OnInit {
       {
         this.total=resp.count;
       }
-      console.log(resp.message+" de "+this.total+ " Resultados");
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
     });
   }
   public getDashboard(type: string): void {
@@ -277,7 +241,7 @@ export class ReportPageComponent implements OnInit {
         "1",
         "15").subscribe(resp => {
         this.tableFilter = resp.data;
-
+        this.paginator=resp.message+" de "+this.total+ " Resultados";
       });
 
       this.lastfilters = {

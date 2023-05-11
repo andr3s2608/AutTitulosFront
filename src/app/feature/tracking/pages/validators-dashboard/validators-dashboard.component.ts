@@ -24,7 +24,10 @@ export class ValidatorsDashboardComponent implements OnInit {
     pagination: "15"
   }
 
-  lengthpages: number = 0;
+  /**
+   * Numero de solicitudes total
+   */
+  public paginator: string='';
 
 
   /**
@@ -78,7 +81,7 @@ export class ValidatorsDashboardComponent implements OnInit {
       "15", role).subscribe(resp => {
       this.tableFilter = resp.data;
       this.total=resp.count;
-      console.log(resp.message+" de "+this.total+ " Resultados");
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
     });
     this.lastfilters = {
       finaldate: formattedDate + "",
@@ -108,7 +111,8 @@ export class ValidatorsDashboardComponent implements OnInit {
       {
         this.total=resp.count;
       }
-      console.log(resp.message+" de "+this.total+ " Resultados");
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
+
     });
   }
 
@@ -138,7 +142,7 @@ export class ValidatorsDashboardComponent implements OnInit {
       "15", role).subscribe(resp => {
       this.tableFilter = resp.data;
       this.total=resp.count;
-      console.log(resp.message+" de "+this.total+ " Resultados");
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
     });
 
     this.lastfilters = {

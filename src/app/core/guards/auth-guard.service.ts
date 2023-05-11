@@ -24,7 +24,7 @@ export class AuthGuardService {
         this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.CITIZEN}`);
       } else {
        // this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.ValidatorDashboard}`);
-
+        return true;
       }
       return false;
     }

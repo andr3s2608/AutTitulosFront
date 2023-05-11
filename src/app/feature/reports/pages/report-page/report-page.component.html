@@ -82,6 +82,19 @@
     <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
       <button (click)="getDashboard('text')" type="button" class="btn-govco fill-btn-govco">Filtrar</button>
     </div>
+    <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+      <select class="form-select" id="pageNumber" aria-label="Default select example"
+              formControlName="pageNumber"
+              (change)="pasarpagina()"
+      >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+
+      </select>
+    </div>
   </div>
   <br>
 
@@ -89,6 +102,9 @@
 
 
     <div class="row mx-auto ">
+      <div class="mt-3 col-12  ">
+        <span class="total"> {{paginator}}</span>
+      </div>
       <div class="table ">
         <div class="table-responsive">
           <table class="table table-striped " aria-describedby="tabla-reportes">
