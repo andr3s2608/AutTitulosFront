@@ -55,7 +55,7 @@
 
 
     <div class="col-sm-7 col-md-7 col-lg-7">
-      <button (click)="getDashboard('filtro')" type="button" style="margin-left: 0rem;" class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
+      <button (click)="getDashboard('filtro')" type="button"  class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
     </div>
 
 
@@ -109,15 +109,15 @@
         <div class="table-responsive">
           <table class="table table-striped " aria-describedby="tabla-reportes">
             <tr>
-              <th> Id Solicitud </th>
-              <th> No Doc de Identidad</th>
-              <th> Tipo de Documento</th>
-              <th>Nombres y Apellidos</th>
-              <th>Tipo de Título</th>
-              <th>Fecha de Registro Solicitud</th>
-              <th>Acciones Permitidas</th>
-              <th>Estado de la Solicitud</th>
-              <th>PDF</th>
+              <th [scope]=""> Id Solicitud </th>
+              <th [scope]=""> No Doc de Identidad</th>
+              <th [scope]=""> Tipo de Documento</th>
+              <th [scope]="">Nombres y Apellidos</th>
+              <th [scope]="">Tipo de Título</th>
+              <th [scope]="">Fecha de Registro Solicitud</th>
+              <th [scope]="">Acciones Permitidas</th>
+              <th [scope]="">Estado de la Solicitud</th>
+              <th [scope]="">PDF</th>
             </tr>
             <tbody>
             <tr *ngFor="let item of tableFilter; let i= index">

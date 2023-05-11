@@ -239,8 +239,7 @@
           <label for="Estado Civil">Estado Civil</label>
           <select class="form-select" id="Estado Civil" aria-label="Default select example"
                   formControlName="estadoCivil" [ngClass]="{'error': isTouchedField(basicDataForm, 'estadoCivil')}">
-            <option value="" disable selected>Seleccione</option>
-            <!--<option *ngFor="let EstadoCivil of estadoCivill" [value]="EstadoCivil.id">{{EstadoCivil.nombre}}</option>-->
+            <option value="" selected disabled>Seleccione</option>
             <option *ngFor="let maritalStat of maritalStatus"
                     [value]="maritalStat.key">{{maritalStat.name}}</option>
 

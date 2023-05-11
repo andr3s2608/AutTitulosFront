@@ -55,7 +55,7 @@
 
 
             <div class="alert ant-alert-info">
-              <b>Información!</b>
+              <strong>Información!</strong>
               Por favor registre su dirección de residencia tal como aparece en el recibo público, en las
               casillas indicadas para esto. Una vez completado los datos, favor dar clic sobre el botón
               verde Confirmar Dirección. Esta funcionalidad permitirá autocompletar datos de UPZ, Localidad
@@ -434,8 +434,7 @@
                 <label for="Estado Civil">Estado Civil<span class="required">(*)</span></label>
                 <select class="form-select" id="Estado Civil" aria-label="Default select example"
                         formControlName="estadoCivil" [ngClass]="{'error': isTouchedField(naturalForm, 'estadoCivil')}">
-                  <option value="" disable selected>Seleccione</option>
-                  <!--<option *ngFor="let EstadoCivil of estadoCivill" [value]="EstadoCivil.id">{{EstadoCivil.nombre}}</option>-->
+                  <option value="" selected disabled>Seleccione</option>
                   <option *ngFor="let maritalStat of maritalStatus"
                           [value]="maritalStat.key">{{maritalStat.name}}</option>
 
