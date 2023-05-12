@@ -3,7 +3,7 @@
                     [source]="'validador'"></app-advance-line>
 
 
-  <div class="row   align-items-center mx-auto mt-5" >
+  <div class="row   align-items-center mx-auto mt-5">
     <ul class="nav nav-tabs ">
       <li class="nav-item">
         <a class="nav-link active">Por Asignar</a>
@@ -13,9 +13,9 @@
 
       <br> <br>
       <p>filtrar por:</p>
-      <div class="row entradas-de-texto-govco">
+      <div class="row mt-3 entradas-de-texto-govco ">
 
-        <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+        <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
           <select class="form-select" id="selector" aria-label="Default select example"
                   formControlName="selector">
             <option value="" selected disabled>Seleccione</option>
@@ -28,12 +28,25 @@
             <option value="tiempo">Tiempo de Atención Restante</option>
           </select>
         </div>
-        <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+        <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+          <select class="form-select" id="pageNumber" aria-label="Default select example"
+                  formControlName="pageNumber"
+                  (change)="pasarpagina()"
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+
+          </select>
+        </div>
+        <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
           <div>
             <input type="text" id="textfilter" formControlName="textfilter" placeholder="Ingrese Su Busqueda"/>
           </div>
         </div>
-        <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+        <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
           <div>
             <button type="button" style="margin-left: 1rem;" (click)="getdashboard()" class="btn-govco fill-btn-govco">
               Buscar
@@ -47,53 +60,50 @@
 
       <br><br>
       <div class="row">
-
-
-        <div class="row mx-auto ">
-      <div class="table ">
-        <div class="table-responsive">
-          <table class="table table-striped " aria-describedby="tabla-funcionarios">
-
-          <tr>
-            <th>Id Solicitud</th>
-            <th>No Doc de Identidad</th>
-            <th>Nombre Solicitante</th>
-            <th>Tipo de Título</th>
-            <th>Fecha de Registro Solicitud</th>
-            <th>Estado de la Solicitud</th>
-            <th> Tiempo de Atención Restante</th>
-            <th>Acciones Permitidas</th>
-
-          </tr>
-          <tbody>
-          <tr *ngFor="let item of tableFilter; let i= index">
-            <td>{{item.idfiled}}</td>
-            <td> {{item.idnumber}}  </td>
-            <td>{{item.aplicantname}}</td>
-            <td>{{item.titletype}}</td>
-            <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
-            <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
-            <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
-            <td *ngIf="item.validation" class="text-justify">
-              <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
-            </td>
-            <td *ngIf="!item.validation"></td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="mt-3 col-12  ">
+          <span class="total"> {{paginator}}</span>
         </div>
-      </div>
-        </div>
-      </div>
+          <div class="table col-12">
+            <div class="table-responsive">
+              <table class="table table-striped " aria-describedby="tabla-funcionarios">
 
-      <div class="colum_paginator">
-        <mat-paginator class="paginator" [hidePageSize]="true" [length]="lengthpages"
+                <tr>
+                  <th [scope]="">Id Solicitud</th>
+                  <th [scope]="">No Doc de Identidad</th>
+                  <th [scope]="">Nombre Solicitante</th>
+                  <th [scope]="">Tipo de Título</th>
+                  <th [scope]="">Fecha de Registro Solicitud</th>
+                  <th [scope]="">Estado de la Solicitud</th>
+                  <th [scope]=""> Tiempo de Atención Restante</th>
+                  <th [scope]="">Acciones Permitidas</th>
+
+                </tr>
+                <tbody>
+                <tr *ngFor="let item of tableFilter; let i= index">
+                  <td>{{item.idfiled}}</td>
+                  <td> {{item.idnumber}}  </td>
+                  <td>{{item.aplicantname}}</td>
+                  <td>{{item.titletype}}</td>
+                  <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
+                  <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
+                  <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
+                  <td *ngIf="item.validation" class="text-justify">
+                    <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
+                  </td>
+                  <td *ngIf="!item.validation"></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+      <div class="mt-3 col-12 colum_paginator">
+        <mat-paginator class="paginator" [hidePageSize]="true"
                        [pageSize]="validatorForm.get('pageSize').value"></mat-paginator>
+      </div>
       </div>
     </div>
   </div>
-
-
 
 
 </form>

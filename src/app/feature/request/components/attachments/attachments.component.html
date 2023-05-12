@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-6" style="padding-top: 2%" *ngFor="let document of listDocumentsToSaved;">
+    <div class="col-lg-6 col-md-8 col-sm-6" style="padding-top: 2%" *ngFor="let document of listDocumentsToSaved;">
       <label for="inputDocument_{{document.IdDocumentType}}" class="label-carga-de-archivo-govco">{{document.description}}<span class="required"> *</span></label>
       <div class="input-group mt-2 mb-1 ">
         <input type="file" class="form-control input-file-custom" id="inputDocument_{{document.IdDocumentType}}"

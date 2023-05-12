@@ -12,7 +12,7 @@
   </div>
 
   <div class="row mt-3">
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-10 col-md-3 col-lg-4">
       <div class="entradas-de-texto-govco">
         <label for="begindate">Fecha Inicial</label>
         <input type="date" id="begindate"
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-10 col-md-3 col-lg-4">
       <div class="entradas-de-texto-govco">
         <label for="enddate">Fecha Final</label>
         <input type="date" id="enddate"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-10 col-md-5 col-lg-4">
       <div class="entradas-de-texto-govco">
         <label>Tipo reporte</label>
         <select class="form-select" id="selector" aria-label="Default select example"
@@ -53,18 +53,15 @@
 
   </div>
 
-  <div class="row mt-3 justify-content-center" style="text-align: center">
-    <div class="col-sm-5 col-md-6 col-lg-3">
-      <button     type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco">Consultar</button>
-    </div>
-    <div class="col-sm-5 col-md-7 col-lg-7">
-      <button (click)="getDashboard('filtro')" type="button" style="margin-left: 7rem;" class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
+
+    <div class="col-sm-7 col-md-7 col-lg-7">
+      <button (click)="getDashboard('filtro')" type="button"  class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
     </div>
 
-  </div>
+
   <br><br>
 
-  <div class="col-10">
+  <div class="col-12">
     <div class="alert alert-primary text3-tipografia-govco" role="alert">
       <h1>¡Apreciado Usuario!</h1>
       <p>La consulta y el reporte de trámites en estado de Aprobación, es por rango de fecha de acuerdo
@@ -75,15 +72,28 @@
   </div>
 
   <br>
-  <div class="row col-xxl-7 col-md-7 col-lg-7 col-sm-7 col-xs-7 entradas-de-texto-govco">
-    <div class="col-xxl-1 col-md-1 col-lg-1 col-sm-1 col-xs-1">
+  <div class="row mt-3 entradas-de-texto-govco">
+    <div class="col-xxl-2 col-md-2 col-lg-2 col-sm-3 col-xs-2">
       <p>Buscar:</p>
     </div>
     <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
       <input type="text" id="textfilter" formControlName="textfilter" />
     </div>
-    <div class="col-xxl-2 col-md-2 col-lg-2 col-sm-2 col-xs-2">
+    <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
       <button (click)="getDashboard('text')" type="button" class="btn-govco fill-btn-govco">Filtrar</button>
+    </div>
+    <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+      <select class="form-select" id="pageNumber" aria-label="Default select example"
+              formControlName="pageNumber"
+              (change)="pasarpagina()"
+      >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+
+      </select>
     </div>
   </div>
   <br>
@@ -92,19 +102,22 @@
 
 
     <div class="row mx-auto ">
+      <div class="mt-3 col-12  ">
+        <span class="total"> {{paginator}}</span>
+      </div>
       <div class="table ">
         <div class="table-responsive">
           <table class="table table-striped " aria-describedby="tabla-reportes">
             <tr>
-              <th> Id Solicitud </th>
-              <th> No Doc de Identidad</th>
-              <th> Tipo de Documento</th>
-              <th>Nombres y Apellidos</th>
-              <th>Tipo de Título</th>
-              <th>Fecha de Registro Solicitud</th>
-              <th>Acciones Permitidas</th>
-              <th>Estado de la Solicitud</th>
-              <th>PDF</th>
+              <th [scope]=""> Id Solicitud </th>
+              <th [scope]=""> No Doc de Identidad</th>
+              <th [scope]=""> Tipo de Documento</th>
+              <th [scope]="">Nombres y Apellidos</th>
+              <th [scope]="">Tipo de Título</th>
+              <th [scope]="">Fecha de Registro Solicitud</th>
+              <th [scope]="">Acciones Permitidas</th>
+              <th [scope]="">Estado de la Solicitud</th>
+              <th [scope]="">PDF</th>
             </tr>
             <tbody>
             <tr *ngFor="let item of tableFilter; let i= index">

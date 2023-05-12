@@ -5,7 +5,12 @@
 
 <p [innerHTML]="cadenaDeclaracion" style="text-align: justify"></p>
 
-<div class="col-12" style="margin: 3% 0 5% 0; text-align: center">
-  <button type="button" class="btn-govco fill-btn-govco" style="margin-right: 1%;" (click)="accept()">Aceptar</button>
-  <button type="button" class="btn-govco fill-btn-govco" (click)="notAccept()">No Aceptar</button>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-8" style="margin: 3% 0 5% 0; text-align: center">
+    <button type="button" class="btn-govco fill-btn-govco" style="margin-right: 1%;" (click)="accept()">Aceptar</button>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-8" style="margin: 3% 0 5% 0; text-align: center">
+    <button type="button" class="btn-govco fill-btn-govco" (click)="notAccept()">No Aceptar</button>
+  </div>
 </div>
+

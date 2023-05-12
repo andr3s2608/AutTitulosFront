@@ -1,27 +1,62 @@
-<div class="row w-50 justify-content-center align-items-center mx-auto border ">
-
-  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-xxl-10  ">
-
-    <br><br>
-    <h2 class="text-center">Registro Ventanilla Unica</h2>
-    <br><br>
-    <div role="article" style="text-align: justify">
-      <p>Tenga en Cuenta que para realizar nuestros trámites en línea, es obligatorio diligenciar previamente el
-        REGISTRO DEL CIUDADANO (persona natural o jurídica), el cual servirá para la realización de trámites posteriores
-        ante la Secretaria Distrital de Salud.</p>
-    </div>
-    <br><br>
-    <div class="row mx-auto" style="text-align: center">
-      <div class="col-sm-6 col-md-6 ">
+<div class="row">
+  <div class="col-md-12 col-xxl-12">
+    <div class="content_info">
+      <h2 class="text-center mt-2">Registro Ventanilla</h2>
+      <p>Tenga en cuenta que para realizar nuestros trámites en línea, es obligatorio diligenciar previamente el REGISTRO DEL CIUDADANO (persona natural o jurídica), el cual servirá para la realización de trámites posteriores ante la Secretaria Distrital de Salud.</p>
+      <div class="d-flex justify-content-between">
         <button (click)="Natural()" type="button" class="btn-govco fill-btn-govco">Registro Persona Natural</button>
-      </div>
-
-      <div class="col-sm-6 col-md-6">
-        <button (click)="Juridica()" type="button" class="btn-govco fill-btn-govco">Registro Persona Jurídica</button>
+        <button (click)="Juridica()" type="button" class="btn-govco fill-btn-govco btn-margin">Registro Persona Jurídica</button>
       </div>
     </div>
-
-    <br><br>
   </div>
-
 </div>
+
+
+<style>
+
+.content_info {
+  border: 2px solid #bdbdbd3e !important;
+  width: 70% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-left: 140px;
+  height: 50vh;
+}
+
+.btn-margin {
+  margin-left: 10px; /* Ajusta el margen según tus necesidades */
+}
+
+.content_info > * {
+  margin: 10px; /* Añade un margen entre los elementos internos si es necesario */
+}
+
+  @media (max-width: 375px) and (max-height: 667px) ,
+       (max-width: 414px) and (max-height: 896px),
+       (max-width: 412px) and (max-height:915px),
+       (max-width:820px) and (max-height:1180px){
+    .content_info {
+      border: 2px solid #bdbdbd3e !important;
+      width: 330px !important;
+      margin: auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      left: 50%;
+      transform: translateX(5%);
+    }
+
+    button {
+      width: 70%;
+      padding: 12px;
+      margin: 9px;
+      margin-top: 1px;
+      margin-bottom: 30px;
+    }
+  }
+</style>

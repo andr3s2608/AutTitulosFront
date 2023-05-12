@@ -56,7 +56,14 @@ export class ReportPageComponent implements OnInit {
     pagenumber:"1",
     pagination:"15"
   }
-
+  /**
+   * Numero de solicitudes total
+   */
+  public total: number=0;
+  /**
+   * texto de resultados encontrados a mostrar
+   */
+  public paginator: string='';
 
   constructor(public fb: FormBuilder,
               public reportsService: ReportsService, private router: Router,private popupAlert: PopUpService) {
@@ -69,7 +76,8 @@ export class ReportPageComponent implements OnInit {
       enddate: [''],
       selector: [''],
       textfilter: [''],
-
+      pageSize: [10],
+      pageNumber: [1],
 
     });
   }
@@ -107,7 +115,8 @@ export class ReportPageComponent implements OnInit {
       "1",
       "15").subscribe(resp => {
       this.tableFilter = resp.data;
-
+      this.total=resp.count;
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
     });
     this.lastfilters = {
       initialdate:formattedDateinitial + "",
@@ -120,6 +129,25 @@ export class ReportPageComponent implements OnInit {
     }
   }
 
+  public pasarpagina(): void {
+    let pagina =  this.reportsform.get('pageNumber').value;
+
+    this.reportsService.getReportsDashboard(
+      this.lastfilters.initialdate + "",
+      this.lastfilters.finaldate + "",
+      this.lastfilters.texttosearch+"",
+      " ",
+      "" + " ",
+      pagina+"",
+      "15").subscribe(resp => {
+      this.tableFilter = resp.data;
+      if(pagina=="1")
+      {
+        this.total=resp.count;
+      }
+      this.paginator=resp.message+" de "+this.total+ " Resultados";
+    });
+  }
   public getDashboard(type: string): void {
     let dateinitial;
     let datefinal;
@@ -168,13 +196,6 @@ export class ReportPageComponent implements OnInit {
     months -= dateinitial.getMonth();
     months += datefinal.getMonth();
 
-
-
-
-
-
-
-
        if (type === 'filtro') {
 
       this.popupAlert.infoAlert(
@@ -220,7 +241,7 @@ export class ReportPageComponent implements OnInit {
         "1",
         "15").subscribe(resp => {
         this.tableFilter = resp.data;
-
+        this.paginator=resp.message+" de "+this.total+ " Resultados";
       });
 
       this.lastfilters = {

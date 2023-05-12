@@ -47,7 +47,7 @@ public variable : boolean=true;
 
         if(resp.result.count>0)
         {
-          this.validationDocument=resp.result.data
+          this.validationDocument=resp.data
           this.variable=false;
         }
         else {

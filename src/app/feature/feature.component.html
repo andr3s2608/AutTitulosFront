@@ -4,8 +4,7 @@
     <app-breadcrumb></app-breadcrumb>
   </div>
   <div class="content-layout" id="content-layout-id">
-    <!--<app-address-modal></app-address-modal>-->
-    <!--<main class="container-fluid flex-fill scroll">-->
+
     <main class="scroll" id="interno">
       <div class="information">
         <router-outlet *ngIf="!isIframe"></router-outlet>
@@ -13,12 +12,7 @@
       <aside>
         <app-accesibility></app-accesibility>
       </aside>
-      <!--
-      <div class="row" style="margin-left: 80px">
-        <h1>Bienvenido al tramite de Licencias en Seguridad y Salud en el Trabajo</h1>
-        <h2>Inicie sesión y navegue por las distintas opciones de su menú</h2>
-      </div>
-      -->
+
       <app-go-up></app-go-up>
       <div class="row align-content-center mx-auto" *ngIf="ocultarRegistroValidacion==true">
         <div class="row mt-3 ">

@@ -26,9 +26,9 @@
 
             <br>
             <p>Filtrar por:</p>
-            <div class="row entradas-de-texto-govco">
+            <div class="row  entradas-de-texto-govco">
 
-              <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+              <div class="mt-3 col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
                 <select class="form-select" id="selector" aria-label="Default select example">
                   <option value="" selected disabled>Seleccione</option>
                   <option value="">Id Solicitud</option>
@@ -39,7 +39,7 @@
                   <option value="">Tiempo de Atención Restante</option>
                 </select>
               </div>
-              <div class="col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
+              <div class="mt-3 col-xxl-5 col-md-5 col-lg-5 col-sm-5 col-xs-5">
                 <div>
                   <input type="text" id="textfilter" placeholder="Buscar por palabra"/>
                 </div>
@@ -47,17 +47,19 @@
 
             </div>
             <br>
+            <div >
+            <div class="table col-12">
             <div class="table-responsive">
               <table class="table table-striped" aria-describedby="dashboard-usuario">
                 <thead>
                 <tr>
-                  <th>No. de radicado</th>
-                  <th>Tipo de título</th>
-                  <th>Fecha de radicación</th>
-                  <th>Institución</th>
-                  <th>Programa</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
+                  <th [scope]="">No. de radicado</th>
+                  <th [scope]="">Tipo de título</th>
+                  <th [scope]="">Fecha de radicación</th>
+                  <th [scope]="">Institución</th>
+                  <th [scope]="">Programa</th>
+                  <th [scope]="">Estado</th>
+                  <th [scope]="">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -91,8 +93,8 @@
                               <table class="table" aria-describedby="modal-seguimiento">
                                 <thead>
                                 <tr>
-                                  <th>Fecha Seguimiento</th>
-                                  <th>Observación</th>
+                                  <th [scope]="">Fecha Seguimiento</th>
+                                  <th [scope]="">Observación</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -131,13 +133,16 @@
                 </tbody>
               </table>
             </div>
+            </div>
 
-            <div class="colum_paginator">
+            <div class="mt-3 col-12 colcolum_paginator">
               <mat-paginator class="paginator" [hidePageSize]="true" [length]="10"
                              [pageSize]="10"></mat-paginator>
             </div>
+            </div>
 
           </div>
+
         </div>
       </form>
 
