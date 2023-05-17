@@ -102,7 +102,7 @@
                                 <tbody>
                                 <tr *ngFor="let tracking of trackingRequest">
                                   <td>{{tracking.date_tracking | date: 'dd/MM/yyyy hh:mm a'}}</td>
-                                  <td>{{tracking.observations}}</td>
+                                  <td>{{cleanStringObservations(tracking.observations)}}</td>
                                 </tr>
                                 </tbody>
                               </table>

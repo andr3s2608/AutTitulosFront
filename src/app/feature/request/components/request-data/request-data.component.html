@@ -60,6 +60,7 @@
       <div class="entradas-de-texto-govco">
         <label for="diplomaNumero">Diploma No.</label>
         <input type="text" id="diplomaNumero" placeholder="Diploma No."
+               style="text-transform: uppercase;"
                formControlName="diplomaNumber" aria-describedby="diplomaNumber-note"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'diplomaNumber')}"/>
         <span
@@ -73,6 +74,7 @@
       <div class="entradas-de-texto-govco">
         <label for="actaGrado">Acta de grado</label>
         <input type="text" id="actaGrado" placeholder="Acta de grado"
+               style="text-transform: uppercase;"
                formControlName="graduationCertificate" aria-describedby="graduationCertificate-note"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'graduationCertificate')}"/>
         <span
@@ -87,6 +89,7 @@
         <label for="fecha-terminacion">Fecha terminación <span class="required">*</span> </label>
         <input type="date" id="fecha-terminacion"
                formControlName="endDate"
+               style="text-transform: uppercase;"
                (click)="blockCalendarFutureDate('fecha-terminacion')"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'endDate') }"
         />
@@ -102,6 +105,7 @@
       <div class="entradas-de-texto-govco">
         <label for="libro">Libro</label>
         <input type="text" id="libro" placeholder="Libro"
+               style="text-transform: uppercase;"
                formControlName="book" aria-describedby="book-note"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'book')}"/>
         <span
@@ -115,6 +119,7 @@
       <div class="entradas-de-texto-govco">
         <label for="Folio">Folio</label>
         <input type="text" id="Folio" placeholder="Folio"
+               style="text-transform: uppercase;"
                formControlName="folio" aria-describedby="folio-note"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'folio')}"/>
         <span
@@ -128,6 +133,7 @@
       <div class="entradas-de-texto-govco">
         <label for="anio-titulo">Año Título <span class="required"> *</span></label>
         <input type="text" id="anio-titulo" placeholder="Año"
+               style="text-transform: uppercase;"
                formControlName="yearTitle" aria-describedby="yearTitle-note"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'yearTitle')}"/>
         <span
@@ -141,6 +147,7 @@
       <div class="entradas-de-texto-govco">
         <label for="tarjeta-profesional">Tarjeta Profesional <span class="required"> *</span></label>
         <input type="text" id="tarjeta-profesional" placeholder="Tarjeta Profesional"
+               style="text-transform: uppercase;"
                formControlName="professionalCard" aria-describedby="professionalCard-note"
                [ngClass]="{'error': isTouchedField(requestDataForm, 'professionalCard')}"/>
         <span

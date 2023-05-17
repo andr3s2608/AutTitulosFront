@@ -11,7 +11,6 @@ export interface ProcedureValidation {
   "status": string
   "filedNumber": string,
   "dateRequest": Date,
-  "dateTracking": Date,
   "titleTypeId": number,
   "instituteId": number,
   "diplomaNumber": number,

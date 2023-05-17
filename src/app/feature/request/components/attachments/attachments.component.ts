@@ -69,14 +69,16 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
       next: value => {
         if (value) {
-          this.listDocumentsToSaved.push({ IdDocumentType: 4, description: 'Tarjeta Profesional'});
-          this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
-        } else if(this.listDocumentsToSaved[3]) {
+          if (!this.listDocumentsToSaved.find(x => x.IdDocumentType == 4)) {
+            this.listDocumentsToSaved.push({IdDocumentType: 4, description: 'Tarjeta Profesional'});
+            this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+          }
+        } else if (this.listDocumentsToSaved[3]) {
           this.listDocumentsToSaved.splice(3, 1);
           this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
         }
       }
-    })
+    });
   }
 
 
@@ -86,7 +88,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    * @returns Object si el archivo ya existe, undefined de lo contrario
    */
   public hasDocument(docTypeId: number) {
-    return this.listDocumentSupports.find((file:any) => file.docTypeId == docTypeId);
+    return this.listDocumentSupports.find((file: any) => file.docTypeId == docTypeId);
   }
 
 
@@ -117,13 +119,11 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
       this.popupAlert.errorAlert(ErrorMessage.ONLY_ONE_DOCUMENT, 3000);
       (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
       return;
-    }
-    else if (fileSelected && fileSelected.type != "application/pdf") {
+    } else if (fileSelected && fileSelected.type != "application/pdf") {
       (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
       this.popupAlert.errorAlert(ErrorMessage.ONLY_PDF_DOCUMENT, 3000);
       return;
-    }
-    else if (fileSelected && fileSelected.size > 3000000) {
+    } else if (fileSelected && fileSelected.size > 3000000) {
       (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = '';
       this.popupAlert.errorAlert(ErrorMessage.MAX_3MB_DOCUMENT, 3000);
       return;
