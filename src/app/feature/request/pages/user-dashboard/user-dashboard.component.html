@@ -84,12 +84,14 @@
                            aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                           <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Tabla de seguimiento</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            <div class="modal-header" style="background: #3366CC">
+                              <h5 class="modal-title" style="color:#E6EFFD;" id="exampleModalLabel">Ventana de Seguimiento y Observaciones</h5>
+                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                       aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                              <h5 class="ant-modal-title">Tabla de seguimiento</h5>
+                              <br>
                               <table class="table" aria-describedby="modal-seguimiento">
                                 <thead>
                                 <tr>
@@ -106,7 +108,7 @@
                               </table>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn-govco fill-btn-govco" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                           </div>
                         </div>
@@ -119,7 +121,7 @@
                       <a (click)="showEditProcedure(item.idProcedureRequest)" *ngIf="item.statusId == 7">
                         <span class="govco-edit" style="font-size: 15px">Editar Trámite</span>
                       </a>
-                      <a (click)="showResolution()" *ngIf="item.statusId == 16">
+                      <a (click)="showResolution(item.resolutionPath)" *ngIf="item.statusId == 16">
                         <span class="govco-file-pdf" style="font-size: 15px">Ver documento</span>
                       </a>
                       <a (click)="showClarification(item.idProcedureRequest, item.filed_number, item.titleType)"
@@ -133,11 +135,6 @@
                 </tbody>
               </table>
             </div>
-            </div>
-
-            <div class="mt-3 col-12 colcolum_paginator">
-              <mat-paginator class="paginator" [hidePageSize]="true" [length]="10"
-                             [pageSize]="10"></mat-paginator>
             </div>
             </div>
 

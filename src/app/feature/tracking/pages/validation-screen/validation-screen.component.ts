@@ -519,8 +519,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         false
       ).pipe(
         switchMap(resp => {
-          file = resp.data;
-          return this.archiveService.saveFileBlobStorage(resp.data, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
+          file = this.archiveService.base64ToFile(resp.data, "Resolucion.pdf");
+          return this.archiveService.saveFileBlobStorage(file, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
         })
       ).subscribe({
         next: value => {
@@ -535,7 +535,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     }
 
   }
-
 
   public async getHtmlBody(status: number, selectedstatus: number, file: any, names: string): Promise<void> {
 

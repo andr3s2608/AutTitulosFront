@@ -1,6 +1,7 @@
 
 export interface DocumentSupportDto {
 
+  IdDocumentTypeProcedureRequest?: number;
   IdDocumentType: number;
   IdProcedureRequest: number;
   path: string;

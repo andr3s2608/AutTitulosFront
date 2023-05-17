@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {PopUpService} from "./popUp.service";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import * as path from "path";
 const { PROCEDURE_BLOB_URI } = environment;
@@ -134,4 +134,27 @@ export class ArchiveService {
     }
 
   }
+
+  public base64ToFile(base64: string, filename: string): File {
+
+    try {
+      base64 = `data:application/pdf;base64,${base64}`;
+      const base64Arr = base64.split(',');
+      const mime = base64Arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(base64Arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
+    } catch (e) {
+      console.log("se daño el base64", e)
+      return null;
+    }
+
+  }
+
 }

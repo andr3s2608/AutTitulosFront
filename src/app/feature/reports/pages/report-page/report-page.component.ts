@@ -1,6 +1,6 @@
 import {Component, OnInit,Injectable} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {PopUpService} from "../../../../core/services";
+import {ArchiveService, PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
 import {ReportsService} from "../../../../core/services/reports.service";
 import * as XLSX from 'xlsx';
@@ -66,7 +66,10 @@ export class ReportPageComponent implements OnInit {
   public paginator: string='';
 
   constructor(public fb: FormBuilder,
-              public reportsService: ReportsService, private router: Router,private popupAlert: PopUpService) {
+              public reportsService: ReportsService,
+              private router: Router,
+              private popupAlert: PopUpService,
+              private archiveService: ArchiveService) {
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 75;
     this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
