@@ -172,7 +172,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       showDenyButton: true,
       denyButtonText: 'Ver listado',
       denyButtonColor: '#3366CC',
-      html: `<img alt='registro-titulos' src='${this.rutaImagenPopUpInicial}' style="width: 100%;">`,
+      html: `<img alt='registro-titulos' src='${this.rutaImagenPopUpInicial}' style="width: 90%;">`,
       width: '60%',
     }).then(result => {
       if (result.isDenied) {
@@ -220,6 +220,12 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       let infoInstitute = requestDataForm.instituteId;
       infoInstitute = infoInstitute.split(",")
 
+      console.log("estoy en infoInstitue", infoInstitute);
+
+      if (infoInstitute[3]) {
+        infoInstitute[2] = `${infoInstitute[2]},${infoInstitute[3]}`
+      }
+
       //obtiene la info de la profesion seleccionada
       let infoProfession = requestDataForm.professionId;
       infoProfession = infoProfession.split(",")
@@ -236,22 +242,22 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
         IdInstitute: infoInstitute[0],
-        name_institute: infoInstitute[1] + ',' + infoInstitute[2],
+        name_institute: `${infoInstitute[1]},${infoInstitute[2]}`,
         IdProfessionInstitute: infoProfession[0],
-        name_profession: infoProfession[1],
+        name_profession: `${infoProfession[1]},${infoProfession[2]}`,
         last_status_date: new Date(Date.now()),
         IdUser: this.currentUser.userId,
         user_code_ventanilla: this.currentUser.codeVentanilla,
-        AplicantName: this.currentUser.fullName,
+        AplicantName: this.currentUser.fullName.toUpperCase(),
         IdDocument_type: this.currentUser.documentType,
         IdNumber: this.currentUser.documentNumber,
         diploma_number: requestDataForm.diplomaNumber,
-        graduation_certificate: requestDataForm.graduationCertificate,
+        graduation_certificate: requestDataForm.graduationCertificate.toUpperCase(),
         end_date: requestDataForm.endDate,
-        book: requestDataForm.book,
-        folio: requestDataForm.folio,
+        book: requestDataForm.book.toUpperCase(),
+        folio: requestDataForm.folio.toUpperCase(),
         year_title: requestDataForm.yearTitle,
-        professional_card: requestDataForm.professionalCard,
+        professional_card: requestDataForm.professionalCard.toUpperCase(),
         IdCountry: requestDataForm.countryId,
         number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
         date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
@@ -282,7 +288,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
           `Soporte_${newFile.docDescription}`,
           `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}`))
           .then(resp => {
-            this.popupAlert.infoAlert("Subiendo archivos...", 500);
+            this.popupAlert.infoAlert("Subiendo archivos...", 200);
           });
 
         documentsSave.push({
@@ -308,7 +314,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdProcedureRequest: idProcedureRequest,
         IdUser: this.currentUser.userId,
         dateTracking: new Date(Date.now()),
-        observations: "Registro por usuario externo",
+        observations: "Registro por usuario externo".toUpperCase(),
         clarification_types_motives: "false/false/false/false/false",
         negation_causes: " ",
         other_negation_causes: " ",

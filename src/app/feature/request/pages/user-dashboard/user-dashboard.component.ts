@@ -220,7 +220,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("idProcedure").setValue(this.editRequest.filed_number);
     this.editRequestForm.get("requestDataForm").get("titleTypeId").setValue(this.editRequest.idTitleTypes);
     this.editRequestForm.get("requestDataForm").get("instituteId").setValue([this.editRequest.idInstitute, this.editRequest.name_institute]);
-    this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession, null]);
+    this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession]);
     this.editRequestForm.get("requestDataForm").get("diplomaNumber").setValue(this.editRequest.diploma_number);
     this.editRequestForm.get("requestDataForm").get("graduationCertificate").setValue(this.editRequest.graduation_certificate);
     this.editRequestForm.get("requestDataForm").get("endDate").setValue(formatDate(new Date(this.editRequest.end_date), 'yyyy-MM-dd', 'en'));
@@ -358,7 +358,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       );
 
 
-
       //obtiene la info del instituto seleccionado
       let infoInstitute = requestDataForm.instituteId;
 
@@ -473,6 +472,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
 
+  }
+
+  public cleanStringObservations(observation: string): string {
+    return observation.includes("null") ? "" : observation;
   }
 
 }
