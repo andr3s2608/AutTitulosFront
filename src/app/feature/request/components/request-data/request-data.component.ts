@@ -39,7 +39,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
               private attachmentService: AttachmentService) {
     super();
     this.iesServices.getInstitutes().subscribe(resp => this.listInstitutes = resp.data);
-    this.showProfessionalCard = false;
+    this.attachmentService.showProfessionalCard.subscribe(value => this.showProfessionalCard = value);
   }
 
   ngOnInit(): void {

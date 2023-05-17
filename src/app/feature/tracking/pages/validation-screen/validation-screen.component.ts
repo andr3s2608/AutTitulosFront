@@ -18,6 +18,7 @@ import {toBoolean, toNumber} from "ng-zorro-antd/core/util";
 import {lastValueFrom, switchMap} from "rxjs";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
 import {AuthService} from "../../../../core/services/auth.service";
+import {AttachmentService} from "../../../../core/services/attachment.service";
 
 /**
  * Component que permite validar la información de un trámite
@@ -131,7 +132,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
               public resolutiontService: ResolutionService,
               private popupAlert: PopUpService,
               private router: Router,
-              private authService: AuthService
+              private authService: AuthService,
+              private attachmentService: AttachmentService
              ) {
     super();
 
@@ -333,6 +335,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       }),
     })
 
+    if (this.tramiteActual.professionalCard) {
+      console.log("estoy en observable")
+      this.attachmentService.setShowProfessionalCard(true);
+    }
+
     this.validationForm.get('informationRequestValidatorForm').disable();
     this.validationForm.get('basicDataForm.numeroIdentificacion').disable();
     if(this.Role==='Subdirector' || this.source=='Reports')
@@ -436,6 +443,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     const idistitute = (this.validationForm.get('requestDataForm.instituteId').value + "").split(",");
     const idprofesion = (this.validationForm.get('requestDataForm.professionId').value + "").split(",");
 
+    if (idistitute[3]) {
+      idistitute[2] = `${idistitute[2]},${idistitute[3]}`
+    }
 
     let selectedstatus = this.validationForm.get('validationstateform.selectedstatus').value != 11 ?
       this.validationForm.get('validationstateform.selectedstatus').value : estadofinalfirmado[status];
@@ -466,7 +476,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       filed_date: new Date(this.tramiteActual.filed_date),
       IdNumber: this.validationForm.get('basicDataForm.numeroIdentificacion').value,
       AplicantName: aplicantname.toUpperCase(),
-      name_profession: idprofesion[1],
+      name_profession: `${idprofesion[1]},${idprofesion[2]}`,
       IdDocument_type: this.validationForm.get('basicDataForm.documentodescripcion').value,
     }
 
