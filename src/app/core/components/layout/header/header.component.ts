@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import {RequestService} from "../../../services/request.service";
-import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {ROUTES} from "../../../enums";
+import {PopUpService} from "../../../services";
 
 /**
  * Component encargado del header de la página
@@ -15,17 +14,18 @@ import {ROUTES} from "../../../enums";
 })
 export class HeaderComponent {
 
-  constructor(public authService: AuthService, private router: Router
-
-  ) {
-
-
+  constructor(public authService: AuthService, private router: Router, private popUpService: PopUpService) {
   }
 
+  /**
+   * Cierra la sesión del usuario
+   */
   public logout ()
   {
     this.authService.signOutCurrentUser();
-    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.LOGIN)
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.LOGIN).then(value => {
+      this.popUpService.infoAlert("Sesión cerrada correctamente", 2000);
+    })
   }
 
 

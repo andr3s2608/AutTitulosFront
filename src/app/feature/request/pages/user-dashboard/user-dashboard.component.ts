@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProcedureResponseTableUserDto} from "../../../../core/models/procedureResponseTableUserDto";
 import {RequestService} from "../../../../core/services/request.service";
@@ -96,7 +96,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
               private popUp: PopUpService,
               private documentsService: DocumentsService,
               private authService: AuthService,
-              private archiveService: ArchiveService) {
+              public archiveService: ArchiveService) {
     super();
     this.stepAdvanceLine = 4;
     this.currentProgressAdvanceLine = 94;
@@ -164,9 +164,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    */
   public filterTable(filter: number): void {
     if (filter == 0) {
-      this.filterAllByUser = this.allByUser.filter(request => request.statusId != 11);
+      this.filterAllByUser = this.allByUser.filter(request => request.statusId != 16);
     } else {
-      this.filterAllByUser = this.allByUser.filter(request => request.statusId == 16);
+      this.filterAllByUser = this.allByUser.filter(request =>
+        request.statusId == 16 || request.statusId == 17 || request.statusId == 18 );
     }
   }
 
@@ -210,6 +211,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       this.editRequest = value
     })
     await this.loadTrackingProcedure(idProcedure);
+
+    console.log("dtoProcedure consultado", this.editRequest)
     this.editRequestForm.get("editObservationsForm").get("idProcedure").setValue(this.editRequest.filed_number);
     this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length - 1].additional_information);
     this.editRequestForm.get("editObservationsForm").disable();
@@ -217,7 +220,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("idProcedure").setValue(this.editRequest.filed_number);
     this.editRequestForm.get("requestDataForm").get("titleTypeId").setValue(this.editRequest.idTitleTypes);
     this.editRequestForm.get("requestDataForm").get("instituteId").setValue([this.editRequest.idInstitute, this.editRequest.name_institute]);
-    this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession]);
+    this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession, null]);
     this.editRequestForm.get("requestDataForm").get("diplomaNumber").setValue(this.editRequest.diploma_number);
     this.editRequestForm.get("requestDataForm").get("graduationCertificate").setValue(this.editRequest.graduation_certificate);
     this.editRequestForm.get("requestDataForm").get("endDate").setValue(formatDate(new Date(this.editRequest.end_date), 'yyyy-MM-dd', 'en'));
@@ -236,9 +239,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.showDashboard = false;
   }
 
-  public showResolution(): void {
-
-  }
 
   public async saveClarification(): Promise<void> {
 
@@ -331,6 +331,117 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   public async saveEditProcedute(): Promise<void> {
     try {
       //guardar
+      const formData = this.editRequestForm.value;
+      const requestDataForm = formData['requestDataForm'];
+      const attachmentForm = formData['attachmentForm'];
+
+      if (!this.editRequestForm.valid) {
+        this.popUp.errorAlert(`Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`, 4000);
+        console.log("FORMULARIO PROCESADO");
+        console.log(this.editRequestForm.value);
+        console.log("ERRORES FORMULARIO");
+        console.log(super.getAllErrors(this.editRequestForm));
+        this.editRequestForm.markAllAsTouched();
+        return;
+      }
+
+      if (attachmentForm.documentSupports.length < attachmentForm.quantityDocuments) {
+        this.popUp.errorAlert(
+          'Hay requisitos sin documentos adjuntos, ¡revise por favor!',
+          4000);
+        return;
+      }
+
+      this.popUp.infoAlert(
+        `Registrando solicitud, espere por favor.`,
+        5000
+      );
+
+
+
+      //obtiene la info del instituto seleccionado
+      let infoInstitute = requestDataForm.instituteId;
+
+
+      //obtiene la info de la profesion seleccionada
+      let infoProfession = requestDataForm.professionId;
+
+      //Valida si el countryId tiene un valor, por defecto coloca el de colombia
+      if (!requestDataForm.countryId) {
+        requestDataForm.countryId = 170;
+      }
+
+      let dtoProcedure: ProcedureRequestBackDto;
+
+      dtoProcedure = {
+        IdProcedureRequest: this.editRequest.IdProcedureRequest,
+        IdTitleTypes: requestDataForm.titleTypeId,
+        IdStatus_types: 19,
+        IdInstitute: infoInstitute[0],
+        name_institute: infoInstitute[1] + ',' + infoInstitute[2],
+        IdProfessionInstitute: infoProfession[0],
+        name_profession: infoProfession[1],
+        last_status_date: new Date(Date.now()),
+        IdUser: this.currentUser.userId,
+        user_code_ventanilla: this.currentUser.codeVentanilla,
+        AplicantName: this.currentUser.fullName,
+        IdDocument_type: this.currentUser.documentType,
+        IdNumber: this.currentUser.documentNumber,
+        diploma_number: requestDataForm.diplomaNumber,
+        graduation_certificate: requestDataForm.graduationCertificate,
+        end_date: requestDataForm.endDate,
+        book: requestDataForm.book,
+        folio: requestDataForm.folio,
+        year_title: requestDataForm.yearTitle,
+        professional_card: requestDataForm.professionalCard,
+        IdCountry: requestDataForm.countryId,
+        number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
+        date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
+        IdEntity: requestDataForm.entityId,
+        filed_date: this.editRequest.filed_date
+      }
+
+      console.log("dto a enviar", dtoProcedure);
+
+
+
+      await lastValueFrom(this.requestService.updateRequest(dtoProcedure));
+
+
+      //guardar documentos
+
+      let documentsSave: DocumentSupportDto[] = [];
+
+
+      for (let i: number = 0; i < attachmentForm.documentSupports; i++) {
+
+        let newFile = attachmentForm.documentSupports[i];
+        await lastValueFrom(this.archiveService.saveFileBlobStorage(
+          newFile.content,
+          `Soporte_${newFile.docDescription}`,
+          `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}`))
+          .then(resp => {
+            this.popUp.infoAlert("Subiendo archivos...", 500);
+          });
+
+        documentsSave.push({
+          IdDocumentTypeProcedureRequest: i,
+          IdDocumentType: newFile.docTypeId,
+          IdProcedureRequest: this.editRequest.idProcedureRequest,
+          path: `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}/Soporte_${newFile.docDescription}`,
+          is_valid: true,
+          registration_date: new Date(Date.now()),
+          modification_date: new Date(Date.now())
+        })
+
+      }
+
+      console.log("documentos a enviar", documentsSave);
+      await lastValueFrom(this.documentsService.updateDocumentsByIdRequest(documentsSave));
+      console.log("se guardaron documentos");
+
+
+
       // tracking
       let tracking: TrackingRequestDto;
 
@@ -358,6 +469,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       this.popUp.successAlert("Solicitud realizada exitosamente. Puede abandonar la página.", 4000);
 
     } catch (e) {
+      console.log(e);
       this.popUp.errorAlert("A ocurrido un error al guardar la aclaración.", 4000);
     }
 

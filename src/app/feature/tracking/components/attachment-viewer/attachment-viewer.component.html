@@ -15,8 +15,8 @@
         <tr *ngFor="let document of documentSupports">
           <td>{{document.idDocumentProcNavigation.description}}</td>
           <td class="d-flex mx-auto">
-            <img (click)="visorWindowExternalPdf(document.path)" [src]="urlIconExternalWindow" class="img-fluid icon" alt="imagen-pdf-external">
-            <img (click)="visorWindowActualPdf(document.path)" [src]="urlIconActualWindow" class="img-fluid icon" alt="imagen-pdf-actual">
+            <img (click)="archiveService.viewArchiveInPopUp(document.path)" [src]="urlIconExternalWindow" class="img-fluid icon" alt="imagen-pdf-external">
+            <img (click)="archiveService.viewArchiveActualWindow(document.path)" [src]="urlIconActualWindow" class="img-fluid icon" alt="imagen-pdf-actual">
           </td>
           <td>
             <mat-radio-group name="opciones_{{document.idDocumentTypeProcedureRequest}}" aria-label="Select an option"

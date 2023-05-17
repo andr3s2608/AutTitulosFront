@@ -11,7 +11,7 @@ import {ControlContainer} from "@angular/forms";
 export class EditRequestComponent extends AppBaseComponent implements OnInit {
 
   @Input()
-  public editRequest: ProcedureRequestBackDto;
+  public editRequest: any;
 
 
   constructor() {

@@ -351,9 +351,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    */
   public async preliminar(): Promise<void> {
 
-    let  modal=document.getElementById("pdfmodal");
-    modal.querySelector("iframe").src = "";
-
     const status = this.validationForm.get('validationstateform.status').value;
     let preliminarresolution = true;
 
@@ -384,7 +381,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     if (statustogenerate === "") {
       this.popupAlert.infoAlert(`Por favor, revise el estado que desea previzualizar.`, 4000);
     } else {
-      this.popupAlert.infoAlert(`Por favor espere mientras se genera el documento`, 10000);
+      this.popupAlert.infoAlert(`Por favor espere mientras se genera el documento...`, 10000);
 
       this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
         statustogenerate,
@@ -395,11 +392,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
         preliminarresolution
       ).subscribe(resp => {
-
         let fileObtenido = resp.data;
-        const byteArray = new Uint8Array(atob(fileObtenido).split('').map((char) => char.charCodeAt(0)));
-        const file = new Blob([byteArray], {type: 'application/pdf'});
-        this.archiveService.viewArchiveActualWindowPopup(file);
+        const byteArray: Uint8Array = new Uint8Array(atob(fileObtenido).split('').map((char) => char.charCodeAt(0)));
+        const file: Blob = new Blob([byteArray], {type: 'application/pdf'});
+        this.archiveService.viewArchiveInPopUp("", file);
       });
     }
   }
@@ -556,8 +552,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         false
       ).pipe(
         switchMap(resp => {
-          file = resp.data;
-          return this.archiveService.saveFileBlobStorage(resp.data, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
+          file = this.archiveService.base64ToFile(resp.data, "Resolucion.pdf");
+          return this.archiveService.saveFileBlobStorage(file, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
         })
       ).subscribe({
         next: value => {
@@ -572,7 +568,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     }
 
   }
-
 
   public async getHtmlBody(status: number, selectedstatus: number, file: any, names: string): Promise<void> {
 

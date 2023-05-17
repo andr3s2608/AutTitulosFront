@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {PopUpService} from "./popUp.service";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import Swal from "sweetalert2";
 
 const { PROCEDURE_BLOB_URI } = environment;
 
@@ -78,36 +79,25 @@ export class ArchiveService {
         4000);
     }
   }
-  /**
-   * Permite visualizar un archivo en un iframe de una ventana actual(popup)
-   * @param pathArchive Ruta del archivo
-   */
-  public viewArchiveActualWindowPopup( fileBlob: Blob): void {
-    try
-    {
-
-      let modal = document.getElementById("pdfmodal");
-      modal.querySelector("iframe").src = window.URL.createObjectURL(fileBlob);
-
-    } catch (e) {
-      console.log(e)
-      this.popupAlert.errorAlert(
-        'Ocurrió un error al previsualizar el documento.',
-        4000);
-    }
-  }
 
   /**
-   * Permite visualizar un archivo en una pestaña nueva
-   * @param pathArchive Ruta del archivo
-   * @param fileBlob Blob a mostrar
+   * Permite visualizar un archivo en un pop up de sweet alert
+   * @param pathArchive Ruta del archivo cuando existen en el contenedor blobStorage
+   * @param fileBlob Blob a mostrar Cuando el archivo es temporal (para preeliminar)
    */
-  public viewArchiveExternalWindow(pathArchive: string, fileBlob?: Blob): void {
+  public viewArchiveInPopUp(pathArchive: string, fileBlob?: Blob): void {
     try {
       this.popupAlert.infoAlert('Cargando documento...', 10000);
 
       if (pathArchive == "") {
-        window.open(window.URL.createObjectURL(fileBlob), '_blank');
+        Swal.fire({
+          title: 'Pdf',
+          showCloseButton: true,
+          confirmButtonText: 'Cerrar',
+          confirmButtonColor: '#3366CC',
+          html: `<iframe src='${window.URL.createObjectURL(fileBlob)}' width="1300" height="700" title="visualizacion-documento">`,
+          width: '75%',
+        });
       } else {
         const oidAndNameBlob: Array<string> = pathArchive.split("/")
         const contenedor: string = "aguahumanos";
@@ -116,7 +106,15 @@ export class ArchiveService {
 
         this.http.get(`${PROCEDURE_BLOB_URI}/Storage/GetBlob/${contenedor}/${oid}/${nameBlob}`, { responseType: 'blob' })
           .subscribe((blob: Blob) => {
-            window.open(window.URL.createObjectURL(blob), '_blank');
+            Swal.fire({
+              title: 'Pdf',
+              showCloseButton: true,
+              confirmButtonText: 'Cerrar',
+              confirmButtonColor: '#3366CC',
+              html: `<iframe src='${window.URL.createObjectURL(blob)}' width="1300" height="700" title="visualizacion-documento">`,
+              width: '75%',
+            });
+           // window.open(window.URL.createObjectURL(blob), '_blank');
           });
       }
 
@@ -152,4 +150,32 @@ export class ArchiveService {
     }
 
   }
+
+  /**
+   * Convierte un pdf en base64 a un File
+   * @param base64
+   * @param filename
+   */
+  public base64ToFile(base64: string, filename: string): File {
+
+    try {
+      base64 = `data:application/pdf;base64,${base64}`;
+      const base64Arr = base64.split(',');
+      const mime = base64Arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(base64Arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
+    } catch (e) {
+      console.log("se daño el base64", e)
+      return null;
+    }
+
+  }
+
 }
