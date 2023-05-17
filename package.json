@@ -24,6 +24,7 @@
     "@azure/msal-browser": "^2.33.0",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "cors": "^2.8.5",
     "file-saver": "^2.0.5",
     "i": "^0.3.7",
     "jwt-decode": "^3.1.2",

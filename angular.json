@@ -75,10 +75,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Tramite_AutTitulos_Front:build:production"
+              "browserTarget": "Tramite_AutTitulos_Front:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
-              "browserTarget": "Tramite_AutTitulos_Front:build:development"
+              "browserTarget": "Tramite_AutTitulos_Front:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

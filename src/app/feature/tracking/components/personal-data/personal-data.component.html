@@ -24,7 +24,6 @@
       </div>
       <br>
 
-
       <div class="col-sm-5 col-md-5 ">
         <div class="entradas-de-texto-govco">
           <label for="N. Documento Identidad">N. Documento Identidad</label>
@@ -40,37 +39,35 @@
       </div>
 
     </div>
-    <div>
-
-      <div class="row mt-3 align-content-center">
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="primer-nombre">Primer Nombre</label>
-            <input type="text" id="primer-nombre" placeholder="Primer Nombre" formControlName="primerNombre"
-                   [ngClass]="{'error': isTouchedField(basicDataForm, 'primerNombre')}"/>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="primer-nombre-note" role="alert"
-              aria-live="assertive">
+    <div class="row mt-3 ">
+      <div class="col-sm-5 col-md-5">
+        <div class="entradas-de-texto-govco">
+          <label for="primer-nombre">Primer Nombre</label>
+          <input type="text" id="primer-nombre" placeholder="Primer Nombre" formControlName="primerNombre"
+                 [ngClass]="{'error': isTouchedField(basicDataForm, 'primerNombre')}"/>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="primer-nombre-note" role="alert"
+            aria-live="assertive">
             {{ getErrorMessage('primerNombre') }}
                </span>
-          </div>
-        </div>
-
-        <div class="col-sm-5 col-md-5">
-          <div class="entradas-de-texto-govco">
-            <label for="segundo-nombre">Segundo Nombre</label>
-            <input type="text" id="segundo-nombre" placeholder="Segundo Nombre" formControlName="segundoNombre"
-                   [ngClass]="{'error': isTouchedField(basicDataForm, 'segundoNombre')}"/>
-            <span
-              class="error-texto-govco alert-entradas-de-texto-govco" id="segundoNombre-note" role="alert"
-              aria-live="assertive">
-            {{ getErrorMessage('segundoNombre') }}
-        </span>
-          </div>
         </div>
       </div>
 
+      <div class="col-sm-5 col-md-5">
+        <div class="entradas-de-texto-govco">
+          <label for="segundo-nombre">Segundo Nombre</label>
+          <input type="text" id="segundo-nombre" placeholder="Segundo Nombre" formControlName="segundoNombre"
+                 [ngClass]="{'error': isTouchedField(basicDataForm, 'segundoNombre')}"/>
+          <span
+            class="error-texto-govco alert-entradas-de-texto-govco" id="segundoNombre-note" role="alert"
+            aria-live="assertive">
+            {{ getErrorMessage('segundoNombre') }}
+        </span>
+        </div>
+      </div>
     </div>
+
+
     <div class="row mt-3 align-content-center">
       <div class="col-sm-5 col-md-5">
         <div class="entradas-de-texto-govco">

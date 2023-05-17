@@ -1,16 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ArchiveService, CityService, PopUpService} from "../../../../core/services";
+import {ArchiveService, PopUpService} from "../../../../core/services";
 import {AppBaseComponent} from "../../../../core/utils";
 import {ProcedureValidation, UserValidation} from "../../../../core/models";
 import {formatDate} from "@angular/common";
 import {RegisterService} from "../../../../core/services/register.service";
 import {TrackingService} from "../../../../core/services/tracking.service";
 import {DocumentsService} from "../../../../core/services/documents.service";
+
 import {RequestService} from "../../../../core/services/request.service";
 import {ResolutionService} from "../../../../core/services/resolution.service";
 import {ROUTES} from "../../../../core/enums";
 import {Router} from "@angular/router";
+import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import {toBoolean, toNumber} from "ng-zorro-antd/core/util";
 import {lastValueFrom, switchMap} from "rxjs";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
@@ -25,6 +28,13 @@ import {AuthService} from "../../../../core/services/auth.service";
   styleUrls: ['./validation-screen.component.scss']
 })
 export class ValidationScreenComponent extends AppBaseComponent implements OnInit {
+
+  /**
+   * valida desde que pagina se esta accediendo
+   */
+  public source: string;
+
+
 
   /**
    * Representa el tramite actual a validar
@@ -101,21 +111,32 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    */
   public currentValidator: CurrentUserDto;
 
+  /**
+   * Modela el numero a pintar en la linea de avance
+   */
+  public showmodal: boolean=false;
+
+  /**
+   * Modela el numero a pintar en la linea de avance
+   */
+  public archivo: string="";
+
   constructor(public fb: FormBuilder,
-              public cityService: CityService,
+
               public registerService: RegisterService,
               public trackingService: TrackingService,
               public documentsService: DocumentsService,
               private archiveService: ArchiveService,
               public requestService: RequestService,
               public resolutiontService: ResolutionService,
-              public archive: ArchiveService,
               private popupAlert: PopUpService,
               private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService
+             ) {
     super();
 
     let procedure: string = localStorage.getItem("procedure");
+    this.source = localStorage.getItem("source");
     let datatramite: any;
 
     this.requestService.getRequestbyid(procedure).pipe(
@@ -235,19 +256,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       informationRequestValidatorForm: this.fb.group({
         filedNumber: [this.tramiteActual.filedNumber, [Validators.required]],
         titleType: ['NACIONAL', [Validators.required]],
-        status: [this.tramiteActual.status, [Validators.required]],
-        assignedUser: [this.currentValidator.fullName, [Validators.required]],
+        status: [this.tramiteActual.status.toUpperCase(), [Validators.required]],
+        assignedUser: [this.currentValidator.fullName.toUpperCase(), [Validators.required]],
         dateRequest: [formatDate(new Date(this.tramiteActual.dateRequest), 'yyyy-MM-dd', 'en'), [Validators.required]]
       }),
 
       basicDataForm: this.fb.group({
         documentodescripcion: [''],
         tipoDocumento: [this.tramiteActual.user.tipoDocumento, [Validators.required]],
-        numeroIdentificacion: [this.tramiteActual.user.numeroIdentificacion + "", [Validators.required]],
-        primerNombre: [this.tramiteActual.user.primerNombre, [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
-        segundoNombre: [this.tramiteActual.user.segundoNombre, [Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
-        primerApellido: [this.tramiteActual.user.primerApellido, [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
-        segundoApellido: [this.tramiteActual.user.segundoApellido, [Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+        numeroIdentificacion: [this.tramiteActual.user.numeroIdentificacion.toString().toUpperCase() + "", [Validators.required]],
+        primerNombre: [this.tramiteActual.user.primerNombre.toUpperCase(), [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+        segundoNombre: [this.tramiteActual.user.segundoNombre.toUpperCase(), [Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+        primerApellido: [this.tramiteActual.user.primerApellido.toUpperCase(), [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
+        segundoApellido: [this.tramiteActual.user.segundoApellido.toUpperCase(), [Validators.minLength(1), Validators.maxLength(50), Validators.pattern("^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$")]],
         email: [this.tramiteActual.user.email, [Validators.required, Validators.email, Validators.maxLength(50)]],
 
         telefonoFijo: [this.tramiteActual.user.telefonoFijo, [Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$")]],
@@ -283,8 +304,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         diplomaNumber: [this.tramiteActual.diplomaNumber, [Validators.pattern("^[0-9]*$")]],
         graduationCertificate: [this.tramiteActual.graduationCertificate, []],
         endDate: [formatDate(new Date(this.tramiteActual.endDate), 'yyyy-MM-dd', 'en'), [Validators.required, super.dateValidator]],
-        book: [this.tramiteActual.book, []],
-        folio: [this.tramiteActual.folio, []],
+        book: [this.tramiteActual.book.toUpperCase(), []],
+        folio: [this.tramiteActual.folio.toUpperCase(), []],
         yearTitle: [this.tramiteActual.yearTitle, [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$")]],
         professionalCard: [this.tramiteActual.professionalCard]
       }),
@@ -314,6 +335,15 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     })
 
     this.validationForm.get('informationRequestValidatorForm').disable();
+    this.validationForm.get('basicDataForm.numeroIdentificacion').disable();
+    if(this.Role==='Subdirector' || this.source=='Reports')
+    {
+      this.validationForm.get('basicDataForm').disable();
+      this.validationForm.get('requestDataForm').disable();
+      this.validationForm.get('geographicDataForm').disable();
+      this.validationForm.get('attachmentform').disable();
+
+    }
   }
 
   /**
@@ -321,12 +351,15 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    */
   public async preliminar(): Promise<void> {
 
+    let  modal=document.getElementById("pdfmodal");
+    modal.querySelector("iframe").src = "";
+
     const status = this.validationForm.get('validationstateform.status').value;
     let preliminarresolution = true;
 
 
     let statustogenerate = "";
-    const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'Reposición'];
+    const estados: Array<string> = ['Aprobado', 'Negado', 'Aclaración', 'Reposición'];
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
 
@@ -365,11 +398,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         let fileObtenido = resp.data;
         const byteArray = new Uint8Array(atob(fileObtenido).split('').map((char) => char.charCodeAt(0)));
         const file = new Blob([byteArray], {type: 'application/pdf'});
-
-        this.archiveService.viewArchiveExternalWindow("", file);
+        this.archiveService.viewArchiveActualWindowPopup(file);
       });
     }
   }
+
 
   public async saveRequest(): Promise<void> {
 
@@ -474,7 +507,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         IdStatusTypes: selectedstatus,
         IdProcedureRequest: this.tramiteActual.id,
         IdUser: this.currentValidator.userId,
-        observations: '' + this.validationForm.get('validationstateform.aditionalinfo').value + ',' + this.validationForm.get('validationstateform.internalobservations').value,
+        observations: (this.validationForm.get('validationstateform.aditionalinfo').value+"") + ',' + this.validationForm.get('validationstateform.internalobservations').value,
         negation_causes: this.validationForm.get('validationstateform.negationcauses').value + "",
         other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value + "",
         recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value + "",
@@ -496,7 +529,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     if (this.validationForm.get('validationstateform.selectedstatus').value === '11') {
 
       this.popupAlert.infoAlert(`Generando Resolución, puede tardar unos momentos, espere por favor...`, 15000);
-
+  console.log(status);
       if (status < 2) {
         const resolution: any =
           {

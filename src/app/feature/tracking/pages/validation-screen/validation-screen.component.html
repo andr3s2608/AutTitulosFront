@@ -121,7 +121,7 @@
             </div>
           </div>
 
-          <div class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
+          <div *ngIf="this.source==='validation'" class="col-lg-12 col-md-12 col-sm-4 item-accordion-govco">
             <h2 class="accordion-header" id="accordionIconoPanels-childFive">
               <button class="button-accordion-govco collapsed"
                       type="button"
@@ -148,10 +148,11 @@
           <br>
 
         </div>
-        <div class="row mt-3 justify-content-center align-items-center ">
+        <div *ngIf="this.source==='validation'" class="row mt-3 justify-content-center align-items-center ">
 
           <div class="mt-3 col-sm-7 col-md-3 col-lg-3 col-xs-7 ">
-            <button type="button" (click)="preliminar()" class="btn-govco fill-btn-govco">Preliminar</button>
+            <button type="button" (click)="preliminar()" class="btn-govco fill-btn-govco"
+                    data-bs-toggle="modal" data-bs-target="#pdfmodal">Preliminar</button>
           </div>
           <div class="mt-3 col-sm-7 col-md-5 col-lg-4 col-xs-7">
             <button type="button" (click)="saveRequest()" class="btn-govco fill-btn-govco">
@@ -172,9 +173,35 @@
 
                       </span></div>
         <div class="col-lg-2 col-md-2 col-xl-2 col-xs-2 col-md-2 justify-content-center">
-          <span
+          <span data-bs-toggle="modal" data-bs-target="#seguimiento-auditoria"
             style="font-size: 20px; color: #3366cc; cursor: pointer;"> Seguimiento Auditoria</span>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
+             id="pdfmodal" tabindex="-1" aria-labelledby="exampleModalLabel2"
+             aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title justify-content-center" id="exampleModalLabel2">Preliminar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                <div style="display: flex;align-items: center;justify-content: center;">
+                <iframe src="" height="700" title="visualizacion-documento"></iframe>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
 
         <!-- Modal -->
         <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
