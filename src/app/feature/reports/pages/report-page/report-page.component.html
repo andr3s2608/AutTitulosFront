@@ -133,7 +133,7 @@
               <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
               <td *ngIf="item.resolutionpath == ''"></td>
               <td *ngIf="item.resolutionpath != ''">
-                <img alt="icono-pdf-external" (click)="visorWindowExternalPdf(item.resolutionpath)" [src]="urlIconExternalWindow" class="img-fluid icon">
+                <img alt="icono-pdf-external" (click)="archiveService.viewArchiveInPopUp(item.resolutionpath)" [src]="urlIconExternalWindow" class="img-fluid icon">
               </td>
 
             </tr>

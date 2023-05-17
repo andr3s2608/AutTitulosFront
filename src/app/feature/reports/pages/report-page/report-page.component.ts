@@ -70,7 +70,7 @@ export class ReportPageComponent implements OnInit {
               public reportsService: ReportsService,
               private router: Router,
               private popupAlert: PopUpService,
-              private archiveService: ArchiveService,) {
+              public archiveService: ArchiveService) {
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 75;
     this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
@@ -286,11 +286,4 @@ export class ReportPageComponent implements OnInit {
     this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.Validation)
   }
 
-  /**
-   * Permite visualizar el documento en una nueva pestaña
-   * @param pathDocument
-   */
-  public visorWindowExternalPdf(pathDocument: string): void {
-    this.archiveService.viewArchiveExternalWindow(pathDocument);
-  }
 }

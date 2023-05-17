@@ -35,7 +35,7 @@ export class AttachmentViewerComponent implements OnInit {
   public readonly urlIconExternalWindow: string = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
 
   constructor(private popupAlert: PopUpService,
-              private archiveService: ArchiveService,
+              public archiveService: ArchiveService,
               private documentService: DocumentsService, private controlContainer: ControlContainer) {
 
     this.documentService.getDocumentsByIdRequest(localStorage.getItem('procedure')).subscribe(resp => {
@@ -61,23 +61,6 @@ export class AttachmentViewerComponent implements OnInit {
         break;
       }
     }
-  }
-
-
-  /**
-   * Permite visualizar el documento en la misma ventana
-   * @param pathDocument
-   */
-  public visorWindowActualPdf(pathDocument: string): void {
-    this.archiveService.viewArchiveActualWindow(pathDocument);
-  }
-
-  /**
-   * Permite visualizar el documento en una nueva pestaña
-   * @param pathDocument
-   */
-  public visorWindowExternalPdf(pathDocument: string): void {
-    this.archiveService.viewArchiveExternalWindow(pathDocument);
   }
 
 }

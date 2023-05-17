@@ -96,7 +96,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
               private popUp: PopUpService,
               private documentsService: DocumentsService,
               private authService: AuthService,
-              private archiveService: ArchiveService) {
+              public archiveService: ArchiveService) {
     super();
     this.stepAdvanceLine = 4;
     this.currentProgressAdvanceLine = 94;
@@ -239,9 +239,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.showDashboard = false;
   }
 
-  public showResolution(resolution: string): void {
-    this.archiveService.viewArchiveExternalWindow(resolution);
-  }
 
   public async saveClarification(): Promise<void> {
 

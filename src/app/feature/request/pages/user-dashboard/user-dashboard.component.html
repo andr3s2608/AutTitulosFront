@@ -121,7 +121,7 @@
                       <a (click)="showEditProcedure(item.idProcedureRequest)" *ngIf="item.statusId == 7">
                         <span class="govco-edit" style="font-size: 15px">Editar Trámite</span>
                       </a>
-                      <a (click)="showResolution(item.resolutionPath)" *ngIf="item.statusId == 16">
+                      <a (click)="archiveService.viewArchiveInPopUp(item.resolutionPath)" *ngIf="item.statusId == 16">
                         <span class="govco-file-pdf" style="font-size: 15px">Ver documento</span>
                       </a>
                       <a (click)="showClarification(item.idProcedureRequest, item.filed_number, item.titleType)"
