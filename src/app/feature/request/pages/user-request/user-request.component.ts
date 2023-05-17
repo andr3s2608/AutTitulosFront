@@ -4,7 +4,7 @@ import {ArchiveService, PopUpService} from "../../../../core/services";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppBaseComponent} from "../../../../core/utils";
 
-import {lastValueFrom, Observable} from "rxjs";
+import {lastValueFrom, Observable, Subscription} from "rxjs";
 import {Router, UrlTree} from "@angular/router";
 import {OnExit} from "../../../../core/guards/pending-changes.guard";
 import {ROUTES} from "../../../../core/enums";
@@ -18,6 +18,7 @@ import {CustomValidators} from "../../../../core/utils/custom-validators";
 import {AuthService} from "../../../../core/services/auth.service";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
 import {RegisterService} from "../../../../core/services/register.service";
+import {AttachmentService} from "../../../../core/services/attachment.service";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -79,6 +80,11 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
    */
   public currentUser: CurrentUserDto;
 
+  /**
+   * Subscripcion para el subject de professionalCard
+   */
+  private subscriptionProfessionalCard: Subscription;
+
   constructor(private archiveService: ArchiveService,
               private popupAlert: PopUpService,
               private requestService: RequestService,
@@ -87,7 +93,8 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
               private trackingService: TrackingService,
               private fb: FormBuilder,
               private route: Router,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private attachmentService: AttachmentService) {
     super();
     this.rutaImagenPopUpInicial = './assets/images/infografia-popup-inicial.jpg'
     this.rutaPdfListadoInstituciones = './assets/binaries/listado.pdf'
@@ -120,8 +127,20 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         documentSupports: [[]]
       })
     });
-  }
 
+    this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
+      next: value => {
+        if (value) {
+          this.requestForm.get("requestDataForm.professionalCard").setValidators([Validators.required]);
+        } else {
+          this.requestForm.get("requestDataForm.professionalCard").clearValidators();
+          this.requestForm.get("requestDataForm.professionalCard").setErrors(null);
+          this.requestForm.get("requestDataForm.professionalCard").updateValueAndValidity();
+          this.requestForm.get("requestDataForm.professionalCard").setValue("");
+        }
+      }
+    })
+  }
 
   ngOnInit(): void {
 

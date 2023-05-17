@@ -4,6 +4,8 @@ import {ControlContainer} from "@angular/forms";
 import {PopUpService} from "../../../../core/services";
 import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 import {DocumentsService} from "../../../../core/services/documents.service";
+import {Subscription} from "rxjs";
+import {AttachmentService} from "../../../../core/services/attachment.service";
 
 /**
  * Componente encargado de los documentos de la solicitud
@@ -31,9 +33,15 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    */
   public listDocumentSupports: any[];
 
+  /**
+   * Subscripcion para el subject de professionalCard
+   */
+  public subscriptionProfessionalCard: Subscription;
+
   constructor(private controlContainer: ControlContainer,
               private popupAlert: PopUpService,
-              private documentService: DocumentsService) {
+              private documentService: DocumentsService,
+              private attachmentService: AttachmentService) {
     super();
     this.listDocumentsToSaved = [
       {
@@ -47,10 +55,6 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
       {
         IdDocumentType: 3,
         description: 'Acta de grado'
-      },
-      {
-        IdDocumentType: 4,
-        description: 'Tarjeta Profesional'
       }
     ];
   }
@@ -60,8 +64,19 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     this.attachmentForm = this.controlContainer.control;
     this.attachmentForm = this.attachmentForm.controls['attachmentForm'];
 
-    this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
     this.listDocumentSupports = this.attachmentForm.get('documentSupports').value;
+
+    this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
+      next: value => {
+        if (value) {
+          this.listDocumentsToSaved.push({ IdDocumentType: 4, description: 'Tarjeta Profesional'});
+          this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+        } else if(this.listDocumentsToSaved[3]) {
+          this.listDocumentsToSaved.splice(3, 1);
+          this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+        }
+      }
+    })
   }
 
 

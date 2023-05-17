@@ -4,6 +4,8 @@ import {ControlContainer} from "@angular/forms";
 import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 import {RequestService} from "../../../../core/services/request.service";
 import {IesServices} from "../../../../core/services/ies.services";
+import {AttachmentsComponent} from "../attachments/attachments.component";
+import {AttachmentService} from "../../../../core/services/attachment.service";
 
 @Component({
   selector: 'app-request-data',
@@ -17,23 +19,27 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    */
   public requestDataForm: any;
 
+  /**
+   * Lista de instituciones
+   */
   public listInstitutes: any[];
 
+  /**
+   * Lista de profesiones
+   */
   public listProfessions: any[];
 
-  constructor(private controlContainer: ControlContainer,  private iesServices: IesServices,) {
+  /**
+   * Centinela para mostrar el campo de tarjeta profesional
+   */
+  public showProfessionalCard: boolean;
+
+  constructor(private controlContainer: ControlContainer,
+              private iesServices: IesServices,
+              private attachmentService: AttachmentService) {
     super();
-
-
-
-    this.iesServices.getInstitutes().subscribe(resp => {
-      this.listInstitutes = resp.data;
-    });
-
-
-
-
-
+    this.iesServices.getInstitutes().subscribe(resp => this.listInstitutes = resp.data);
+    this.showProfessionalCard = false;
   }
 
   ngOnInit(): void {
@@ -46,6 +52,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
       this.getPrograms();
     }
   }
+
   /**
    * Devuelve un la lista de los programas por isntitucion
    */
@@ -66,6 +73,23 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
   }
 
+
+  public activeProfesionalCard(pProfession: any): void {
+    let profession = pProfession.value.split(",");
+    profession = profession[2]
+    console.log("entré a active", profession);
+
+    if (profession == "Formación técnica profesional" || profession == "Tecnológico") {
+      this.attachmentService.setShowProfessionalCard(false);
+      this.showProfessionalCard = false;
+    } else {
+      this.attachmentService.setShowProfessionalCard(true);
+      this.showProfessionalCard = true;
+    }
+
+  }
+
+
   /**
    * Devuelve un mensaje de validación de un campo del formulario
    * @param field Campo a validar
@@ -73,7 +97,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    */
   public getErrorMessage(field: string): string {
     let message;
-    const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle'];
+    const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle', 'professionalCard'];
     const onlyNumber: Array<string> = ['diplomaNumber', 'yearTitle'];
     const dateError: Array<string> = ['endDate', 'yearTitle'];
 
