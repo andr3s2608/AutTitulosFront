@@ -77,7 +77,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
   public activeProfesionalCard(pProfession: any): void {
     let profession = pProfession.value.split(",");
     profession = profession[2]
-    console.log("entré a active", profession);
+
 
     if (profession == "Formación técnica profesional" || profession == "Tecnológico") {
       this.attachmentService.setShowProfessionalCard(false);

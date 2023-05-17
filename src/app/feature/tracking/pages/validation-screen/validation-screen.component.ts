@@ -357,15 +357,16 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     const status = this.validationForm.get('validationstateform.status').value;
     let preliminarresolution = true;
 
-
+    console.log(status);
     let statustogenerate = "";
-    const estados: Array<string> = ['Aprobado', 'Negado', 'Aclaración', 'Reposición'];
+    const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'reposición'];
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
 
-    for (const element of estados) {
-      if (status.includes(element)) {
-        statustogenerate = element;
+
+    for (let i = 0; i <estados.length ; i++) {
+      if (status.includes(estados[i])) {
+        statustogenerate = estadosbd[i];
       }
     }
 
@@ -379,7 +380,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         }
       }
     }
-
+  console.log(statustogenerate)
     if (statustogenerate === "") {
       this.popupAlert.infoAlert(`Por favor, revise el estado que desea previzualizar.`, 4000);
     } else {
@@ -417,8 +418,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       console.log("ERRORES FORMULARIO");
       console.log(super.getAllErrors(this.validationForm));
       this.validationForm.markAllAsTouched();
-      return;
-    }
+       }
 
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
@@ -471,7 +471,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       filed_date: new Date(this.tramiteActual.filed_date),
       IdNumber: this.validationForm.get('basicDataForm.numeroIdentificacion').value,
       AplicantName: aplicantname,
-      name_profession: idprofesion[1],
+      name_profession: idprofesion[1]+ ',' + idprofesion[2],
       IdDocument_type: this.validationForm.get('basicDataForm.documentodescripcion').value,
     }
 
@@ -507,7 +507,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         IdStatusTypes: selectedstatus,
         IdProcedureRequest: this.tramiteActual.id,
         IdUser: this.currentValidator.userId,
-        observations: (this.validationForm.get('validationstateform.aditionalinfo').value+"") + ',' + this.validationForm.get('validationstateform.internalobservations').value,
+        observations: (this.validationForm.get('validationstateform.aditionalinfo').value!=" " ?
+        this.validationForm.get('validationstateform.aditionalinfo').value+",": "")
+           + this.validationForm.get('validationstateform.internalobservations').value,
         negation_causes: this.validationForm.get('validationstateform.negationcauses').value + "",
         other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value + "",
         recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value + "",
@@ -542,6 +544,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       }
 
       let file: any = null;
+      // @ts-ignore
+      // @ts-ignore
       this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
         estadosbd[status],
         this.Role + "",

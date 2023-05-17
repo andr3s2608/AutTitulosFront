@@ -238,7 +238,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         IdInstitute: infoInstitute[0],
         name_institute: infoInstitute[1] + ',' + infoInstitute[2],
         IdProfessionInstitute: infoProfession[0],
-        name_profession: infoProfession[1],
+        name_profession: infoProfession[1]+ ',' + infoProfession[2],
         last_status_date: new Date(Date.now()),
         IdUser: this.currentUser.userId,
         user_code_ventanilla: this.currentUser.codeVentanilla,

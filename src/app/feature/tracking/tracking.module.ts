@@ -12,7 +12,7 @@ import { AttachmentViewerComponent } from './components/attachment-viewer/attach
 import {SharedModule} from "../../shared/shared.module";
 import {MatRadioModule} from "@angular/material/radio";
 import { InformationRequestValidatorComponent } from './components/information-request-validator/information-request-validator.component';
-import { DialogComponent } from './components/dialog/dialog.component';
+
 
 
 
@@ -23,8 +23,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     ValidationStatesComponent,
     ValidationScreenComponent,
     AttachmentViewerComponent,
-    InformationRequestValidatorComponent,
-    DialogComponent
+    InformationRequestValidatorComponent
+
   ],
     imports: [
         CommonModule,

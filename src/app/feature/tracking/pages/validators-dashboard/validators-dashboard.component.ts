@@ -57,7 +57,6 @@ export class ValidatorsDashboardComponent implements OnInit {
       pageSize: [10],
       pageNumber: [1],
     });
-
   }
 
   ngOnInit(): void {
