@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {PopUpService} from "./popUp.service";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import * as path from "path";
+
 const { PROCEDURE_BLOB_URI } = environment;
 
 /**
@@ -70,6 +70,24 @@ export class ArchiveService {
             document.querySelector("iframe").src = window.URL.createObjectURL(blob);
           });
       }
+
+    } catch (e) {
+      console.log(e)
+      this.popupAlert.errorAlert(
+        'Ocurrió un error al previsualizar el documento.',
+        4000);
+    }
+  }
+  /**
+   * Permite visualizar un archivo en un iframe de una ventana actual(popup)
+   * @param pathArchive Ruta del archivo
+   */
+  public viewArchiveActualWindowPopup( fileBlob: Blob): void {
+    try
+    {
+
+      let modal = document.getElementById("pdfmodal");
+      modal.querySelector("iframe").src = window.URL.createObjectURL(fileBlob);
 
     } catch (e) {
       console.log(e)

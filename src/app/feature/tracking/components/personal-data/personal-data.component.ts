@@ -12,6 +12,7 @@ import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 })
 export class PersonalDataComponent extends AppBaseComponent implements OnInit {
 
+  public campoDeshabilitado: boolean = true;
   public basicDataForm: any;
   public valorx: any = "hola";
 

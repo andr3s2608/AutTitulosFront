@@ -128,14 +128,12 @@
               <td>{{item.titletype}}</td>
               <td>{{item.fileddate| date: 'dd-MM-yyyy'}}</td>
               <td class="text-justify">
-                <a> <u class="govco-edit-1">Validar</u> </a>
+                <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
               </td>
               <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
               <td *ngIf="item.resolutionpath == ''"></td>
               <td *ngIf="item.resolutionpath != ''">
-                <img alt="icono-pdf-external" [src]="urlIconExternalWindow" class="img-fluid icon">
-                <img alt="icono-pdf-actual" [src]="urlIconActualWindow" class="img-fluid icon">
-
+                <img alt="icono-pdf-external" (click)="visorWindowExternalPdf(item.resolutionpath)" [src]="urlIconExternalWindow" class="img-fluid icon">
               </td>
 
             </tr>

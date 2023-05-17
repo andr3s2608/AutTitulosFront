@@ -80,7 +80,7 @@
     </div>
 
 
-    <div class="row" *ngIf="status=='Negado por parte del validador de documentos'">
+    <div class="row" *ngIf="status=='Negado por parte del validador de documentos' || status=='Negado por parte del coordinador de documentos'">
 
       <label for="negationcauses" class="form-label">Causales de la negación</label>
       <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
@@ -97,7 +97,7 @@
           </textarea>
       </div>
     </div>
-    <div class="row" *ngIf="status=='Resuelve recurso de reposición de validación' ">
+    <div class="row" *ngIf="status=='Resuelve recurso de reposición de validación' || status=='Resuelve recurso de reposición de coordinador' ">
 
       <label for="recurrentargument" class="form-label">Argumento del recurrente</label>
       <div class="container-input-texto-govco col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6  ">
@@ -142,7 +142,7 @@
       </div>
 
     </div>
-    <div class="row" *ngIf="status=='Resuelve recurso de aclaración validación' ">
+    <div class="row" *ngIf="status=='Resuelve recurso de aclaración validación' || status=='Resuelve recurso de aclaración coordinador' ">
       <div class="col-9">
         <div class="alert alert-danger" role="alert">
           El sistema ha identificado que se esta iniciando la gestión de una resolución por aclaración.

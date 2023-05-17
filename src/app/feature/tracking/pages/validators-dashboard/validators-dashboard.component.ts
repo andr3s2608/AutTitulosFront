@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ROUTES} from "../../../../core/enums";
 import {RequestService} from "../../../../core/services/request.service";
-import Swal from "sweetalert2";
+
 
 @Component({
   selector: 'app-validators-dashboard',
@@ -62,6 +62,7 @@ export class ValidatorsDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
+    localStorage.removeItem('source');
     let role: string = localStorage.getItem('Role');
 
     let date: Date = new Date(Date.now());
@@ -94,6 +95,7 @@ export class ValidatorsDashboardComponent implements OnInit {
 
   public validar(id: any): void {
     localStorage.setItem("procedure", id + "");
+    localStorage.setItem("source","validation");
     this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.Validation)
   }
   public pasarpagina(): void {

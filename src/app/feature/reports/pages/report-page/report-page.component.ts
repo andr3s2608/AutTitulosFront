@@ -1,9 +1,10 @@
 import {Component, OnInit,Injectable} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {PopUpService} from "../../../../core/services";
+import {ArchiveService, PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
 import {ReportsService} from "../../../../core/services/reports.service";
 import * as XLSX from 'xlsx';
+import {ROUTES} from "../../../../core/enums";
 
 
 @Injectable({ providedIn: 'root' })
@@ -66,7 +67,8 @@ export class ReportPageComponent implements OnInit {
   public paginator: string='';
 
   constructor(public fb: FormBuilder,
-              public reportsService: ReportsService, private router: Router,private popupAlert: PopUpService) {
+              public reportsService: ReportsService, private router: Router,
+              private popupAlert: PopUpService,private archiveService: ArchiveService,) {
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 75;
     this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
@@ -84,6 +86,7 @@ export class ReportPageComponent implements OnInit {
 
   ngOnInit(): void {
 
+    localStorage.removeItem("source");
     let datefinal = new Date(Date.now());
 
     // Get year, month, and day part from the date
@@ -128,6 +131,15 @@ export class ReportPageComponent implements OnInit {
       pagination:"15"
     }
   }
+
+  /**
+   * Permite visualizar el documento en una nueva pestaña
+   * @param pathDocument
+   */
+  public visorWindowExternalPdf(pathDocument: string): void {
+    this.archiveService.viewArchiveExternalWindow(pathDocument);
+  }
+
 
   public pasarpagina(): void {
     let pagina =  this.reportsform.get('pageNumber').value;
@@ -210,7 +222,7 @@ export class ReportPageComponent implements OnInit {
         filter+"",
         "" + " ",
         "1",
-        months*10000+"").subscribe(resp => {
+        (months+1)*5000+"").subscribe(resp => {
           const data = resp.data;
         const fileToExport = data.map((items:any) => {
           return {
@@ -265,7 +277,6 @@ export class ReportPageComponent implements OnInit {
 
   public download(element: any, fileName: string): void {
 
-
     // generate workbook and add the worksheet
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
@@ -274,6 +285,12 @@ export class ReportPageComponent implements OnInit {
     XLSX.utils.book_append_sheet(workbook, ws, 'Sheet1');
     XLSX.writeFile(workbook, fileName+this.EXCEL_EXTENSION);
 
+  }
+
+  public validar(id: any): void {
+    localStorage.setItem("procedure", id + "");
+    localStorage.setItem("source","Reports");
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.Validation)
   }
 
 }
