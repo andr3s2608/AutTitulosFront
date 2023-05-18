@@ -360,17 +360,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
   public async preliminar(): Promise<void> {
 
     const status = this.validationForm.get('validationstateform.status').value;
+    console.log(status)
     let preliminarresolution = true;
 
 
     let statustogenerate = "";
-    const estados: Array<string> = ['Aprobado', 'Negado', 'Aclaración', 'Reposición'];
+    const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'reposición'];
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
 
-    for (const element of estados) {
-      if (status.includes(element)) {
-        statustogenerate = element;
+
+    for (let i = 0; i <estados.length ; i++) {
+      if (status.includes(estados[i])) {
+        statustogenerate = estadosbd[i];
       }
     }
 
@@ -394,7 +396,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         statustogenerate,
         this.Role + "",
         this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
-        this.validationForm.get('validationstateform.justificationparagraph1').value +
+        this.validationForm.get('validationstateform.justificationparagraph1').value +", "+
         this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
         this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
         preliminarresolution
@@ -544,7 +546,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
       this.popupAlert.infoAlert(`Generando Resolución, puede tardar unos momentos, espere por favor...`, 15000);
   console.log(status);
-      if (status < 2) {
+
         const resolution: any =
           {
             idProcedureRequest: this.tramiteActual.id,
@@ -553,14 +555,14 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
             path: this.tramiteActual.user.idUser + '/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
           }
         await lastValueFrom(this.resolutiontService.addResolution(resolution));
-      }
+
 
       let file: any = null;
       this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
         estadosbd[status],
         this.Role + "",
         this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
-        this.validationForm.get('validationstateform.justificationparagraph1').value +
+        this.validationForm.get('validationstateform.justificationparagraph1').value +", "+
         this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
         this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
         false
