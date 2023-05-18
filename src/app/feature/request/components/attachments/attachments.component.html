@@ -1,28 +1,31 @@
 <!--LISTADO DE DOCUMENTOS-->
 <div class="container">
   <div class="col-12">
-    <div class="alert alert-secondary" role="alert">
+    <div class="alert alert-secondary" role="alert" *ngIf="listDocumentsToSaved.length != 0">
       Los documentos adjuntos deben ser en formato PDF y su tamaño inferior a 3Mb. Para los documentos
       (documento de identificación y tarjeta profesional), deben estar escaneados por las dos caras.
+    </div>
+    <div class="alert alert-secondary" role="alert" *ngIf="listDocumentsToSaved.length == 0">
+      No es necesario subsanar documentos
     </div>
   </div>
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-6" style="padding-top: 2%" *ngFor="let document of listDocumentsToSaved;">
-      <label for="inputDocument_{{document.IdDocumentType}}" class="label-carga-de-archivo-govco">{{document.description}}<span class="required"> *</span></label>
+      <label for="inputDocument_{{document.idDocumentType}}" class="label-carga-de-archivo-govco">{{document.description}}<span class="required"> *</span></label>
       <div class="input-group mt-2 mb-1 ">
-        <input type="file" class="form-control input-file-custom" id="inputDocument_{{document.IdDocumentType}}"
+        <input type="file" class="form-control input-file-custom" id="inputDocument_{{document.idDocumentType}}"
                aria-describedby="inputFile_Aria" aria-label="Upload"
-               [ngClass]="{'error': isValidInputFile('inputDocument_'+document.IdDocumentType)}"
-               accept="application/pdf" (change)="addSelectedFile($event, document.IdDocumentType, document.description)">
-        <button class="btn btn-outline-secondary" type="button" id="inputDocAddDescri_{{document.IdDocumentType}}"
-                *ngIf="hasDocument(document.IdDocumentType)"
-                (click)="removeFileAdded(document.IdDocumentType)">
+               [ngClass]="{'error': isValidInputFile('inputDocument_'+document.idDocumentType)}"
+               accept="application/pdf" (change)="addSelectedFile($event, document.idDocumentType, document.description, document.idDocumentTypeProcedureRequest)">
+        <button class="btn btn-outline-secondary" type="button" id="inputDocAddDescri_{{document.idDocumentType}}"
+                *ngIf="hasDocument(document.idDocumentType)"
+                (click)="removeFileAdded(document.idDocumentType)">
           <span class="govco-trash-alt"></span>
         </button>
       </div>
       <span class="text-validation-carga-de-archivo-govco"><small>Únicamente archivo en formato .pdf.</small></span>
       <br>
-      <span *ngIf="isValidInputFile('inputDocument_'+document.IdDocumentType)"
+      <span *ngIf="isValidInputFile('inputDocument_'+document.idDocumentType)"
         class="error-texto-govco alert-entradas-de-texto-govco" id="titleTypeId-note" role="alert" aria-live="assertive" style="color: #962423">
           Es requerido
         <br>

@@ -14,6 +14,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { RequestClarificationComponent } from './components/request-clarification/request-clarification.component';
 import { EditRequestComponent } from './pages/edit-request/edit-request.component';
 import { RequestEditObservationsComponent } from './components/request-edit-observations/request-edit-observations.component';
+import { EditAttachmentsComponent } from './components/edit-attachments/edit-attachments.component';
 
 
 
@@ -29,7 +30,8 @@ import { RequestEditObservationsComponent } from './components/request-edit-obse
         UserDashboardComponent,
         RequestClarificationComponent,
         EditRequestComponent,
-        RequestEditObservationsComponent
+        RequestEditObservationsComponent,
+        EditAttachmentsComponent
     ],
     exports: [
         RequestDataComponent
