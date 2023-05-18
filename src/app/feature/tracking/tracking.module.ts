@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ValidatorsDashboardComponent} from "./pages/validators-dashboard/validators-dashboard.component";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
 import { ValidationStatesComponent } from './components/validation-states/validation-states.component';
@@ -12,6 +12,7 @@ import { AttachmentViewerComponent } from './components/attachment-viewer/attach
 import {SharedModule} from "../../shared/shared.module";
 import {MatRadioModule} from "@angular/material/radio";
 import { InformationRequestValidatorComponent } from './components/information-request-validator/information-request-validator.component';
+import {AppBaseComponent} from "../../core/utils";
 
 @NgModule({
   declarations: [
@@ -22,17 +23,21 @@ import { InformationRequestValidatorComponent } from './components/information-r
     AttachmentViewerComponent,
     InformationRequestValidatorComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatPaginatorModule,
-        ReactiveFormsModule,
-        RegisterModule,
-        RequestModule,
-        SharedModule,
-        MatRadioModule,
-
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    RegisterModule,
+    RequestModule,
+    SharedModule,
+    MatRadioModule
+  ],
+  providers: [
+    {
+      provide: MatPaginatorIntl, useValue: AppBaseComponent.getSpanishPaginatorIntl()
+    }
+  ]
 })
 
 export class TrackingModule { }

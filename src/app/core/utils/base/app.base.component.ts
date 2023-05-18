@@ -1,4 +1,5 @@
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
+import {MatPaginatorIntl} from "@angular/material/paginator";
 
 /**
  * Componente padre
@@ -214,6 +215,19 @@ export class AppBaseComponent {
       return acc;
     }, {} as { [key: string]: any; });
     return hasError ? result : null;
+  }
+
+  /**
+   * Coloca en español el label de un paginador
+   */
+  public static getSpanishPaginatorIntl(): MatPaginatorIntl {
+    const paginatorIntl = new MatPaginatorIntl();
+    paginatorIntl.itemsPerPageLabel = "Número de registros por página:";
+    paginatorIntl.nextPageLabel = "Siguiente página";
+    paginatorIntl.previousPageLabel = "Anterior página";
+    paginatorIntl.firstPageLabel = "Ir a la primera página";
+    paginatorIntl.lastPageLabel = "Ir a la última página";
+    return paginatorIntl;
   }
 
 }

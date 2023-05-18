@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {ReportsService} from "../../../../core/services/reports.service";
 import * as XLSX from 'xlsx';
 import {ROUTES} from "../../../../core/enums";
+import {PageEvent} from "@angular/material/paginator";
 
 
 @Injectable({ providedIn: 'root' })
@@ -15,21 +16,22 @@ import {ROUTES} from "../../../../core/enums";
   styleUrls: ['./report-page.component.scss']
 })
 
-
-
-
 export class ReportPageComponent implements OnInit {
 
+  /**
+   * Formulario para los filtros de busqueda
+   */
   public reportsform: FormGroup;
 
-  tableFilter: any[] = [];
-
-  public EXCEL_EXTENSION = '.xlsx'; // excel file extension
+  /**
+   * Lista con las solicitudes a mostrar en el dashboard
+   */
+  public tableFilter: any[] = [];
 
   /**
-   * Icono de previsualizacion en la misma pantalla
+   * excel file extension
    */
-  public urlIconActualWindow: string;
+  public EXCEL_EXTENSION = '.xlsx';
 
   /**
    * Icono de previsualizacion en otra pestaña
@@ -45,6 +47,22 @@ export class ReportPageComponent implements OnInit {
    * Modela la barra de progreso a pintar en la linea de avance
    */
   public currentProgressAdvanceLine: number;
+
+  /**
+   * Numero de solicitudes total
+   */
+  public totalRequests: number=0;
+
+  /**
+   * Atributo para paginador, items por página
+   */
+  public pageSizePaginator: number = 10;
+
+  /**
+   * Atributo para paginador, número de pagina actual
+   */
+  public pageNumberPaginator: number = 1;
+
   /**
    * guarda el ultimo filtro seleccionado por parte del usuario
    */
@@ -54,17 +72,9 @@ export class ReportPageComponent implements OnInit {
     texttosearch:" ",
     selectedfilter:" ",
     iduser:" ",
-    pagenumber:"1",
-    pagination:"15"
+    pagenumber: this.pageNumberPaginator,
+    pagination: this.pageSizePaginator
   }
-  /**
-   * Numero de solicitudes total
-   */
-  public total: number=0;
-  /**
-   * texto de resultados encontrados a mostrar
-   */
-  public paginator: string='';
 
   constructor(public fb: FormBuilder,
               public reportsService: ReportsService,
@@ -73,15 +83,14 @@ export class ReportPageComponent implements OnInit {
               public archiveService: ArchiveService) {
     this.stepAdvanceLine = 3;
     this.currentProgressAdvanceLine = 75;
-    this.urlIconActualWindow = 'https://cdn-icons-png.flaticon.com/512/2889/2889358.png';
     this.urlIconExternalWindow = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
     this.reportsform = this.fb.group({
       begindate: [''],
       enddate: [''],
       selector: [''],
       textfilter: [''],
-      pageSize: [10],
-      pageNumber: [1],
+      pageSize: [this.pageSizePaginator],
+      pageNumber: [this.pageNumberPaginator],
 
     });
   }
@@ -117,42 +126,24 @@ export class ReportPageComponent implements OnInit {
       "" + " ",
       "" + " ",
       "" + " ",
-      "1",
-      "15").subscribe(resp => {
-      this.tableFilter = resp.data;
-      this.total=resp.count;
-      this.paginator=resp.message+" de "+this.total+ " Resultados";
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`)
+      .subscribe(resp => {
+        this.tableFilter = resp.data;
+        this.totalRequests=resp.count;
     });
+
     this.lastfilters = {
       initialdate:formattedDateinitial + "",
       finaldate:formattedDatefinal + "",
       texttosearch:" ",
       selectedfilter:" " ,
       iduser:" ",
-      pagenumber:"1",
-      pagination:"15"
+      pagenumber: `${this.pageNumberPaginator}`,
+      pagination: `${this.pageSizePaginator}`
     }
   }
 
-  public pasarpagina(): void {
-    let pagina =  this.reportsform.get('pageNumber').value;
-
-    this.reportsService.getReportsDashboard(
-      this.lastfilters.initialdate + "",
-      this.lastfilters.finaldate + "",
-      this.lastfilters.texttosearch+"",
-      " ",
-      "" + " ",
-      pagina+"",
-      "15").subscribe(resp => {
-      this.tableFilter = resp.data;
-      if(pagina=="1")
-      {
-        this.total=resp.count;
-      }
-      this.paginator=resp.message+" de "+this.total+ " Resultados";
-    });
-  }
   public getDashboard(type: string): void {
     let dateinitial;
     let datefinal;
@@ -194,9 +185,6 @@ export class ReportPageComponent implements OnInit {
     }
 
 
-
-
-
     let months = (datefinal.getFullYear() - dateinitial.getFullYear()) * 12;
     months -= dateinitial.getMonth();
     months += datefinal.getMonth();
@@ -214,7 +202,7 @@ export class ReportPageComponent implements OnInit {
         " ",
         filter+"",
         "" + " ",
-        "1",
+        `${this.pageNumberPaginator}`,
         (months+1)*5000+"").subscribe(resp => {
           const data = resp.data;
         const fileToExport = data.map((items:any) => {
@@ -243,10 +231,10 @@ export class ReportPageComponent implements OnInit {
         text+"",
         " ",
         "" + " ",
-        "1",
-        "15").subscribe(resp => {
+        `${this.pageNumberPaginator}`,
+        `${this.pageSizePaginator}`).subscribe(resp => {
         this.tableFilter = resp.data;
-        this.paginator=resp.message+" de "+this.total+ " Resultados";
+        this.totalRequests=resp.count;
       });
 
       this.lastfilters = {
@@ -255,8 +243,8 @@ export class ReportPageComponent implements OnInit {
         texttosearch:text,
         selectedfilter:" ",
         iduser:" ",
-        pagenumber:"1",
-        pagination:"15"
+        pagenumber:`${this.pageNumberPaginator}`,
+        pagination:`${this.pageSizePaginator}`
       }
 
       //prueba subida archivo
@@ -266,6 +254,28 @@ export class ReportPageComponent implements OnInit {
 
     // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
 
+  }
+
+  /**
+   * Cambia la página en la tabla
+   * @param e Evento del paginador
+   */
+  public changePage(e: PageEvent): void {
+    console.log(e);
+    this.pageSizePaginator = e.pageSize;
+    this.pageNumberPaginator = e.pageIndex + 1;
+
+    this.reportsService.getReportsDashboard(
+      this.lastfilters.initialdate + "",
+      this.lastfilters.finaldate + "",
+      this.lastfilters.texttosearch+"",
+      " ",
+      "" + " ",
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`).subscribe(resp => {
+      this.tableFilter = resp.data;
+      this.totalRequests=resp.count;
+    });
   }
 
   public download(element: any, fileName: string): void {
