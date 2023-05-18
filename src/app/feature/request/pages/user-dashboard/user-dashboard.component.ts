@@ -15,6 +15,7 @@ import {formatDate} from "@angular/common";
 import {CustomValidators} from "../../../../core/utils/custom-validators";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
 import {AuthService} from "../../../../core/services/auth.service";
+import {AttachmentService} from "../../../../core/services/attachment.service";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -96,7 +97,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
               private popUp: PopUpService,
               private documentsService: DocumentsService,
               private authService: AuthService,
-              public archiveService: ArchiveService) {
+              public archiveService: ArchiveService,
+              private attachmentService: AttachmentService) {
     super();
     this.stepAdvanceLine = 4;
     this.currentProgressAdvanceLine = 94;
@@ -234,6 +236,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("dateResolutionConvalidation").setValue(this.editRequest.date_resolution_convalidation);
     this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.IdEntity);
 
+    if (this.editRequest.professional_card) {
+      console.log("estoy en observable")
+      this.attachmentService.setShowProfessionalCard(true);
+    }
 
     this.showEditProcedureForm = true;
     this.showDashboard = false;
@@ -373,11 +379,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       let dtoProcedure: ProcedureRequestBackDto;
 
       dtoProcedure = {
-        IdProcedureRequest: this.editRequest.IdProcedureRequest,
+        IdProcedureRequest: this.editRequest.idProcedureRequest,
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 19,
         IdInstitute: infoInstitute[0],
-        name_institute: infoInstitute[1] + ',' + infoInstitute[2],
+        name_institute: infoInstitute[1],
         IdProfessionInstitute: infoProfession[0],
         name_profession: infoProfession[1],
         last_status_date: new Date(Date.now()),
@@ -397,7 +403,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
         date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
         IdEntity: requestDataForm.entityId,
-        filed_date: this.editRequest.filed_date
+        filed_date: this.editRequest.filed_date,
+        filed_number: this.editRequest.filed_number
       }
 
       console.log("dto a enviar", dtoProcedure);
@@ -449,7 +456,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdProcedureRequest: this.editRequest.idProcedureRequest,
         IdUser: this.currentUser.userId,
         dateTracking: new Date(Date.now()),
-        observations: "Subsanación por usuario externo",
+        observations: "Subsanación por usuario externo".toUpperCase(),
         clarification_types_motives: "false/false/false/false/false",
         negation_causes: " ",
         other_negation_causes: " ",

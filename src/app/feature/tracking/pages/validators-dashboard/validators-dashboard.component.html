@@ -29,78 +29,64 @@
           </select>
         </div>
         <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
-          <select class="form-select" id="pageNumber" aria-label="Default select example"
-                  formControlName="pageNumber"
-                  (change)="pasarpagina()"
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-
-          </select>
-        </div>
-        <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
           <div>
             <input type="text" id="textfilter" formControlName="textfilter" placeholder="Ingrese Su Busqueda"/>
           </div>
         </div>
         <div class="mt-3 col-xxl-3 col-md-3 col-lg-3 col-sm-3 col-xs-3">
           <div>
-            <button type="button" style="margin-left: 1rem;" (click)="getdashboard()" class="btn-govco fill-btn-govco">
+            <button type="button" style="margin-left: 1rem;" (click)="getDashboard()" class="btn-govco fill-btn-govco">
               Buscar
             </button>
           </div>
         </div>
-
-
       </div>
-
 
       <br><br>
+
       <div class="row">
-        <div class="mt-3 col-12  ">
-          <span class="total"> {{paginator}}</span>
-        </div>
-          <div class="table col-12">
-            <div class="table-responsive">
-              <table class="table table-striped " aria-describedby="tabla-funcionarios">
+        <div class="table col-12">
+          <div class="table-responsive">
+            <table class="table table-striped " aria-describedby="tabla-funcionarios">
 
-                <tr>
-                  <th [scope]="">Id Solicitud</th>
-                  <th [scope]="">No Doc de Identidad</th>
-                  <th [scope]="">Nombre Solicitante</th>
-                  <th [scope]="">Tipo de Título</th>
-                  <th [scope]="">Fecha de Registro Solicitud</th>
-                  <th [scope]="">Estado de la Solicitud</th>
-                  <th [scope]=""> Tiempo de Atención Restante</th>
-                  <th [scope]="">Acciones Permitidas</th>
+              <tr>
+                <th [scope]="">Id Solicitud</th>
+                <th [scope]="">No Doc de Identidad</th>
+                <th [scope]="">Nombre Solicitante</th>
+                <th [scope]="">Tipo de Título</th>
+                <th [scope]="">Fecha de Registro Solicitud</th>
+                <th [scope]="">Estado de la Solicitud</th>
+                <th [scope]=""> Tiempo de Atención Restante</th>
+                <th [scope]="">Acciones Permitidas</th>
 
-                </tr>
-                <tbody>
-                <tr *ngFor="let item of tableFilter; let i= index">
-                  <td>{{item.idfiled}}</td>
-                  <td> {{item.idnumber}}  </td>
-                  <td>{{item.aplicantname}}</td>
-                  <td>{{item.titletype}}</td>
-                  <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
-                  <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
-                  <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
-                  <td *ngIf="item.validation" class="text-justify">
-                    <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
-                  </td>
-                  <td *ngIf="!item.validation"></td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
+              </tr>
+              <tbody>
+              <tr *ngFor="let item of tableFilter ; let i= index">
+                <td>{{item.idfiled}}</td>
+                <td> {{item.idnumber}}  </td>
+                <td>{{item.aplicantname}}</td>
+                <td>{{item.titletype}}</td>
+                <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
+                <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
+                <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
+                <td *ngIf="item.validation" class="text-justify">
+                  <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
+                </td>
+                <td *ngIf="!item.validation"></td>
+              </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
 
-      <div class="mt-3 col-12 colum_paginator">
-        <mat-paginator class="paginator" [hidePageSize]="true"
-                       [pageSize]="validatorForm.get('pageSize').value"></mat-paginator>
-      </div>
+
+        <mat-paginator length="{{totalRequests}}"
+                       [pageSizeOptions]="[5, 10, 25, 50, 100]"
+                       (page)="changePage($event)"
+                       aria-label="Select page"
+                       showFirstLastButtons="true"
+                       pageSize="{{pageSizePaginator}}">
+        </mat-paginator>
       </div>
     </div>
   </div>

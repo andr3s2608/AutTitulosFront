@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ROUTES} from "../../../../core/enums";
 import {RequestService} from "../../../../core/services/request.service";
+import {PageEvent} from "@angular/material/paginator";
 
 
 @Component({
@@ -12,32 +13,46 @@ import {RequestService} from "../../../../core/services/request.service";
 })
 export class ValidatorsDashboardComponent implements OnInit {
 
+  /**
+   * Formulario para los filtros de busqueda
+   */
   public validatorForm: FormGroup;
 
-  tableFilter: any[] = [];
+  /**
+   * Lista con las solicitudes a mostrar en el dashboard
+   */
+  public tableFilter: any[] = [];
 
+  /**
+   * Atributo para paginador, items por página
+   */
+  public pageSizePaginator: number = 10;
+
+  /**
+   * Atributo para paginador, número de pagina actual
+   */
+  public pageNumberPaginator: number = 1;
+
+  /**
+   * Número total de solicitudes
+   */
+  public totalRequests: number = 0;
+
+  /**
+   * Filtros de busqueda
+   */
   public lastfilters: any = {
     finaldate: "",
     texttosearch: " ",
     selectedfilter: " ",
-    pagenumber: "1",
-    pagination: "15"
+    pagenumber: this.pageNumberPaginator,
+    pagination: this.pageSizePaginator
   }
-
-  /**
-   * Numero de solicitudes total
-   */
-  public paginator: string='';
-
 
   /**
    * Modela el numero a pintar en la linea de avance
    */
   public stepAdvanceLine: number;
-  /**
-   * Numero de solicitudes total
-   */
-  public total: number=0;
 
   /**
    * Modela la barra de progreso a pintar en la linea de avance
@@ -54,8 +69,8 @@ export class ValidatorsDashboardComponent implements OnInit {
       selector: [''],
       selectorrole: [localStorage.getItem('Role')],
       textfilter: [''],
-      pageSize: [10],
-      pageNumber: [1],
+      pageSize: [this.pageSizePaginator],
+      pageNumber: [this.pageNumberPaginator],
     });
   }
 
@@ -77,19 +92,22 @@ export class ValidatorsDashboardComponent implements OnInit {
       formattedDate + "",
       "" + " ",
       "" + " ",
-      "1",
-      "15", role).subscribe(resp => {
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`,
+      role)
+      .subscribe(resp => {
       this.tableFilter = resp.data;
-      this.total=resp.count;
-      this.paginator=resp.message+" de "+this.total+ " Resultados";
+      this.totalRequests = resp.count;
     });
+
     this.lastfilters = {
       finaldate: formattedDate + "",
       texttosearch: "" + " ",
       selectedfilter: "" + " ",
-      pagenumber: "1",
-      pagination: "15"
+      pagenumber: `${this.pageNumberPaginator}`,
+      pagination: `${this.pageSizePaginator}`
     }
+
   }
 
   public validar(id: any): void {
@@ -97,29 +115,8 @@ export class ValidatorsDashboardComponent implements OnInit {
     localStorage.setItem("source","validation");
     this.router.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.Validation)
   }
-  public pasarpagina(): void {
-  let pagina =  this.validatorForm.get('pageNumber').value;
-    let role: string = localStorage.getItem('Role');
 
-    this.requestService.getDashboardValidation(
-      this.lastfilters.finaldate+"",
-      this.lastfilters.texttosearch+"",
-      this.lastfilters.selectedfilter+"",
-      pagina+"",
-      "15", role).subscribe(resp => {
-      this.tableFilter = resp.data;
-      if(pagina=="1")
-      {
-        this.total=resp.count;
-      }
-      this.paginator=resp.message+" de "+this.total+ " Resultados";
-
-    });
-  }
-
-
-
-  public getdashboard(): void {
+  public getDashboard(): void {
     let role: string = localStorage.getItem('Role');
     let selector = this.validatorForm.get('selector').value;
     let text = this.validatorForm.get('textfilter').value;
@@ -132,6 +129,7 @@ export class ValidatorsDashboardComponent implements OnInit {
     let year = date.toLocaleString("default", {year: "numeric"});
     let month = date.toLocaleString("default", {month: "2-digit"});
     let day = date.toLocaleString("default", {day: "2-digit"});
+    this.pageNumberPaginator = 1;
 
     // Generate yyyy-mm-dd date string
     let formattedDate = year + "-" + month + "-" + day;
@@ -139,21 +137,44 @@ export class ValidatorsDashboardComponent implements OnInit {
       formattedDate + "",
       (text == null || text == "") ? " " : text,
       (selector == null || selector == "") ? " " : selector,
-      "1",
-      "15", role).subscribe(resp => {
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`, role).subscribe(resp => {
       this.tableFilter = resp.data;
-      this.total=resp.count;
-      this.paginator=resp.message+" de "+this.total+ " Resultados";
+      this.totalRequests=resp.count;
     });
 
     this.lastfilters = {
       finaldate: formattedDate + "",
       texttosearch: (text == null || text == "") ? " " : text,
       selectedfilter: (selector == null || selector == "") ? " " : selector,
-      pagenumber: "1",
-      pagination: "15"
+      pagenumber: `${this.pageNumberPaginator}`,
+      pagination: `${this.pageSizePaginator}`
     }
 
+  }
+
+  /**
+   * Cambia la página en la tabla
+   * @param e Evento del paginador
+   */
+  public changePage(e: PageEvent): void {
+    console.log(e);
+    this.pageSizePaginator = e.pageSize;
+    this.pageNumberPaginator = e.pageIndex + 1;
+
+    let role: string = localStorage.getItem('Role');
+    this.requestService.getDashboardValidation(
+      this.lastfilters.finaldate+"",
+      this.lastfilters.texttosearch+"",
+      this.lastfilters.selectedfilter+"",
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`,
+      role).subscribe(resp => {
+      console.log("estoy en resp", resp);
+      this.tableFilter = resp.data;
+      this.totalRequests = resp.count;
+
+    });
   }
 
 
