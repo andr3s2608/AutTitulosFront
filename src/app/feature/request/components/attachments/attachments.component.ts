@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {PopUpService} from "../../../../core/services";
@@ -19,6 +19,12 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
 
 
   /**
+   * Documentos actuales de la solicitud para editar
+   */
+  @Input()
+  public documentsRequest: Array<any>;
+
+  /**
    * Formulario hijo de documentos
    */
   public attachmentForm: any;
@@ -26,12 +32,12 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
   /**
    * Lista de documentos a subir
    */
-  public listDocumentsToSaved: any[];
+  public listDocumentsToSaved: Array<any> = [];
 
   /**
    * Lista de archivos añadidos
    */
-  public listDocumentSupports: any[];
+  public listDocumentSupports: Array<any> = [];
 
   /**
    * Subscripcion para el subject de professionalCard
@@ -43,20 +49,6 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
               private documentService: DocumentsService,
               private attachmentService: AttachmentService) {
     super();
-    this.listDocumentsToSaved = [
-      {
-        IdDocumentType: 1,
-        description: 'Documento de identificación'
-      },
-      {
-        IdDocumentType: 2,
-        description: 'Título (Diploma de grado)'
-      },
-      {
-        IdDocumentType: 3,
-        description: 'Acta de grado'
-      }
-    ];
   }
 
 
@@ -66,19 +58,43 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
 
     this.listDocumentSupports = this.attachmentForm.get('documentSupports').value;
 
-    this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
-      next: value => {
-        if (value) {
-          if (!this.listDocumentsToSaved.find(x => x.IdDocumentType == 4)) {
-            this.listDocumentsToSaved.push({IdDocumentType: 4, description: 'Tarjeta Profesional'});
+    //Valida si es una solicitud que ya trae documentos
+    if (this.documentsRequest) {
+      this.listDocumentsToSaved.push(...this.documentsRequest.filter(document => !document.is_valid));
+      this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+      console.log("documentos a editar", this.listDocumentsToSaved)
+    } else {
+
+      this.listDocumentsToSaved = [
+        {
+          idDocumentType: 1,
+          description: 'Documento de identificación'
+        },
+        {
+          idDocumentType: 2,
+          description: 'Título (Diploma de grado)'
+        },
+        {
+          idDocumentType: 3,
+          description: 'Acta de grado'
+        }
+      ];
+
+      this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
+        next: value => {
+          if (value) {
+            if (!this.listDocumentsToSaved.find(x => x.idDocumentType == 4)) {
+              this.listDocumentsToSaved.push({idDocumentType: 4, description: 'Tarjeta Profesional'});
+              this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+            }
+          } else if (this.listDocumentsToSaved[3]) {
+            this.listDocumentsToSaved.splice(3, 1);
             this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
           }
-        } else if (this.listDocumentsToSaved[3]) {
-          this.listDocumentsToSaved.splice(3, 1);
-          this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
         }
-      }
-    });
+      });
+    }
+
   }
 
 
@@ -110,7 +126,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    * @param event Evento del input tipo file
    * @param docTypeId TypeId con el que va a quedar el archivo
    */
-  public addSelectedFile(event: any, docTypeId: number, docDescription: string): void {
+  public addSelectedFile(event: any, docTypeId: number, docDescription: string, idDocumentTypeProcedureRequest: number): void {
 
     let archivos = event.target.files;
     const fileSelected = archivos[0];
@@ -133,6 +149,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     const idx = this.listDocumentSupports.findIndex(_file => _file.docTypeId == docTypeId);
     if (idx == -1) {
       this.listDocumentSupports.push({
+        idDocumentTypeProcedureRequest,
         docTypeId,
         docDescription,
         content: fileSelected
@@ -140,6 +157,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     } else {
       if (fileSelected) {
         this.listDocumentSupports[idx] = {
+          idDocumentTypeProcedureRequest,
           docTypeId,
           docDescription,
           content: fileSelected

@@ -246,6 +246,9 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   }
 
 
+  /**
+   * Guarda la solicitud de aclaración o reposición
+   */
   public async saveClarification(): Promise<void> {
 
     try {
@@ -310,7 +313,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdProcedureRequest: this.infoRequest.idProcedure,
         IdUser: this.currentUser.userId,
         dateTracking: new Date(Date.now()),
-        observations: clarificationForm.observation,
+        observations: clarificationForm.observation.toUpperCase(),
         clarification_types_motives: "false/false/false/false/false",
         negation_causes: " ",
         other_negation_causes: " ",
@@ -334,6 +337,9 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   }
 
 
+  /**
+   * Guarda la edición de la solicitud
+   */
   public async saveEditProcedute(): Promise<void> {
     try {
       //guardar
@@ -431,7 +437,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
           });
 
         documentsSave.push({
-          IdDocumentTypeProcedureRequest: i,
+          IdDocumentTypeProcedureRequest: newFile.idDocumentTypeProcedureRequest,
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: this.editRequest.idProcedureRequest,
           path: `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}/Soporte_${newFile.docDescription}`,
