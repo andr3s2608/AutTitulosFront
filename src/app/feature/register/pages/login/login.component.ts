@@ -66,6 +66,10 @@ export class LoginComponent extends AppBaseComponent {
     }
 
   }
+  public Register(): void{
+
+    this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.REGISTER}`);
+  }
 
   public getErrorMessage(field: string): string {
     let message;

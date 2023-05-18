@@ -15,7 +15,7 @@ export class AuthService {
       codeVentanilla: 1825,
       rol: "Ciudadano",
       fullName: `Persona Natural SDS`,
-      email: "personanaturalsds@outlook.es",
+      email: "avelez@soaint.com",
       documentType: "Cedula de ciudadania",
       documentNumber: "1099324897"
     },

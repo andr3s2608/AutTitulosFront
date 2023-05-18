@@ -42,17 +42,42 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   /**
    * Lista de solicitudes realizadas por el ciudadano
    */
-  public allByUser: ProcedureResponseTableUserDto[];
+  public allByUser: any;
 
   /**
    * Filtado de lista de las solicitudes
    */
-  public filterAllByUser: ProcedureResponseTableUserDto[];
+  public filterAllByUser: any;
 
   /**
    * Lista de seguimiento de una solicitud
    */
   public trackingRequest: any[] = [];
+  /**
+   * Atributo para paginador, items por página
+   */
+  public pageSizePaginator: number = 30;
+
+  /**
+   * Atributo para paginador, número de pagina actual
+   */
+  public pageNumberPaginator: number = 1;
+
+  /**
+   * Número total de solicitudes
+   */
+  public totalRequests: number = 0;
+
+  /**
+   * Filtros de busqueda
+   */
+  public lastfilters: any = {
+    finaldate: "",
+    texttosearch: " ",
+    selectedfilter: " ",
+    pagenumber: this.pageNumberPaginator,
+    pagination: this.pageSizePaginator
+  }
 
   /**
    * Modela el numero a pintar en la linea de avance
@@ -64,6 +89,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    */
   public currentProgressAdvanceLine: number;
 
+  /**
+   * Formulario de los datos de la busqueda
+   */
+  public userdashboard: FormGroup;
   /**
    * Formulario padre de la solicitud de aclaracion
    */
@@ -83,6 +112,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * Info de la solicitud
    */
   public infoRequest: any;
+
+  /**
+   * Info de la solicitud
+   */
+  public filter: number=0;
 
   public editRequest: any;
 
@@ -105,6 +139,14 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.showDashboard = true;
     this.showDisclaimerForm = false;
     this.showEditProcedureForm = false;
+
+    this.userdashboard = this.fb.group({
+      selector: [''],
+      selectorrole: [localStorage.getItem('Role')],
+      textfilter: [''],
+      pageSize: [this.pageSizePaginator],
+      pageNumber: [this.pageNumberPaginator],
+    });
 
     this.requestClarificationForm = this.fb.group({
       clarificationForm: this.fb.group({
@@ -150,13 +192,46 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     this.popUp.infoAlert("Cargando solicitudes", 2000);
-
+/*
     this.requestService.getDashboardUser(this.currentUser.userId).subscribe({
       next: value => {
         this.allByUser = value;
         this.filterTable(0);
       }
     })
+    */
+
+    let date: Date = new Date(Date.now());
+
+    // Get year, month, and day part from the date
+    let year = date.toLocaleString("default", {year: "numeric"});
+    let month = date.toLocaleString("default", {month: "2-digit"});
+    let day = date.toLocaleString("default", {day: "2-digit"});
+
+    // Generate yyyy-mm-dd date string
+    let formattedDate = year + "-" + month + "-" + day;
+
+
+    this.requestService.getDashboardbyidUser(
+      formattedDate + "",
+      "" + " ",
+      "" + " ",
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`,
+      this.currentUser.userId)
+      .subscribe(resp => {
+        this.allByUser = resp.data;
+        this.totalRequests = resp.count;
+        this.filterTable(0);
+      });
+
+    this.lastfilters = {
+      finaldate: formattedDate + "",
+      texttosearch: "" + " ",
+      selectedfilter: "" + " ",
+      pagenumber: `${this.pageNumberPaginator}`,
+      pagination: `${this.pageSizePaginator}`,
+    }
   }
 
   /**
@@ -166,12 +241,53 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    */
   public filterTable(filter: number): void {
     if (filter == 0) {
-      this.filterAllByUser = this.allByUser.filter(request => request.statusId != 16);
+      console.log(this.allByUser);
+      this.filterAllByUser = this.allByUser.filter((request: { statusId: string; }) => request.statusId != "16");
+      console.log(this.filterAllByUser)
     } else {
-      this.filterAllByUser = this.allByUser.filter(request =>
-        request.statusId == 16 || request.statusId == 17 || request.statusId == 18 );
+      this.filterAllByUser = this.allByUser.filter((request: { statusId: string; }) =>
+        request.statusId == "16" || request.statusId == "17" || request.statusId == "18" );
     }
+    this.filter=filter;
   }
+
+  public getDashboard(): void {
+    let selector = this.userdashboard.get('selector').value;
+    let text = this.userdashboard.get('textfilter').value;
+
+    this.userdashboard.get('pageNumber').setValue(1);
+
+    let date: Date = new Date(Date.now());
+
+    // Get year, month, and day part from the date
+    let year = date.toLocaleString("default", {year: "numeric"});
+    let month = date.toLocaleString("default", {month: "2-digit"});
+    let day = date.toLocaleString("default", {day: "2-digit"});
+    this.pageNumberPaginator = 1;
+
+    // Generate yyyy-mm-dd date string
+    let formattedDate = year + "-" + month + "-" + day;
+    this.requestService.getDashboardbyidUser(
+      formattedDate + "",
+      (text == null || text == "") ? " " : text,
+      (selector == null || selector == "") ? " " : selector,
+      `${this.pageNumberPaginator}`,
+      `${this.pageSizePaginator}`, this.currentUser.userId).subscribe(resp => {
+      this.allByUser = resp.data;
+      this.totalRequests=resp.count;
+      this.filterTable(this.filter);
+    });
+
+    this.lastfilters = {
+      finaldate: formattedDate + "",
+      texttosearch: (text == null || text == "") ? " " : text,
+      selectedfilter: (selector == null || selector == "") ? " " : selector,
+      pagenumber: `${this.pageNumberPaginator}`,
+      pagination: `${this.pageSizePaginator}`
+    }
+
+  }
+
 
 
   /**

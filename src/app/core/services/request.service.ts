@@ -39,6 +39,13 @@ export class RequestService {
   public getDashboardUser(idUser: string): Observable<ProcedureResponseTableUserDto[]> {
     return this.http.get<ProcedureResponseTableUserDto[]>(`${PROCEDURE_LOCAL_URI}/Request/GetRequestsByUser/${idUser}`)
   }
+  /**
+   * Obtiene la bandeja del usuario (nueva)
+   * @param id
+   */
+  getDashboardbyidUser(finaldate: string,texttosearch:string,selectedfilter:string,pagenumber:string,pagination:string,iduser:string) : Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetAllRequestByUser/${finaldate}/${texttosearch}/${selectedfilter}/${pagenumber}/${pagination}/${iduser}`);
+  }
 
   /**
    * Obtiene la bandeja del validador

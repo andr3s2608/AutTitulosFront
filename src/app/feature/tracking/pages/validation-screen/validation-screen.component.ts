@@ -155,7 +155,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       next: resp3 => {
         this.tracking = resp3.data;
 
-        if (resp3.count > 2) {
+        if (resp3.count > 1) {
           this.lasttracking = this.tracking[this.tracking.length - 1];
 
         }
@@ -252,6 +252,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       checkbox = this.lasttracking.clarification_types_motives.split('/');
       istrack = true;
     }
+    console.log(this.lasttracking)
 
 
     this.validationForm = this.fb.group({
