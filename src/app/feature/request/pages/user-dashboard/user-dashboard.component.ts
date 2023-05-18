@@ -214,7 +214,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     })
     await this.loadTrackingProcedure(idProcedure);
 
-    console.log("dtoProcedure consultado", this.editRequest)
+
     this.editRequestForm.get("editObservationsForm").get("idProcedure").setValue(this.editRequest.filed_number);
     this.editRequestForm.get("editObservationsForm").get("observations").setValue(this.trackingRequest[this.trackingRequest.length - 1].additional_information);
     this.editRequestForm.get("editObservationsForm").disable();
@@ -237,7 +237,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.IdEntity);
 
     if (this.editRequest.professional_card) {
-      console.log("estoy en observable")
+
       this.attachmentService.setShowProfessionalCard(true);
     }
 
@@ -279,7 +279,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
       let documentsSave: DocumentSupportDto[] = [];
 
-      console.log("documentos capturados", clarificationForm.fileSupport);
+
 
       await lastValueFrom(this.archiveService.saveFileBlobStorage(
         clarificationForm.fileSupport,
@@ -407,7 +407,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         filed_number: this.editRequest.filed_number
       }
 
-      console.log("dto a enviar", dtoProcedure);
+
 
 
 
@@ -442,9 +442,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
       }
 
-      console.log("documentos a enviar", documentsSave);
+
       await lastValueFrom(this.documentsService.updateDocumentsByIdRequest(documentsSave));
-      console.log("se guardaron documentos");
 
 
 

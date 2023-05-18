@@ -65,13 +65,11 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
     if(institute.length>2)
     {
-      console.log("mostrar institute", institute)
-      console.log('entro');
+
       institute=institute.split(',');
       this.requestDataForm.get('professionId').setValue('');
     }
-    console.log("mostrar institute", institute)
-    console.log("mostrar proffession", this.requestDataForm.get("professionId").value)
+
 
     this.iesServices.getProgramsbyId(institute[0]).subscribe(resp2 => {
       this.listProfessions = resp2.data;

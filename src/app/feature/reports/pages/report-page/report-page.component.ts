@@ -261,7 +261,7 @@ export class ReportPageComponent implements OnInit {
    * @param e Evento del paginador
    */
   public changePage(e: PageEvent): void {
-    console.log(e);
+
     this.pageSizePaginator = e.pageSize;
     this.pageNumberPaginator = e.pageIndex + 1;
 

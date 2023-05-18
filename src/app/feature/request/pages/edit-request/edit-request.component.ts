@@ -19,7 +19,7 @@ export class EditRequestComponent extends AppBaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("request recibido", this.editRequest);
+
   }
 
 }

@@ -42,7 +42,7 @@
       <div class="entradas-de-texto-govco">
         <label for="profesionId">Profesión <span class="required"> *</span></label>
         <select class="form-select" id="profesionId" aria-label="Default select example"
-                formControlName="professionId" aria-describedby="titleTypeId-note"
+                formControlName="professionId"
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'professionId')}"
                 (change)="activeProfesionalCard($event.target)"
         >
