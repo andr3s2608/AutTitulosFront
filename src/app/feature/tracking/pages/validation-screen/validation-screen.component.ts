@@ -47,22 +47,22 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    */
   public lasttracking: any = {
     idStatusTypes: 0,
-    negationcauses: '',
-    othernegationcauses: '',
-    recurrentargument: '',
-    considerations: '',
-    merits: '',
+    negation_causes: "",
+    other_negation_causes: "",
+    recurrent_argument: "",
+    consideration: "",
+    exposed_merits: "",
     articles: 'Articulo Primero: /n Articulo Segundo:',
-    aditionalinfo: '',
+    additional_information: "",
     checkBoxnameserror: false,
     checkBoxprofessionerror: false,
     checkBoxinstitutionerror: false,
     checkBoxdocumenterror: false,
     checkBoxdateerror: false,
-    aclarationparagraph: '',
-    justificationparagraph1: '',
-    justificationparagraph2: '',
-    aclarationparagrapharticle: ''
+    paragraph_MA: "",
+    paragraph_JMA1: "",
+    paragraph_JMA2: "",
+    paragraph_AMA: ""
   };
 
 
@@ -157,6 +157,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         if (resp3.count > 2) {
           this.lasttracking = this.tracking[this.tracking.length - 1];
+
         }
 
         this.loadInfoTramiteActualInForm();
@@ -252,6 +253,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       istrack = true;
     }
 
+
     this.validationForm = this.fb.group({
 
       informationRequestValidatorForm: this.fb.group({
@@ -311,6 +313,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         professionalCard: [this.tramiteActual.professionalCard]
       }),
 
+
       validationstateform: this.fb.group({
         selectedstatus: [1],
         status: ['Aprobacion'],
@@ -336,7 +339,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     })
 
     if (this.tramiteActual.professionalCard) {
-      console.log("estoy en observable")
       this.attachmentService.setShowProfessionalCard(true);
     }
 
@@ -358,17 +360,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
   public async preliminar(): Promise<void> {
 
     const status = this.validationForm.get('validationstateform.status').value;
+    console.log(status)
     let preliminarresolution = true;
 
 
     let statustogenerate = "";
-    const estados: Array<string> = ['Aprobado', 'Negado', 'Aclaración', 'Reposición'];
+    const estados: Array<string> = ['Aprobado', 'Negado', 'aclaración', 'reposición'];
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
 
-    for (const element of estados) {
-      if (status.includes(element)) {
-        statustogenerate = element;
+
+    for (let i = 0; i <estados.length ; i++) {
+      if (status.includes(estados[i])) {
+        statustogenerate = estadosbd[i];
       }
     }
 
@@ -392,7 +396,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         statustogenerate,
         this.Role + "",
         this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
-        this.validationForm.get('validationstateform.justificationparagraph1').value +
+        this.validationForm.get('validationstateform.justificationparagraph1').value +", "+
         this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
         this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
         preliminarresolution
@@ -414,6 +418,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         `Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`,
         4000
       );
+      console.log(this.validationForm.get('validationstateform.negationcauses').value +"")
+
       console.log("FORMULARIO PROCESADO");
       console.log(this.validationForm.value);
       console.log("ERRORES FORMULARIO");
@@ -421,6 +427,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       this.validationForm.markAllAsTouched();
       return;
     }
+    else
+    {
+
+
 
     const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
     const ultimosestados: Array<string> = ['4', '5', '10', '6'];
@@ -512,7 +522,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         IdStatusTypes: selectedstatus,
         IdProcedureRequest: this.tramiteActual.id,
         IdUser: this.currentValidator.userId,
-        observations: (this.validationForm.get('validationstateform.aditionalinfo').value+"") + ',' + this.validationForm.get('validationstateform.internalobservations').value,
+        observations: (this.validationForm.get('validationstateform.aditionalinfo').value+""!=""?
+          this.validationForm.get('validationstateform.aditionalinfo').value+",":"")  + this.validationForm.get('validationstateform.internalobservations').value,
         negation_causes: this.validationForm.get('validationstateform.negationcauses').value + "",
         other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value + "",
         recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value + "",
@@ -535,7 +546,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
       this.popupAlert.infoAlert(`Generando Resolución, puede tardar unos momentos, espere por favor...`, 15000);
   console.log(status);
-      if (status < 2) {
+
         const resolution: any =
           {
             idProcedureRequest: this.tramiteActual.id,
@@ -544,21 +555,22 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
             path: this.tramiteActual.user.idUser + '/RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber
           }
         await lastValueFrom(this.resolutiontService.addResolution(resolution));
-      }
+
 
       let file: any = null;
       this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
         estadosbd[status],
         this.Role + "",
         this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
-        this.validationForm.get('validationstateform.justificationparagraph1').value +
+        this.validationForm.get('validationstateform.justificationparagraph1').value +", "+
         this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
         this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
         false
       ).pipe(
         switchMap(resp => {
-          file = this.archiveService.base64ToFile(resp.data, "Resolucion.pdf");
-          return this.archiveService.saveFileBlobStorage(file, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
+          file=resp.data;
+          let newfile = this.archiveService.base64ToFile(resp.data, "Resolucion.pdf");
+          return this.archiveService.saveFileBlobStorage(newfile, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
         })
       ).subscribe({
         next: value => {
@@ -570,6 +582,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     } else {
       this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
       await this.getHtmlBody(selectedstatus, selectedstatus, null, aplicantname);
+    }
     }
 
   }

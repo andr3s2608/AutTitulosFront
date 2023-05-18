@@ -14,6 +14,9 @@ import {MatRadioModule} from "@angular/material/radio";
 import { InformationRequestValidatorComponent } from './components/information-request-validator/information-request-validator.component';
 import {AppBaseComponent} from "../../core/utils";
 
+
+
+
 @NgModule({
   declarations: [
     ValidatorsDashboardComponent,
@@ -22,6 +25,7 @@ import {AppBaseComponent} from "../../core/utils";
     ValidationScreenComponent,
     AttachmentViewerComponent,
     InformationRequestValidatorComponent
+
   ],
   imports: [
     CommonModule,

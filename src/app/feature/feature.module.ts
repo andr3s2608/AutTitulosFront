@@ -9,7 +9,7 @@ import {RequestModule} from "./request/request.module";
 import {TrackingModule} from "./tracking/tracking.module";
 import {SharedModule} from "../shared/shared.module";
 import {ReportsModule} from "./reports/reports.module";
-import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -26,8 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     RegisterModule,
     RequestModule,
     TrackingModule,
-    ReportsModule,
-    MatDialogModule,
+    ReportsModule
+
 
   ]
 })

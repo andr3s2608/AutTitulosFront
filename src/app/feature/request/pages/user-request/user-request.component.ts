@@ -265,7 +265,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
         filed_date: new Date(Date.now())
       }
 
-      console.log("dto a enviar", dtoProcedure);
+
 
       let idProcedureRequest: number;
 
@@ -302,9 +302,9 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
       }
 
-      console.log("documentos a enviar", documentsSave);
+
       await lastValueFrom(this.documentsService.addDocumentsToRequest(documentsSave));
-      console.log("se guardaron documentos");
+
 
       //guardar tracking
       let tracking: TrackingRequestDto;
