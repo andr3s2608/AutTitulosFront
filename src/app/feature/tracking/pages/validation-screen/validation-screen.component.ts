@@ -19,6 +19,7 @@ import {lastValueFrom, switchMap} from "rxjs";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
 import {AuthService} from "../../../../core/services/auth.service";
 import {AttachmentService} from "../../../../core/services/attachment.service";
+import {CustomValidators} from "../../../../core/utils/custom-validators";
 
 /**
  * Component que permite validar la información de un trámite
@@ -233,7 +234,12 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       idnumber: datatramite.idNumber,
       aplicantnanme: datatramite.aplicantName,
       profesionid: datatramite.idProfessionInstitute,
-      name_profesion: datatramite.name_profession
+      name_profesion: datatramite.name_profession,
+      nameInternationalUniversity: datatramite.name_institute,
+      countryId: datatramite.idCountry,
+      numberResolutionConvalidation: datatramite.number_resolution_convalidation,
+      dateResolutionConvalidation: datatramite.date_resolution_convalidation,
+      entityId: datatramite.idEntity
     }
 
   }
@@ -277,7 +283,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         telefonoFijo: [this.tramiteActual.user.telefonoFijo, [Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$")]],
         telefonoCelular: [this.tramiteActual.user.telefonoCelular, [Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern("^[0-9]*$")]],
-        fechaNacimiento: [formatDate(new Date(this.tramiteActual.user.fechaNacimiento), 'yyyy-MM-dd', 'en'), [Validators.required, super.dateValidator]],
+        fechaNacimiento: [formatDate(new Date(this.tramiteActual.user.fechaNacimiento), 'yyyy-MM-dd', 'en'), [Validators.required, CustomValidators.dateValidator]],
         sexo: [this.tramiteActual.user.sexo, [Validators.required]],
         genero: [this.tramiteActual.user.genero, [Validators.required]],
         orientacionSexual: [this.tramiteActual.user.orientacionSexual, [Validators.required]],
@@ -303,15 +309,20 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
       requestDataForm: this.fb.group({
         titleTypeId: [this.tramiteActual.titleTypeId, [Validators.required]],
-        instituteId: [[this.tramiteActual.instituteId, this.tramiteActual.name_institute], [Validators.required]],
+        instituteId: [[this.tramiteActual.instituteId, this.tramiteActual.name_institute]],
         professionId: [[this.tramiteActual.profesionid, this.tramiteActual.name_profesion], [Validators.required]],
-        diplomaNumber: [this.tramiteActual.diplomaNumber, [Validators.pattern("^[0-9]*$")]],
-        graduationCertificate: [this.tramiteActual.graduationCertificate, []],
-        endDate: [formatDate(new Date(this.tramiteActual.endDate), 'yyyy-MM-dd', 'en'), [Validators.required, super.dateValidator]],
-        book: [this.tramiteActual.book.toUpperCase(), []],
-        folio: [this.tramiteActual.folio.toUpperCase(), []],
+        diplomaNumber: [this.tramiteActual.diplomaNumber],
+        graduationCertificate: [this.tramiteActual.graduationCertificate],
+        endDate: [formatDate(new Date(this.tramiteActual.endDate), 'yyyy-MM-dd', 'en'), [Validators.required, CustomValidators.dateValidator]],
+        book: [this.tramiteActual.book.toUpperCase()],
+        folio: [this.tramiteActual.folio.toUpperCase()],
         yearTitle: [this.tramiteActual.yearTitle, [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$")]],
-        professionalCard: [this.tramiteActual.professionalCard]
+        professionalCard: [this.tramiteActual.professionalCard],
+        nameInternationalUniversity: [this.tramiteActual.nameInternationalUniversity],
+        countryId: [this.tramiteActual.countryId],
+        numberResolutionConvalidation: [this.tramiteActual.numberResolutionConvalidation],
+        dateResolutionConvalidation: [this.tramiteActual.dateResolutionConvalidation],
+        entityId: [this.tramiteActual.entityId]
       }),
 
 
@@ -343,6 +354,11 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       this.attachmentService.setShowProfessionalCard(true);
     }
 
+    if (this.tramiteActual.titleTypeId == 2) {
+      this.attachmentService.setShowValidationResolution(true);
+      this.changeValidatorsRequestForm(true);
+    }
+
     this.validationForm.get('informationRequestValidatorForm').disable();
     this.validationForm.get('basicDataForm.numeroIdentificacion').disable();
     if(this.Role==='Subdirector' || this.source=='Reports')
@@ -353,6 +369,19 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       this.validationForm.get('attachmentform').disable();
 
     }
+  }
+
+  private changeValidatorsRequestForm(isInternational: boolean): void {
+    if (isInternational) {
+      this.validationForm.get('requestDataForm.nameInternationalUniversity').setValidators([Validators.required]);
+      this.validationForm.get('requestDataForm.countryId').setValidators([Validators.required]);
+      this.validationForm.get('requestDataForm.numberResolutionConvalidation').setValidators([Validators.required]);
+      this.validationForm.get('requestDataForm.dateResolutionConvalidation').setValidators([Validators.required]);
+      this.validationForm.get('requestDataForm.entityId').setValidators([Validators.required]);
+      return;
+    }
+
+    this.validationForm.get('requestDataForm.instituteId').setValidators([Validators.required]);
   }
 
   /**
@@ -478,10 +507,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       folio: this.validationForm.get('requestDataForm.folio').value.toUpperCase(),
       year_title: this.validationForm.get('requestDataForm.yearTitle').value,
       professional_card: this.validationForm.get('requestDataForm.professionalCard').value.toUpperCase(),
-      IdCountry: 170,
-      number_resolution_convalidation: "",
-      date_resolution_convalidation: new Date(Date.now()),
-      IdEntity: 1,
+      IdCountry: this.validationForm.get('countryId').value,
+      number_resolution_convalidation: this.validationForm.get('numberResolutionConvalidation').value.toUpperCase(),
+      date_resolution_convalidation: this.validationForm.get('dateResolutionConvalidation').value,
+      IdEntity: this.validationForm.get('entityId').value,
       name_institute: idistitute[1] + ',' + idistitute[2],
       last_status_date: new Date(Date.now()),
       filed_date: new Date(this.tramiteActual.filed_date),

@@ -22,10 +22,6 @@ public variable : boolean=true;
   public validationDocument:any;
 
 
-
-
-
-
   constructor(public trackingService: TrackingService,
               private router: Router,
               public fb: FormBuilder,
@@ -39,10 +35,8 @@ public variable : boolean=true;
   ngOnInit(): void {
   }
 
-  public async Consultar():Promise<void>
-  {
-    if(this.form.valid)
-    {
+  public async Consultar():Promise<void> {
+    if(this.form.valid) {
       this.trackingService.getValidationDocument(this.form.get('codigo').value).subscribe(resp => {
 
         if(resp.result.count>0)
@@ -65,13 +59,9 @@ public variable : boolean=true;
         4000
       );
     }
-
-
-
   }
 
-  public volver()
-  {
+  public volver() {
     this.router.navigateByUrl(ROUTES.AUT_TITULOS+'/'+ROUTES.DOCUMENTS_VALID);
   }
 

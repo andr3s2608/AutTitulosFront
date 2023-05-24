@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import {Router} from "@angular/router";
 import {RegisterService} from "../../../../core/services/register.service";
 import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
+import {CustomValidators} from "../../../../core/utils/custom-validators";
 
 /**
  * Componente encargado del formulario de registro de persona natural
@@ -156,7 +157,7 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
       barrio: ['', [Validators.required]],
       zona: ['', [Validators.required]],
       direccionResidencia: ['', [Validators.required]],
-      fechaNacimiento: ['', [Validators.required, super.dateValidator]],
+      fechaNacimiento: ['', [Validators.required, CustomValidators.dateValidator]],
       sexo: ['', [Validators.required]],
       genero: ['', [Validators.required]],
       orientacionSexual: ['', [Validators.required]],

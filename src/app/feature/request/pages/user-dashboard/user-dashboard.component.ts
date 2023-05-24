@@ -168,7 +168,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         professionId: ['', [Validators.required]],
         diplomaNumber: ['', [Validators.pattern("^[0-9]*$")]],
         graduationCertificate: ['', []],
-        endDate: ['', [Validators.required, super.dateValidator]],
+        endDate: ['', [Validators.required, CustomValidators.dateValidator]],
         book: ['', []],
         folio: ['', []],
         yearTitle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"), CustomValidators.numberDateFuture]],
@@ -353,8 +353,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.IdEntity);
 
     if (this.editRequest.professional_card) {
-
       this.attachmentService.setShowProfessionalCard(true);
+    }
+
+    if (this.editRequest.number_resolution_convalidation) {
+      this.attachmentService.setShowValidationResolution(true);
     }
 
     this.showEditProcedureForm = true;

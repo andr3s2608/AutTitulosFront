@@ -6,6 +6,7 @@ import {RequestService} from "../../../../core/services/request.service";
 import {IesServices} from "../../../../core/services/ies.services";
 import {AttachmentsComponent} from "../attachments/attachments.component";
 import {AttachmentService} from "../../../../core/services/attachment.service";
+import {CityService} from "../../../../core/services";
 
 @Component({
   selector: 'app-request-data',
@@ -30,14 +31,27 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
   public listProfessions: any[];
 
   /**
+   * Listado de países
+   */
+  public listCountries: any[];
+
+  /**
    * Centinela para mostrar el campo de tarjeta profesional
    */
   public showProfessionalCard: boolean;
 
+  /**
+   * Centinela para mostrar u ocultar el formulario de titulo extranjero
+   */
+  public showInternationalForm: boolean;
+
   constructor(private controlContainer: ControlContainer,
               private iesServices: IesServices,
-              private attachmentService: AttachmentService) {
+              private attachmentService: AttachmentService,
+              private cityService: CityService) {
     super();
+    this.showInternationalForm = null;
+    this.cityService.getCountries().subscribe(resp => this.listCountries = resp.data);
     this.iesServices.getInstitutes().subscribe(resp => this.listInstitutes = resp.data);
     this.attachmentService.showProfessionalCard.subscribe(value => this.showProfessionalCard = value);
   }
@@ -47,10 +61,24 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     this.requestDataForm = this.requestDataForm.controls['requestDataForm'];
 
 
-    if(this.requestDataForm.get('instituteId').value!='' && this.requestDataForm.get('instituteId').value!=null)
-    {
+    if(this.requestDataForm.get('instituteId').value!='' && this.requestDataForm.get('instituteId').value!=null) {
       this.getPrograms();
     }
+
+    if(this.requestDataForm.get('titleTypeId').value!='') {
+      this.showFormNationalOrInternational();
+    }
+  }
+
+  /**
+   * Habilita el formulario del titulo nacional o extranjero
+   */
+  public showFormNationalOrInternational(): void {
+    let form = this.requestDataForm.get('titleTypeId').value;
+
+    this.attachmentService.setShowProfessionalCard(false);
+    this.attachmentService.setShowValidationResolution(form == 2);
+    this.showInternationalForm = form == 2;
   }
 
   /**
@@ -61,11 +89,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     let institute = this.requestDataForm.get('instituteId').value;
 
 
-
-
-    if(institute.length>2)
-    {
-
+    if(institute.length>2) {
       institute=institute.split(',');
       this.requestDataForm.get('professionId').setValue('');
     }
@@ -78,6 +102,10 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
   }
 
 
+  /**
+   * Activa el campo de tarjeta profesional
+   * @param pProfession
+   */
   public activeProfesionalCard(pProfession: any): void {
     let profession = pProfession.value.split(",");
     profession = profession[2]
@@ -101,9 +129,9 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    */
   public getErrorMessage(field: string): string {
     let message;
-    const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle', 'professionalCard'];
-    const onlyNumber: Array<string> = ['diplomaNumber', 'yearTitle'];
-    const dateError: Array<string> = ['endDate', 'yearTitle'];
+    const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle', 'professionalCard', 'nameInternationalUniversity', 'countryId', 'entityId', 'numberResolutionConvalidation'];
+    const onlyNumber: Array<string> = ['yearTitle'];
+    const dateError: Array<string> = ['endDate', 'yearTitle', 'dateResolutionConvalidation'];
 
     if (this.isTouchedField(this.requestDataForm, field)) {
 

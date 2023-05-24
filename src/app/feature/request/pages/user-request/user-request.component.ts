@@ -28,7 +28,7 @@ import {AttachmentService} from "../../../../core/services/attachment.service";
   templateUrl: './user-request.component.html',
   styleUrls: ['./user-request.component.scss']
 })
-export class UserRequestComponent extends AppBaseComponent implements OnInit, OnExit {
+export class UserRequestComponent extends AppBaseComponent implements OnInit {
 
   /**
    * Ruta de la imagen del popup inicial
@@ -85,6 +85,8 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
    */
   private subscriptionProfessionalCard: Subscription;
 
+  private subscriptionFormInternacional: Subscription;
+
   constructor(private archiveService: ArchiveService,
               private popupAlert: PopUpService,
               private requestService: RequestService,
@@ -107,20 +109,20 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
     this.requestForm = this.fb.group({
       requestDataForm: this.fb.group({
         titleTypeId: ['', [Validators.required]],
-        instituteId: ['', [Validators.required]],
+        instituteId: [''],
         professionId: ['', [Validators.required]],
-        diplomaNumber: ['', [Validators.pattern("^[0-9]*$")]],
-        graduationCertificate: ['', []],
-        endDate: ['', [Validators.required, super.dateValidator]],
+        diplomaNumber: [''],
+        graduationCertificate: [''],
+        endDate: ['', [Validators.required, CustomValidators.dateValidator]],
         book: ['', []],
         folio: ['', []],
         yearTitle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"), CustomValidators.numberDateFuture]],
-        professionalCard: [],
-        nameInternationalUniversity: [],
-        countryId: [],
-        numberResolutionConvalidation: [],
-        dateResolutionConvalidation: [],
-        entityId: []
+        professionalCard: [''],
+        nameInternationalUniversity: [''],
+        countryId: [''],
+        numberResolutionConvalidation: [''],
+        dateResolutionConvalidation: [''],
+        entityId: ['']
       }),
       attachmentForm: this.fb.group({
         quantityDocuments: [],
@@ -128,18 +130,11 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       })
     });
 
-    this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
-      next: value => {
-        if (value) {
-          this.requestForm.get("requestDataForm.professionalCard").setValidators([Validators.required]);
-        } else {
-          this.requestForm.get("requestDataForm.professionalCard").clearValidators();
-          this.requestForm.get("requestDataForm.professionalCard").setErrors(null);
-          this.requestForm.get("requestDataForm.professionalCard").updateValueAndValidity();
-          this.requestForm.get("requestDataForm.professionalCard").setValue("");
-        }
-      }
-    })
+    this.validatorProfessionalCard();
+
+    this.subscriptionFormInternacional =
+      this.attachmentService.showValidationResolution
+        .subscribe(value => this.validatorsFormNationalOrInternational(value));
   }
 
   ngOnInit(): void {
@@ -153,10 +148,6 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
     this.popUpInicial();
     this.currentUser = this.authService.getCurrentUser();
-  }
-
-  public redirectionDashboard(): void {
-    this.route.navigateByUrl(ROUTES.AUT_TITULOS + "/" + ROUTES.CITIZEN + "/" + ROUTES.PERSON_DASHBOARD);
   }
 
 
@@ -266,7 +257,6 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
       }
 
 
-
       let idProcedureRequest: number;
 
       await lastValueFrom(this.requestService.saveRequest(dtoProcedure)).then(requestResponse => {
@@ -354,7 +344,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
     await lastValueFrom(this.registerService.getFormats("12")).then(requestResponse => nuevoHTML = requestResponse.data.body);
 
 
-      nuevoHTML=nuevoHTML.replace('~:~no_radicado~:~',this.numberFiled);
+    nuevoHTML = nuevoHTML.replace('~:~no_radicado~:~', this.numberFiled);
 
     this.registerService.sendEmail({
       to: this.currentUser.email.toLowerCase(),
@@ -364,61 +354,98 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit, On
 
   }
 
-
-  //Not Implemented
-  onExit(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    const rta = confirm('Are you sure?');
-    return rta;
-
-    /*
-
-    if (this.sending == true) {
-      this.confirmDialog('seguro de que desea salir?').then(r => {
-        console.log(r)
-        return r;
-      }).catch(e => {
-        console.log('entré al catch', e)
-        return false;
-      })
-
-      //Swal.fire('No puedes salir de la página ya que se está guardando el formulario.');
-      /*console.log('no puedes salir')
-      let aqui = window.confirm("Quieres salir?")
-      console.log(aqui)
-      return aqui*/
-
-    /*
-          Swal.fire({
-            text: 'salir',
-            showConfirmButton: true,
-          }).then( result => {
-            if(result.isConfirmed){
-              console.log('entre en el then')
-              exit = true;
-              return false;
-            } else {
-              return true;
-            }
-          })
-        }else {
-          console.log('retornare algo')
-          return exit;
+  /**
+   * Se subscribe al observable de professional card para modificar las validaciones de professional card en el formulario
+   */
+  private validatorProfessionalCard(): void {
+    this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
+      next: value => {
+        if (value) {
+          this.requestForm.get("requestDataForm.professionalCard").setValidators([Validators.required]);
+        } else {
+          this.requestForm.get("requestDataForm.professionalCard").clearValidators();
+          this.requestForm.get("requestDataForm.professionalCard").setErrors(null);
+          this.requestForm.get("requestDataForm.professionalCard").updateValueAndValidity();
+          this.requestForm.get("requestDataForm.professionalCard").setValue("");
         }
-  } else {
-    console.log('retornare algo2')
-    return false;
-  }*/
-
-
-  }
-
-  public confirmDialog(msg: any) {
-    return new Promise(function (resolve, reject) {
-      let confirmed = window.confirm(msg);
-
-      return confirmed ? resolve(true) : reject(false);
+      }
     });
   }
 
+  /**
+   * Agrega o elimina las validaciones para los titulos nacional o internacionales
+   * @param showInternational True si agrega validaciones al titulo internacional, false para el nacional
+   */
+  private validatorsFormNationalOrInternational(showInternational: boolean): void {
+    if (showInternational) {
+      this.setValitadorsNational(false);
+      this.setValidatorsInternational(true);
+    } else {
+      this.setValidatorsInternational(false);
+      this.setValitadorsNational(true);
+    }
+  }
+
+
+  /**
+   * Agrega o elimina las validaciones referentes al titulo nacional
+   * @param addValitadors True para agregar, false para remover
+   */
+  private setValitadorsNational(addValitadors: boolean): void {
+    if (addValitadors) {
+      this.requestForm.get('requestDataForm.instituteId').setValidators([Validators.required]);
+      return;
+    }
+    this.requestForm.get("requestDataForm.instituteId").clearValidators();
+    this.requestForm.get("requestDataForm.instituteId").setErrors(null);
+    this.requestForm.get("requestDataForm.instituteId").updateValueAndValidity();
+    this.requestForm.get("requestDataForm.instituteId").setValue("");
+    this.requestForm.get("requestDataForm.diplomaNumber").setValue("");
+    this.requestForm.get("requestDataForm.graduationCertificate").setValue("");
+    this.requestForm.get("requestDataForm.book").setValue("");
+    this.requestForm.get("requestDataForm.folio").setValue("");
+  }
+
+
+  /**
+   * Agrega o elimina las validaciones referentes al titulo internacional
+   * @param  addValitadors True para agregar, false para remover
+   */
+  private setValidatorsInternational(addValitadors: boolean): void {
+    if (addValitadors) {
+      this.requestForm.get('requestDataForm.nameInternationalUniversity').setValidators([Validators.required]);
+      this.requestForm.get('requestDataForm.countryId').setValidators([Validators.required]);
+      this.requestForm.get('requestDataForm.numberResolutionConvalidation').setValidators([Validators.required]);
+      this.requestForm.get('requestDataForm.dateResolutionConvalidation').setValidators([Validators.required]);
+      this.requestForm.get('requestDataForm.entityId').setValidators([Validators.required]);
+      return;
+    }
+
+    this.requestForm.get('requestDataForm.nameInternationalUniversity').clearValidators();
+    this.requestForm.get('requestDataForm.nameInternationalUniversity').setErrors(null);
+    this.requestForm.get('requestDataForm.nameInternationalUniversity').updateValueAndValidity();
+    this.requestForm.get('requestDataForm.nameInternationalUniversity').setValue("");
+
+    this.requestForm.get('requestDataForm.countryId').clearValidators();
+    this.requestForm.get('requestDataForm.countryId').setErrors(null);
+    this.requestForm.get('requestDataForm.countryId').updateValueAndValidity();
+    this.requestForm.get('requestDataForm.countryId').setValue("");
+
+    this.requestForm.get('requestDataForm.numberResolutionConvalidation').clearValidators();
+    this.requestForm.get('requestDataForm.numberResolutionConvalidation').setErrors(null);
+    this.requestForm.get('requestDataForm.numberResolutionConvalidation').updateValueAndValidity();
+    this.requestForm.get('requestDataForm.numberResolutionConvalidation').setValue("");
+
+    this.requestForm.get('requestDataForm.dateResolutionConvalidation').clearValidators();
+    this.requestForm.get('requestDataForm.dateResolutionConvalidation').setErrors(null);
+    this.requestForm.get('requestDataForm.dateResolutionConvalidation').updateValueAndValidity();
+    this.requestForm.get('requestDataForm.dateResolutionConvalidation').setValue("");
+
+    this.requestForm.get('requestDataForm.entityId').clearValidators();
+    this.requestForm.get('requestDataForm.entityId').setErrors(null);
+    this.requestForm.get('requestDataForm.entityId').updateValueAndValidity();
+    this.requestForm.get('requestDataForm.entityId').setValue("");
+  }
+
+  protected readonly ROUTES = ROUTES;
 }

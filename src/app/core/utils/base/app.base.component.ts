@@ -165,27 +165,12 @@ export class AppBaseComponent {
 
   removeEndLine = (text:any) => (text.replace(/[^\n]/, '')).trim();
 
-  /**
-   * Valida si la fecha ingresada es superior a la fecha actual
-   * @param control
-   */
-  dateValidator(control: FormControl): { [p: string]: boolean } | null {
-    if (control.value) {
-      const date = new Date(control.value);
-      const today = new Date(Date.now());
-      if (date > (today)) {
-        return {'invalidDate': true }
-      }
-    }
-    return null;
-  }
-
 
   /**
    * Bloquea fechas futuras de un calendario
    * @param idInputDate Id del input tipo date a bloquear
    */
-  blockCalendarFutureDate(idInputDate: string): void {
+  public blockCalendarFutureDate(idInputDate: string): void {
     const datepicker = document.getElementById(idInputDate);
     const today = new Date();
     let date = today.getDate() > 9 ? today.getDate() :
@@ -201,7 +186,7 @@ export class AppBaseComponent {
    * Retorna todos los errores o validaciones presentes en el FormGroup
    * @param form Form a evaluar
    */
-  getAllErrors(form: FormGroup | FormArray): { [key: string]: any; } | null {
+  public getAllErrors(form: FormGroup | FormArray): { [key: string]: any; } | null {
     let hasError = false;
     const result = Object.keys(form.controls).reduce((acc, key) => {
       const control = form.get(key);
