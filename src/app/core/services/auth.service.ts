@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {map, Observable} from "rxjs";
-import {CurrentUserDto} from "../models/currentUserDto";
+import {CurrentUserDto} from "@core-app/models";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import jwt_decode from "jwt-decode";
 

@@ -1,24 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import Swal from "sweetalert2";
-import {ArchiveService, PopUpService} from "../../../../core/services";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AppBaseComponent} from "../../../../core/utils";
+import {Router} from "@angular/router";
+import {lastValueFrom, Subscription} from "rxjs";
 
-import {lastValueFrom, Observable, Subscription} from "rxjs";
-import {Router, UrlTree} from "@angular/router";
-import {OnExit} from "../../../../core/guards/pending-changes.guard";
-import {ROUTES} from "../../../../core/enums";
-import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
-import {RequestService} from "../../../../core/services/request.service";
-import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.model";
-import {DocumentsService} from "../../../../core/services/documents.service";
-import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
-import {TrackingService} from "../../../../core/services/tracking.service";
-import {CustomValidators} from "../../../../core/utils/custom-validators";
-import {AuthService} from "../../../../core/services/auth.service";
-import {CurrentUserDto} from "../../../../core/models/currentUserDto";
-import {RegisterService} from "../../../../core/services/register.service";
-import {AttachmentService} from "../../../../core/services/attachment.service";
+import Swal from "sweetalert2";
+import {ArchiveService, PopUpService, RequestService, DocumentsService, TrackingService, AuthService, RegisterService, AttachmentService} from "@core-app/services";
+import {ProcedureRequestBackDto, DocumentSupportDto, TrackingRequestDto, CurrentUserDto} from "@core-app/models";
+import {AppBaseComponent} from "@core-app/utils";
+import {ROUTES} from "@core-app/enums";
+import {CustomValidators} from "@core-app/utils/custom-validators";
 
 /**
  * Componente que moldea la página de la solicitud del ciudadano
@@ -85,6 +75,9 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
    */
   private subscriptionProfessionalCard: Subscription;
 
+  /**
+   * Subscripcion para cambiar el formulario de nacional o extranjero
+   */
   private subscriptionFormInternacional: Subscription;
 
   constructor(private archiveService: ArchiveService,

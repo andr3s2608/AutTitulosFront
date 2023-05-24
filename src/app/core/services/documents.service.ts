@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {DocumentSupportDto} from "../models/documentSupportDto.model";
+import {DocumentSupportDto} from "@core-app/models";
 const { PROCEDURE_SHARED_URI } = environment;
 const { PROCEDURE_SECURITY_URI } = environment;
 const { PROCEDURE_NOTIFICATIONS_URI } = environment;

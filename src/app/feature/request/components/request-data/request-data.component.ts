@@ -3,7 +3,7 @@ import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
 import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 import {RequestService} from "../../../../core/services/request.service";
-import {IesServices} from "../../../../core/services/ies.services";
+import {IesService} from "@core-app/services/ies.service";
 import {AttachmentsComponent} from "../attachments/attachments.component";
 import {AttachmentService} from "../../../../core/services/attachment.service";
 import {CityService} from "../../../../core/services";
@@ -46,7 +46,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
   public showInternationalForm: boolean;
 
   constructor(private controlContainer: ControlContainer,
-              private iesServices: IesServices,
+              private iesServices: IesService,
               private attachmentService: AttachmentService,
               private cityService: CityService) {
     super();

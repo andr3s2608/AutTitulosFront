@@ -13,7 +13,7 @@ const { PROCEDURE_LOCAL_URI } = environment;
 @Injectable({
   providedIn: 'root'
 })
-export class IesServices {
+export class IesService {
 
   constructor(private http: HttpClient) { }
 

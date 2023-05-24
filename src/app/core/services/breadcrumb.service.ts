@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, filter } from "rxjs";
 import { ActivatedRouteSnapshot, Data, NavigationEnd, Router } from "@angular/router";
-import {Breadcrumb} from "../models";
+
+import {Breadcrumb} from "@core-app/models";
 
 /**
  * Service que funciona para la miga de pan
