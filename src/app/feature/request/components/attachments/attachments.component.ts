@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
-import {PopUpService} from "../../../../core/services";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
-import {DocumentsService} from "../../../../core/services/documents.service";
 import {Subscription} from "rxjs";
-import {AttachmentService} from "../../../../core/services/attachment.service";
+
+import {AppBaseComponent} from "@core-app/utils";
+import {ErrorMessage} from "@core-app/enums";
+import {DocumentsService, AttachmentService, PopUpService} from "@core-app/services";
 
 /**
  * Componente encargado de los documentos de la solicitud
@@ -44,6 +43,11 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    */
   public subscriptionProfessionalCard: Subscription;
 
+  /**
+   * Subscripcion para el subject de ValidationResolution
+   */
+  public subscriptionValidationResolution: Subscription;
+
   constructor(private controlContainer: ControlContainer,
               private popupAlert: PopUpService,
               private documentService: DocumentsService,
@@ -79,22 +83,43 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
           description: 'Acta de grado'
         }
       ];
-
-      this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
-        next: value => {
-          if (value) {
-            if (!this.listDocumentsToSaved.find(x => x.idDocumentType == 4)) {
-              this.listDocumentsToSaved.push({idDocumentType: 4, description: 'Tarjeta Profesional'});
-              this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
-            }
-          } else if (this.listDocumentsToSaved[3]) {
-            this.listDocumentsToSaved.splice(3, 1);
-            this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
-          }
-        }
-      });
+      this.manageSubscriptions();
     }
 
+  }
+
+  /**
+   * Maneja las subcripciones para los distintos estados de los archivos
+   */
+  private manageSubscriptions(): void {
+    this.subscriptionProfessionalCard = this.attachmentService.showProfessionalCard.subscribe({
+      next: value => {
+        if (value) {
+          if (!this.listDocumentsToSaved.find(x => x.idDocumentType == 4)) {
+            this.listDocumentsToSaved.push({idDocumentType: 4, description: 'Tarjeta Profesional'});
+            this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+          }
+        } else if (this.listDocumentsToSaved.find(x => x.idDocumentType == 4)) {
+          this.listDocumentsToSaved.splice(this.listDocumentsToSaved.findIndex(x => x.idDocumentType == 4), 1);
+          this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+        }
+      }
+    });
+
+    this.subscriptionValidationResolution = this.attachmentService.showValidationResolution.subscribe({
+      next: value => {
+        if (value) {
+          if (!this.listDocumentsToSaved.find(x => x.idDocumentType == 5)) {
+            this.listDocumentsToSaved.push({idDocumentType: 5, description: 'Resolución de convalidación'});
+            this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+          }
+        } else if (this.listDocumentsToSaved.find(x => x.idDocumentType == 5)) {
+
+          this.listDocumentsToSaved.splice(this.listDocumentsToSaved.findIndex(x => x.idDocumentType == 5), 1);
+          this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
+        }
+      }
+    });
   }
 
 

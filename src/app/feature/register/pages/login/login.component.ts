@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {CustomValidators} from "../../../../core/utils/custom-validators";
-import {ErrorMessage, HasErrorForm} from "../../../../core/enums/errorMessage.enum";
-import {AppBaseComponent} from "../../../../core/utils";
-import {PopUpService} from "../../../../core/services";
-import {Authentication} from "../../../../core/models/auth.model";
-import {Rol, ROUTES} from "../../../../core/enums";
-import {AuthService} from "../../../../core/services/auth.service";
+
+import {CustomValidators} from "@core-app/utils/custom-validators";
+import {ErrorMessage, HasErrorForm, Rol, ROUTES} from "@core-app/enums";
+import {AppBaseComponent} from "@core-app/utils";
+import {PopUpService, AuthService} from "@core-app/services";
+import {Authentication} from "@core-app/models";
 
 @Component({
   selector: 'app-login',

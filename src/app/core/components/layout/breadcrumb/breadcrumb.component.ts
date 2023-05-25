@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {Breadcrumb} from "../../../models";
-import {BreadcrumbService} from "../../../services";
+
+import {Breadcrumb} from "@core-app/models";
+import {BreadcrumbService} from "@core-app/services";
 
 /**
  * Componente que moldea una miga de pan

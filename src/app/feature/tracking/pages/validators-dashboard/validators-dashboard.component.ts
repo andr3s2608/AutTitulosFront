@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ROUTES} from "../../../../core/enums";
-import {RequestService} from "../../../../core/services/request.service";
 import {PageEvent} from "@angular/material/paginator";
 
+import {ROUTES} from "@core-app/enums";
+import {RequestService} from "@core-app/services";
 
+/**
+ * Componente para la bandeja del funcionario con el listado de solicitudes pendientes por validar
+ */
 @Component({
   selector: 'app-validators-dashboard',
   templateUrl: './validators-dashboard.component.html',

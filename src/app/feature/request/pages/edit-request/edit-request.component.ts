@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
-import {AppBaseComponent} from "../../../../core/utils";
-import {ControlContainer} from "@angular/forms";
+
+import {AppBaseComponent} from "@core-app/utils";
 
 @Component({
   selector: 'app-edit-request',

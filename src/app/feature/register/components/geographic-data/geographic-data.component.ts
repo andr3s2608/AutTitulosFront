@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, Validators} from "@angular/forms";
-import {CityService} from "../../../../core/services";
-import {AppBaseComponent} from "../../../../core/utils";
+
+import {CityService} from "@core-app/services";
+import {AppBaseComponent} from "@core-app/utils";
 
 @Component({
   selector: 'app-geographic-data',

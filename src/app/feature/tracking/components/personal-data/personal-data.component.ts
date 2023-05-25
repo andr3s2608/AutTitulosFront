@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, Validators} from "@angular/forms";
-import {CityService, PopUpService} from "../../../../core/services";
-import {AppBaseComponent} from "../../../../core/utils";
-import {RegisterService} from "../../../../core/services/register.service";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
 
+import {CityService, PopUpService, RegisterService} from "@core-app/services";
+import {AppBaseComponent} from "@core-app/utils";
+import {ErrorMessage} from "@core-app/enums";
+
+/**
+ * Componente para los datos perosnales del ciudadano en la validación del funcionario
+ */
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.component.html',

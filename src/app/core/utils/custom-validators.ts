@@ -21,6 +21,22 @@ export class CustomValidators {
   }
 
   /**
+   * Valida si la fecha ingresada es superior a la fecha actual
+   * @param control
+   * @return Null si la fecha es valida, invalidDate: true de lo contrario
+   */
+  public static dateValidator(control: FormControl): { [p: string]: boolean } | null {
+    if (control.value) {
+      const date = new Date(control.value);
+      const today = new Date(Date.now());
+      if (date > (today)) {
+        return {'invalidDate': true }
+      }
+    }
+    return null;
+  }
+
+  /**
    * Valida si el correo ingresado cumple la expresión regular del formato email
    * @param control
    */

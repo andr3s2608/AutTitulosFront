@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {ROUTES} from "../../../../core/enums";
-import Swal from "sweetalert2";
-import {AuthService} from "../../../../core/services/auth.service";
 
+import Swal from "sweetalert2";
+
+import {ROUTES} from "@core-app/enums";
+import {AuthService} from "@core-app/services";
+
+/**
+ * Componente para mostrar la declaración juramentada al ciudadano
+ */
 @Component({
   selector: 'app-user-declaration',
   templateUrl: './user-declaration.component.html',

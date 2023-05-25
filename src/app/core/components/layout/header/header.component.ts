@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
-import {ROUTES} from "../../../enums";
-import {PopUpService} from "../../../services";
+import {AuthService, PopUpService} from "@core-app/services";
+import {ROUTES} from "@core-app/enums";
 
 /**
  * Component encargado del header de la página

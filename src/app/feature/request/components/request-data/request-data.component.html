@@ -2,16 +2,17 @@
 
   <div class="row">
 
-    <div class="col-sm-12 col-md-7">
+    <div class="col-sm-12 col-md-12">
       <div class="entradas-de-texto-govco">
         <label for="tipoTituloId">Tipo de título obtenido <span class="required">*</span></label>
         <select class="form-select" id="tipoTituloId" aria-label="Default select example"
                 formControlName="titleTypeId" aria-describedby="titleTypeId-note"
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'titleTypeId')}"
-
+                (change)="showFormNationalOrInternational()"
         >
           <option value="" selected disabled>Seleccione</option>
           <option value="1">NACIONAL</option>
+          <option value="2">EXTRANJERO</option>
         </select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
@@ -20,7 +21,21 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == true">
+      <div class="entradas-de-texto-govco">
+        <label for="nombre-uni-internacional">Nombre Universidad Internacional <span class="required"> *</span></label>
+        <input type="text" id="nombre-uni-internacional" placeholder="Nombre universidad internacional"
+               style="text-transform: uppercase;"
+               formControlName="nameInternationalUniversity" aria-describedby="nameInternationalUniversity-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'nameInternationalUniversity')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('nameInternationalUniversity') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == false">
       <div class="entradas-de-texto-govco">
         <label for="institucionId">Institución educativa <span class="required"> *</span></label>
         <select class="form-select" id="institucionId" aria-label="Default select example"
@@ -38,9 +53,9 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm != null">
       <div class="entradas-de-texto-govco">
-        <label for="profesionId">Profesión <span class="required"> *</span></label>
+        <label for="profesionId">{{showInternationalForm ? 'Título equivalente' : 'Profesión'}}<span class="required"> *</span></label>
         <select class="form-select" id="profesionId" aria-label="Default select example"
                 formControlName="professionId"
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'professionId')}"
@@ -56,7 +71,38 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == true">
+      <div class="entradas-de-texto-govco">
+        <label for="pais-origen">País Origen Título<span class="required"> *</span></label>
+        <select class="form-select" id="pais-origen" aria-label="Default select example"
+                formControlName="countryId"
+                [ngClass]="{'error': isTouchedField(requestDataForm, 'countryId')}"
+        >
+          <option value="" selected disabled>Seleccione</option>
+          <option *ngFor="let pais of listCountries" [value]="[pais.idPais]">{{pais.nombre}}</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('countryId') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == true">
+      <div class="entradas-de-texto-govco">
+        <label for="numero-convalidacion">Número de resolución de convalidación<span class="required"> *</span></label>
+        <input type="text" id="numero-convalidacion" placeholder="Número de resolución de convalidación"
+               style="text-transform: uppercase;"
+               formControlName="numberResolutionConvalidation" aria-describedby="numero-convalidacion-note"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'numberResolutionConvalidation')}"/>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('numberResolutionConvalidation') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == false">
       <div class="entradas-de-texto-govco">
         <label for="diplomaNumero">Diploma No.</label>
         <input type="text" id="diplomaNumero" placeholder="Diploma No."
@@ -70,7 +116,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == false">
       <div class="entradas-de-texto-govco">
         <label for="actaGrado">Acta de grado</label>
         <input type="text" id="actaGrado" placeholder="Acta de grado"
@@ -84,7 +130,42 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == true">
+      <div class="entradas-de-texto-govco">
+        <label for="fecha-resolucion-convalidacion">Fecha de resolución <span class="required">*</span> </label>
+        <input type="date" id="fecha-resolucion-convalidacion"
+               formControlName="dateResolutionConvalidation"
+               style="text-transform: uppercase;"
+               (click)="blockCalendarFutureDate('fecha-resolucion-convalidacion')"
+               [ngClass]="{'error': isTouchedField(requestDataForm, 'dateResolutionConvalidation') }"
+        />
+        <span *ngIf="!isValidField(requestDataForm, 'dateResolutionConvalidation')"
+              class="error-texto-govco alert-entradas-de-texto-govco"  role="alert"
+              aria-live="assertive">
+          {{ getErrorMessage('dateResolutionConvalidation') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == true">
+      <div class="entradas-de-texto-govco">
+        <label for="entidadId">Entidad <span class="required">*</span></label>
+        <select class="form-select" id="entidadId" aria-label="Default select example"
+                formControlName="entityId" aria-describedby="titleTypeId-note"
+                [ngClass]="{'error': isTouchedField(requestDataForm, 'entityId')}"
+        >
+          <option value="" selected disabled>Seleccione</option>
+          <option value="1">MINISTERIO DE EDUCACIÓN</option>
+          <option value="2">ICFES</option>
+        </select>
+        <span
+          class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
+          {{ getErrorMessage('entityId') }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm != null">
       <div class="entradas-de-texto-govco">
         <label for="fecha-terminacion">Fecha terminación <span class="required">*</span> </label>
         <input type="date" id="fecha-terminacion"
@@ -101,7 +182,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == false">
       <div class="entradas-de-texto-govco">
         <label for="libro">Libro</label>
         <input type="text" id="libro" placeholder="Libro"
@@ -115,7 +196,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == false">
       <div class="entradas-de-texto-govco">
         <label for="Folio">Folio</label>
         <input type="text" id="Folio" placeholder="Folio"
@@ -129,7 +210,7 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm != null">
       <div class="entradas-de-texto-govco">
         <label for="anio-titulo">Año Título <span class="required"> *</span></label>
         <input type="text" id="anio-titulo" placeholder="Año"

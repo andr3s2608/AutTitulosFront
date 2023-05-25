@@ -26,7 +26,12 @@ export interface ProcedureValidation {
   "aplicantnanme": string,
 
   "name_profesion": string,
-  "profesionid": string
+  "profesionid": string,
+  nameInternationalUniversity?: string,
+  countryId: number,
+  numberResolutionConvalidation: string,
+  dateResolutionConvalidation: Date,
+  entityId: number
 
 
 }

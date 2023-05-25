@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {ROUTES} from "../../../../core/enums";
+
+import {ROUTES} from "@core-app/enums";
 
 @Component({
   selector: 'app-screen-register',

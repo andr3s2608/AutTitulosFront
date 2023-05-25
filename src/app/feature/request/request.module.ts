@@ -15,6 +15,7 @@ import { RequestClarificationComponent } from './components/request-clarificatio
 import { EditRequestComponent } from './pages/edit-request/edit-request.component';
 import { RequestEditObservationsComponent } from './components/request-edit-observations/request-edit-observations.component';
 import { EditAttachmentsComponent } from './components/edit-attachments/edit-attachments.component';
+import {RouterLink} from "@angular/router";
 
 
 
@@ -42,6 +43,7 @@ import { EditAttachmentsComponent } from './components/edit-attachments/edit-att
         SharedModule,
         ReactiveFormsModule,
         MatPaginatorModule,
+        RouterLink,
     ]
 })
 export class RequestModule { }

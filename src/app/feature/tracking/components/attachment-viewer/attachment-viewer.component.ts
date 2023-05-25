@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ArchiveService, PopUpService} from "../../../../core/services";
 import {ControlContainer} from "@angular/forms";
-import {DocumentsService} from "../../../../core/services/documents.service";
+
+import {ArchiveService, PopUpService} from "@core-app/services";
+import {DocumentsService} from "@core-app/services";
 
 /**
  * Component que permite visualizar documentos cargados en el trámite

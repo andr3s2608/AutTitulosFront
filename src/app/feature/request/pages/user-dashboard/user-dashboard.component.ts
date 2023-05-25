@@ -1,23 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProcedureResponseTableUserDto} from "../../../../core/models/procedureResponseTableUserDto";
-import {RequestService} from "../../../../core/services/request.service";
-import {TrackingService} from "../../../../core/services/tracking.service";
-import {ArchiveService, PopUpService} from "../../../../core/services";
-import Swal from "sweetalert2";
-import {AppBaseComponent} from "../../../../core/utils";
-import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.model";
-import {lastValueFrom} from "rxjs";
-import {DocumentsService} from "../../../../core/services/documents.service";
-import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
-import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
 import {formatDate} from "@angular/common";
-import {CustomValidators} from "../../../../core/utils/custom-validators";
-import {CurrentUserDto} from "../../../../core/models/currentUserDto";
-import {AuthService} from "../../../../core/services/auth.service";
-import {AttachmentService} from "../../../../core/services/attachment.service";
 import {PageEvent} from "@angular/material/paginator";
+import {lastValueFrom} from "rxjs";
+import {RequestService, TrackingService, ArchiveService, PopUpService, DocumentsService, AuthService, AttachmentService} from "@core-app/services";
+import {AppBaseComponent} from "@core-app/utils";
+import {CustomValidators} from "@core-app/utils/custom-validators";
+import {DocumentSupportDto, TrackingRequestDto, ProcedureRequestBackDto, CurrentUserDto} from "@core-app/models";
 
+/**
+ * Componente para la bandeja del ciudadano con las solicitudes realizadas
+ */
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -174,7 +167,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         professionId: ['', [Validators.required]],
         diplomaNumber: ['', [Validators.pattern("^[0-9]*$")]],
         graduationCertificate: ['', []],
-        endDate: ['', [Validators.required, super.dateValidator]],
+        endDate: ['', [Validators.required, CustomValidators.dateValidator]],
         book: ['', []],
         folio: ['', []],
         yearTitle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$"), CustomValidators.numberDateFuture]],
@@ -384,8 +377,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.IdEntity);
 
     if (this.editRequest.professional_card) {
-
       this.attachmentService.setShowProfessionalCard(true);
+    }
+
+    if (this.editRequest.number_resolution_convalidation) {
+      this.attachmentService.setShowValidationResolution(true);
     }
 
     this.showEditProcedureForm = true;
@@ -416,7 +412,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       const formData = this.requestClarificationForm.value;
       const clarificationForm = formData['clarificationForm'];
 
-    //  console.log("formData", formData)
+      console.log("formData", formData)
 
       if (clarificationForm.fileSupport == null) {
         this.popUp.errorAlert(
