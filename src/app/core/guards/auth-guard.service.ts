@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {AuthService} from "../services/auth.service";
-import {Rol, ROUTES} from "../enums";
 import {Router} from "@angular/router";
+
 import Swal from "sweetalert2";
-import {CurrentUserDto} from "../models/currentUserDto";
+
+import {AuthService} from "@core-app/services";
+import {Rol, ROUTES} from "@core-app/enums";
+import {CurrentUserDto} from "@core-app/models";
 
 @Injectable({
   providedIn: 'root'

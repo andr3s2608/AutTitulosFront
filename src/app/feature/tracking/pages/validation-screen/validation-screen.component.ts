@@ -1,28 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ArchiveService, PopUpService} from "../../../../core/services";
-import {AppBaseComponent} from "../../../../core/utils";
-import {ProcedureValidation, UserValidation} from "../../../../core/models";
 import {formatDate} from "@angular/common";
-import {RegisterService} from "../../../../core/services/register.service";
-import {TrackingService} from "../../../../core/services/tracking.service";
-import {DocumentsService} from "../../../../core/services/documents.service";
-
-import {RequestService} from "../../../../core/services/request.service";
-import {ResolutionService} from "../../../../core/services/resolution.service";
-import {ROUTES} from "../../../../core/enums";
 import {Router} from "@angular/router";
-import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
-import {toBoolean, toNumber} from "ng-zorro-antd/core/util";
 import {lastValueFrom, switchMap} from "rxjs";
-import {CurrentUserDto} from "../../../../core/models/currentUserDto";
-import {AuthService} from "../../../../core/services/auth.service";
-import {AttachmentService} from "../../../../core/services/attachment.service";
-import {CustomValidators} from "../../../../core/utils/custom-validators";
+import {toBoolean, toNumber} from "ng-zorro-antd/core/util";
+
+import {ArchiveService, PopUpService, RegisterService, TrackingService, DocumentsService, RequestService, ResolutionService, AuthService, AttachmentService} from "@core-app/services";
+import {AppBaseComponent} from "@core-app/utils";
+import {ProcedureValidation, UserValidation, CurrentUserDto} from "@core-app/models";
+import {ROUTES} from "@core-app/enums";
+import {CustomValidators} from "@core-app/utils/custom-validators";
 
 /**
- * Component que permite validar la información de un trámite
+ * Component que permite al funcionario validar la información de un trámite
  */
 @Component({
   selector: 'app-validation-screen',

@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import {AppBaseComponent} from "../../../../core/utils";
-import {CityService, PopUpService} from "../../../../core/services";
-import {ROUTES} from "../../../../core/enums";
-import Swal from "sweetalert2";
 import {Router} from "@angular/router";
-import {RegisterService} from "../../../../core/services/register.service";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
-import {CustomValidators} from "../../../../core/utils/custom-validators";
+
+import Swal from "sweetalert2";
+
+import {AppBaseComponent} from "@core-app/utils";
+import {CityService, PopUpService, RegisterService} from "@core-app/services";
+import {ROUTES, ErrorMessage} from "@core-app/enums";
+import {CustomValidators} from "@core-app/utils/custom-validators";
 
 /**
  * Componente encargado del formulario de registro de persona natural

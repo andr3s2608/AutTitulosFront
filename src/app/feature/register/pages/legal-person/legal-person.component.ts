@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {AppBaseComponent} from "../../../../core/utils";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ROUTES} from "../../../../core/enums";
-import Swal from "sweetalert2";
 import {Router} from "@angular/router";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
-import {RegisterService} from "../../../../core/services/register.service";
-import {PopUpService} from "../../../../core/services";
+
+import Swal from "sweetalert2";
+
+import {AppBaseComponent} from "@core-app/utils";
+import {ROUTES, ErrorMessage} from "@core-app/enums";
+import {RegisterService, PopUpService} from "@core-app/services";
 
 /**
  * Componente encargado del formulario de registro de persona juridica

@@ -1,21 +1,22 @@
-import {Component, OnInit,Injectable} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ArchiveService, PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
-import {ReportsService} from "../../../../core/services/reports.service";
-import * as XLSX from 'xlsx';
-import {ROUTES} from "../../../../core/enums";
 import {PageEvent} from "@angular/material/paginator";
 
+import * as XLSX from 'xlsx';
 
-@Injectable({ providedIn: 'root' })
+import {ArchiveService, PopUpService, ReportsService} from "@core-app/services";
+import {ROUTES} from "@core-app/enums";
 
+
+/**
+ * Componente relacionado a la pantalla de reportes
+ */
 @Component({
   selector: 'app-report-page',
   templateUrl: './report-page.component.html',
   styleUrls: ['./report-page.component.scss']
 })
-
 export class ReportPageComponent implements OnInit {
 
   /**

@@ -1,22 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProcedureResponseTableUserDto} from "../../../../core/models/procedureResponseTableUserDto";
-import {RequestService} from "../../../../core/services/request.service";
-import {TrackingService} from "../../../../core/services/tracking.service";
-import {ArchiveService, PopUpService} from "../../../../core/services";
-import Swal from "sweetalert2";
-import {AppBaseComponent} from "../../../../core/utils";
-import {DocumentSupportDto} from "../../../../core/models/documentSupportDto.model";
-import {lastValueFrom} from "rxjs";
-import {DocumentsService} from "../../../../core/services/documents.service";
-import {TrackingRequestDto} from "../../../../core/models/trackingRequestDto";
-import {ProcedureRequestBackDto} from "../../../../core/models/procedureRequestBack.model";
 import {formatDate} from "@angular/common";
-import {CustomValidators} from "../../../../core/utils/custom-validators";
-import {CurrentUserDto} from "../../../../core/models/currentUserDto";
-import {AuthService} from "../../../../core/services/auth.service";
-import {AttachmentService} from "../../../../core/services/attachment.service";
+import {lastValueFrom} from "rxjs";
 
+import {RequestService, TrackingService, ArchiveService, PopUpService, DocumentsService, AuthService, AttachmentService} from "@core-app/services";
+import {AppBaseComponent} from "@core-app/utils";
+import {CustomValidators} from "@core-app/utils/custom-validators";
+import {DocumentSupportDto, TrackingRequestDto, ProcedureRequestBackDto, CurrentUserDto} from "@core-app/models";
+
+/**
+ * Componente para la bandeja del ciudadano con las solicitudes realizadas
+ */
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',

@@ -1,10 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder} from "@angular/forms";
-import {AppBaseComponent} from "../../../../core/utils";
-import {StatusService} from "../../../../core/services/status.service";
-import {TrackingService} from "../../../../core/services/tracking.service";
 
+import {AppBaseComponent} from "@core-app/utils";
+import {StatusService, TrackingService} from "@core-app/services";
 
+/**
+ * Componente para los diferentes estados de validación
+ */
 @Component({
   selector: 'app-validation-states',
   templateUrl: './validation-states.component.html',

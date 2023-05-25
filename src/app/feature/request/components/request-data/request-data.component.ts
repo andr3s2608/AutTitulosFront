@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
-import {RequestService} from "../../../../core/services/request.service";
-import {IesService} from "@core-app/services/ies.service";
-import {AttachmentsComponent} from "../attachments/attachments.component";
-import {AttachmentService} from "../../../../core/services/attachment.service";
-import {CityService} from "../../../../core/services";
 
+import {AppBaseComponent} from "@core-app/utils";
+import {ErrorMessage} from "@core-app/enums";
+import {AttachmentService, CityService, IesService} from "@core-app/services";
+
+/**
+ * Componente hijo para la información de la solicitud
+ */
 @Component({
   selector: 'app-request-data',
   templateUrl: './request-data.component.html',

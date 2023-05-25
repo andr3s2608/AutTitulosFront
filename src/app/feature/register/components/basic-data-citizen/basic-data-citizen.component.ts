@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder, Validators} from "@angular/forms";
-import {AppBaseComponent} from "../../../../core/utils";
-import {CityService} from "../../../../core/services";
-import {RegisterService} from "../../../../core/services/register.service";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
+
+import {AppBaseComponent} from "@core-app/utils";
+import {CityService, RegisterService} from "@core-app/services";
+import {ErrorMessage} from "@core-app/enums";
 
 
 @Component({

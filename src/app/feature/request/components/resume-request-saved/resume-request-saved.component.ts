@@ -1,7 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
-import {ROUTES} from "../../../../core/enums";
 
+import {ROUTES} from "@core-app/enums";
+
+/**
+ * Componente para la pantalla de solicitud radicada
+ */
 @Component({
   selector: 'app-resume-request-saved',
   templateUrl: './resume-request-saved.component.html',

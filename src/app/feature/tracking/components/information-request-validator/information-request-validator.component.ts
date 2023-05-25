@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 
+/**
+ * Componente para la informacion general de la solicitud para el funcionario
+ */
 @Component({
   selector: 'app-information-request-validator',
   templateUrl: './information-request-validator.component.html',

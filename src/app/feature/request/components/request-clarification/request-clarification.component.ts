@@ -1,8 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
-import {PopUpService} from "../../../../core/services";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
+
+import {AppBaseComponent} from "@core-app/utils";
+import {PopUpService} from "@core-app/services";
+import {ErrorMessage} from "@core-app/enums";
 
 @Component({
   selector: 'app-request-clarification',

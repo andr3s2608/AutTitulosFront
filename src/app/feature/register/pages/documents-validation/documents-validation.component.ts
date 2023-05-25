@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import { PopUpService} from "../../../../core/services";
-import {Router} from "@angular/router";
-import {ROUTES} from "../../../../core/enums";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TrackingService} from "../../../../core/services/tracking.service";
+import {Router} from "@angular/router";
+
+import {ROUTES} from "@core-app/enums";
+import {PopUpService, TrackingService} from "@core-app/services";
+
 
 @Component({
   selector: 'app-documents-validation',

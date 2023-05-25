@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
-import {PopUpService} from "../../../../core/services";
-import {ErrorMessage} from "../../../../core/enums/errorMessage.enum";
-import {DocumentsService} from "../../../../core/services/documents.service";
 import {Subscription} from "rxjs";
-import {AttachmentService} from "../../../../core/services/attachment.service";
+
+import {AppBaseComponent} from "@core-app/utils";
+import {ErrorMessage} from "@core-app/enums";
+import {DocumentsService, AttachmentService, PopUpService} from "@core-app/services";
 
 /**
  * Componente encargado de los documentos de la solicitud

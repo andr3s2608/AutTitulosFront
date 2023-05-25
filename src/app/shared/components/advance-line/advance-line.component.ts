@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import {Router} from "@angular/router";
-import {ROUTES} from "../../../core/enums";
+
+import {ROUTES} from "@core-app/enums";
 
 /**
  * Componente encargado de visualizar una linea de avance
@@ -30,11 +31,8 @@ export class AdvanceLineComponent {
   constructor( private router: Router) {
   }
 
-  public redirect(id:any): void
-  {
-
+  public redirect(id:any): void {
     this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+id)
-
   }
 
 }

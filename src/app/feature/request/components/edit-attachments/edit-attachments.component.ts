@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AppBaseComponent} from "../../../../core/utils";
 import {ControlContainer} from "@angular/forms";
+
+import {AppBaseComponent} from "@core-app/utils";
 
 @Component({
   selector: 'app-edit-attachments',
