@@ -16,6 +16,7 @@ import {CustomValidators} from "../../../../core/utils/custom-validators";
 import {CurrentUserDto} from "../../../../core/models/currentUserDto";
 import {AuthService} from "../../../../core/services/auth.service";
 import {AttachmentService} from "../../../../core/services/attachment.service";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -56,7 +57,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   /**
    * Atributo para paginador, items por página
    */
-  public pageSizePaginator: number = 30;
+  public pageSizePaginator: number = 5;
 
   /**
    * Atributo para paginador, número de pagina actual
@@ -67,6 +68,11 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * Número total de solicitudes
    */
   public totalRequests: number = 0;
+  /**
+   * recargar paginador
+   */
+  public showpaginator: boolean = true;
+
 
   /**
    * Filtros de busqueda
@@ -218,11 +224,12 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       "" + " ",
       `${this.pageNumberPaginator}`,
       `${this.pageSizePaginator}`,
-      this.currentUser.userId)
+      this.currentUser.userId,this.filter)
       .subscribe(resp => {
         this.allByUser = resp.data;
-        this.totalRequests = resp.count;
-        this.filterTable(0);
+        this.totalRequests=resp.count;
+        this.filterAllByUser=resp.data
+        this.filter=0;
       });
 
     this.lastfilters = {
@@ -239,19 +246,15 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * @param filter 0 para recientes,
    *               1 para solucionados
    */
-  public filterTable(filter: number): void {
-    if (filter == 0) {
-      console.log(this.allByUser);
-      this.filterAllByUser = this.allByUser.filter((request: { statusId: string; }) => request.statusId != "16");
-      console.log(this.filterAllByUser)
-    } else {
-      this.filterAllByUser = this.allByUser.filter((request: { statusId: string; }) =>
-        request.statusId == "16" || request.statusId == "17" || request.statusId == "18" );
-    }
-    this.filter=filter;
+  public  filterTable(filter: number, type: number): void{
+    this.filter = filter;
+   this.getDashboard(type);
+
+
+
   }
 
-  public getDashboard(): void {
+  public  getDashboard(id: number): void {
     let selector = this.userdashboard.get('selector').value;
     let text = this.userdashboard.get('textfilter').value;
 
@@ -263,28 +266,56 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     let year = date.toLocaleString("default", {year: "numeric"});
     let month = date.toLocaleString("default", {month: "2-digit"});
     let day = date.toLocaleString("default", {day: "2-digit"});
-    this.pageNumberPaginator = 1;
+    if (id === 0) {
+      this.pageNumberPaginator = 1;
+      this.showpaginator=false;
+      //this.showpaginator=true;
+      // Generate yyyy-mm-dd date string
+      let formattedDate = year + "-" + month + "-" + day;
+       this.requestService.getDashboardbyidUser(
+        formattedDate + "",
+        (text == null || text == "") ? " " : text,
+        (selector == null || selector == "") ? " " : selector,
+        `${this.pageNumberPaginator}`,
+        `${this.pageSizePaginator}`, this.currentUser.userId, this.filter).subscribe(resp => {
+         this.filterAllByUser = resp.data;
 
-    // Generate yyyy-mm-dd date string
-    let formattedDate = year + "-" + month + "-" + day;
-    this.requestService.getDashboardbyidUser(
-      formattedDate + "",
-      (text == null || text == "") ? " " : text,
-      (selector == null || selector == "") ? " " : selector,
-      `${this.pageNumberPaginator}`,
-      `${this.pageSizePaginator}`, this.currentUser.userId).subscribe(resp => {
-      this.allByUser = resp.data;
-      this.totalRequests=resp.count;
-      this.filterTable(this.filter);
-    });
+        this.totalRequests = resp.count;
+         this.showpaginator=true;
 
-    this.lastfilters = {
-      finaldate: formattedDate + "",
-      texttosearch: (text == null || text == "") ? " " : text,
-      selectedfilter: (selector == null || selector == "") ? " " : selector,
-      pagenumber: `${this.pageNumberPaginator}`,
-      pagination: `${this.pageSizePaginator}`
+      });
+
+      this.lastfilters = {
+        finaldate: formattedDate + "",
+        texttosearch: (text == null || text == "") ? " " : text,
+        selectedfilter: (selector == null || selector == "") ? " " : selector,
+        pagenumber: `${this.pageNumberPaginator}`,
+        pagination: `${this.pageSizePaginator}`
+      }
+    } else {
+       this.requestService.getDashboardbyidUser(
+        this.lastfilters.finaldate + "",
+        this.lastfilters.texttosearch + "",
+        this.lastfilters.selectedfilter + "",
+        `${this.pageNumberPaginator}`,
+        `${this.pageSizePaginator}`,
+        this.currentUser.userId, this.filter).subscribe(resp => {
+         this.filterAllByUser = resp.data;
+
+        this.totalRequests = resp.count;
+
+      });
     }
+
+
+
+  }
+
+  public changePage(e: PageEvent): void {
+    console.log(e);
+    this.pageSizePaginator = e.pageSize;
+    this.pageNumberPaginator = e.pageIndex + 1;
+    this.filterTable(this.filter,1);
 
   }
 
@@ -385,7 +416,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       const formData = this.requestClarificationForm.value;
       const clarificationForm = formData['clarificationForm'];
 
-      console.log("formData", formData)
+    //  console.log("formData", formData)
 
       if (clarificationForm.fileSupport == null) {
         this.popUp.errorAlert(

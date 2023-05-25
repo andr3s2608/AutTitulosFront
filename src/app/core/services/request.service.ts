@@ -43,8 +43,8 @@ export class RequestService {
    * Obtiene la bandeja del usuario (nueva)
    * @param id
    */
-  getDashboardbyidUser(finaldate: string,texttosearch:string,selectedfilter:string,pagenumber:string,pagination:string,iduser:string) : Observable<any> {
-    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetAllRequestByUser/${finaldate}/${texttosearch}/${selectedfilter}/${pagenumber}/${pagination}/${iduser}`);
+  getDashboardbyidUser(finaldate: string,texttosearch:string,selectedfilter:string,pagenumber:string,pagination:string,iduser:string,filter:number) : Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetAllRequestByUser/${finaldate}/${texttosearch}/${selectedfilter}/${pagenumber}/${pagination}/${iduser}/${filter}`);
   }
 
   /**

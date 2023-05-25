@@ -45,8 +45,8 @@
           <option value="negado">Consultar trámites Negados</option>
           <option value="anular">Consultar trámites Anulados</option>
           <option value="Registro de Solicitud">Consultar trámites Solicitados</option>
-          <option value="">Resolucion 3030 de 2014 Aprobados</option>
-          <option value="">Resolucion 3030 de 2014 Aclarados</option>
+          <option value="3030aprobado">Resolucion 3030 de 2014 Aprobados</option>
+          <option value="3030aclarado">Resolucion 3030 de 2014 Aclarados</option>
         </select>
       </div>
     </div>
@@ -55,7 +55,7 @@
 
 
     <div class="col-sm-7 col-md-7 col-lg-7">
-      <button (click)="getDashboard('filtro')" type="button"  class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
+      <button (click)="descargarArchivo()" type="button"  class="btn-govco fill-btn-govco"> Descargar Excel (CSV)</button>
     </div>
 
 
@@ -80,7 +80,7 @@
       <input type="text" id="textfilter" formControlName="textfilter" />
     </div>
     <div class="col-xxl-4 col-md-4 col-lg-4 col-sm-4 col-xs-4">
-      <button (click)="getDashboard('text')" type="button" class="btn-govco fill-btn-govco">Filtrar</button>
+      <button (click)="getDashboard()" type="button" class="btn-govco fill-btn-govco">Filtrar</button>
     </div>
   </div>
   <br>

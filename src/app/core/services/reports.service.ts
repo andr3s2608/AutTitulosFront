@@ -24,7 +24,17 @@ export class ReportsService {
                          texttosearch:string,selectedfilter:string,iduser: string,
                          pagenumber:string,pagination:string
                          ) : Observable<any> {
-    return this.http.get(`${PROCEDURE_LOCAL_URI}/Request/GetReports/${initial}/${finaldate}/${texttosearch}/${selectedfilter}/${iduser}/${pagenumber}/${pagination}`);
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Reports/GetReports/${initial}/${finaldate}/${texttosearch}/${selectedfilter}/${iduser}/${pagenumber}/${pagination}`);
+  }
+  /**
+   * Obtiene los reportes 3030
+   * @param id
+   */
+  getReports3030(initial: string,finaldate: string,
+                      selectedfilter:string,
+                      pagenumber:string,pagination:string
+  ) : Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/Reports/GetReports3030/${initial}/${finaldate}/${selectedfilter}/${pagenumber}/${pagination}`);
   }
 
 }
