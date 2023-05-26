@@ -1,24 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,Injectable} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {ArchiveService, PopUpService} from "../../../../core/services";
 import {Router} from "@angular/router";
-import {PageEvent} from "@angular/material/paginator";
-import {ArchiveService, PopUpService, ReportsService} from "@core-app/services";
-import {ROUTES} from "@core-app/enums";
+import {ReportsService} from "../../../../core/services/reports.service";
 import * as XLSX from 'xlsx';
+import {ROUTES} from "../../../../core/enums";
+import {PageEvent} from "@angular/material/paginator";
 import { saveAs } from 'file-saver';
 
 
+@Injectable({ providedIn: 'root' })
 
-
-
-/**
- * Componente relacionado a la pantalla de reportes
- */
 @Component({
   selector: 'app-report-page',
   templateUrl: './report-page.component.html',
   styleUrls: ['./report-page.component.scss']
 })
+
 export class ReportPageComponent implements OnInit {
 
   /**
@@ -147,7 +145,7 @@ export class ReportPageComponent implements OnInit {
     }
   }
 
-  public getDashboard(type: string): void {
+  public getDashboard(): void {
     let dateinitial;
     let datefinal;
     let formattedDatefinal;
@@ -187,46 +185,6 @@ export class ReportPageComponent implements OnInit {
       formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
     }
 
-
-    let months = (datefinal.getFullYear() - dateinitial.getFullYear()) * 12;
-    months -= dateinitial.getMonth();
-    months += datefinal.getMonth();
-
-       if (type === 'filtro') {
-
-      this.popupAlert.infoAlert(
-        'Generando documento,por favor espere',
-        7000);
-         let filter=this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" ";
-      this.reportsService.getReportsDashboard(
-
-        formattedDateinitial + "",
-        formattedDatefinal + "",
-        " ",
-        filter+"",
-        "" + " ",
-        `${this.pageNumberPaginator}`,
-        (months+1)*5000+"").subscribe(resp => {
-          const data = resp.data;
-        const fileToExport = data.map((items:any) => {
-          return {
-
-            "Id Solicitud": items?.idfiled,
-            "No Doc de Identidad": items?.idnumber,
-            "Tipo de Documento": items?.iddoctype,
-            "Nombres y Apellidos": items?.aplicantname,
-            "Tipo de Título": items?.titletype,
-            "Fecha de Registro Solicitud": items?.fileddate,
-            "Estado de la Solicitud": items?.statusstring
-          }
-        });
-
-        this.download(fileToExport,this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value+"" :'Todos');
-
-
-      });
-    }
-    else {
       let text=this.reportsform.get('textfilter').value!="" ? this.reportsform.get('textfilter').value:" "
       this.reportsService.getReportsDashboard(
         formattedDateinitial + "",
@@ -250,14 +208,156 @@ export class ReportPageComponent implements OnInit {
         pagination:`${this.pageSizePaginator}`
       }
 
-      //prueba subida archivo
-    }
+
 
 
 
     // this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ROUTES.Validation)
 
   }
+  public descargarArchivo(): void {
+
+    let dateinitial;
+    let datefinal;
+    let formattedDatefinal: string;
+    let formattedDateinitial: string;
+    if (this.reportsform.get('enddate').value != null && this.reportsform.get('enddate').value != "") {
+      datefinal = this.reportsform.get('enddate').value;
+      formattedDatefinal=datefinal;
+      datefinal=new Date(datefinal);
+    } else {
+      datefinal = new Date(Date.now());
+
+      // Get year, month, and day part from the date
+      let yearfinal = datefinal.toLocaleString("default", {year: "numeric"});
+      let monthfinal = datefinal.toLocaleString("default", {month: "2-digit"});
+      let dayfinal = datefinal.toLocaleString("default", {day: "2-digit"});
+      // Generate yyyy-mm-dd date string
+      formattedDatefinal = yearfinal + "-" + monthfinal + "-" + dayfinal;
+
+    }
+    if (this.reportsform.get('begindate').value != null && this.reportsform.get('begindate').value != "") {
+      dateinitial = this.reportsform.get('begindate').value;
+      formattedDateinitial=dateinitial;
+      dateinitial=new Date(dateinitial);
+
+    } else {
+      dateinitial = new Date(Date.now());
+      //se toman los 30 dias iniciales
+      dateinitial.setDate(datefinal.getDate() - 30);
+
+      // Get year, month, and day part from the date
+      let yearinitial = dateinitial.toLocaleString("default", {year: "numeric"});
+      let monthinitial = dateinitial.toLocaleString("default", {month: "2-digit"});
+      let dayinitial = dateinitial.toLocaleString("default", {day: "2-digit"});
+
+
+      // Generate yyyy-mm-dd date string
+      formattedDateinitial = yearinitial + "-" + monthinitial + "-" + dayinitial;
+    }
+    let months = (datefinal.getFullYear() - dateinitial.getFullYear()) * 12;
+    months -= dateinitial.getMonth();
+    months += datefinal.getMonth();
+
+
+    this.popupAlert.infoAlert(
+      'Generando documento,por favor espere',
+      9000);
+    let filter=this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value:" ";
+
+    if(filter==='3030aprobado' ||filter==='3030aclarado')
+    {
+      this.reportsService.getReports3030(
+        formattedDateinitial + "",
+        formattedDatefinal + "",
+        filter+"",
+        `${this.pageNumberPaginator}`,
+        (months+1)*5000+"").subscribe(resp => {
+        const data = resp.data;
+        let number=1;
+        const datafinal:any=[];
+
+        datafinal.push("1;"+formattedDateinitial+";"+formattedDatefinal+";DI;11001;"+(data.numeropersonas+data.numeroreportes))
+        data.listapersonas.map((items:any) => {
+          datafinal.push("2;" + number + ";" + items?.toString());
+          number++;  // Incrementar number en cada iteración
+        });
+        data.listareporte.map((items:any) => {
+          datafinal.push("3;" + number + ";" + items?.toString());
+          number++;  // Incrementar number en cada iteración
+        });
+
+        this.convertArrayToTxt(datafinal,filter+"");
+
+      });
+    }
+    else {
+      this.reportsService.getReportsDashboard(
+        formattedDateinitial + "",
+        formattedDatefinal + "",
+        " ",
+        filter+"",
+        "" + " ",
+        `${this.pageNumberPaginator}`,
+        (months+1)*5000+"").subscribe(resp => {
+        const data = resp.data;
+        const fileToExport = data.map((items:any) => {
+          return {
+
+            "Numero Id Trámite": items?.idfiled,
+            "Fecha de Radicación Trámite": items?.fileddate,
+            "Tipo de Título": items?.titletype,
+            "Tipo de Documento": items?.iddoctype,
+            "Número Documento de Identidad": items?.idnumber,
+            "Nombres y Apellidos Solicitante": items?.aplicantname,
+            "Profesión Descripción":items?.name_profession,
+            "Institución Descripción":items?.name_institute,
+            "No Resolución":items?.resolutiondate,
+            "Fecha Resolución":items?.name_profession,
+            "Eficiencia":"",
+            "Estado de la Solicitud": items?.statusstring,
+            "Rol":this.roles(items?.rol),
+          }
+        });
+
+        this.download(fileToExport,this.reportsform.get('selector').value!="" ? this.reportsform.get('selector').value+"" :'Todos');
+
+
+      });
+    }
+
+  }
+  public convertArrayToTxt(element: any, fileName: string): void {
+    const txtContent = element.join('\n');
+    const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, fileName+'.txt');
+  }
+
+  public roles(id: any): string {
+    let roles = [{
+      rol:'Ciudadano',id:'31ab2d61-65b8-4c7d-a793-79cdba31b235'
+    },{
+      rol:'Validador',id:'fe3a0cef-1348-48fe-b8b8-b743d24f666a'
+    },{
+      rol:'Coordinador',id:'e181c33a-a648-4975-9404-bf6977f00f5c'
+    },{
+      rol:'Subdirector',id:'4ba79be3-d686-4e4d-959a-e14a9a081604'
+    }]
+    for (let i = 0; i <roles.length ; i++) {
+      if(id==roles[i].id)
+      {
+        return roles[i].rol;
+      }
+    }
+    return "";
+
+  }
+
+
+
+
+
+
 
   /**
    * Cambia la página en la tabla
