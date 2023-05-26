@@ -25,7 +25,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetSexo`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -39,7 +39,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetGenero`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -53,7 +53,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetOrientacion`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -67,7 +67,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Etnia/GetEtnia`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -82,7 +82,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/NivelEducativo/GetNivelEducativo`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -97,7 +97,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -120,7 +120,7 @@ export class RegisterService {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v2/Persona/GetInfoUserById/${idCode}`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -150,7 +150,7 @@ export class RegisterService {
     return this.http.post(`${PROCEDURE_SHARED_URI}/v2/Persona/AddPersonaJuridica`, data,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -164,7 +164,7 @@ export class RegisterService {
     return this.http.post(`${PROCEDURE_SHARED_URI}/v2/Persona/AddPersonaNatural`, data,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
@@ -178,7 +178,7 @@ export class RegisterService {
     return this.http.put(`${PROCEDURE_SHARED_URI}/v2/Persona/UpdatePerson `, data,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/',
         "Access-Control-Allow-Methods": "POST, GET, PUT",
         "Access-Control-Allow-Headers": "Content-Type"
       })
