@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 const { PROCEDURE_SHARED_URI } = environment;
@@ -22,28 +22,56 @@ export class RegisterService {
    * Obtiene lista de sexos
    */
   public getSex(): Observable<any> {
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetSexo`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetSexo`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
    * Obtiene lista de Generos
    */
   public getGender(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetGenero`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetGenero`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
    * Obtiene lista de Orientaciones Sexuales
    */
   public getSexualOrientation(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetOrientacion`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Sexo/GetOrientacion`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
    * Obtiene lista de Etnia
    */
   public getEthnicity(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Etnia/GetEtnia`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/Etnia/GetEtnia`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
 
@@ -51,7 +79,14 @@ export class RegisterService {
    * Obtiene lista de Niveles Educativos
    */
   public getEducationLevel(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/NivelEducativo/GetNivelEducativo`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/NivelEducativo/GetNivelEducativo`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
 
@@ -59,7 +94,14 @@ export class RegisterService {
    * Obtiene lista de Tipos de Identificacion
    */
   public getIdentificationType(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
@@ -75,7 +117,14 @@ export class RegisterService {
    * @param idCode Codigo de ventanilla a buscar
    */
   public getInfoUserByIdCodeVentanilla(idCode: any): Observable<any> {
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v2/Persona/GetInfoUserById/${idCode}`);
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v2/Persona/GetInfoUserById/${idCode}`,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
@@ -98,21 +147,42 @@ export class RegisterService {
    * Guarda Datos Persona Juridica
    */
   public saveLegalPerson(data: any): Observable<any> {
-    return this.http.post(`${PROCEDURE_SHARED_URI}/v2/Persona/AddPersonaJuridica`, data);
+    return this.http.post(`${PROCEDURE_SHARED_URI}/v2/Persona/AddPersonaJuridica`, data,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
    * Guarda Datos Persona Natural
    */
   public saveNaturalPerson(data: any): Observable<any> {
-    return this.http.post(`${PROCEDURE_SHARED_URI}/v2/Persona/AddPersonaNatural`, data);
+    return this.http.post(`${PROCEDURE_SHARED_URI}/v2/Persona/AddPersonaNatural`, data,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
   /**
    * Guarda Datos Persona Natural
    */
   public updatePerson(data: any): Observable<any> {
-    return this.http.put(`${PROCEDURE_SHARED_URI}/v2/Persona/UpdatePerson `, data);
+    return this.http.put(`${PROCEDURE_SHARED_URI}/v2/Persona/UpdatePerson `, data,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type"
+      })
+    });
   }
 
 
