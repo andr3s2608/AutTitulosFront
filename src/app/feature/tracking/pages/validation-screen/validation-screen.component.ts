@@ -188,12 +188,14 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       estadoCivil: dataUser.estadoCivil ? dataUser.estadoCivil : 1,
       nivelEducativo: dataUser.nivelEducativo ? dataUser.nivelEducativo : 1,
       nacionalidad: dataUser.nacionalidad ? dataUser.nacionalidad : 170,
-      departamentoNacimiento: dataUser.nacionalidad ? dataUser.nacionalidad : 1,
+      departamentoNacimiento: dataUser.departamento ? dataUser.departamento : 1,
       ciudadNacimiento: dataUser.ciudadNacimiento ? dataUser.ciudadNacimiento : 1,
       departamentoResidencia: dataUser.depaResi ? dataUser.depaResi : 3,
-      ciudadResidencia: dataUser.ciudadResiciudadResi ? dataUser.ciudadNacimiento : 149,
+      ciudadResidencia: dataUser.ciudadResiciudadResi ? dataUser.ciudadResiciudadResi : 149,
       idUser: datatramite.idUser + "",
-      idUserVentanilla: datatramite.user_code_ventanilla
+      idUserVentanilla: datatramite.user_code_ventanilla,
+      direccion:dataUser.direResi,
+      ciudadNacimientootro:dataUser.ciudadNacimiento
     }
   }
 
@@ -202,6 +204,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
    * @param datatramite
    */
   private loadTramite(datatramite: any): void {
+
 
     this.tramiteActual = {
       id: datatramite.idProcedureRequest,
@@ -248,7 +251,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       checkbox = this.lasttracking.clarification_types_motives.split('/');
       istrack = true;
     }
-    console.log(this.lasttracking)
+
 
 
     this.validationForm = this.fb.group({
@@ -380,7 +383,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
   public async preliminar(): Promise<void> {
 
     const status = this.validationForm.get('validationstateform.status').value;
-    console.log(status)
+
     let preliminarresolution = true;
 
 
@@ -480,6 +483,40 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     let selectedstatus = this.validationForm.get('validationstateform.selectedstatus').value != 11 ?
       this.validationForm.get('validationstateform.selectedstatus').value : estadofinalfirmado[status];
 
+
+      const persona: any = {
+        idPersona:this.user.idUserVentanilla,
+        tipoIdentificacion:this.validationForm.get('basicDataForm.tipoDocumento').value,
+        numeIdentificacion:this.validationForm.get('basicDataForm.numeroIdentificacion').value,
+        pNombre:this.validationForm.get('basicDataForm.primerNombre').value,
+        sNombre:this.validationForm.get('basicDataForm.segundoNombre').value!=null ? this.validationForm.get('basicDataForm.segundoNombre').value :'',
+        pApellido:this.validationForm.get('basicDataForm.primerApellido').value,
+        sApellido:this.validationForm.get('basicDataForm.segundoApellido').value!=null ? this.validationForm.get('basicDataForm.segundoApellido').value :'',
+        email:this.validationForm.get('basicDataForm.email').value,
+        telefonoFijo:this.validationForm.get('basicDataForm.telefonoFijo').value!=null ? this.validationForm.get('basicDataForm.telefonoFijo').value :'',
+        telefonoCelular:this.validationForm.get('basicDataForm.telefonoCelular').value,
+        nacionalidad:this.validationForm.get('geographicDataForm.nacionalidad').value,
+        departamento:this.validationForm.get('geographicDataForm.departamentoNacimiento').value,
+        ciudadNacimiento:this.validationForm.get('geographicDataForm.ciudadNacimiento').value,
+        ciudadNacimientoOtro:this.user.ciudadNacimientootro,
+        depaResi:this.validationForm.get('geographicDataForm.departamentoResidencia').value,
+        ciudadResi:this.validationForm.get('geographicDataForm.ciudadResidencia').value,
+        direResi:this.user.direccion,
+        cx:0,
+        cy:0,
+        fechaNacimiento:this.validationForm.get('basicDataForm.fechaNacimiento').value,
+        sexo:this.validationForm.get('basicDataForm.sexo').value,
+        genero:this.validationForm.get('basicDataForm.genero').value,
+        orientacion:this.validationForm.get('basicDataForm.orientacionSexual').value,
+        etnia:this.validationForm.get('basicDataForm.etnia').value,
+        estadoCivil:this.validationForm.get('basicDataForm.estadoCivil').value,
+        nivelEducativo :this.validationForm.get('basicDataForm.nivelEducativo').value,
+        dirCodificada:""
+      }
+
+      await lastValueFrom(this.registerService.updatePerson(persona));
+
+
     const json: any = {
       IdProcedureRequest: this.tramiteActual.id,
       IdTitleTypes: this.validationForm.get('requestDataForm.titleTypeId').value,
@@ -497,10 +534,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       folio: this.validationForm.get('requestDataForm.folio').value.toUpperCase(),
       year_title: this.validationForm.get('requestDataForm.yearTitle').value,
       professional_card: this.validationForm.get('requestDataForm.professionalCard').value.toUpperCase(),
-      IdCountry: this.validationForm.get('countryId').value,
-      number_resolution_convalidation: this.validationForm.get('numberResolutionConvalidation').value.toUpperCase(),
-      date_resolution_convalidation: this.validationForm.get('dateResolutionConvalidation').value,
-      IdEntity: this.validationForm.get('entityId').value,
+      IdCountry: this.validationForm.get('requestDataForm.countryId').value,
+      number_resolution_convalidation: this.validationForm.get('requestDataForm.numberResolutionConvalidation').value.toUpperCase(),
+      date_resolution_convalidation: this.validationForm.get('requestDataForm.dateResolutionConvalidation').value,
+      IdEntity: this.validationForm.get('requestDataForm.entityId').value,
       name_institute: idistitute[1] + ',' + idistitute[2],
       last_status_date: new Date(Date.now()),
       filed_date: new Date(this.tramiteActual.filed_date),
@@ -565,7 +602,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     if (this.validationForm.get('validationstateform.selectedstatus').value === '11') {
 
       this.popupAlert.infoAlert(`Generando Resolución, puede tardar unos momentos, espere por favor...`, 15000);
-  console.log(status);
+
 
         const resolution: any =
           {

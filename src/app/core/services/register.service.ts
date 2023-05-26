@@ -109,6 +109,14 @@ export class RegisterService {
   }
 
   /**
+   * Guarda Datos Persona Natural
+   */
+  public updatePerson(data: any): Observable<any> {
+    return this.http.put(`${PROCEDURE_SHARED_URI}/v2/Persona/UpdatePerson `, data);
+  }
+
+
+  /**
    * Envia notificacion por email
    * @param cuerpoEmail Cuerpo que se va a enviar
    */

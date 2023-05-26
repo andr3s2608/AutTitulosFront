@@ -22,8 +22,11 @@ export interface UserValidation {
   nacionalidad: number,
   departamentoNacimiento: number,
   ciudadNacimiento: number,
+  ciudadNacimientootro: string,
   departamentoResidencia: number,
   ciudadResidencia: number,
+
+  direccion: string,
 
   idUser : string,
   idUserVentanilla:number,
