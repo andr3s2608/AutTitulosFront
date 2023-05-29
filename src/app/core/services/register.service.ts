@@ -27,8 +27,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -41,8 +42,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -55,8 +57,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -69,8 +72,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -84,8 +88,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -99,8 +104,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -122,8 +128,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -152,8 +159,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin':"http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl",
         "Access-Control-Allow-Methods": "POST",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -166,8 +174,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "POST",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
@@ -180,8 +189,9 @@ export class RegisterService {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "PUT",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization"
-      })
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Autorization":"Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken
+      }.Autorization="Bearer "+JSON.parse(localStorage.getItem(currentUser)).accessToken)
     });
   }
 
