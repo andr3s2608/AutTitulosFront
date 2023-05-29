@@ -127,11 +127,10 @@ export class RegisterService {
   public getInfoUserByIdCodeVentanilla(idCode: any): Observable<any> {
     return this.http.get(`${PROCEDURE_SHARED_URI}/v2/Persona/GetInfoUserById/${idCode}`,{
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
         "Access-Control-Allow-Methods": "GET",
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Expose-Headers":"Request-Context",
+        "Content-Type": "application/json",
         "Autorization":"Bearer "+JSON.parse(localStorage.getItem('currentUser')).accessToken
       })
     });
