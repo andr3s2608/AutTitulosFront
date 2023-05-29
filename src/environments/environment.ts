@@ -13,6 +13,7 @@ export const environment = {
   PROCEDURE_LOCAL_URI:'http://back-tramite-aut-titulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/api/v1',
   PROCEDURE_BLOB_URI:'https://apm-aeu-sds-dev-shared.azure-api.net/filemanager/api/v1',
 
+
 };
 //PROCEDURE_LOCAL_URI:'http://localhost:80/api/v1',
 /*

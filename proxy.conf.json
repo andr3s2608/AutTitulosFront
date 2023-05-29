@@ -7,7 +7,7 @@
   },
 
   "/v2": {
-    "target": "https://apm-aeu-sds-sds-shared.azure-api.net/tramites-shared/api",
+    "target": "https://apm-aeu-sds-dev-shared.azure-api.net/tramites-shared/api",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
