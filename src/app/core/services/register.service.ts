@@ -26,8 +26,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -40,8 +40,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -54,8 +54,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -68,8 +68,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -83,8 +83,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -98,8 +98,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -121,8 +121,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -151,8 +151,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin':"http://front-tramite-auttitulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -165,8 +165,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
@@ -179,8 +179,8 @@ export class RegisterService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "PUT",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization"
       })
     });
   }
