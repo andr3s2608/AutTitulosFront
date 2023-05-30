@@ -1,7 +1,7 @@
 {
   "/v1": {
     "target": "https://apm-aeu-sds-dev-shared.azure-api.net/tramites-shared/api",
-    "secure": true,
+    "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   },
@@ -15,14 +15,14 @@
 
   "/notifications/api": {
     "target": "https://apm-aeu-sds-dev-shared.azure-api.net/",
-    "secure": true,
+    "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   },
 
   "/security/api": {
     "target": "https://apm-aeu-sds-dev-shared.azure-api.net/",
-    "secure": true,
+    "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   }
