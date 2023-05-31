@@ -74,15 +74,20 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
               "browserTarget": "Tramite_AutTitulos_Front:build:production"
+
             },
             "development": {
               "browserTarget": "Tramite_AutTitulos_Front:build:development"
+
             }
+          },
+          "scripts": {
+            "start:proxy": "ng serve --proxy-config src/proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },
