@@ -1,13 +1,13 @@
 {
   "/v1": {
-    "target": "https://apm-aeu-sds-dev-shared.azure-api.net/tramites-shared/api",
+    "target": "http://localhost:4200",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   },
 
   "/v2": {
-    "target": "https://apm-aeu-sds-dev-shared.azure-api.net/tramites-shared/api",
+    "target": "http://localhost:4200",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
