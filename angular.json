@@ -35,7 +35,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "sweetalert2"
+              "sweetalert2",
+              "file-saver"
             ]
           },
           "configurations": {

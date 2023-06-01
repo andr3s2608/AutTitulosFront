@@ -16,6 +16,8 @@ import { EditRequestComponent } from './pages/edit-request/edit-request.componen
 import { RequestEditObservationsComponent } from './components/request-edit-observations/request-edit-observations.component';
 import { EditAttachmentsComponent } from './components/edit-attachments/edit-attachments.component';
 import {RouterLink} from "@angular/router";
+import {MatSelectModule} from "@angular/material/select";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 
 
@@ -37,13 +39,15 @@ import {RouterLink} from "@angular/router";
     exports: [
         RequestDataComponent
     ],
-    imports: [
-        CommonModule,
-        DemoNgZorroAntdModule,
-        SharedModule,
-        ReactiveFormsModule,
-        MatPaginatorModule,
-        RouterLink,
-    ]
+  imports: [
+    CommonModule,
+    DemoNgZorroAntdModule,
+    SharedModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    RouterLink,
+    MatSelectModule,
+    NgSelectModule,
+  ]
 })
 export class RequestModule { }

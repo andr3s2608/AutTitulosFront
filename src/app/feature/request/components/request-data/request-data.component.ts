@@ -61,11 +61,11 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     this.requestDataForm = this.requestDataForm.controls['requestDataForm'];
 
 
-    if(this.requestDataForm.get('instituteId').value!='' && this.requestDataForm.get('instituteId').value!=null) {
+    if (this.requestDataForm.get('instituteId').value != '' && this.requestDataForm.get('instituteId').value != null) {
       this.getPrograms();
     }
 
-    if(this.requestDataForm.get('titleTypeId').value!='') {
+    if (this.requestDataForm.get('titleTypeId').value != '') {
       this.showFormNationalOrInternational();
     }
   }
@@ -79,6 +79,8 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     this.attachmentService.setShowProfessionalCard(false);
     this.attachmentService.setShowValidationResolution(form == 2);
     this.showInternationalForm = form == 2;
+    this.listProfessions = null;
+    this.requestDataForm.get('professionId').setValue('');
   }
 
   /**
@@ -87,29 +89,24 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
   public async getPrograms() {
 
     let institute = this.requestDataForm.get('instituteId').value;
+    this.requestDataForm.get('professionId').setValue('');
 
 
-    if(institute.length>2) {
-      institute=institute.split(',');
+    if (institute.length > 2) {
+      institute = institute.split(',');
       this.requestDataForm.get('professionId').setValue('');
     }
 
-
-    this.iesServices.getProgramsbyId(institute[0]).subscribe(resp2 => {
-      this.listProfessions = resp2.data;
-    });
-
+    this.iesServices.getProgramsbyId(institute[0]).subscribe(resp2 => this.listProfessions = resp2.data);
   }
 
 
   /**
    * Activa el campo de tarjeta profesional
-   * @param pProfession
+   * @param pProfession Evento con el tipo de profesion escogida
    */
   public activeProfesionalCard(pProfession: any): void {
-    let profession = pProfession.value.split(",");
-    profession = profession[2]
-
+    let profession = pProfession[2];
 
     if (profession == "Formación técnica profesional" || profession == "Tecnológico") {
       this.attachmentService.setShowProfessionalCard(false);
@@ -118,7 +115,6 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
       this.attachmentService.setShowProfessionalCard(true);
       this.showProfessionalCard = true;
     }
-
   }
 
 
@@ -135,17 +131,14 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
     if (this.isTouchedField(this.requestDataForm, field)) {
 
-      if (required.includes(field) && this.requestDataForm?.get(field).hasError('required') ) {
+      if (required.includes(field) && this.requestDataForm?.get(field).hasError('required')) {
         message = ErrorMessage.IS_REQUIRED;
-      }
-      else if (onlyNumber.includes(field) && this.requestDataForm?.get(field).hasError('pattern') ) {
+      } else if (onlyNumber.includes(field) && this.requestDataForm?.get(field).hasError('pattern')) {
         message = ErrorMessage.ONLY_NUMBERS;
-      }
-      else if (dateError.includes(field) && this.requestDataForm?.get(field).hasError('invalidDate') ) {
+      } else if (dateError.includes(field) && this.requestDataForm?.get(field).hasError('invalidDate')) {
         message = ErrorMessage.NO_FUTURE_DATE;
-      }
-      else if (field == 'yearTitle') {
-        if (this.requestDataForm?.get(field).hasError('minlength') ) {
+      } else if (field == 'yearTitle') {
+        if (this.requestDataForm?.get(field).hasError('minlength')) {
           message = "Debe tener mínimo 4 caracteres";
         } else if (this.requestDataForm?.get(field).hasError('maxlength')) {
           message = "Debe tener máximo 4 caracteres";
