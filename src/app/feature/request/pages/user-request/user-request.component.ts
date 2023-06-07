@@ -103,7 +103,9 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
       requestDataForm: this.fb.group({
         titleTypeId: ['', [Validators.required]],
         instituteId: [''],
+        instituteName: [''],
         professionId: ['', [Validators.required]],
+        professionName: [''],
         diplomaNumber: [''],
         graduationCertificate: [''],
         endDate: ['', [Validators.required, CustomValidators.dateValidator]],
@@ -200,23 +202,13 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
 
       this.sending = true;
 
-      //obtiene la info del instituto seleccionado
-      let infoInstitute = requestDataForm.instituteId;
-      infoInstitute = infoInstitute.split(",")
-
-      console.log("estoy en infoInstitue", infoInstitute);
-
-      if (infoInstitute[3]) {
-        infoInstitute[2] = `${infoInstitute[2]},${infoInstitute[3]}`
-      }
-
-      //obtiene la info de la profesion seleccionada
-      let infoProfession = requestDataForm.professionId;
-      infoProfession = infoProfession.split(",")
-
       //Valida si el countryId tiene un valor, por defecto coloca el de colombia
       if (!requestDataForm.countryId) {
         requestDataForm.countryId = 170;
+      }
+
+      if (requestDataForm.titleTypeId == 2) {
+        requestDataForm.instituteName = requestDataForm.nameInternationalUniversity;
       }
 
       let dtoProcedure: ProcedureRequestBackDto;
@@ -225,10 +217,10 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
       dtoProcedure = {
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
-        IdInstitute: infoInstitute[0],
-        name_institute: `${infoInstitute[1]},${infoInstitute[2]}`,
-        IdProfessionInstitute: infoProfession[0],
-        name_profession: `${infoProfession[1]},${infoProfession[2]}`,
+        IdInstitute: requestDataForm.instituteId,
+        name_institute: requestDataForm.instituteName.toUpperCase(),
+        IdProfessionInstitute: requestDataForm.professionId,
+        name_profession: requestDataForm.professionName.toUpperCase(),
         last_status_date: new Date(Date.now()),
         IdUser: this.currentUser.userId,
         user_code_ventanilla: this.currentUser.codeVentanilla,

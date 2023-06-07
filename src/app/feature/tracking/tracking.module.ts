@@ -12,7 +12,7 @@ import { AttachmentViewerComponent } from './components/attachment-viewer/attach
 import {SharedModule} from "../../shared/shared.module";
 import {MatRadioModule} from "@angular/material/radio";
 import { InformationRequestValidatorComponent } from './components/information-request-validator/information-request-validator.component';
-import {AppBaseComponent} from "../../core/utils";
+import {AppBaseComponent} from "@core-app/utils";
 
 
 

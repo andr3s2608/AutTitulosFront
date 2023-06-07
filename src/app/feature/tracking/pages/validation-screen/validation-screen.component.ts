@@ -148,7 +148,6 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         if (resp3.count > 1) {
           this.lasttracking = this.tracking[this.tracking.length - 1];
-
         }
 
         this.loadInfoTramiteActualInForm();
@@ -252,13 +251,13 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       istrack = true;
     }
 
-
+    let titleTypeStr: string = this.tramiteActual.titleTypeId == 1 ? "NACIONAL" : "EXTRANJERO";
 
     this.validationForm = this.fb.group({
 
       informationRequestValidatorForm: this.fb.group({
         filedNumber: [this.tramiteActual.filedNumber, [Validators.required]],
-        titleType: ['NACIONAL', [Validators.required]],
+        titleType: [titleTypeStr, [Validators.required]],
         status: [this.tramiteActual.status.toUpperCase(), [Validators.required]],
         assignedUser: [this.currentValidator.fullName.toUpperCase(), [Validators.required]],
         dateRequest: [formatDate(new Date(this.tramiteActual.dateRequest), 'yyyy-MM-dd', 'en'), [Validators.required]]
@@ -302,8 +301,10 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
       requestDataForm: this.fb.group({
         titleTypeId: [this.tramiteActual.titleTypeId, [Validators.required]],
-        instituteId: [[this.tramiteActual.instituteId, this.tramiteActual.name_institute]],
-        professionId: [[this.tramiteActual.profesionid, this.tramiteActual.name_profesion], [Validators.required]],
+        instituteId: [this.tramiteActual.instituteId],
+        instituteName: [this.tramiteActual.name_institute],
+        professionId: [this.tramiteActual.profesionid, [Validators.required]],
+        professionName: [this.tramiteActual.name_profesion],
         diplomaNumber: [this.tramiteActual.diplomaNumber],
         graduationCertificate: [this.tramiteActual.graduationCertificate],
         endDate: [formatDate(new Date(this.tramiteActual.endDate), 'yyyy-MM-dd', 'en'), [Validators.required, CustomValidators.dateValidator]],
@@ -441,7 +442,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         `Por favor, revise el formulario de la solicitud, hay datos inválidos y/o incompletos.`,
         4000
       );
-      console.log(this.validationForm.get('validationstateform.negationcauses').value +"")
+      console.log(this.validationForm.get('validationstateform.negationcauses').value + "")
 
       console.log("FORMULARIO PROCESADO");
       console.log(this.validationForm.value);
@@ -449,159 +450,154 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       console.log(super.getAllErrors(this.validationForm));
       this.validationForm.markAllAsTouched();
       return;
-    }
-    else
-    {
+    } else {
 
 
+      const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
+      const ultimosestados: Array<string> = ['4', '5', '10', '6'];
+      const estadofinalfirmado: Array<number> = [16, 17, 18, 20];
 
-    const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
-    const ultimosestados: Array<string> = ['4', '5', '10', '6'];
-    const estadofinalfirmado: Array<number> = [16, 17, 18, 20];
+      let status = -1;
 
-    let status = -1;
-
-    for (let i = 0; i < ultimosestados.length; i++) {
-      if ((this.tramiteActual.statusId + '').includes(ultimosestados[i])) {
-        status = i;
+      for (let i = 0; i < ultimosestados.length; i++) {
+        if ((this.tramiteActual.statusId + '').includes(ultimosestados[i])) {
+          status = i;
+        }
       }
-    }
 
 
-    const aplicantname = this.validationForm.get('basicDataForm.primerNombre').value.toString().toUpperCase() + " " +
-      (this.validationForm.get('basicDataForm.segundoNombre').value.toString() + "").toUpperCase() +
-      this.validationForm.get('basicDataForm.primerApellido').value.toString().toUpperCase() + " " +
-      (this.validationForm.get('basicDataForm.segundoApellido').value.toString() + "").toUpperCase();
+      const aplicantname = this.validationForm.get('basicDataForm.primerNombre').value.toString().toUpperCase() + " " +
+        (this.validationForm.get('basicDataForm.segundoNombre').value.toString() + "").toUpperCase() +
+        this.validationForm.get('basicDataForm.primerApellido').value.toString().toUpperCase() + " " +
+        (this.validationForm.get('basicDataForm.segundoApellido').value.toString() + "").toUpperCase();
 
-    const idistitute = (this.validationForm.get('requestDataForm.instituteId').value + "").split(",");
-    const idprofesion = (this.validationForm.get('requestDataForm.professionId').value + "").split(",");
 
-    if (idistitute[3]) {
-      idistitute[2] = `${idistitute[2]},${idistitute[3]}`
-    }
-
-    let selectedstatus = this.validationForm.get('validationstateform.selectedstatus').value != 11 ?
-      this.validationForm.get('validationstateform.selectedstatus').value : estadofinalfirmado[status];
+      let selectedstatus = this.validationForm.get('validationstateform.selectedstatus').value != 11 ?
+        this.validationForm.get('validationstateform.selectedstatus').value : estadofinalfirmado[status];
 
 
       const persona: any = {
-        idPersona:this.user.idUserVentanilla,
-        tipoIdentificacion:this.validationForm.get('basicDataForm.tipoDocumento').value,
-        numeIdentificacion:this.validationForm.get('basicDataForm.numeroIdentificacion').value,
-        pNombre:this.validationForm.get('basicDataForm.primerNombre').value,
-        sNombre:this.validationForm.get('basicDataForm.segundoNombre').value!=null ? this.validationForm.get('basicDataForm.segundoNombre').value :'',
-        pApellido:this.validationForm.get('basicDataForm.primerApellido').value,
-        sApellido:this.validationForm.get('basicDataForm.segundoApellido').value!=null ? this.validationForm.get('basicDataForm.segundoApellido').value :'',
-        email:this.validationForm.get('basicDataForm.email').value,
-        telefonoFijo:this.validationForm.get('basicDataForm.telefonoFijo').value!=null ? this.validationForm.get('basicDataForm.telefonoFijo').value :'',
-        telefonoCelular:this.validationForm.get('basicDataForm.telefonoCelular').value,
-        nacionalidad:this.validationForm.get('geographicDataForm.nacionalidad').value,
-        departamento:this.validationForm.get('geographicDataForm.departamentoNacimiento').value,
-        ciudadNacimiento:this.validationForm.get('geographicDataForm.ciudadNacimiento').value,
-        ciudadNacimientoOtro:this.user.ciudadNacimientootro,
-        depaResi:this.validationForm.get('geographicDataForm.departamentoResidencia').value,
-        ciudadResi:this.validationForm.get('geographicDataForm.ciudadResidencia').value,
-        direResi:this.user.direccion,
-        cx:0,
-        cy:0,
-        fechaNacimiento:this.validationForm.get('basicDataForm.fechaNacimiento').value,
-        sexo:this.validationForm.get('basicDataForm.sexo').value,
-        genero:this.validationForm.get('basicDataForm.genero').value,
-        orientacion:this.validationForm.get('basicDataForm.orientacionSexual').value,
-        etnia:this.validationForm.get('basicDataForm.etnia').value,
-        estadoCivil:this.validationForm.get('basicDataForm.estadoCivil').value,
-        nivelEducativo :this.validationForm.get('basicDataForm.nivelEducativo').value,
-        dirCodificada:""
+        idPersona: this.user.idUserVentanilla,
+        tipoIdentificacion: this.validationForm.get('basicDataForm.tipoDocumento').value,
+        numeIdentificacion: this.validationForm.get('basicDataForm.numeroIdentificacion').value,
+        pNombre: this.validationForm.get('basicDataForm.primerNombre').value,
+        sNombre: this.validationForm.get('basicDataForm.segundoNombre').value != null ? this.validationForm.get('basicDataForm.segundoNombre').value : '',
+        pApellido: this.validationForm.get('basicDataForm.primerApellido').value,
+        sApellido: this.validationForm.get('basicDataForm.segundoApellido').value != null ? this.validationForm.get('basicDataForm.segundoApellido').value : '',
+        email: this.validationForm.get('basicDataForm.email').value,
+        telefonoFijo: this.validationForm.get('basicDataForm.telefonoFijo').value != null ? this.validationForm.get('basicDataForm.telefonoFijo').value : '',
+        telefonoCelular: this.validationForm.get('basicDataForm.telefonoCelular').value,
+        nacionalidad: this.validationForm.get('geographicDataForm.nacionalidad').value,
+        departamento: this.validationForm.get('geographicDataForm.departamentoNacimiento').value,
+        ciudadNacimiento: this.validationForm.get('geographicDataForm.ciudadNacimiento').value,
+        ciudadNacimientoOtro: this.user.ciudadNacimientootro,
+        depaResi: this.validationForm.get('geographicDataForm.departamentoResidencia').value,
+        ciudadResi: this.validationForm.get('geographicDataForm.ciudadResidencia').value,
+        direResi: this.user.direccion,
+        cx: 0,
+        cy: 0,
+        fechaNacimiento: this.validationForm.get('basicDataForm.fechaNacimiento').value,
+        sexo: this.validationForm.get('basicDataForm.sexo').value,
+        genero: this.validationForm.get('basicDataForm.genero').value,
+        orientacion: this.validationForm.get('basicDataForm.orientacionSexual').value,
+        etnia: this.validationForm.get('basicDataForm.etnia').value,
+        estadoCivil: this.validationForm.get('basicDataForm.estadoCivil').value,
+        nivelEducativo: this.validationForm.get('basicDataForm.nivelEducativo').value,
+        dirCodificada: ""
       }
 
       await lastValueFrom(this.registerService.updatePerson(persona));
 
 
-    const json: any = {
-      IdProcedureRequest: this.tramiteActual.id,
-      IdTitleTypes: this.validationForm.get('requestDataForm.titleTypeId').value,
-      IdStatus_types: selectedstatus,
-      IdInstitute: idistitute[0],
-      IdProfessionInstitute: idprofesion[0],
-      IdUser: this.tramiteActual.user.idUser,
-      user_code_ventanilla: this.tramiteActual.user.idUserVentanilla,
-      filed_number: this.tramiteActual.filedNumber,
-      //IdProfession:this.validationForm.get('requestDataForm.professionId').value,
-      diploma_number: this.validationForm.get('requestDataForm.diplomaNumber').value,
-      graduation_certificate: this.validationForm.get('requestDataForm.graduationCertificate').value.toUpperCase(),
-      end_date: this.validationForm.get('requestDataForm.endDate').value,
-      book: this.validationForm.get('requestDataForm.book').value.toUpperCase(),
-      folio: this.validationForm.get('requestDataForm.folio').value.toUpperCase(),
-      year_title: this.validationForm.get('requestDataForm.yearTitle').value,
-      professional_card: this.validationForm.get('requestDataForm.professionalCard').value.toUpperCase(),
-      IdCountry: this.validationForm.get('requestDataForm.countryId').value,
-      number_resolution_convalidation: this.validationForm.get('requestDataForm.numberResolutionConvalidation').value.toUpperCase(),
-      date_resolution_convalidation: this.validationForm.get('requestDataForm.dateResolutionConvalidation').value,
-      IdEntity: this.validationForm.get('requestDataForm.entityId').value,
-      name_institute: idistitute[1] + ',' + idistitute[2],
-      last_status_date: new Date(Date.now()),
-      filed_date: new Date(this.tramiteActual.filed_date),
-      IdNumber: this.validationForm.get('basicDataForm.numeroIdentificacion').value,
-      AplicantName: aplicantname.toUpperCase(),
-      name_profession: `${idprofesion[1]},${idprofesion[2]}`,
-      IdDocument_type: this.validationForm.get('basicDataForm.documentodescripcion').value,
-    }
-
-    await lastValueFrom(this.requestService.updateRequest(json));
-
-    //actualizacion de documentos
-    let documentos = this.validationForm.get('attachmentform.documentstate').value;
-
-    let documentstoupdate: any[] = [];
-    for (const element of documentos) {
-      documentstoupdate.push({
-        idDocumentTypeProcedureRequest: element.idDocumentTypeProcedureRequest,
-        idDocumentType: element.idDocumentType,
-        idProcedureRequest: element.idProcedureRequest,
-        path: element.path,
-        is_valid: element.is_valid,
-        registration_date: element.registration_date,
-      })
-    }
-    await lastValueFrom(this.documentsService.updateDocumentsByIdRequest(documentstoupdate));
-
-
-    //guardado de seguimiento
-    let motivosaclaracion: string = this.validationForm.get('validationstateform.checkBoxnameserror').value + '/' +
-      this.validationForm.get('validationstateform.checkBoxprofessionerror').value + '/' +
-      this.validationForm.get('validationstateform.checkBoxinstitutionerror').value + '/' +
-      this.validationForm.get('validationstateform.checkBoxdocumenterror').value + '/' +
-      this.validationForm.get('validationstateform.checkBoxdateerror').value;
-
-
-    const tracking: any =
-      {
-        IdStatusTypes: selectedstatus,
-        IdProcedureRequest: this.tramiteActual.id,
-        IdUser: this.currentValidator.userId,
-        observations: (this.validationForm.get('validationstateform.aditionalinfo').value+""!=""?
-          this.validationForm.get('validationstateform.aditionalinfo').value+",":"")  + this.validationForm.get('validationstateform.internalobservations').value,
-        negation_causes: this.validationForm.get('validationstateform.negationcauses').value + "",
-        other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value + "",
-        recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value + "",
-        consideration: this.validationForm.get('validationstateform.considerations').value + "",
-        exposed_merits: this.validationForm.get('validationstateform.merits').value + "",
-        articles: this.validationForm.get('validationstateform.articles').value + "",
-        additional_information: this.validationForm.get('validationstateform.aditionalinfo').value + "",
-        clarification_types_motives: motivosaclaracion,
-        paragraph_MA: this.validationForm.get('validationstateform.aclarationparagraph').value + "",
-        paragraph_JMA1: this.validationForm.get('validationstateform.justificationparagraph1').value + "",
-        paragraph_JMA2: this.validationForm.get('validationstateform.justificationparagraph2').value + "",
-        paragraph_AMA: this.validationForm.get('validationstateform.aclarationparagrapharticle').value + "",
-        dateTracking: new Date(Date.now())
+      if (this.validationForm.get('requestDataForm.titleTypeId').value == 2) {
+        this.validationForm.get('requestDataForm.instituteName').setValue(this.validationForm.get('requestDataForm.nameInternationalUniversity').value);
       }
 
-    await lastValueFrom(this.trackingService.addTracking(tracking));
+      const json: any = {
+        IdProcedureRequest: this.tramiteActual.id,
+        IdTitleTypes: this.validationForm.get('requestDataForm.titleTypeId').value,
+        IdStatus_types: selectedstatus,
+        IdInstitute: this.validationForm.get('requestDataForm.instituteId').value,
+        IdProfessionInstitute: this.validationForm.get('requestDataForm.professionId').value,
+        IdUser: this.tramiteActual.user.idUser,
+        user_code_ventanilla: this.tramiteActual.user.idUserVentanilla,
+        filed_number: this.tramiteActual.filedNumber,
+        //IdProfession:this.validationForm.get('requestDataForm.professionId').value,
+        diploma_number: this.validationForm.get('requestDataForm.diplomaNumber').value,
+        graduation_certificate: this.validationForm.get('requestDataForm.graduationCertificate').value.toUpperCase(),
+        end_date: this.validationForm.get('requestDataForm.endDate').value,
+        book: this.validationForm.get('requestDataForm.book').value.toUpperCase(),
+        folio: this.validationForm.get('requestDataForm.folio').value.toUpperCase(),
+        year_title: this.validationForm.get('requestDataForm.yearTitle').value,
+        professional_card: this.validationForm.get('requestDataForm.professionalCard').value.toUpperCase(),
+        IdCountry: this.validationForm.get('requestDataForm.countryId').value,
+        number_resolution_convalidation: this.validationForm.get('requestDataForm.numberResolutionConvalidation').value.toUpperCase(),
+        date_resolution_convalidation: this.validationForm.get('requestDataForm.dateResolutionConvalidation').value,
+        IdEntity: this.validationForm.get('requestDataForm.entityId').value,
+        name_institute: this.validationForm.get('requestDataForm.instituteName').value.toUpperCase(),
+        last_status_date: new Date(Date.now()),
+        filed_date: new Date(this.tramiteActual.filed_date),
+        IdNumber: this.validationForm.get('basicDataForm.numeroIdentificacion').value,
+        AplicantName: aplicantname.toUpperCase(),
+        name_profession: this.validationForm.get('requestDataForm.professionName').value.toUpperCase(),
+        IdDocument_type: this.validationForm.get('basicDataForm.documentodescripcion').value,
+      }
 
-    //guardado resolution bd
-    if (this.validationForm.get('validationstateform.selectedstatus').value === '11') {
+      await lastValueFrom(this.requestService.updateRequest(json));
 
-      this.popupAlert.infoAlert(`Generando Resolución, puede tardar unos momentos, espere por favor...`, 15000);
+      //actualizacion de documentos
+      let documentos = this.validationForm.get('attachmentform.documentstate').value;
+
+      let documentstoupdate: any[] = [];
+      for (const element of documentos) {
+        documentstoupdate.push({
+          idDocumentTypeProcedureRequest: element.idDocumentTypeProcedureRequest,
+          idDocumentType: element.idDocumentType,
+          idProcedureRequest: element.idProcedureRequest,
+          path: element.path,
+          is_valid: element.is_valid,
+          registration_date: element.registration_date,
+        })
+      }
+      await lastValueFrom(this.documentsService.updateDocumentsByIdRequest(documentstoupdate));
+
+
+      //guardado de seguimiento
+      let motivosaclaracion: string = this.validationForm.get('validationstateform.checkBoxnameserror').value + '/' +
+        this.validationForm.get('validationstateform.checkBoxprofessionerror').value + '/' +
+        this.validationForm.get('validationstateform.checkBoxinstitutionerror').value + '/' +
+        this.validationForm.get('validationstateform.checkBoxdocumenterror').value + '/' +
+        this.validationForm.get('validationstateform.checkBoxdateerror').value;
+
+
+      const tracking: any =
+        {
+          IdStatusTypes: selectedstatus,
+          IdProcedureRequest: this.tramiteActual.id,
+          IdUser: this.currentValidator.userId,
+          observations: (this.validationForm.get('validationstateform.aditionalinfo').value + "" != "" ?
+            this.validationForm.get('validationstateform.aditionalinfo').value + "," : "") + this.validationForm.get('validationstateform.internalobservations').value,
+          negation_causes: this.validationForm.get('validationstateform.negationcauses').value + "",
+          other_negation_causes: this.validationForm.get('validationstateform.othernegationcauses').value + "",
+          recurrent_argument: this.validationForm.get('validationstateform.recurrentargument').value + "",
+          consideration: this.validationForm.get('validationstateform.considerations').value + "",
+          exposed_merits: this.validationForm.get('validationstateform.merits').value + "",
+          articles: this.validationForm.get('validationstateform.articles').value + "",
+          additional_information: this.validationForm.get('validationstateform.aditionalinfo').value + "",
+          clarification_types_motives: motivosaclaracion,
+          paragraph_MA: this.validationForm.get('validationstateform.aclarationparagraph').value + "",
+          paragraph_JMA1: this.validationForm.get('validationstateform.justificationparagraph1').value + "",
+          paragraph_JMA2: this.validationForm.get('validationstateform.justificationparagraph2').value + "",
+          paragraph_AMA: this.validationForm.get('validationstateform.aclarationparagrapharticle').value + "",
+          dateTracking: new Date(Date.now())
+        }
+
+      await lastValueFrom(this.trackingService.addTracking(tracking));
+
+      //guardado resolution bd
+      if (this.validationForm.get('validationstateform.selectedstatus').value === '11') {
+
+        this.popupAlert.infoAlert(`Generando Resolución, puede tardar unos momentos, espere por favor...`, 15000);
 
 
         const resolution: any =
@@ -614,32 +610,32 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         await lastValueFrom(this.resolutiontService.addResolution(resolution));
 
 
-      let file: any = null;
-      this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
-        estadosbd[status],
-        this.Role + "",
-        this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
-        this.validationForm.get('validationstateform.justificationparagraph1').value +", "+
-        this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
-        this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
-        false
-      ).pipe(
-        switchMap(resp => {
-          file=resp.data;
-          let newfile = this.archiveService.base64ToFile(resp.data, "Resolucion.pdf");
-          return this.archiveService.saveFileBlobStorage(newfile, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
-        })
-      ).subscribe({
-        next: value => {
-          this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
-          this.getHtmlBody(status, toNumber(this.validationForm.get('validationstateform.selectedstatus').value), file, aplicantname);
-        }
-      });
+        let file: any = null;
+        this.documentsService.getResolutionPdf(this.tramiteActual.id + "",
+          estadosbd[status],
+          this.Role + "",
+          this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
+          this.validationForm.get('validationstateform.justificationparagraph1').value + ", " +
+          this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
+          this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
+          false
+        ).pipe(
+          switchMap(resp => {
+            file = resp.data;
+            let newfile = this.archiveService.base64ToFile(resp.data, "Resolucion.pdf");
+            return this.archiveService.saveFileBlobStorage(newfile, 'RESOLUCION_' + 'N°' + this.tramiteActual.filedNumber, this.tramiteActual.user.idUser);
+          })
+        ).subscribe({
+          next: value => {
+            this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
+            this.getHtmlBody(status, toNumber(this.validationForm.get('validationstateform.selectedstatus').value), file, aplicantname);
+          }
+        });
 
-    } else {
-      this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
-      await this.getHtmlBody(selectedstatus, selectedstatus, null, aplicantname);
-    }
+      } else {
+        this.popupAlert.successAlert(`Solicitud Validada Exitosamente`, 4000);
+        await this.getHtmlBody(selectedstatus, selectedstatus, null, aplicantname);
+      }
     }
 
   }

@@ -3,7 +3,15 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {formatDate} from "@angular/common";
 import {PageEvent} from "@angular/material/paginator";
 import {lastValueFrom} from "rxjs";
-import {RequestService, TrackingService, ArchiveService, PopUpService, DocumentsService, AuthService, AttachmentService} from "@core-app/services";
+import {
+  RequestService,
+  TrackingService,
+  ArchiveService,
+  PopUpService,
+  DocumentsService,
+  AuthService,
+  AttachmentService
+} from "@core-app/services";
 import {AppBaseComponent} from "@core-app/utils";
 import {CustomValidators} from "@core-app/utils/custom-validators";
 import {DocumentSupportDto, TrackingRequestDto, ProcedureRequestBackDto, CurrentUserDto} from "@core-app/models";
@@ -115,7 +123,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   /**
    * Info de la solicitud
    */
-  public filter: number=0;
+  public filter: number = 0;
 
   public editRequest: any;
 
@@ -163,8 +171,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       requestDataForm: this.fb.group({
         idProcedure: ['', [Validators.required]],
         titleTypeId: ['', [Validators.required]],
-        instituteId: ['', [Validators.required]],
+        instituteId: [''],
+        instituteName: [''],
         professionId: ['', [Validators.required]],
+        professionName: [''],
         diplomaNumber: ['', [Validators.pattern("^[0-9]*$")]],
         graduationCertificate: ['', []],
         endDate: ['', [Validators.required, CustomValidators.dateValidator]],
@@ -191,14 +201,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     this.popUp.infoAlert("Cargando solicitudes", 2000);
-/*
-    this.requestService.getDashboardUser(this.currentUser.userId).subscribe({
-      next: value => {
-        this.allByUser = value;
-        this.filterTable(0);
-      }
-    })
-    */
 
     let date: Date = new Date(Date.now());
 
@@ -217,12 +219,12 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       "" + " ",
       `${this.pageNumberPaginator}`,
       `${this.pageSizePaginator}`,
-      this.currentUser.userId,this.filter)
+      this.currentUser.userId, this.filter)
       .subscribe(resp => {
         this.allByUser = resp.data;
-        this.totalRequests=resp.count;
-        this.filterAllByUser=resp.data
-        this.filter=0;
+        this.totalRequests = resp.count;
+        this.filterAllByUser = resp.data
+        this.filter = 0;
       });
 
     this.lastfilters = {
@@ -239,15 +241,12 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * @param filter 0 para recientes,
    *               1 para solucionados
    */
-  public  filterTable(filter: number, type: number): void{
+  public filterTable(filter: number, type: number): void {
     this.filter = filter;
-   this.getDashboard(type);
-
-
-
+    this.getDashboard(type);
   }
 
-  public  getDashboard(id: number): void {
+  public getDashboard(id: number): void {
     let selector = this.userdashboard.get('selector').value;
     let text = this.userdashboard.get('textfilter').value;
 
@@ -261,20 +260,20 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     let day = date.toLocaleString("default", {day: "2-digit"});
     if (id === 0) {
       this.pageNumberPaginator = 1;
-      this.showpaginator=false;
+      this.showpaginator = false;
       //this.showpaginator=true;
       // Generate yyyy-mm-dd date string
       let formattedDate = year + "-" + month + "-" + day;
-       this.requestService.getDashboardbyidUser(
+      this.requestService.getDashboardbyidUser(
         formattedDate + "",
         (text == null || text == "") ? " " : text,
         (selector == null || selector == "") ? " " : selector,
         `${this.pageNumberPaginator}`,
         `${this.pageSizePaginator}`, this.currentUser.userId, this.filter).subscribe(resp => {
-         this.filterAllByUser = resp.data;
+        this.filterAllByUser = resp.data;
 
         this.totalRequests = resp.count;
-         this.showpaginator=true;
+        this.showpaginator = true;
 
       });
 
@@ -286,20 +285,19 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         pagination: `${this.pageSizePaginator}`
       }
     } else {
-       this.requestService.getDashboardbyidUser(
+      this.requestService.getDashboardbyidUser(
         this.lastfilters.finaldate + "",
         this.lastfilters.texttosearch + "",
         this.lastfilters.selectedfilter + "",
         `${this.pageNumberPaginator}`,
         `${this.pageSizePaginator}`,
         this.currentUser.userId, this.filter).subscribe(resp => {
-         this.filterAllByUser = resp.data;
+        this.filterAllByUser = resp.data;
 
         this.totalRequests = resp.count;
 
       });
     }
-
 
 
   }
@@ -308,10 +306,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     console.log(e);
     this.pageSizePaginator = e.pageSize;
     this.pageNumberPaginator = e.pageIndex + 1;
-    this.filterTable(this.filter,1);
-
+    this.filterTable(this.filter, 1);
   }
-
 
 
   /**
@@ -319,10 +315,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
    * @param idRequest
    */
   public async loadTrackingProcedure(idRequest: number): Promise<void> {
-    await lastValueFrom(this.trackingService.getTrackingbyid(String(idRequest))).then(value => {
-        this.trackingRequest = value.data;
-      }
-    )
+    await lastValueFrom(this.trackingService.getTrackingbyid(String(idRequest)))
+      .then(value => this.trackingRequest = value.data)
   }
 
   /**
@@ -426,7 +420,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       let documentsSave: DocumentSupportDto[] = [];
 
 
-
       await lastValueFrom(this.archiveService.saveFileBlobStorage(
         clarificationForm.fileSupport,
         `Soporte_ReposicionAclaracion`,
@@ -501,28 +494,19 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       }
 
       if (attachmentForm.documentSupports.length < attachmentForm.quantityDocuments) {
-        this.popUp.errorAlert(
-          'Hay requisitos sin documentos adjuntos, ¡revise por favor!',
-          4000);
+        this.popUp.errorAlert('Hay requisitos sin documentos adjuntos, ¡revise por favor!', 4000);
         return;
       }
 
-      this.popUp.infoAlert(
-        `Registrando solicitud, espere por favor.`,
-        5000
-      );
-
-
-      //obtiene la info del instituto seleccionado
-      let infoInstitute = requestDataForm.instituteId;
-
-
-      //obtiene la info de la profesion seleccionada
-      let infoProfession = requestDataForm.professionId;
+      this.popUp.infoAlert(`Registrando solicitud, espere por favor.`, 5000);
 
       //Valida si el countryId tiene un valor, por defecto coloca el de colombia
       if (!requestDataForm.countryId) {
         requestDataForm.countryId = 170;
+      }
+
+      if (requestDataForm.titleTypeId == 2) {
+        requestDataForm.instituteName = requestDataForm.nameInternationalUniversity;
       }
 
       let dtoProcedure: ProcedureRequestBackDto;
@@ -531,10 +515,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdProcedureRequest: this.editRequest.idProcedureRequest,
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 19,
-        IdInstitute: infoInstitute[0],
-        name_institute: infoInstitute[1],
-        IdProfessionInstitute: infoProfession[0],
-        name_profession: infoProfession[1],
+        IdInstitute: requestDataForm.instituteId,
+        name_institute: requestDataForm.instituteName,
+        IdProfessionInstitute: requestDataForm.professionId,
+        name_profession: requestDataForm.professionName,
         last_status_date: new Date(Date.now()),
         IdUser: this.currentUser.userId,
         user_code_ventanilla: this.currentUser.codeVentanilla,
@@ -555,10 +539,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         filed_date: this.editRequest.filed_date,
         filed_number: this.editRequest.filed_number
       }
-
-
-
-
 
       await lastValueFrom(this.requestService.updateRequest(dtoProcedure));
 
@@ -593,7 +573,6 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
 
       await lastValueFrom(this.documentsService.updateDocumentsByIdRequest(documentsSave));
-
 
 
       // tracking

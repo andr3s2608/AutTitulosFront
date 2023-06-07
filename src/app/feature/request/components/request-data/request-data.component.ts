@@ -52,7 +52,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     super();
     this.showInternationalForm = null;
     this.cityService.getCountries().subscribe(resp => this.listCountries = resp.data);
-    this.iesServices.getInstitutes().subscribe(resp => this.listInstitutes = resp.data);
+
     this.attachmentService.showProfessionalCard.subscribe(value => this.showProfessionalCard = value);
   }
 
@@ -60,13 +60,18 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     this.requestDataForm = this.controlContainer.control;
     this.requestDataForm = this.requestDataForm.controls['requestDataForm'];
 
+    this.iesServices.getInstitutes().subscribe(resp => {
+      this.listInstitutes = resp.data;
 
-    if (this.requestDataForm.get('instituteId').value != '' && this.requestDataForm.get('instituteId').value != null) {
-      this.getPrograms();
-    }
+      if (this.requestDataForm.get('instituteId').value != '' && this.requestDataForm.get('instituteId').value != null) {
+        this.iesServices.getProgramsbyId(this.requestDataForm.get('instituteId').value)
+          .subscribe(resp2 => this.listProfessions = resp2.data);
+      }
+    });
 
     if (this.requestDataForm.get('titleTypeId').value != '') {
-      this.showFormNationalOrInternational();
+      let form = this.requestDataForm.get('titleTypeId').value;
+      this.showInternationalForm = form == 2;
     }
   }
 
@@ -75,29 +80,29 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    */
   public showFormNationalOrInternational(): void {
     let form = this.requestDataForm.get('titleTypeId').value;
+    this.showInternationalForm = form == 2;
 
     this.attachmentService.setShowProfessionalCard(false);
     this.attachmentService.setShowValidationResolution(form == 2);
-    this.showInternationalForm = form == 2;
     this.listProfessions = null;
     this.requestDataForm.get('professionId').setValue('');
+    this.requestDataForm.get('professionName').setValue('');
+    this.requestDataForm.get('instituteId').setValue('');
+    this.requestDataForm.get('instituteName').setValue('');
+    this.requestDataForm.get('entityId').setValue('');
   }
 
   /**
    * Devuelve un la lista de los programas por institucion
    */
   public async getPrograms() {
+    let instituteId = this.requestDataForm.get('instituteId').value;
 
-    let institute = this.requestDataForm.get('instituteId').value;
+    const selectedInstitute = this.listInstitutes.find(institute => institute.idInstitute === instituteId);
+    this.requestDataForm.get('instituteName').setValue(selectedInstitute.nameinstitute);
+
     this.requestDataForm.get('professionId').setValue('');
-
-
-    if (institute.length > 2) {
-      institute = institute.split(',');
-      this.requestDataForm.get('professionId').setValue('');
-    }
-
-    this.iesServices.getProgramsbyId(institute[0]).subscribe(resp2 => this.listProfessions = resp2.data);
+    this.iesServices.getProgramsbyId(instituteId).subscribe(resp2 => this.listProfessions = resp2.data);
   }
 
 
@@ -105,10 +110,12 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    * Activa el campo de tarjeta profesional
    * @param pProfession Evento con el tipo de profesion escogida
    */
-  public activeProfesionalCard(pProfession: any): void {
-    let profession = pProfession[2];
+  public activeProfesionalCard(): void {
+    let professionId = this.requestDataForm.get('professionId').value;
+    const selectedProfession = this.listProfessions.find(profession => profession.idsniesprogram === professionId);
+    this.requestDataForm.get('professionName').setValue(selectedProfession.programname);
 
-    if (profession == "Formación técnica profesional" || profession == "Tecnológico") {
+    if (selectedProfession.levelEducation == "Formación técnica profesional" || selectedProfession.levelEducation == "Tecnológico") {
       this.attachmentService.setShowProfessionalCard(false);
       this.showProfessionalCard = false;
     } else {

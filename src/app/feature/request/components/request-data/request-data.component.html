@@ -38,13 +38,13 @@
     <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == false">
       <div class="entradas-de-texto-govco">
         <label for="institucionId">Institución educativa <span class="required"> *</span></label>
-        <ng-select  formControlName="instituteId" id="institucionId"
+        <ng-select formControlName="instituteId" id="institucionId"
                    aria-describedby="titleTypeId-note" aria-label="Default select example"
                    [ngClass]="{'error': isTouchedField(requestDataForm, 'instituteId')}"
                    (change)="this.getPrograms()"
         >
           <ng-option value="" selected disabled>Seleccione</ng-option>
-          <ng-option *ngFor="let institute of listInstitutes" [value]="[institute.idInstitute,institute.nameinstitute]">{{institute.nameinstitute}}</ng-option>
+          <ng-option *ngFor="let institute of listInstitutes" [value]="institute.idInstitute">{{institute.nameinstitute}}</ng-option>
         </ng-select>
         <span class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
           {{ getErrorMessage('instituteId') }}
@@ -58,10 +58,10 @@
         <ng-select id="profesionId" aria-label="Default select example"
                 formControlName="professionId"
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'professionId')}"
-                (change)="activeProfesionalCard($event)"
+                (change)="activeProfesionalCard()"
         >
           <ng-option value="" selected disabled>Seleccione</ng-option>
-          <ng-option *ngFor="let profession of listProfessions" [value]="[profession.idsniesprogram,profession.programname,profession.levelEducation]">{{profession.programname}}</ng-option>
+          <ng-option *ngFor="let profession of listProfessions" [value]="profession.idsniesprogram">{{profession.programname}}</ng-option>
         </ng-select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
@@ -73,13 +73,13 @@
     <div class="col-sm-12 col-md-6" *ngIf="showInternationalForm == true">
       <div class="entradas-de-texto-govco">
         <label for="pais-origen">País Origen Título<span class="required"> *</span></label>
-        <select class="form-select" id="pais-origen" aria-label="Default select example"
+        <ng-select id="pais-origen" aria-label="Default select example"
                 formControlName="countryId"
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'countryId')}"
         >
-          <option value="" selected disabled>Seleccione</option>
-          <option *ngFor="let pais of listCountries" [value]="[pais.idPais]">{{pais.nombre}}</option>
-        </select>
+          <ng-option value="" selected disabled>Seleccione</ng-option>
+          <ng-option *ngFor="let pais of listCountries" [value]="[pais.idPais]">{{pais.nombre}}</ng-option>
+        </ng-select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">
           {{ getErrorMessage('countryId') }}
