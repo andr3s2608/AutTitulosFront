@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tramite-aut-titulos-front",
+            "outputPath": "dist/Tramite_AutTitulos_Front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
