@@ -423,7 +423,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       await lastValueFrom(this.archiveService.saveFileBlobStorage(
         clarificationForm.fileSupport,
         `Soporte_ReposicionAclaracion`,
-        `oid${this.currentUser.codeVentanilla}_ReposicionAclaracion`))
+        `${this.infoRequest.filed}`))
         .then(resp => {
           this.popUp.infoAlert("Subiendo archivos...", 500);
         });
@@ -431,7 +431,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
       documentsSave.push({
         IdDocumentType: 6,
         IdProcedureRequest: this.infoRequest.idProcedure,
-        path: `oid${this.currentUser.codeVentanilla}_ReposicionAclaracion/Soporte_ReposicionAclaracion`,
+        path: `${this.infoRequest.filed}/Soporte_ReposicionAclaracion`,
         is_valid: true,
         registration_date: new Date(Date.now()),
         modification_date: new Date(Date.now())
@@ -554,7 +554,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         await lastValueFrom(this.archiveService.saveFileBlobStorage(
           newFile.content,
           `Soporte_${newFile.docDescription}`,
-          `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}`))
+          `${this.infoRequest.filed}`))
           .then(resp => {
             this.popUp.infoAlert("Subiendo archivos...", 500);
           });
@@ -563,7 +563,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
           IdDocumentTypeProcedureRequest: newFile.idDocumentTypeProcedureRequest,
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: this.editRequest.idProcedureRequest,
-          path: `oid${this.currentUser.codeVentanilla}_${newFile.docDescription}/Soporte_${newFile.docDescription}`,
+          path: `${this.infoRequest.filed}/Soporte_${newFile.docDescription}`,
           is_valid: true,
           registration_date: new Date(Date.now()),
           modification_date: new Date(Date.now())
