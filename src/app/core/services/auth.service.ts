@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {map, Observable} from "rxjs";
 import {CurrentUserDto} from "@core-app/models";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
@@ -8,6 +8,7 @@ import jwt_decode from "jwt-decode";
   providedIn: 'root'
 })
 export class AuthService {
+  @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
 
   private listUsers: Array<CurrentUserDto> = [
     {
@@ -68,7 +69,8 @@ export class AuthService {
         })
       }
     ).pipe( map( res => {
-      //console.log(res);
+
+      console.log(res);
       let decodedToken = this.getDecodedAccessToken(res.accessToken);
       console.log(decodedToken);
       let parsedRoles = JSON.parse(decodedToken.access);
@@ -108,7 +110,7 @@ export class AuthService {
       console.log(currentUser);
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       localStorage.setItem('Role', currentUser.rol);
-
+      this.getLoggedInName.emit("true");
       return currentUser;
     }));
 

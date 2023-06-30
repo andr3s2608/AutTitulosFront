@@ -1,7 +1,32 @@
 <nav class="navbar navbar-expand-lg barra-superior-govco" aria-label="Barra superior">
-  <a href="https://www.gov.co/" target="_blank" rel="noopener" aria-label="Portal del Estado Colombiano - GOV.CO"></a>
-  <button class="idioma-icon-barra-superior-govco float-right" aria-label="Button to change the language of the page to English"></button>
-  <button class="ant-btn-danger" (click)="logout()">Cerrar sesión</button>
+  <div class="navbar-gov-co-pri container-fluid">
+    <div class="navbar-logo float-left">
+      <a href="https://www.gov.co/" target="_blank" rel="noopener"
+         aria-label="Portal del Estado Colombiano - GOV.CO"></a>
+
+    </div>
+    <div class="collapse navbar-collapse navbar-first-menu float-right">
+      <div class="nav-primary mx-auto">
+        <ul class="navbar-nav ml-auto nav-items nav-items-desktop"></ul>
+      </div>
+
+    </div>
+
+    <div class="nav-item-primary ml-auto mr-2 is-scroll float-right" *ngIf="this.currentuser!=undefined">
+      <div class="d-flex" style="color: white; font-weight: bold; padding: 5px">
+
+      <span class="profile-user-name"> {{ this.currentuser?.fullName}}
+          </span>
+
+        <span class="govco-arrow-circle-right"
+              title="Cerrar Sesión"
+              (click)="logout()"></span>
+
+      </div>
+    </div>
+  </div>
+
+
 </nav>
 <div class=" govco-logo-div-b">
   <img src="./assets/images/logoSDS.png" alt="Secretaria Distrital de Salud" style="margin-left: 3%">
