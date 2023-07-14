@@ -259,7 +259,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
       for (const newFile of attachmentForm.documentSupports) {
         await lastValueFrom(this.archiveService.saveFileBlobStorage(
           newFile.content,
-          `Soporte_${newFile.docDescription.replace(" ", "_")}`,
+          `Soporte_${newFile.docDescription.replace(/ /g, "_")}`,
           `${this.numberFiled}`))
           .then(resp => {
             this.popupAlert.infoAlert("Subiendo archivos...", 200);
@@ -268,7 +268,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
         documentsSave.push({
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: idProcedureRequest,
-          path: `${this.numberFiled}/Soporte_${newFile.docDescription}`,
+          path: `${this.numberFiled}/Soporte_${newFile.docDescription.replace(/ /g, "_")}`,
           is_valid: true,
           registration_date: new Date(Date.now()),
           modification_date: new Date(Date.now())

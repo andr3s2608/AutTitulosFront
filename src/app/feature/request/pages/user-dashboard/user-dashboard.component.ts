@@ -553,7 +553,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         let newFile = attachmentForm.documentSupports[i];
         await lastValueFrom(this.archiveService.saveFileBlobStorage(
           newFile.content,
-          `Soporte_${newFile.docDescription}`,
+          `Soporte_${newFile.docDescription.replace(/ /g, "_")}`,
           `${this.infoRequest.filed}`))
           .then(resp => {
             this.popUp.infoAlert("Subiendo archivos...", 500);
@@ -563,7 +563,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
           IdDocumentTypeProcedureRequest: newFile.idDocumentTypeProcedureRequest,
           IdDocumentType: newFile.docTypeId,
           IdProcedureRequest: this.editRequest.idProcedureRequest,
-          path: `${this.infoRequest.filed}/Soporte_${newFile.docDescription}`,
+          path: `${this.infoRequest.filed}/Soporte_${newFile.docDescription.replace(/ /g, "_")}`,
           is_valid: true,
           registration_date: new Date(Date.now()),
           modification_date: new Date(Date.now())
