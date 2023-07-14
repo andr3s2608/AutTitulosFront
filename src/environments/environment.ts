@@ -10,7 +10,7 @@ export const environment = {
   PROCEDURE_NOTIFICATIONS_URI: 'https://apm-aeu-sds-dev-shared.azure-api.net/notifications/api/v1',
   //PROCEDURE_LOCAL_URI:'http://localhost:8080/api/v1',
   //PROCEDURE_LOCAL_URI:'https://localhost:5001/api/v1',
-  PROCEDURE_LOCAL_URI:'http://back-tramite-aut-titulos-des-sds-tramite19-titulosensalud.apps.openshiftdev.soain.lcl/api/v1',
+  PROCEDURE_LOCAL_URI:'https://app-sds-auttitulos-dev-eastus2.azurewebsites.net/api/v1',
   PROCEDURE_BLOB_URI:'https://apm-aeu-sds-dev-shared.azure-api.net/filemanager/api/v1',
 
 
