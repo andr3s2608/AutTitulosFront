@@ -32,6 +32,10 @@ export class IesService {
     return this.http.get(`${PROCEDURE_LOCAL_URI}/programas/GetProgramsbyid/${id}`);
   }
 
+  public getAllPrograms(): Observable<any> {
+    return this.http.get(`${PROCEDURE_LOCAL_URI}/programas/GetAllPrograms`);
+  }
+
 
 
 }

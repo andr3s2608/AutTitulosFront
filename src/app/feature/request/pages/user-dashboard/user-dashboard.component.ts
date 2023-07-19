@@ -355,8 +355,8 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
     this.editRequestForm.get("requestDataForm").get("idProcedure").setValue(this.editRequest.filed_number);
     this.editRequestForm.get("requestDataForm").get("titleTypeId").setValue(this.editRequest.idTitleTypes);
-    this.editRequestForm.get("requestDataForm").get("instituteId").setValue([this.editRequest.idInstitute, this.editRequest.name_institute]);
-    this.editRequestForm.get("requestDataForm").get("professionId").setValue([this.editRequest.idProfessionInstitute, this.editRequest.name_profession]);
+    this.editRequestForm.get("requestDataForm").get("instituteId").setValue(this.editRequest.idInstitute);
+    this.editRequestForm.get("requestDataForm").get("professionId").setValue(this.editRequest.idProfessionInstitute.toString());
     this.editRequestForm.get("requestDataForm").get("diplomaNumber").setValue(this.editRequest.diploma_number);
     this.editRequestForm.get("requestDataForm").get("graduationCertificate").setValue(this.editRequest.graduation_certificate);
     this.editRequestForm.get("requestDataForm").get("endDate").setValue(formatDate(new Date(this.editRequest.end_date), 'yyyy-MM-dd', 'en'));
@@ -365,10 +365,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("yearTitle").setValue(this.editRequest.year_title);
     this.editRequestForm.get("requestDataForm").get("professionalCard").setValue(this.editRequest.professional_card);
     this.editRequestForm.get("requestDataForm").get("nameInternationalUniversity").setValue(this.editRequest.name_institute);
-    this.editRequestForm.get("requestDataForm").get("countryId").setValue(this.editRequest.idCountry);
+    this.editRequestForm.get("requestDataForm").get("countryId").setValue(this.editRequest.idCountry.toString());
     this.editRequestForm.get("requestDataForm").get("numberResolutionConvalidation").setValue(this.editRequest.number_resolution_convalidation);
-    this.editRequestForm.get("requestDataForm").get("dateResolutionConvalidation").setValue(this.editRequest.date_resolution_convalidation);
-    this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.IdEntity);
+    this.editRequestForm.get("requestDataForm").get("dateResolutionConvalidation").setValue(formatDate(new Date(this.editRequest.date_resolution_convalidation), 'yyyy-MM-dd', 'en'));
+    this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.idEntity);
 
     if (this.editRequest.professional_card) {
       this.attachmentService.setShowProfessionalCard(true);
@@ -515,7 +515,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdProcedureRequest: this.editRequest.idProcedureRequest,
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 19,
-        IdInstitute: requestDataForm.instituteId,
+        IdInstitute: requestDataForm.instituteId != "" ? requestDataForm.instituteId : 0,
         name_institute: requestDataForm.instituteName,
         IdProfessionInstitute: requestDataForm.professionId,
         name_profession: requestDataForm.professionName,
