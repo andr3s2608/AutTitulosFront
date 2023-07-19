@@ -217,7 +217,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
       dtoProcedure = {
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
-        IdInstitute: requestDataForm.instituteId,
+        IdInstitute: requestDataForm.instituteId != "" ? requestDataForm.instituteId : 0,
         name_institute: requestDataForm.instituteName.toUpperCase(),
         IdProfessionInstitute: requestDataForm.professionId,
         name_profession: requestDataForm.professionName.toUpperCase(),

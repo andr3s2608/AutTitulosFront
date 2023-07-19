@@ -253,6 +253,8 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
     let titleTypeStr: string = this.tramiteActual.titleTypeId == 1 ? "NACIONAL" : "EXTRANJERO";
 
+    console.log("tramite cargado", this.tramiteActual);
+
     this.validationForm = this.fb.group({
 
       informationRequestValidatorForm: this.fb.group({
@@ -303,7 +305,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         titleTypeId: [this.tramiteActual.titleTypeId, [Validators.required]],
         instituteId: [this.tramiteActual.instituteId],
         instituteName: [this.tramiteActual.name_institute],
-        professionId: [this.tramiteActual.profesionid, [Validators.required]],
+        professionId: [this.tramiteActual.profesionid.toString(), [Validators.required]],
         professionName: [this.tramiteActual.name_profesion],
         diplomaNumber: [this.tramiteActual.diplomaNumber],
         graduationCertificate: [this.tramiteActual.graduationCertificate],
@@ -313,9 +315,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         yearTitle: [this.tramiteActual.yearTitle, [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern("^[0-9]*$")]],
         professionalCard: [this.tramiteActual.professionalCard],
         nameInternationalUniversity: [this.tramiteActual.nameInternationalUniversity],
-        countryId: [this.tramiteActual.countryId],
+        countryId: [this.tramiteActual.countryId.toString()],
         numberResolutionConvalidation: [this.tramiteActual.numberResolutionConvalidation],
-        dateResolutionConvalidation: [this.tramiteActual.dateResolutionConvalidation],
+        dateResolutionConvalidation: [formatDate(new Date(this.tramiteActual.dateResolutionConvalidation), 'yyyy-MM-dd', 'en')],
         entityId: [this.tramiteActual.entityId]
       }),
 

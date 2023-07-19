@@ -78,7 +78,7 @@
                 [ngClass]="{'error': isTouchedField(requestDataForm, 'countryId')}"
         >
           <ng-option value="" selected disabled>Seleccione</ng-option>
-          <ng-option *ngFor="let pais of listCountries" [value]="[pais.idPais]">{{pais.nombre}}</ng-option>
+          <ng-option *ngFor="let pais of listCountries" [value]="pais.idPais">{{pais.nombre}}</ng-option>
         </ng-select>
         <span
           class="error-texto-govco alert-entradas-de-texto-govco" role="alert" aria-live="assertive">

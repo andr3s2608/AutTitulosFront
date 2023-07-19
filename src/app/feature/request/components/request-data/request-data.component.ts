@@ -62,16 +62,18 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
     this.iesServices.getInstitutes().subscribe(resp => {
       this.listInstitutes = resp.data;
+      console.log("este es el listado de instituciones", resp.data)
 
       if (this.requestDataForm.get('instituteId').value != '' && this.requestDataForm.get('instituteId').value != null) {
         this.iesServices.getProgramsbyId(this.requestDataForm.get('instituteId').value)
-          .subscribe(resp2 => this.listProfessions = resp2.data);
+          .subscribe(resp2 => {this.listProfessions = resp2.data;
+            console.log("este es el listado de prfoesiones", resp2.data)});
       }
     });
 
     if (this.requestDataForm.get('titleTypeId').value != '') {
-      let form = this.requestDataForm.get('titleTypeId').value;
-      this.showInternationalForm = form == 2;
+      this.showInternationalForm = this.requestDataForm.get('titleTypeId').value == 2;
+      this.iesServices.getAllPrograms().subscribe(resp3 => this.listProfessions = resp3.data);
     }
   }
 
@@ -79,12 +81,15 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
    * Habilita el formulario del titulo nacional o extranjero
    */
   public showFormNationalOrInternational(): void {
-    let form = this.requestDataForm.get('titleTypeId').value;
-    this.showInternationalForm = form == 2;
+    this.showInternationalForm = this.requestDataForm.get('titleTypeId').value == 2;
 
     this.attachmentService.setShowProfessionalCard(false);
-    this.attachmentService.setShowValidationResolution(form == 2);
-    this.listProfessions = null;
+    this.attachmentService.setShowValidationResolution(this.showInternationalForm);
+    if (this.showInternationalForm) {
+      this.iesServices.getAllPrograms().subscribe(resp3 => this.listProfessions = resp3.data);
+    } else {
+      this.listProfessions = null;
+    }
     this.requestDataForm.get('professionId').setValue('');
     this.requestDataForm.get('professionName').setValue('');
     this.requestDataForm.get('instituteId').setValue('');
@@ -102,7 +107,8 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     this.requestDataForm.get('instituteName').setValue(selectedInstitute.nameinstitute);
 
     this.requestDataForm.get('professionId').setValue('');
-    this.iesServices.getProgramsbyId(instituteId).subscribe(resp2 => this.listProfessions = resp2.data);
+    this.iesServices.getProgramsbyId(instituteId).subscribe(resp2 => {this.listProfessions = resp2.data;
+      console.log("este es el listado de prfoesiones", resp2.data)});
   }
 
 
@@ -115,12 +121,12 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     const selectedProfession = this.listProfessions.find(profession => profession.idsniesprogram === professionId);
     this.requestDataForm.get('professionName').setValue(selectedProfession.programname);
 
-    if (selectedProfession.levelEducation == "Formación técnica profesional" || selectedProfession.levelEducation == "Tecnológico") {
-      this.attachmentService.setShowProfessionalCard(false);
-      this.showProfessionalCard = false;
-    } else {
+    if (selectedProfession.levelEducation == "UNV") {
       this.attachmentService.setShowProfessionalCard(true);
       this.showProfessionalCard = true;
+    } else {
+      this.attachmentService.setShowProfessionalCard(false);
+      this.showProfessionalCard = false;
     }
   }
 
