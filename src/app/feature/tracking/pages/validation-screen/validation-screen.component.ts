@@ -451,9 +451,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       console.log("ERRORES FORMULARIO");
       console.log(super.getAllErrors(this.validationForm));
       this.validationForm.markAllAsTouched();
-      return;
     } else {
 
+      this.popupAlert.infoAlert("Guardando validación...", 5000);
 
       const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
       const ultimosestados: Array<string> = ['4', '5', '10', '6'];
