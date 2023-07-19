@@ -314,7 +314,7 @@ export class ReportPageComponent implements OnInit {
             "Institución Descripción":items?.name_institute,
             "No Resolución":items?.resolutiondate,
             "Fecha Resolución":items?.name_profession,
-            "Eficiencia":"",
+            "Eficiencia":items?.eficiencia,
             "Estado de la Solicitud": items?.statusstring,
             "Rol":this.roles(items?.rol),
           }
