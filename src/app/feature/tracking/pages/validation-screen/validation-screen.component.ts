@@ -681,7 +681,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         }
         if (senddocument) {
           this.registerService.sendEmailAttachment({
-            to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
+            to: "avelez@soaint.com",//this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
             subject: 'Notificación de ' + tittle + ' Tramite 19',
             body: nuevoHTML,
             attachment: file,
@@ -692,7 +692,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         } else {
           this.registerService.sendEmail({
-            to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
+            to: "avelez@soaint.com", //this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
             subject: 'Notificación de ' + tittle + ' Tramite 19',
             body: nuevoHTML
           }).subscribe(() => {

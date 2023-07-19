@@ -305,7 +305,7 @@ export class ReportPageComponent implements OnInit {
           return {
 
             "Numero Id Trámite": items?.idfiled,
-            "Fecha de Radicación Trámite": items?.fileddate,
+            "Fecha de Radicación Trámite": items?.fileddate ? items?.fileddate.substring(0,10) : "",
             "Tipo de Título": items?.titletype,
             "Tipo de Documento": items?.iddoctype,
             "Número Documento de Identidad": items?.idnumber,
@@ -313,7 +313,7 @@ export class ReportPageComponent implements OnInit {
             "Profesión Descripción":items?.name_profession,
             "Institución Descripción":items?.name_institute,
             "No Resolución":items?.resolutiondate,
-            "Fecha Resolución":items?.name_profession,
+            "Fecha Resolución":items?.resolutiondate ? items?.resolutiondate.substring(0,10) : "",
             "Eficiencia":items?.eficiencia,
             "Estado de la Solicitud": items?.statusstring,
             "Rol":this.roles(items?.rol),
