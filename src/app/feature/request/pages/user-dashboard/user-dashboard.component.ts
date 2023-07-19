@@ -532,7 +532,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         folio: requestDataForm.folio,
         year_title: requestDataForm.yearTitle,
         professional_card: requestDataForm.professionalCard,
-        IdCountry: requestDataForm.countryId,
+        IdCountry: Number(requestDataForm.countryId),
         number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
         date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
         IdEntity: requestDataForm.entityId,

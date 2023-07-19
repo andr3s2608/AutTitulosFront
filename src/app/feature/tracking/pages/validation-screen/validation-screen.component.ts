@@ -451,9 +451,9 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
       console.log("ERRORES FORMULARIO");
       console.log(super.getAllErrors(this.validationForm));
       this.validationForm.markAllAsTouched();
-      return;
     } else {
 
+      this.popupAlert.infoAlert("Guardando validación...", 5000);
 
       const estadosbd: Array<string> = ['Aprobación', 'Negación', 'Aclaración', 'Reposición'];
       const ultimosestados: Array<string> = ['4', '5', '10', '6'];
@@ -532,7 +532,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         folio: this.validationForm.get('requestDataForm.folio').value.toUpperCase(),
         year_title: this.validationForm.get('requestDataForm.yearTitle').value,
         professional_card: this.validationForm.get('requestDataForm.professionalCard').value.toUpperCase(),
-        IdCountry: this.validationForm.get('requestDataForm.countryId').value,
+        IdCountry: Number(this.validationForm.get('requestDataForm.countryId').value),
         number_resolution_convalidation: this.validationForm.get('requestDataForm.numberResolutionConvalidation').value.toUpperCase(),
         date_resolution_convalidation: this.validationForm.get('requestDataForm.dateResolutionConvalidation').value,
         IdEntity: this.validationForm.get('requestDataForm.entityId').value,
