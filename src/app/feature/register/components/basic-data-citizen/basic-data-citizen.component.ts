@@ -51,12 +51,13 @@ export class BasicDataCitizenComponent extends AppBaseComponent implements OnIni
 
         let filtro = resp.data.filter((i: { idTipoIdentificacion: string }) => {
           return (
-            i.idTipoIdentificacion != "4" &&
-            i.idTipoIdentificacion != "5" &&
-            i.idTipoIdentificacion != "6")
+            i.idTipoIdentificacion == "1" ||
+            i.idTipoIdentificacion == "2" ||
+            i.idTipoIdentificacion == "3" ||
+            i.idTipoIdentificacion == "13")
         });
 
-        filtro.push({codigo: "PPT", descripcion: "Permiso Protección Temporal", idTipoIdentificacion: 4})
+
         this.identificationType = filtro;
       }
     );

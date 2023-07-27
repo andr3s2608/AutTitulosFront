@@ -3,6 +3,12 @@ import {map, Observable} from "rxjs";
 import {CurrentUserDto} from "@core-app/models";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import jwt_decode from "jwt-decode";
+import {MsalService} from "@azure/msal-angular";
+import {RegisterService} from "@core-app/services/register.service";
+import {Router} from "@angular/router";
+import {PopUpService} from "@core-app/services/popUp.service";
+import {Rol, ROUTES} from "@core-app/enums";
+import {PublicClientApplication} from "@azure/msal-browser";
 
 @Injectable({
   providedIn: 'root'
@@ -50,13 +56,17 @@ export class AuthService {
   ]
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private msalService: MsalService,
+              private registerservice: RegisterService,
+              private router: Router,
+              private popupAlert: PopUpService) { }
 
   /**
    * Se loguea usando una API vieja, no pasa por el B2C
    */
   public internalLogin(payload: any): Observable<CurrentUserDto> {
-    console.log("entre")
+
     let url: string = 'https://login-appservice-back2.azurewebsites.net/auth';
 
     return this.http.post<CurrentUserDto>(`${url}/login`, {
@@ -126,6 +136,88 @@ export class AuthService {
     } catch (e) {
       return null;
     }
+  }
+
+
+  /**
+   * Decodifica un jwt
+   */
+  public B2CLogin(): any {
+
+    this.msalService.loginPopup().subscribe({
+      next:res =>
+      {
+        console.log(res)
+        // @ts-ignore
+          let oid = res.idTokenClaims.oid;
+
+
+
+        this.registerservice.getRoleByIdUser(oid).subscribe(
+          resp =>{
+
+            this.registerservice.getCodeVentanillaByIdUser(oid).subscribe(
+              resp2 =>
+              {
+                this.registerservice.getInfoUserByIdCodeVentanilla(resp2.data).subscribe(resp3 =>
+                {
+
+                  this.registerservice.getIdentificationType().subscribe(respdocumentos => {
+
+                    let filtro = respdocumentos.data.filter((i: { idTipoIdentificacion: string }) => {
+                      return (
+                        i.idTipoIdentificacion == resp3.data.tipoIdentificacion )
+                    });
+
+
+
+
+
+                    let currentUser:CurrentUserDto;
+                     currentUser={
+                      userId: oid,
+                      codeVentanilla: resp2.data,
+                      rol: resp.data[0].value,
+                      fullName: resp3.data.fullName,
+                      email: resp3.data.email,
+                      documentType: filtro[0].descripcion,
+                      documentNumber: resp3.data.numeroIdentificacion,
+                    }
+
+                    currentUser = {
+                      accessToken: res.idToken,
+                      ...currentUser
+                    };
+
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    localStorage.setItem('Role', currentUser.rol);
+                    this.getLoggedInName.emit("true");
+
+                    if (currentUser.rol == Rol.Citizen) {
+                      this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.CITIZEN}`);
+                    } else {
+                      this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.ValidatorDashboard}`);
+                    }
+                    this.popupAlert.successAlert('Bienvenido(a) a la Secretaría de Salud Bogotá.', 4000);
+
+                  });
+
+
+                });
+
+
+
+
+              }
+            )
+
+
+
+          }
+        )
+      }
+
+    })
   }
 
   /**

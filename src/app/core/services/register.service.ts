@@ -101,15 +101,7 @@ export class RegisterService {
    * Obtiene lista de Tipos de Identificacion
    */
   public getIdentificationType(): Observable<any>{
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`,{
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Autorization":"Bearer "+JSON.parse(localStorage.getItem('currentUser')).accessToken
-      })
-    });
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v1/TipoIdentificacion/GetTipoIdentificacion`);
   }
 
   /**
@@ -125,15 +117,7 @@ export class RegisterService {
    * @param idCode Codigo de ventanilla a buscar
    */
   public getInfoUserByIdCodeVentanilla(idCode: any): Observable<any> {
-    return this.http.get(`${PROCEDURE_SHARED_URI}/v2/Persona/GetInfoUserById/${idCode}`,{
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin":"*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Content-Type": "application/json",
-        "Autorization":"Bearer "+JSON.parse(localStorage.getItem('currentUser')).accessToken
-      })
-    });
+    return this.http.get(`${PROCEDURE_SHARED_URI}/v2/Persona/GetInfoUserById/${idCode}`);
   }
 
   /**

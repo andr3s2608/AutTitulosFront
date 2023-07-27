@@ -422,7 +422,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         statustogenerate,
         this.Role + "",
         this.validationForm.get('validationstateform.aclarationparagraph').value + " ",
-        this.validationForm.get('validationstateform.justificationparagraph1').value +", "+
+        this.validationForm.get('validationstateform.justificationparagraph1').value + " " +
         this.validationForm.get('validationstateform.justificationparagraph2').value + " ",
         this.validationForm.get('validationstateform.aclarationparagrapharticle').value + " ",
         preliminarresolution
