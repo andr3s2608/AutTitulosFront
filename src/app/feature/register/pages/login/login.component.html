@@ -5,9 +5,7 @@
 
         <div class="govco-form-signin col-lg-6 col-md-6 col-12 my-4">
           <form [formGroup]="loginForm">
-            <h4 class="govco-title-sign-form headline-l-govco">
-              Inicio de sesión
-            </h4>
+
 
 
 
@@ -25,6 +23,13 @@
                   <button type="submit"
                           (click)="Register()"
                           class="btn-govco fill-btn-govco">REGISTRAR</button>
+                </div>
+              </div>
+              <div class="row col-10  mt-3" style="text-align: center">
+                <div class="col-sm-11 col-md-11">
+                  <button type="submit"
+                          (click)="validacion()"
+                          class="btn-govco fill-btn-govco">VALIDACIÓN DE DOCUMENTOS</button>
                 </div>
               </div>
             </div>

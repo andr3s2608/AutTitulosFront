@@ -188,7 +188,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
           content: fileSelected
         };
       } else {
-        this.listDocumentSupports.splice(idx, 1);
+       this.listDocumentSupports.splice(idx, 1);
       }
     }
 

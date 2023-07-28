@@ -60,7 +60,7 @@ export class AuthGuardService {
 
     if (this.canActiveWithAuth()) {
       let user: CurrentUserDto = this.authService.getCurrentUser();
-      if (user.rol == Rol.Validator || user.rol == Rol.Coordinator || user.rol == Rol.Director) {
+      if (user.rol == Rol.Validator || user.rol == Rol.Coordinator || user.rol == Rol.Director|| user.rol == Rol.Admin) {
         return true;
       }
     }

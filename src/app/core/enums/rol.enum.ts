@@ -5,6 +5,7 @@ export enum Rol {
   Citizen = 'Ciudadano',
   Validator = 'Funcionario',
   Coordinator = 'Coordinador',
-  Director = 'Subdirector'
+  Director = 'Subdirector',
+  Admin = 'AdminTI'
 
 }

@@ -8,7 +8,7 @@
   </div>
 </div >
   <div class="row w-50 justify-content-center align-items-center mx-auto border " *ngIf="variable" >
-    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xxl-8  " >
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 col-xxl-9  " >
       <br><br>
       <h2 class="text-center" >Validación de Documentos</h2>
       <br><br>
@@ -18,11 +18,14 @@
       <br><br>
 
       <form role="form" [formGroup]="form">
-      <div  style="width: 400px">
-        <input type="text" id="codigo" formControlName="codigo" placeholder="Ingrese Código de Verificación"/>
-      </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="entradas-de-texto-govco">
+            <input type="text" id="codigo" placeholder="Codigo de Verificación"
+                   formControlName="codigo"
+                   />
+          </div>
+        </div>
         </form>
-      <br><br>
       <div class="col-sm-1 col-md-1 mx-auto">
         <button (click)="Consultar()" type="button"  class="btn-govco fill-btn-govco">Consultar</button>
       </div>

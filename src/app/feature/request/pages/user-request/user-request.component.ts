@@ -106,7 +106,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
         instituteName: [''],
         professionId: ['', [Validators.required]],
         professionName: [''],
-        diplomaNumber: [''],
+        diplomaNumber: ['',Validators.pattern("^[0-9]*$")],
         graduationCertificate: [''],
         endDate: ['', [Validators.required, CustomValidators.dateValidator]],
         book: ['', []],
@@ -116,7 +116,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
         nameInternationalUniversity: [''],
         countryId: [''],
         numberResolutionConvalidation: [''],
-        dateResolutionConvalidation: [''],
+        dateResolutionConvalidation: ['', [Validators.required, CustomValidators.dateValidator]],
         entityId: ['']
       }),
       attachmentForm: this.fb.group({
@@ -400,7 +400,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
       this.requestForm.get('requestDataForm.nameInternationalUniversity').setValidators([Validators.required]);
       this.requestForm.get('requestDataForm.countryId').setValidators([Validators.required]);
       this.requestForm.get('requestDataForm.numberResolutionConvalidation').setValidators([Validators.required]);
-      this.requestForm.get('requestDataForm.dateResolutionConvalidation').setValidators([Validators.required]);
+      this.requestForm.get('requestDataForm.dateResolutionConvalidation').setValidators([Validators.required,CustomValidators.dateValidator]);
       this.requestForm.get('requestDataForm.entityId').setValidators([Validators.required]);
       return;
     }

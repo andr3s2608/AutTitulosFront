@@ -122,8 +122,18 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
     this.requestDataForm.get('professionName').setValue(selectedProfession.programname);
 
     if (selectedProfession.levelEducation == "UNV") {
-      this.attachmentService.setShowProfessionalCard(true);
-      this.showProfessionalCard = true;
+      if(this.showInternationalForm)
+      {this.attachmentService.setShowValidationResolution(false);
+        this.attachmentService.setShowProfessionalCard(true);
+        this.attachmentService.setShowValidationResolution(this.showInternationalForm);
+        this.showProfessionalCard = true;
+      }
+      else
+      {
+        this.attachmentService.setShowProfessionalCard(true);
+        this.showProfessionalCard = true;
+      }
+
     } else {
       this.attachmentService.setShowProfessionalCard(false);
       this.showProfessionalCard = false;
@@ -139,11 +149,10 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
   public getErrorMessage(field: string): string {
     let message;
     const required: Array<string> = ['titleTypeId', 'instituteId', 'professionId', 'endDate', 'yearTitle', 'professionalCard', 'nameInternationalUniversity', 'countryId', 'entityId', 'numberResolutionConvalidation'];
-    const onlyNumber: Array<string> = ['yearTitle'];
-    const dateError: Array<string> = ['endDate', 'yearTitle', 'dateResolutionConvalidation'];
+    const onlyNumber: Array<string> = ['yearTitle','diplomaNumber'];
+    const dateError: Array<string> = ['dateResolutionConvalidation','endDate', 'yearTitle' ];
 
     if (this.isTouchedField(this.requestDataForm, field)) {
-
       if (required.includes(field) && this.requestDataForm?.get(field).hasError('required')) {
         message = ErrorMessage.IS_REQUIRED;
       } else if (onlyNumber.includes(field) && this.requestDataForm?.get(field).hasError('pattern')) {

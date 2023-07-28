@@ -61,6 +61,10 @@ export class LoginComponent extends AppBaseComponent {
 
     this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.REGISTER}`);
   }
+  public validacion():void
+  {
+    this.router.navigateByUrl(ROUTES.AUT_TITULOS+"/"+ ROUTES.DOCUMENTS_VALID);
+  }
 
   public getErrorMessage(field: string): string {
     let message;

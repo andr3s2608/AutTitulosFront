@@ -193,6 +193,7 @@ export class AuthService {
                     localStorage.setItem('Role', currentUser.rol);
                     this.getLoggedInName.emit("true");
 
+                    console.log(currentUser);
                     if (currentUser.rol == Rol.Citizen) {
                       this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.CITIZEN}`);
                     } else {

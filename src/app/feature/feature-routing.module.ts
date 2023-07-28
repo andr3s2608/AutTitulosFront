@@ -38,7 +38,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.LOGIN
             },
             {
               label: 'Iniciar sesión',
@@ -55,7 +55,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.LOGIN
             },
             {
               label: 'Registro',
@@ -72,7 +72,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.LOGIN
             },
             {
               label: 'Registro',
@@ -93,7 +93,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.LOGIN
             },
             {
               label: 'Registro',
@@ -113,7 +113,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.LOGIN
             }
           ]
         },
@@ -126,7 +126,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.CITIZEN
             },
             {
               label: 'Solicitar autorización títulos área de la salud',
@@ -144,7 +144,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.CITIZEN
             },
             {
               label: 'Solicitar autorización títulos área de la salud',
@@ -165,7 +165,7 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.CITIZEN
             },
             {
               label: 'Solicitar autorización títulos área de la salud',
@@ -186,11 +186,11 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             },
             {
               label: 'Solicitar autorización area de la salud',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             },
             {
               label: 'Validar documentos',
@@ -207,15 +207,15 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             },
             {
               label: 'Solicitar autorización area de la salud',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             },
             {
               label: 'Bandeja de Entrada',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             }
           ]
         }
@@ -228,15 +228,15 @@ const routes: Routes = [
           breadcrumb: [
             {
               label: 'Inicio',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             },
             {
               label: 'Solicitar autorización area de la salud',
-              url: ''
+              url: ROUTES.ValidatorDashboard
             },
             {
               label: 'Menú Reportes',
-              url: ''
+              url: ROUTES.ReportsDashboard
             }
           ]
         }

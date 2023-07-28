@@ -40,7 +40,7 @@ public variable : boolean=true;
     if(this.form.valid) {
       this.trackingService.getValidationDocument(this.form.get('codigo').value).subscribe(resp => {
 
-        if(resp.result.count>0)
+        if(resp.count>0)
         {
           this.validationDocument=resp.data
           this.variable=false;
@@ -64,6 +64,7 @@ public variable : boolean=true;
 
   public volver() {
     this.router.navigateByUrl(ROUTES.AUT_TITULOS+'/'+ROUTES.DOCUMENTS_VALID);
+    this.variable=true;
   }
 
 }
