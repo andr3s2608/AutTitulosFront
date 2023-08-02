@@ -150,29 +150,17 @@ export class AuthService {
         console.log(res)
         // @ts-ignore
           let oid = res.idTokenClaims.oid;
-
-
-
         this.registerservice.getRoleByIdUser(oid).subscribe(
           resp =>{
-
             this.registerservice.getCodeVentanillaByIdUser(oid).subscribe(
-              resp2 =>
-              {
-                this.registerservice.getInfoUserByIdCodeVentanilla(resp2.data).subscribe(resp3 =>
-                {
-
+              resp2 =>{
+                this.registerservice.getInfoUserByIdCodeVentanilla(resp2.data).subscribe(
+                  resp3 =>{
                   this.registerservice.getIdentificationType().subscribe(respdocumentos => {
-
                     let filtro = respdocumentos.data.filter((i: { idTipoIdentificacion: string }) => {
                       return (
                         i.idTipoIdentificacion == resp3.data.tipoIdentificacion )
                     });
-
-
-
-
-
                     let currentUser:CurrentUserDto;
                      currentUser={
                       userId: oid,

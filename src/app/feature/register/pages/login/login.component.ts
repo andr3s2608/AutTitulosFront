@@ -32,11 +32,26 @@ export class LoginComponent extends AppBaseComponent {
 
   public submitLoginForm(): void {
 
-
     try {
 
+      if (!this.loginForm.valid) {
+        this.popupAlert.errorAlert('Hay errores en el formulario, revise por favor.', 4000);
+        console.log("FORMULARIO PROCESADO");
+        console.log(this.loginForm.value);
+        console.log("ERRORES FORMULARIO");
+        console.log(super.getAllErrors(this.loginForm));
+        this.loginForm.markAllAsTouched();
+        return;
+      }
 
-/*
+      const payload: Authentication = {
+        // email: this.loginForm.get('email').value,
+        userName: this.loginForm.get('email').value,
+        password: this.loginForm.get('password').value
+      };
+      this.popupAlert.infoAlert('Iniciando sesión...', 4000);
+
+
       this.authService.internalLogin(payload).subscribe({
         next: value => {
           if (value.rol == Rol.Citizen) {
@@ -48,7 +63,34 @@ export class LoginComponent extends AppBaseComponent {
         }
       });
 
-       */
+
+     // console.log('va a entrar')
+      //this.authService.B2CLogin();
+
+    } catch (e) {
+      this.popupAlert.errorAlert('Ocurrió un error al iniciar sesión.', 4000);
+    }
+
+  }
+  public submitLoginFormB2C(): void {
+
+
+    try {
+
+
+      /*
+            this.authService.internalLogin(payload).subscribe({
+              next: value => {
+                if (value.rol == Rol.Citizen) {
+                  this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.CITIZEN}`);
+                } else {
+                  this.router.navigateByUrl(`${ROUTES.AUT_TITULOS}/${ROUTES.ValidatorDashboard}`);
+                }
+                this.popupAlert.successAlert('Bienvenido(a) a la Secretaría de Salud Bogotá.', 4000);
+              }
+            });
+
+             */
       console.log('va a entrar')
       this.authService.B2CLogin();
 
