@@ -161,7 +161,7 @@ export class ValidatorsDashboardComponent implements OnInit {
    * @param e Evento del paginador
    */
   public changePage(e: PageEvent): void {
-    console.log(e);
+
     this.pageSizePaginator = e.pageSize;
     this.pageNumberPaginator = e.pageIndex + 1;
 
@@ -173,7 +173,7 @@ export class ValidatorsDashboardComponent implements OnInit {
       `${this.pageNumberPaginator}`,
       `${this.pageSizePaginator}`,
       role).subscribe(resp => {
-      console.log("estoy en resp", resp);
+
       this.tableFilter = resp.data;
       this.totalRequests = resp.count;
 

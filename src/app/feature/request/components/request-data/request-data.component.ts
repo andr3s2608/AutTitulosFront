@@ -62,12 +62,12 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
     this.iesServices.getInstitutes().subscribe(resp => {
       this.listInstitutes = resp.data;
-      console.log("este es el listado de instituciones", resp.data)
+
 
       if (this.requestDataForm.get('instituteId').value != '' && this.requestDataForm.get('instituteId').value != null) {
         this.iesServices.getProgramsbyId(this.requestDataForm.get('instituteId').value)
           .subscribe(resp2 => {this.listProfessions = resp2.data;
-            console.log("este es el listado de prfoesiones", resp2.data)});
+         });
       }
     });
 
@@ -75,6 +75,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
       this.showInternationalForm = this.requestDataForm.get('titleTypeId').value == 2;
       this.iesServices.getAllPrograms().subscribe(resp3 => this.listProfessions = resp3.data);
     }
+
   }
 
   /**
@@ -108,7 +109,7 @@ export class RequestDataComponent extends AppBaseComponent implements OnInit {
 
     this.requestDataForm.get('professionId').setValue('');
     this.iesServices.getProgramsbyId(instituteId).subscribe(resp2 => {this.listProfessions = resp2.data;
-      console.log("este es el listado de prfoesiones", resp2.data)});
+      });
   }
 
 

@@ -253,7 +253,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
     let titleTypeStr: string = this.tramiteActual.titleTypeId == 1 ? "NACIONAL" : "EXTRANJERO";
 
-    console.log("tramite cargado", this.tramiteActual);
+
 
     this.validationForm = this.fb.group({
 
@@ -356,6 +356,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
     }
 
     this.validationForm.get('informationRequestValidatorForm').disable();
+
     this.validationForm.get('basicDataForm.numeroIdentificacion').disable();
     if(this.Role==='Subdirector' || this.source=='Reports')
     {
@@ -469,7 +470,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
 
       const aplicantname = this.validationForm.get('basicDataForm.primerNombre').value.toString().toUpperCase() + " " +
-        (this.validationForm.get('basicDataForm.segundoNombre').value.toString() + "").toUpperCase() +
+        (this.validationForm.get('basicDataForm.segundoNombre').value.toString() + " ").toUpperCase() +
         this.validationForm.get('basicDataForm.primerApellido').value.toString().toUpperCase() + " " +
         (this.validationForm.get('basicDataForm.segundoApellido').value.toString() + "").toUpperCase();
 
@@ -532,7 +533,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         folio: this.validationForm.get('requestDataForm.folio').value.toUpperCase(),
         year_title: this.validationForm.get('requestDataForm.yearTitle').value,
         professional_card: this.validationForm.get('requestDataForm.professionalCard').value.toUpperCase(),
-        IdCountry: Number(this.validationForm.get('requestDataForm.countryId').value),
+        IdCountry: this.validationForm.get('requestDataForm.countryId').value,
         number_resolution_convalidation: this.validationForm.get('requestDataForm.numberResolutionConvalidation').value.toUpperCase(),
         date_resolution_convalidation: this.validationForm.get('requestDataForm.dateResolutionConvalidation').value,
         IdEntity: this.validationForm.get('requestDataForm.entityId').value,
@@ -681,7 +682,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
         }
         if (senddocument) {
           this.registerService.sendEmailAttachment({
-            to: "avelez@soaint.com",//this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
+            to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
             subject: 'Notificación de ' + tittle + ' Tramite 19',
             body: nuevoHTML,
             attachment: file,
@@ -692,7 +693,7 @@ export class ValidationScreenComponent extends AppBaseComponent implements OnIni
 
         } else {
           this.registerService.sendEmail({
-            to: "avelez@soaint.com", //this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
+            to: this.validationForm.get('basicDataForm.email').value.toString().toLowerCase(),
             subject: 'Notificación de ' + tittle + ' Tramite 19',
             body: nuevoHTML
           }).subscribe(() => {

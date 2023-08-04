@@ -84,13 +84,19 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
 
       let filtro = resp.data.filter((i: { idTipoIdentificacion: string }) => {
         return (
-          i.idTipoIdentificacion != "4" &&
-          i.idTipoIdentificacion != "5" &&
-          i.idTipoIdentificacion != "6")
+          i.idTipoIdentificacion != "5"
+         )
       });
-      filtro.push({codigo: "PPT", descripcion: "Permiso Protección Temporal", idTipoIdentificacion: 4})
+
+      let valorinternoid = filtro.filter((i: { idTipoIdentificacion: string }) => {
+        return (
+          i.idTipoIdentificacion == (this.basicDataForm.get('tipoDocumento').value)+""
+        )
+      });
+
       this.identificationType = filtro;
-      this.basicDataForm.get('documentodescripcion').setValue(this.identificationType[this.basicDataForm.get('tipoDocumento').value-1].descripcion);
+
+      this.basicDataForm.get('documentodescripcion').setValue(valorinternoid[0].descripcion);
     });
 
 
@@ -107,9 +113,16 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
    */
   public validationtype() {
 
+    let valorinternoid = this.identificationType.filter((i: { idTipoIdentificacion: string }) => {
+      return (
+        i.idTipoIdentificacion == (this.basicDataForm.get('tipoDocumento').value)+""
+      )
+    });
 
-    this.basicDataForm.get('documentodescripcion').setValue(this.identificationType[this.basicDataForm.get('tipoDocumento').value-1].descripcion);
 
+    this.basicDataForm.get('documentodescripcion').setValue(valorinternoid[0].descripcion.descripcion);
+
+    //Cedula de Ciudadania
     if (this.basicDataForm.get('tipoDocumento').value == 1) {
       this.basicDataForm.controls["numeroIdentificacion"].setValidators(
         [Validators.required, Validators.minLength(4), Validators.maxLength(10), Validators.pattern("^[0-9]*$")]);
@@ -117,6 +130,7 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
       this.minlengtype = '4';
       this.maxlengtype = '10';
     }
+    //Cedula de Extranjeria
     if (this.basicDataForm.get('tipoDocumento').value == 2) {
       this.basicDataForm.controls["numeroIdentificacion"].setValidators(
         [Validators.required, Validators.minLength(4), Validators.maxLength(16), Validators.pattern("^[0-9a-zA-Z]+$")]);
@@ -124,6 +138,7 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
       this.minlengtype = '4';
       this.maxlengtype = '16';
     }
+    //Tarjeta de Identidad
     if (this.basicDataForm.get('tipoDocumento').value == 3) {
       this.basicDataForm.controls["numeroIdentificacion"].setValidators(
         [Validators.required, Validators.minLength(10), Validators.maxLength(11), Validators.pattern("^[0-9]*$")]);
@@ -131,7 +146,56 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
       this.minlengtype = '10';
       this.maxlengtype = '11';
     }
-    if (this.basicDataForm.get('tipoDocumento').value == 4) {
+    //Pasaporte
+    if (this.basicDataForm.get('tipoDocumento').value == 6) {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype = 'Alfanumerico';
+      this.minlengtype = '4';
+      this.maxlengtype = '16';
+    }
+    //Numero Protocolo
+    if (this.basicDataForm.get('tipoDocumento').value == 7) {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9]*$")]);
+      this.charactertype = 'Numerico';
+      this.minlengtype = '2';
+      this.maxlengtype = '10';
+    }
+    //Tarjeta de Extranjeria
+    if (this.basicDataForm.get('tipoDocumento').value == 8) {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype = 'Alfanumerico';
+      this.minlengtype = '4';
+      this.maxlengtype = '16';
+    }
+    //Registro Civil
+    if (this.basicDataForm.get('tipoDocumento').value == 9) {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype = 'Alfanumerico';
+      this.minlengtype = '10';
+      this.maxlengtype = '11';
+    }
+    //Numero Unico de identificacion
+    if (this.basicDataForm.get('tipoDocumento').value == 10) {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype = 'Alfanumerico';
+      this.minlengtype = '10';
+      this.maxlengtype = '11';
+    }
+    //Sin identificacion
+    if (this.basicDataForm.get('tipoDocumento').value == 11) {
+      this.basicDataForm.controls["numeroIdentificacion"].setValidators(
+        [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9a-zA-Z]+$")]);
+      this.charactertype = 'Alfanumerico';
+      this.minlengtype = '0';
+      this.maxlengtype = '15';
+    }
+    //Otro documento
+    if (this.basicDataForm.get('tipoDocumento').value == 12) {
       this.basicDataForm.controls["numeroIdentificacion"].setValidators(
         [Validators.required, Validators.minLength(4), Validators.maxLength(18), Validators.pattern("^[0-9a-zA-Z]+$")]);
       this.charactertype = 'Alfanumerico';
@@ -139,13 +203,10 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
       this.maxlengtype = '18';
     }
 
+    this.basicDataForm.get('numeroIdentificacion').updateValueAndValidity();
     this.basicDataForm.get('numeroIdentificacion').setValue(this.basicDataForm.get('numeroIdentificacion').value)
     this.basicDataForm.get('numeroIdentificacion').markAsTouched();
-    if (!this.basicDataForm.get('numeroIdentificacion').valid) {
-      this.popupAlert.errorAlert(
-        'por favor verifique el numero de documento',
-        4000);
-    }
+
 
 
   }

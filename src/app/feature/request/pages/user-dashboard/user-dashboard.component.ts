@@ -15,6 +15,7 @@ import {
 import {AppBaseComponent} from "@core-app/utils";
 import {CustomValidators} from "@core-app/utils/custom-validators";
 import {DocumentSupportDto, TrackingRequestDto, ProcedureRequestBackDto, CurrentUserDto} from "@core-app/models";
+import {ROUTES} from "@core-app/enums";
 
 /**
  * Componente para la bandeja del ciudadano con las solicitudes realizadas
@@ -303,7 +304,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
   }
 
   public changePage(e: PageEvent): void {
-    console.log(e);
+
     this.pageSizePaginator = e.pageSize;
     this.pageNumberPaginator = e.pageIndex + 1;
     this.filterTable(this.filter, 1);
@@ -365,7 +366,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
     this.editRequestForm.get("requestDataForm").get("yearTitle").setValue(this.editRequest.year_title);
     this.editRequestForm.get("requestDataForm").get("professionalCard").setValue(this.editRequest.professional_card);
     this.editRequestForm.get("requestDataForm").get("nameInternationalUniversity").setValue(this.editRequest.name_institute);
-    this.editRequestForm.get("requestDataForm").get("countryId").setValue(this.editRequest.idCountry.toString());
+    this.editRequestForm.get("requestDataForm").get("countryId").setValue(this.editRequest.idCountry);
     this.editRequestForm.get("requestDataForm").get("numberResolutionConvalidation").setValue(this.editRequest.number_resolution_convalidation);
     this.editRequestForm.get("requestDataForm").get("dateResolutionConvalidation").setValue(formatDate(new Date(this.editRequest.date_resolution_convalidation), 'yyyy-MM-dd', 'en'));
     this.editRequestForm.get("requestDataForm").get("entityId").setValue(this.editRequest.idEntity);
@@ -502,7 +503,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
       //Valida si el countryId tiene un valor, por defecto coloca el de colombia
       if (!requestDataForm.countryId) {
-        requestDataForm.countryId = 170;
+        requestDataForm.countryId = "170";
       }
 
       if (requestDataForm.titleTypeId == 2) {
@@ -518,13 +519,13 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         IdInstitute: requestDataForm.instituteId != "" ? requestDataForm.instituteId : 0,
         name_institute: requestDataForm.instituteName,
         IdProfessionInstitute: requestDataForm.professionId,
-        name_profession: requestDataForm.professionName,
+        name_profession: requestDataForm.professionName!="" ? requestDataForm.professionName: this.editRequest.name_profession,
         last_status_date: new Date(Date.now()),
         IdUser: this.currentUser.userId,
         user_code_ventanilla: this.currentUser.codeVentanilla,
         AplicantName: this.currentUser.fullName,
         IdDocument_type: this.currentUser.documentType,
-        IdNumber: this.currentUser.documentNumber,
+        IdNumber: this.currentUser.documentNumber+"",
         diploma_number: requestDataForm.diplomaNumber,
         graduation_certificate: requestDataForm.graduationCertificate,
         end_date: requestDataForm.endDate,
@@ -532,7 +533,7 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
         folio: requestDataForm.folio,
         year_title: requestDataForm.yearTitle,
         professional_card: requestDataForm.professionalCard,
-        IdCountry: Number(requestDataForm.countryId),
+        IdCountry: requestDataForm.countryId,
         number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
         date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
         IdEntity: requestDataForm.entityId,
@@ -600,6 +601,10 @@ export class UserDashboardComponent extends AppBaseComponent implements OnInit {
 
       await lastValueFrom(this.trackingService.addTracking(tracking));
       this.popUp.successAlert("Solicitud realizada exitosamente. Puede abandonar la página.", 4000);
+
+      this.filterTable(this.filter,0)
+      this.showEditProcedureForm = false;
+      this.showDashboard = true;
 
     } catch (e) {
       console.log(e);

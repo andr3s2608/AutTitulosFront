@@ -217,7 +217,6 @@ export class NaturalPersonComponent extends AppBaseComponent implements OnInit {
     }
     else {
       if (this.naturalForm.get('basicDataForm.email').value != this.naturalForm.get('basicDataForm.confirmarEmail').value) {
-        console.log("el correo debe ser igual");
 
         this.popupAlert.errorAlert(
           `Por favor, revise el formulario de la solicitud, los emails ingresados no son iguales.`,

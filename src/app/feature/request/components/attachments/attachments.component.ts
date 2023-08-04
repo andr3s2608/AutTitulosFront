@@ -66,7 +66,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     if (this.documentsRequest) {
       this.listDocumentsToSaved.push(...this.documentsRequest.filter(document => !document.is_valid));
       this.attachmentForm.get('quantityDocuments').setValue(this.listDocumentsToSaved.length);
-      console.log("documentos a editar", this.listDocumentsToSaved)
+
     } else {
 
       this.listDocumentsToSaved = [

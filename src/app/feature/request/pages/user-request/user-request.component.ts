@@ -204,7 +204,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
 
       //Valida si el countryId tiene un valor, por defecto coloca el de colombia
       if (!requestDataForm.countryId) {
-        requestDataForm.countryId = 170;
+        requestDataForm.countryId = "170";
       }
 
       if (requestDataForm.titleTypeId == 2) {
@@ -215,6 +215,7 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
 
 
       dtoProcedure = {
+        filed_number:"",
         IdTitleTypes: requestDataForm.titleTypeId,
         IdStatus_types: 13,
         IdInstitute: requestDataForm.instituteId != "" ? requestDataForm.instituteId : 0,
@@ -226,8 +227,8 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
         user_code_ventanilla: this.currentUser.codeVentanilla,
         AplicantName: this.currentUser.fullName.toUpperCase(),
         IdDocument_type: this.currentUser.documentType,
-        IdNumber: this.currentUser.documentNumber,
-        diploma_number: requestDataForm.diplomaNumber,
+        IdNumber: this.currentUser.documentNumber+"",
+        diploma_number: requestDataForm.diplomaNumber != "" ? requestDataForm.diplomaNumber :null,
         graduation_certificate: requestDataForm.graduationCertificate.toUpperCase(),
         end_date: requestDataForm.endDate,
         book: requestDataForm.book.toUpperCase(),
@@ -236,8 +237,8 @@ export class UserRequestComponent extends AppBaseComponent implements OnInit {
         professional_card: requestDataForm.professionalCard.toUpperCase(),
         IdCountry: requestDataForm.countryId,
         number_resolution_convalidation: requestDataForm.numberResolutionConvalidation,
-        date_resolution_convalidation: requestDataForm.dateResolutionConvalidation,
-        IdEntity: requestDataForm.entityId,
+        date_resolution_convalidation:requestDataForm.dateResolutionConvalidation!="" ? requestDataForm.dateResolutionConvalidation:null,
+        IdEntity: requestDataForm.entityId!="" ? requestDataForm.entityId:null,
         filed_date: new Date(Date.now())
       }
 
