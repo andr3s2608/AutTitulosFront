@@ -120,7 +120,7 @@ export class PersonalDataComponent extends AppBaseComponent implements OnInit {
     });
 
 
-    this.basicDataForm.get('documentodescripcion').setValue(valorinternoid[0].descripcion.descripcion);
+    this.basicDataForm.get('documentodescripcion').setValue(valorinternoid[0].descripcion);
 
     //Cedula de Ciudadania
     if (this.basicDataForm.get('tipoDocumento').value == 1) {
