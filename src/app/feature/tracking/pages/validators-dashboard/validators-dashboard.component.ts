@@ -40,6 +40,10 @@ export class ValidatorsDashboardComponent implements OnInit {
    * Número total de solicitudes
    */
   public totalRequests: number = 0;
+  /**
+   * Mensaje de :Mostrando n - n
+   */
+  public message: string='';
 
   /**
    * Filtros de busqueda
@@ -101,6 +105,7 @@ export class ValidatorsDashboardComponent implements OnInit {
       .subscribe(resp => {
       this.tableFilter = resp.data;
       this.totalRequests = resp.count;
+        this.message=resp.message +" de "+this.totalRequests+" Resultados";
     });
 
     this.lastfilters = {
@@ -144,6 +149,7 @@ export class ValidatorsDashboardComponent implements OnInit {
       `${this.pageSizePaginator}`, role).subscribe(resp => {
       this.tableFilter = resp.data;
       this.totalRequests=resp.count;
+      this.message=resp.message +" de "+this.totalRequests+" Resultados";
     });
 
     this.lastfilters = {
@@ -176,6 +182,7 @@ export class ValidatorsDashboardComponent implements OnInit {
 
       this.tableFilter = resp.data;
       this.totalRequests = resp.count;
+      this.message=resp.message +" de "+this.totalRequests+" Resultados";
 
     });
   }

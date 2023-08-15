@@ -32,7 +32,7 @@
                 <select class="form-select" id="selector" aria-label="Default select example"
                         formControlName="selector">
                   <option value="" selected disabled>Seleccione</option>
-                  <option value="filed_number">Id Solicitud</option>                 
+                  <option value="filed_number">Id Solicitud</option>
                   <option value="TitleType">Tipo de Título</option>
                   <option value="filed_date">Fecha de Registro Solicitud</option>
                   <option value="status">Estado de la Solicitud</option>
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="">
-                          <a *ngIf="item.statusId != 11 && item.statusId != 7">
+                          <a *ngIf="item.statusId != 7 && item.statusId<11 ">
                             <span class="govco-book-reader" style="font-size: 15px">En validación</span></a>
                           <a (click)="showEditProcedure(item.idProcedureRequest)" *ngIf="item.statusId == 7">
                             <span class="govco-edit" style="font-size: 15px">Editar Trámite</span>
@@ -138,7 +138,7 @@
                           </a>
                           <a (click)="showClarification(item.idProcedureRequest, item.filed_number, item.titleType)"
                              *ngIf="item.statusId == 16">
-                            <span class="govco-hand-paper" style="font-size: 15px">Solicitar Aclaración</span>
+                            <span class="govco-hand-paper" style="font-size: 15px">Solicitar Aclaración o Reposición</span>
                           </a>
                         </div>
 

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ControlContainer, FormBuilder} from "@angular/forms";
-
+import Swal from 'sweetalert2';
 import {AppBaseComponent} from "@core-app/utils";
 import {StatusService, TrackingService} from "@core-app/services";
 
@@ -97,6 +97,14 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
       if(resp.count>1)
       {
         this.showduplicated=true;
+        Swal.fire({
+          html: this.htmlduplicated()+"",   // Aquí se inserta el componente
+          width: 1100,
+          background: 'transparent',
+          showCancelButton:false,
+          showConfirmButton:false,
+          showCloseButton:false,
+        });
       }
     });
   }
@@ -120,6 +128,62 @@ export class ValidationStatesComponent extends AppBaseComponent implements OnIni
 
     return message;
   }
+
+
+  public htmlduplicated():string
+  {
+    let solicitudes ='';
+    for (let i = 0; i < this.duplicatedid.length; i++) {
+      solicitudes=solicitudes+
+        '<tr>'+
+        '<td>'+this.duplicatedid[i].name_profesion +'</td>' +
+        '<td>'+this.duplicatedid[i].name_institute +'</td>' +
+        '<td>'+this.duplicatedid[i].date_resolution +'</td>'+
+        '</tr>';
+    }
+
+
+
+
+
+    return '<div class="alert alert-danger" role="alert">\n' +
+      '        El sistema ha identificado que el numero de identificación del trámite actual ya cuenta con profesiones\n' +
+      '        registradas\n' +
+      '        en nuestras bases de datos existentes en el sistema (Oracle y Agilinea).\n' +
+      '        Agradecemos validar la siguiente información, si la profesión a realizar el trámite se encuentra a continuación.\n' +
+      '        Favor abstenerse de continuar con la gestión.\n' +
+      '\n' +
+      '        <div class="row mt-3">\n' +
+      '          <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">\n' +
+      '            <p>Número de identificación:'+this.idnumber+'</p>\n' +
+      '          </div>\n' +
+      '          <div class="col-xxl-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">\n' +
+      '            <p>Nombre y Apellidos:'+this.apliccantname+'</p>\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '\n' +
+      '        <div>\n' +
+      '          <div class="table ">\n' +
+      '            <div class="table-responsive">\n' +
+      '              <table class="table table-striped table-responsive" aria-describedby="tabla-tramite-duplicado">\n' +
+      '                <thead>\n' +
+      '                <tr>\n' +
+      '                  <th [scope]="">Nombre profesión</th>\n' +
+      '                  <th [scope]="">Nombre Institución</th>\n' +
+      '                  <th [scope]="">Fecha y N° Resolución</th>\n' +
+      '                </tr>\n' +
+      '                </thead>\n' +
+      '                <tbody>\n'
+                       +solicitudes+
+      '                </tbody>\n' +
+      '              </table>\n' +
+      '            </div>\n' +
+      '          </div>\n' +
+      '\n' +
+      '        </div>\n' +
+      '      </div>'
+  }
+
 
 
 }

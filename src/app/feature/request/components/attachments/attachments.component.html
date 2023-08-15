@@ -12,8 +12,8 @@
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-6" style="padding-top: 2%" *ngFor="let document of listDocumentsToSaved;">
       <label for="inputDocument_{{document.idDocumentType}}" class="label-carga-de-archivo-govco">{{document.description}}<span class="required"> *</span></label>
-      <div class="input-group mt-2 mb-1 ">
-        <input type="file" class="form-control input-file-custom" id="inputDocument_{{document.idDocumentType}}"
+      <div >
+        <input type="file" name="inputDocument_{{document.idDocumentType}}" class="form-control input-file-custom" id="inputDocument_{{document.idDocumentType}}"
                aria-describedby="inputFile_Aria" aria-label="Upload"
                [ngClass]="{'error': isValidInputFile('inputDocument_'+document.idDocumentType)}"
                accept="application/pdf" (change)="addSelectedFile($event, document.idDocumentType, document.description, document.idDocumentTypeProcedureRequest)">

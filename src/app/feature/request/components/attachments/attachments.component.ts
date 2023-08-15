@@ -27,6 +27,10 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    * Formulario hijo de documentos
    */
   public attachmentForm: any;
+  /**
+   * Formulario hijo de documentos
+   */
+  public prueba: any;
 
   /**
    * Lista de documentos a subir
@@ -153,7 +157,17 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
    */
   public addSelectedFile(event: any, docTypeId: number, docDescription: string, idDocumentTypeProcedureRequest: number): void {
 
+
+    console.log('entro')
+    console.log(this.listDocumentSupports)
     let archivos = event.target.files;
+
+
+    console.log(archivos);
+    let copia =(<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`));
+
+    console.log((<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)));
+    console.log((<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value);
     const fileSelected = archivos[0];
 
     if (archivos.length > 1) {
@@ -171,6 +185,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
     }
 
 
+    console.log('entro1')
     const idx = this.listDocumentSupports.findIndex(_file => _file.docTypeId == docTypeId);
     if (idx == -1) {
       this.listDocumentSupports.push({
@@ -179,6 +194,7 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
         docDescription,
         content: fileSelected
       });
+      this.prueba=(<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`));
     } else {
       if (fileSelected) {
         this.listDocumentSupports[idx] = {
@@ -187,13 +203,27 @@ export class AttachmentsComponent extends AppBaseComponent implements OnInit {
           docDescription,
           content: fileSelected
         };
+        this.prueba=(<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`));
       } else {
-       this.listDocumentSupports.splice(idx, 1);
+      // this.listDocumentSupports.splice(idx, 1);
       }
     }
+ if(archivos.length==0)
+    {
+
+      const inputelement: HTMLInputElement = document.getElementById(`inputDocument_${docTypeId}`) as HTMLInputElement
+
+      //inputelement.value = 'C:\\fakepath\\Prueba pdf.pdf';
+      console.log(this.prueba.value);
+      (<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value= this.prueba.value;
+
+     //(<HTMLInputElement>document.getElementById(`inputDocument_${docTypeId}`)).value = inputelement.name;
+
+    }
+
 
     this.popupAlert.successAlert(`El archivo ${docDescription} fue cargado correctamente.`, 2000);
-
+    console.log(this.listDocumentSupports)
   }
 
 

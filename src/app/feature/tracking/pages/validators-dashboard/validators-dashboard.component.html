@@ -2,6 +2,10 @@
   <app-advance-line [step]="stepAdvanceLine" [currentProgress]="currentProgressAdvanceLine"
                     [source]="'validador'"></app-advance-line>
 
+  <br><br>
+  <h3>Trámite: Registro y autorización de titulos en el area de la salud.</h3>
+
+  <h2>Bandeja de entrada</h2>
 
   <div class="row   align-items-center mx-auto mt-5">
     <ul class="nav nav-tabs ">
@@ -44,6 +48,7 @@
 
       <br><br>
 
+      <div style="display: grid;place-items: flex-end" >{{this.message}}</div>
       <div class="row">
         <div class="table col-12">
           <div class="table-responsive">
@@ -56,8 +61,9 @@
                 <th [scope]="">Tipo de Título</th>
                 <th [scope]="">Fecha de Registro Solicitud</th>
                 <th [scope]="">Estado de la Solicitud</th>
-                <th [scope]=""> Tiempo de Atención Restante</th>
                 <th [scope]="">Acciones Permitidas</th>
+                <th [scope]=""> Tiempo de Atención Restante</th>
+
 
               </tr>
               <tbody>
@@ -68,11 +74,13 @@
                 <td>{{item.titletype}}</td>
                 <td>{{item.fileddate | date: 'dd/MM/yyyy'}}</td>
                 <td *ngIf="item.statusstring != null">{{item.statusstring}}</td>
-                <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
                 <td *ngIf="item.validation" class="text-justify">
                   <a (click)="validar(item.idprocedure)"> <u class="govco-edit-1">Validar</u> </a>
                 </td>
                 <td *ngIf="!item.validation"></td>
+                <td style="background-color:{{item.color}};">{{item.daysleft}}</td>
+
+
               </tr>
               </tbody>
             </table>
